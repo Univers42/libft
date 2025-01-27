@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:12:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:44:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:18:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,81 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_bzero(buf, total);
 	return (buf);
 }
+/**
+ * Snenario : Dynamic Memory allocation for a Classroom seating Arrangement
+ * The classroom has a variable seating arrangement.
+ * Variable rows, and each row has a different number of seats.
+ * We need to dynamically allocate memory to store the seating
+ * arrangemment and ensure that all seats are initialized to a default 
+ * value,, say, (0) indicating that a set is unoccupied.
+ */
+
 //int main(void)
 //{
-//	int n = 5;
-//	int *arr;
-//	arr = (int *)calloc(n, sizeof(int));
-//	if (!arr)
-//	{
-//		printf("Memory allocation failed.\n");
-//		return 1;
-//	}
-//	printf("Array elements after calloc: \n");
-//	for(int i = 0; i < n; i++)
-//		printf("%d ", arr[i]);
-//	printf("\n");
-//	for(int i = 0; i < n; i++)
-//		arr[i] = i + 1;
-//	printf("Array elements after settings values: \n");
-//	for (int i = 0; i < n; i++)
-//		printf("%d ", arr[i]);
-//	printf("\n");
-//	free(arr);
-//	return (0);
+//    int rows, seatsPerRow;
+//    int **seating;
+//    char input[4]; // Buffer to hold input for "yes" or "no"
+//    int row, seat;
+//    
+//    printf("Enter the number of rows in the classroom: ");
+//    scanf("%d", &rows);
+//    printf("Enter the number of seats per row: ");
+//    scanf("%d", &seatsPerRow);
+//
+//    // Allocate memory for seating arrangement
+//    seating = (int **)calloc(rows, sizeof(int *));
+//    if (seating == NULL) {
+//        return 1;  // Memory allocation failure
+//    }
+//    
+//    for (int i = 0; i < rows; i++) {
+//        seating[i] = (int *)calloc(seatsPerRow, sizeof(int));
+//        if (seating[i] == NULL) {
+//            return 2;  // Memory allocation failure for a row
+//        }
+//    }
+//
+//    printf("The doors are opened, people come." 
+//		"You have to place people, "
+//			"holding their coordinates in your database...\n");
+//
+//    while (1) {
+//        printf("Has a new person entered the room (yes/no)? ");
+//        scanf("%s", input);
+//
+//        if (ft_strncmp(input, "yes", 3) == 0) {
+//            printf("Where are they placed in your coordinates "
+//			"(e.g., [1 2] for row 1, seat 2): ");
+//            scanf("%d %d", &row, &seat);
+//
+//            // Check if the row and seat are valid
+//            if (row >= 1 && row <= rows && seat >= 1 && seat <= seatsPerRow) {
+//                // Mark the seat as occupied (1 for occupied)
+//                seating[row - 1][seat - 1] = 1;
+//                printf("Seat [%d, %d] is now occupied.\n", row, seat);
+//            } else {
+//                printf("Invalid seat coordinates. Please try again.\n");
+//            }
+//			continue;
+//        }
+//		    break;
+//    }
+//
+//    // Print the classroom seating arrangement
+//    printf("\nClassroom Seating Arrangement:\n");
+//    for (int i = 0; i < rows; i++) {
+//        for (int j = 0; j < seatsPerRow; j++) {
+//            printf("%d ", seating[i][j]);
+//        }
+//        printf("\n");
+//    }
+//
+//    // Free allocated memory
+//    for (int i = 0; i < rows; i++) {
+//        free(seating[i]);
+//    }
+//    free(seating);
+//
+//    return 0;
 //}
+//

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:14:08 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 20:58:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:38:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
  * f `c` is the null terminator, the function
  * returns a pointer to the terminating null byte.
  */
-
 char	*ft_strchr(const char *s, int c)
 {
 	return (ft_memchr(s, c, ft_strlen(s) + 1));

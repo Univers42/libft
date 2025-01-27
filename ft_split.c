@@ -6,11 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 20:57:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:09:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 //#include "TDD/test.h"
 /**
  * @description:
@@ -116,9 +122,6 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	token_v[tokens] = NULL;
 	if (allocate_and_copy_tokens(token_v, s, c, tokens))
-	{
-		free(token_v);
-		return (NULL);
-	}
+		return (free(token_v), NULL);
 	return (token_v);
 }

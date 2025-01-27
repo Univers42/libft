@@ -6,11 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:43:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:47:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:28:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 //#include "TDD/test.h"
 /**
  * Compares the first `n` bytes of two memory areas `s1` and `s2`.
@@ -41,18 +47,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
-//int main(void)
-//{
-//	char str[] = "hello world!";
-//	char str2[] = "hello, world!";
-//	int arr[] = {156,4,89,854,312,15,54};
-//	int arr2[] = {156,4,89,86,146,4,87};
-//	int cmp1 = ft_memcmp((char *)str, (char *)str2, 8);
-//	int cmp2 = ft_memcmp((int *)arr, (int *)arr2, 6);	
-//	if(cmp1)
-//		printf("difference found where the pointer 
-//point out, meaning here  %d", cmp1);
-//	else
-//		printf("The literals are equal !");
-//	return 0;
-//}

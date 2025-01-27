@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:27:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:28:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <unistd.h>
 # include <stdio.h>
 
+typedef long				t_ssize;
 typedef unsigned long int	t_size;
+
 typedef struct s_list
 {
 	void			*content;

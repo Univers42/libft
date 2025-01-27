@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:11:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:26:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:29:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,57 @@ char	*ft_itoa(int n)
 	}
 	return (ptr);
 }
+/**
+ * here we're going to tacle a real problem
+ * wbe used in embedded system or low-level programming
+ * Where we might need to display some integers
+ * We're going to build a simple temperature monitoring
+ * system on a microcontroller that reads data from a
+ * temperature and logs it
+ */
+
+//char *ft_itoa_base(int value, int base) {
+//    static char *digits = "0123456789ABCDEF";
+//    char *buffer;
+//    char *start;
+//    int length;
+//
+//	buffer = malloc(ft_log10(value));
+//	if(!buffer)
+//		return NULL;
+//	digits = "0123456789ABCDEF";
+//    if (value == 0) {
+//		ft_calloc(2, sizeof(char));
+//		ft_memcpy(0, buffer, 1);
+//		ft_memcpy(0, buffer, 1);
+//        return buffer;
+//    }
+//    length = 1;
+//    int temp = value;
+//    while (temp /= base)
+//        length++;
+//
+//    buffer = malloc(length + 1);
+//    if (!buffer)
+//        return NULL;
+//    start = buffer + length;
+//    *start = '\0';
+//    while (value) {
+//        *(--start) = digits[value % base];
+//        value /= base;
+//    }
+//    return buffer;
+//}
+//
+//void log_hash_as_hex(int hash_value)
+//{
+//	char *hex_str;
+//    hex_str = ft_itoa_base(hash_value, 16);
+//    printf("Hash value: %s\n", hex_str);
+//}
+//
+//int main(void) {
+//    int hash_value = 439384457;
+//    log_hash_as_hex(hash_value);
+//    return 0;
+//}

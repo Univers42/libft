@@ -12,6 +12,9 @@
 
 #include "libft.h"
 
+void    print_hex(unsigned char *addr, unsigned int size);
+void    print_ascii(unsigned char *addr, unsigned int size);
+
 /**
  * Prints the memory content of a given address.
  * @param addr The address to print
@@ -34,13 +37,51 @@ void	*ft_print_memory(void *addr, unsigned int size)
 	i = 0;
 	while (i < size)
 	{
-		print_hex(p + i, size - i, (unsigned long)(p + i));
+		print_hex(p + i, size - i);
 		print_ascii(p + i, size - i);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		i += 16;
 	}
 	return (addr);
 }
+
+void    print_hex(unsigned char *addr, unsigned int size)
+{
+    unsigned int i;
+
+    i = 0;
+    while (i < 16 && i < size)
+    {
+        if (i % 2 == 0)
+            ft_putchar_fd(' ', STDOUT_FILENO);
+        ft_putnbr_base(addr[i], "0123456789abcdef");
+        i++;
+    }
+    while (i < 16)
+    {
+        if (i % 2 == 0)
+            ft_putchar_fd(' ', STDOUT_FILENO);
+        ft_putstr_fd("  ", STDOUT_FILENO);
+        i++;
+    }
+    ft_putstr_fd("  ", STDOUT_FILENO);
+}
+
+void    print_ascii(unsigned char *addr, unsigned int size)
+{
+    unsigned int i;
+
+    i = 0;
+    while (i < 16 && i < size)
+    {
+        if (addr[i] >= 32 && addr[i] <= 126)
+            ft_putchar_fd(addr[i], STDOUT_FILENO);
+        else
+            ft_putchar_fd('.', STDOUT_FILENO);
+        i++;
+    }
+}
+
 /*
 int	main(void)
 {

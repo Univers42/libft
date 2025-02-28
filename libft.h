@@ -6,7 +6,7 @@
 /*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/02/28 20:43:25 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/02/28 20:49:45 by dyl-syzygy       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	*ft_memmove(void *dest, const void *src, t_size n);
 void	*ft_memchr(const void *s, int c, t_size n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
-
+void	*ft_print_memory(void *addr, unsigned int size);
+void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
+void	ft_print_ascii(unsigned char *p, unsigned int size);
 // ==============	<STDIO> library		============== 7
 
 int		ft_tolower(int c);
@@ -90,7 +92,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-void	*ft_print_memory(void *addr, unsigned int size);
 
 #endif

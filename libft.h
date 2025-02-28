@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 21:28:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/02/28 20:28:33 by dyl-syzygy       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <limits.h>
 
 typedef long				t_ssize;
 typedef unsigned long int	t_size;
@@ -35,6 +36,9 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
+void	ft_putnbr_base(int nbr, char *radix);
+int		ft_isspace(int c);
+int		ft_atoi_base(const char *str, int base);
 
 // ==============	MEMORY MANIPULATION	============== 7
 

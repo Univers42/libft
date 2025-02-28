@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:23:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 15:27:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/02/28 20:05:09 by dyl-syzygy       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include "./TDD/test.h"
-#include "limits.h"
-
-static int	ft_isspace(int c)
-{
-	return (c && (c == ' ' || c == '\t'
-			|| c == '\n' || c == '\r'
-			|| c == '\v' || c == '\f'));
-}
 
 /**
  * Convert a nptring to an integer

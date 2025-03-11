@@ -6,7 +6,7 @@
 /*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/02/28 20:49:45 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/03/11 15:58:37 by dyl-syzygy       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 int		ft_strncmp(const char *s1, const char *s2, t_size n);
 char	*ft_strnstr(const char *big, const char *little, t_size len);
 char	*ft_strdup(const char *s);
+char	*ft_strndup(const char *s, size_t n);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 
 //==============	Bonus linked list prototype 	============== 9
 

@@ -6,7 +6,7 @@
 /*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/02/28 20:49:45 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/03/17 13:42:23 by dyl-syzygy       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
 char	*ft_itoa(int n);
+char	*ft_utoa(unsigned int n);
+char	*ft_xtoa(unsigned long int num, int is_upper);
 int		ft_atoi(const char *nptr);
 void	ft_putnbr_base(int nbr, char *radix);
 int		ft_isspace(int c);
 int		ft_atoi_base(const char *str, int base);
+
+// =============== MATH function ======================
+//int		ft_abs(int n);
+//int		ft_max(int a, int b);
+//int		ft_min(int a, int b);
+int		ft_log10(int n);
 
 // ==============	MEMORY MANIPULATION	============== 7
 

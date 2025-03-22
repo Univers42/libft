@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:09:31 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/02/28 20:28:11 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/03/22 22:21:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_atoi_base(const char *str, int base)
 	int		nbr;
 	int		sign;
 
+	i = 0;
 	if (!str[0] || (base < 2 || base > 16))
 		return (0);
 	nbr = 0;

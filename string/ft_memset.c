@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * learned how to deal with literals and why it 

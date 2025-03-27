@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 void	print_hex(unsigned char *addr, unsigned int size);
 void	print_ascii(unsigned char *addr, unsigned int size);

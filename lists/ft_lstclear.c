@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Clears and frees the entire list starting from the node `lst`,

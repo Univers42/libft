@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 #include <stdint.h>
 //#include "TDD/test.h"
 /**

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 //#include "./TDD/test.h"
-#include "libft.h"
+#include "../libft.h"
 /**
  * Converts a lowercase letter to its uppercase equivalent.
  * 

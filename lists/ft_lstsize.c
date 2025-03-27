@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Returns the number of nodes in the linked list.

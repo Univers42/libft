@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
+
 /**
  * The function erases the data in the specified number of bytes (`n`)
  * of memory starting at the location pointed to by `s`.

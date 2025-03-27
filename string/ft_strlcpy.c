@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Copies up to `dsize - 1` characters from the 

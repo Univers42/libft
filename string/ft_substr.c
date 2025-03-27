@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Extracts a substring from the string `s`, 

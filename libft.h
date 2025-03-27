@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <limits.h>
 
+
 typedef long				t_ssize;
 typedef unsigned long int	t_size;
 

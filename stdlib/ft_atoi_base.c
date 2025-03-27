@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 /**
  * write a function that converts the initial portion 
@@ -33,7 +33,7 @@
 //{
 //	if (base <= 10)
 //		return (c >= '0' && c <= '9');
-//	return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)) || \
+//	return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)) ||
 //	(c >= 'a' && c <= ('a' + base - 10)));
 //}
 //
@@ -48,7 +48,7 @@
 //		return (0);
 //	nbr = 0;
 //	sign = 1;
-//	while (str[i] == '\t' || str[i] == '\v' || str[i] == '\n' || \
+//	while (str[i] == '\t' || str[i] == '\v' || str[i] == '\n' ||
 //		str[i] == ' ' || str[i] == '\r' || str[i] == '\f')
 //		i += 1;
 //	if (str[i] == '-' || str[i] == '+')

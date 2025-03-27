@@ -37,7 +37,7 @@
  * @note meaning it uses the digits 0-9, 
  * @note the letters A-Z, and the symbols + and / to represent numbers.
  */
-#include "libft.h"
+#include "../libft.h"
 
 void	ft_putnbr_base(int nbr, char *radix)
 {

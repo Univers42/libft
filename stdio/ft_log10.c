@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 /**
  * Calculate the base-10 logarithm of a number (number of digits - 1)

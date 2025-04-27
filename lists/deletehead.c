@@ -1,8 +1,11 @@
-struct Node * deleteHead(struct Node *head)
+#include "ft_list.h"
+#include <stdlib.h>
+
+t_list *deleteHead(t_list *head)
 {
     if (!head)
         return (NULL);
-    struct Node *newHead = head->next;
+    t_list *newHead = head->next;
     free(head);
     return (newHead);
 }

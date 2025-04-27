@@ -1,13 +1,18 @@
-struct Node* removeDuplicates(struct Node* head) {
+#include "ft_list.h"
+#include <stdlib.h>
+
+t_list* removeDuplicates(t_list* head) {
     if (head == NULL || head->next == NULL)
         return (head);
-    struct Node *current = head;
+    
+    t_list *current = head;
     while(current != NULL && current->next != NULL)
     {
-        if (current->data == current->next->data)
+        if (*(int*)(current->content) == *(int*)(current->next->content))
         {
-            struct Node *duplicate = current->next;
+            t_list *duplicate = current->next;
             current->next = current->next->next;
+            free(duplicate);
         }
         else
             current = current->next;

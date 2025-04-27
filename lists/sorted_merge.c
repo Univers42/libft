@@ -1,11 +1,14 @@
-struct Node* sortedMerge(struct Node* head1, struct Node* head2) {
-    struct Node dummy;
+#include "ft_list.h"
+#include <stddef.h>
+
+t_list* sortedMerge(t_list* head1, t_list* head2) {
+    t_list dummy;
     //we use a stack-allocated dummy node instead of dynamically allocating one
     //which eliminate the need for createNode(and avoid potential memory leaks)
-    struct Node *curr = &dummy;
+    t_list *curr = &dummy;
     while(head1 != NULL && head2 != NULL)
     {
-        if (head1->data <= head2->data)
+        if (*(int*)(head1->content) <= *(int*)(head2->content))
         {
             curr->next = head1;
             head1 = head1->next;

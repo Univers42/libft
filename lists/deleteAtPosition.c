@@ -1,4 +1,7 @@
-struct Node * deleteAtPosition(struct Node *head, int pos)
+#include "ft_list.h"
+#include <stdlib.h>
+
+t_list *deleteAtPosition(t_list *head, int pos)
 {
     int position;
     if(!head)
@@ -6,13 +9,13 @@ struct Node * deleteAtPosition(struct Node *head, int pos)
         
     if(pos == 1)
     {
-        struct Node *temp = head;
+        t_list *temp = head;
         head = head->next;
         free(temp);
         return head;
     }
     
-    struct Node *curr = head;
+    t_list *curr = head;
     position = 1;
     
     while(curr != NULL && position < pos - 1)
@@ -23,7 +26,7 @@ struct Node * deleteAtPosition(struct Node *head, int pos)
     if(curr == NULL || curr->next == NULL)
         return head;
 
-    struct Node *temp = curr->next;
+    t_list *temp = curr->next;
     curr->next = temp->next;
     free(temp);
     return head;

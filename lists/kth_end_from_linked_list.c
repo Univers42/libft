@@ -1,11 +1,14 @@
-int getNthFromLast(struct Node *head, int k) {
+#include "ft_list.h"
+#include <stddef.h>
+
+int getNthFromLast(t_list *head, int k) {
     // If list is empty
     if (head == NULL)
         return -1;
         
     // Define two pointers - fast and slow
-    struct Node *fast = head;
-    struct Node *slow = head;
+    t_list *fast = head;
+    t_list *slow = head;
     
     // Move fast pointer k nodes ahead
     for (int i = 1; i < k; i++) {
@@ -22,5 +25,5 @@ int getNthFromLast(struct Node *head, int k) {
     }
     
     // Return the data of the node where slow points
-    return slow->data;
+    return *(int*)(slow->content);
 }

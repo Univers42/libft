@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/03/17 13:42:23 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/27 18:56:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include <stdio.h>
 # include <limits.h>
 
-
-typedef long				t_ssize;
-typedef unsigned long int	t_size;
-
+#include "utils_lib/ft_typedef.h"
+#include "strings/ft_string.h"
+#include "memory/ft_memory.h"
+#include "ctype/ft_ctype.h"
+#include "lists/ft_list.h"
+#include "math/ft_math.h"
 typedef struct s_list
 {
 	void			*content;
@@ -30,11 +32,7 @@ typedef struct s_list
 
 // ==============   <CTYPE> LIBRARY		============== 7
 
-int		ft_isdigit(int c);
-int		ft_isalpha(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
+
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);
 char	*ft_xtoa(unsigned long int num, int is_upper);
@@ -65,6 +63,7 @@ void	ft_print_ascii(unsigned char *p, unsigned int size);
 
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+void	ft_first_word(char *str);
 
 /*______File Descriptor Function_______*/
 
@@ -75,20 +74,7 @@ void	ft_putnbr_fd(int n, int fd);
 
 // ==============	String function	============== 14
 
-t_size	ft_strlen(const char *s);
-t_size	ft_strlcpy(char *dst, const char *src, t_size dsize);
-t_size	ft_strlcat(char *dst, const char *src, t_size dsize);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strrchr(const char *s, int c);
-char	*ft_strjoin(const char *s1, const char *s2);
-char	*ft_substr(const char *s, unsigned int start, t_size len);
-char	*ft_strtrim(const char *s1, const char *set);
-char	**ft_split(const char *s, char c);
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-int		ft_strncmp(const char *s1, const char *s2, t_size n);
-char	*ft_strnstr(const char *big, const char *little, t_size len);
-char	*ft_strdup(const char *s);
+
 
 //==============	Bonus linked list prototype 	============== 9
 
@@ -102,4 +88,11 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
+// ==============	IN-place memory algorithm	==============
+void	ft_swap(void *a, void *b, t_size size);
+void	ft_reverse(void *arr, t_size size, t_size n);
+// ===================	<FT_PRINTF> function	==============
+int		ft_printf(const char *format, ...);
+//=====================	<GET_NEXT_LINE> function	==============
+int		get_next_line(int fd, char **line);
 #endif

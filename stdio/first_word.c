@@ -1,34 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_duplicates.c                                :+:      :+:    :+:   */
+/*   first_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 18:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:49:24 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/27 16:37:53 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/27 17:53:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include <stdlib.h>
+#include "libft.h"
 
-t_list	*remove_duplicates(t_list *head)
+void	ft_first_word(char *str)
 {
-	t_list	*current;
-	t_list	*duplicate;
+	int		count;
+	char	*temp;
 
-	current = head;
-	while (current != NULL && current->next != NULL)
+	count = 0;
+	while (ft_isspace(*str))
+		str++;
+	temp = str;
+	while (!ft_isspace(*str))
 	{
-		if (*(int *)(current->content) == *(int *)(current->next->content))
-		{
-			duplicate = current->next;
-			current->next = current->next->next;
-			free(duplicate);
-		}
-		else
-			current = current->next;
+		count++;
+		str++;
 	}
-	return (head);
+	write(1, temp, count);
+	NEWLINE();
 }
+
+/*
+int main(int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		write(1, "\n", 1);
+		return (1);
+	}
+	char *str = argv[1];
+	ft_first_word(str);
+	return (0);
+}
+ */

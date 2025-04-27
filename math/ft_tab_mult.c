@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deletehead.c                                       :+:      :+:    :+:   */
+/*   ft_tab_mult.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 17:40:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:42:38 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/27 18:02:24 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/27 20:00:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include <stdlib.h>
+#include <stdio.h>
+#include "ft_math.h"
 
-t_list	*delete_head(t_list *head)
+int ft_tab_mult(int x)
 {
-	t_list	*new_head;
-
-	if (!head)
-		return (NULL);
-	new_head = head->next;
-	return (free(head), new_head);
+    int i = 0;
+    while (++i < 10)
+        ft_printf("%d x %d = %d\n", x, i, ft_multiply(x, i));
+    return 0;
 }
+
+//int main(void)
+//{
+//    int x;
+//
+//    ft_printf("Enter a number : ");
+//    if (scanf("%d", &x) != 1)
+//    {
+//        ft_printf("Invalid input.\n");
+//        return 1;
+//    }
+//    return 0;
+//}

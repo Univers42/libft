@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_duplicates.c                                :+:      :+:    :+:   */
+/*   ft_create_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 18:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:49:24 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/27 17:37:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/27 17:43:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
-#include <stdlib.h>
 
-t_list	*remove_duplicates(t_list *head)
+t_list	*create_node(void *content)
 {
-	t_list	*current;
-	t_list	*duplicate;
+	t_list	*new_node;
 
-	current = head;
-	while (current != NULL && current->next != NULL)
-	{
-		if (*(int *)(current->content) == *(int *)(current->next->content))
-		{
-			duplicate = current->next;
-			current->next = current->next->next;
-			free(duplicate);
-		}
-		else
-			current = current->next;
-	}
-	return (head);
+	new_node = (t_list *)malloc(sizeof(t_list));
+	if (!new_node)
+		return (NULL);
+	new_node->content = content;
+	new_node->next = NULL;
+	return (new_node);
 }

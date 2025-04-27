@@ -1,0 +1,19 @@
+#ifndef STRING_H
+#define STRING_H
+
+t_size	ft_strlen(const char *s);
+t_size	ft_strlcpy(char *dst, const char *src, t_size dsize);
+t_size	ft_strlcat(char *dst, const char *src, t_size dsize);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_substr(const char *s, unsigned int start, t_size len);
+char	*ft_strtrim(const char *s1, const char *set);
+char	**ft_split(const char *s, char c);
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+int		ft_strncmp(const char *s1, const char *s2, t_size n);
+char	*ft_strnstr(const char *big, const char *little, t_size len);
+char	*ft_strdup(const char *s);
+
+#endif

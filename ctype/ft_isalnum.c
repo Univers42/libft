@@ -3,27 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:32:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 21:29:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 00:19:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-#include <string.h>
+#include "ft_ctype.h"
 //#include "TDD/test.h"
 /**
  * Checks if the given character is alphanumeric.
  * An alphanumeric character is either a digit (0-9) or a letter (A-Z, a-z).
  * 
- * @param c The character to check (represented as an int, typically 
- * çfrom an unsigned char or EOF).
+ * @param c The character to check (represented as an int)
  * @return 1 if the character is alphanumeric, 0 otherwise.
  */
 int	ft_isalnum(int c)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	unsigned int	is_digit;
+	unsigned int	is_alpha;
+
+	is_digit = ((unsigned)(c - '0') <= 9);
+	is_alpha = ((unsigned)((c | 32) - 'a') < 26);
+	return (is_digit || is_alpha);
 }
 
 //int ft_isspace(int c)

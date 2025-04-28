@@ -1,47 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_isupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 20:26:21 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 00:27:45 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/27 22:28:48 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/28 00:29:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int c)
+#include "ft_ctype.h"
+
+/**
+ * Checks if the given character is an uppercase letter.
+ * 
+ * @param c The character to check (represented as an int)
+ * @return 1 if the character is uppercase, 0 otherwise.
+ */
+int	ft_isupper(int c)
 {
-	return ((c ^ ' ') == 0 || (c ^ '\t') == 0
-		|| (c ^ '\n') == 0 || (c ^ '\r') == 0
-		|| (c ^ '\v') == 0 || (c ^ '\f') == 0);
+	unsigned int	not_below_a;
+	unsigned int	not_above_z;
+
+	not_below_a = !((c - 'A') >> 31);
+	not_above_z = !(('Z' - c) >> 31);
+	return ((not_below_a & not_above_z) << 8);
 }
 //
 //#include <stdio.h>
-//#include <ctype.h>
+//#include <stdlib.h>
 //
+//#include <stdio.h>
+//#include <ctype.h>
+//#include "ft_ctype.h"
+//
+//// ...existing code...
 //int main(void)
 //{
 //    int errors = 0;
-//    
 //    for (int c = 0; c < 128; ++c)
 //    {
-//        int std = isspace(c);
-//        int mine = ft_isspace(c);
-//        
-//        // Compare truthiness (not the exact values)
+//        int std = isupper(c);
+//        int mine = ft_isupper(c);
 //        if ((!!std) != (!!mine))
 //        {
-//      printf("Mismatch for c = %d ('%c'): isspace = %d, ft_isspace = %d\n",
+//  printf("Mismatch for c = %d ('%c'): isupper = %d, ft_isupper = %d\n",
 //                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
 //            errors++;
 //        }
 //    }
-//    
 //    if (errors == 0)
 //        printf("All tests passed!\n");
 //    else
 //        printf("%d mismatches found.\n", errors);
-//        
 //    return errors;
 //}
+//// ...existing code...

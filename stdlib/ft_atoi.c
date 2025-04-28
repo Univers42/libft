@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:23:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/02/28 20:05:09 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/28 00:13:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../ft_limits.h"
+#include "../ctype/ft_ctype.h"
 
 /**
  * Convert a nptring to an integer

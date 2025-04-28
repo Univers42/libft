@@ -5,5 +5,6 @@ int ft_hcf(int x, int y);
 int ft_add(int x, int y);
 int ft_abs(int x);
 int ft_is_negative(int x);
+int		ft_log10(int n);
 int ft_multiply(int x, int y);
 #endif

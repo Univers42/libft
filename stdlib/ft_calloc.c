@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:12:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 13:18:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 00:14:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-#include <stdlib.h>
-#include <stddef.h>
-#include <limits.h>
+#include "../ft_stddef.h"
+
 // Calcular dinámicamente SIZE_MAX sin macros ni bucles for
 static t_size	size_max(void)
 {
@@ -40,9 +38,9 @@ static t_size	size_max(void)
  * @param size Size of each element in bytes.
  * @return A pointer to the allocated memory, or NULL if the allocation fails.
  */
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_calloc(t_size nmemb, t_size size)
 {
-	size_t	total;
+	t_size	total;
 	void	*buf;
 
 	if (nmemb && size > size_max() / nmemb)

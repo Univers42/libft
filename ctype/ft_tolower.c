@@ -3,15 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:18:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:24:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/27 23:20:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-//#include "TDD/test.h"
 /**
  * Converts an uppercase letter to its lowercase equivalent.
  * 

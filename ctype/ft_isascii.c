@@ -3,24 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:05:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 21:29:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 00:21:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Checks if the given character is part of the ASCII character set.
  * The ASCII character set includes characters with values from 0 to 127.
- * 
+ * `~0x7F` is a bitwise NOT operation that clears the first 7 bits of c.
+ * `(c & ~ 0x7F)` will be non-zero if c is outside the ASCII range.
+ * !((c & ~0x7F)) will be 1 if c is in the ASCII range (0-127).
  * @param c The character to check (represented as an int, 
  * typically from an unsigned char or EOF).
  * @return 1 if the character is in the ASCII range, 0 otherwise.
  */
 int	ft_isascii(int c)
 {
-	return (c >= 0 && c < 128);
+	return (!((c & ~0x7F)));
 }
+//
+//#include <stdio.h>
+//#include <ctype.h>
+//
+//int main(void)
+//{
+//    int errors = 0;
+//    for (int c = -10; c < 150; ++c)
+//    {
+//        int std = isascii(c);
+//        int mine = ft_isascii(c);
+//        
+//        // Compare truthiness (not the exact values)
+//        if ((!!std) != (!!mine))
+//        {
+//            printf("Mismatch for c = %d: isascii = %d, ft_isascii = %d\n",
+//                   c, std, mine);
+//            errors++;
+//        }
+//    }
+//    
+//    if (errors == 0)
+//        printf("All tests passed!\n");
+//    else
+//        printf("%d mismatches found.\n", errors);
+//        
+//    return errors;
+//}

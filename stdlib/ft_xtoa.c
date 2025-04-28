@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_xtoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:21:32 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/03/17 13:33:20 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/28 00:16:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../ft_stddef.h"
 
 /**
  * Calculates the number of digits in a hexadecimal number
  */
-static size_t	ft_xtoa_len(unsigned long num)
+static t_size	ft_xtoa_len(unsigned long num)
 {
-	size_t	len;
+	t_size	len;
 
 	len = 0;
 	if (num == 0)
@@ -33,7 +33,7 @@ static size_t	ft_xtoa_len(unsigned long num)
 /**
  * Converts a number to hexadecimal string representation
  */
-static char	*ft_hex_to_str(unsigned long int num, char *str, size_t len)
+static char	*ft_hex_to_str(unsigned long int num, char *str, t_size len)
 {
 	int		mod;
 
@@ -41,7 +41,7 @@ static char	*ft_hex_to_str(unsigned long int num, char *str, size_t len)
 	if (str == NULL)
 		return (NULL);
 	len--;
-	while (len != (size_t)-1)
+	while (len != (t_size)-1)
 	{
 		mod = num % 16;
 		if (mod < 10)
@@ -60,7 +60,7 @@ static char	*ft_hex_to_str(unsigned long int num, char *str, size_t len)
  */
 char	*ft_xtoa(unsigned long int num, int is_upper)
 {
-	size_t	len;
+	t_size	len;
 	char	*str;
 	int		i;
 

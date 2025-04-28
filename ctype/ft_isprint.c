@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:08:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:45:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 00:26:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
 //#include "TDD/test.h"
 /**
  * Checks if the given character is printable, including space.
@@ -20,8 +19,42 @@
  * @param c The character to check (represented as an int, 
  * typically from an unsigned char or EOF).
  * @return 1 if the character is printable, 0 otherwise.
+ * The expression (c - 32) | (126 - c) will result in a negative 
+ * number (with the high bit set) if either c < 32 or c > 126
+Shifting right by 31 isolates this sign bit (1 if out of range, 0 if in range)
+XORing with 1 inverts this (1 if in range, 0 if out of range)
  */
 int	ft_isprint(int c)
 {
-	return (c >= ' ' && c <= '~');
+	return ((unsigned)((c - 32) | (126 - c)) >> 31 ^ 1);
 }
+//
+//#include <stdio.h>
+//#include <ctype.h>
+//
+//
+//int main(void)
+//{
+//    int errors = 0;
+//    
+//    for (int c = 0; c < 128; ++c)
+//    {
+//        int std = isprint(c);
+//        int mine = ft_isprint(c);
+//        
+//        // Compare truthiness (not the exact values)
+//        if ((!!std) != (!!mine))
+//        {
+//     printf("Mismatch for c = %d ('%c'): isprint = %d, ft_isprint = %d\n",
+//                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
+//            errors++;
+//        }
+//    }
+//    
+//    if (errors == 0)
+//        printf("All tests passed!\n");
+//    else
+//        printf("%d mismatches found.\n", errors);
+//        
+//    return errors;
+//}

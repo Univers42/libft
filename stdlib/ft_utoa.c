@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:20:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/03/17 13:33:20 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/28 00:15:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../ft_stddef.h"
 
 /**
  * Counts the number of digits in an unsigned integer

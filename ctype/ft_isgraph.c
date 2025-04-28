@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_isgraph.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 20:26:21 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 00:27:45 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/27 23:10:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/28 00:25:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int c)
+/**
+ * Checks if the given character has a graphical representation.
+ * Graphical characters are those with values between 33 (!) and 126 (~)
+ * inclusive in the ASCII table - all printable characters except space.
+ * 
+ * @param c The character to check (represented as an int)
+ * @return 1 if the character is graphical, 0 otherwise.
+ */
+int	ft_isgraph(int c)
 {
-	return ((c ^ ' ') == 0 || (c ^ '\t') == 0
-		|| (c ^ '\n') == 0 || (c ^ '\r') == 0
-		|| (c ^ '\v') == 0 || (c ^ '\f') == 0);
+	return (!(((c - 33) | (126 - c)) >> 31));
 }
 //
 //#include <stdio.h>
@@ -24,15 +30,15 @@ int	ft_isspace(int c)
 //{
 //    int errors = 0;
 //    
-//    for (int c = 0; c < 128; ++c)
+//    for (int c = -10; c < 150; ++c)
 //    {
-//        int std = isspace(c);
-//        int mine = ft_isspace(c);
+//        int std = isgraph(c);
+//        int mine = ft_isgraph(c);
 //        
 //        // Compare truthiness (not the exact values)
 //        if ((!!std) != (!!mine))
 //        {
-//      printf("Mismatch for c = %d ('%c'): isspace = %d, ft_isspace = %d\n",
+//     printf("Mismatch for c = %d ('%c'): isgraph = %d, ft_isgraph = %d\n",
 //                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
 //            errors++;
 //        }

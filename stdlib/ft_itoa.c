@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:11:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 21:29:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 00:15:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../ft_stddef.h"
 
 static int	ft_len(int n)
 {
-	size_t	count;
+	t_size	count;
 
 	count = 0;
 	if (n <= 0)

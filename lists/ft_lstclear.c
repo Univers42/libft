@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:41:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:29:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:13:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_list.h"
 //#include "TDD/test.h"
 /**
  * Clears and frees the entire list starting from the node `lst`,

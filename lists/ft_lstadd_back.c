@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:11:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:29:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:13:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_list.h"
 //#include "TDD/test.h"
 /**
  * Adds a new node to the end of a linked list.

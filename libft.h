@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 23:51:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:19:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 #include "debug/ft_debug.h"
 #include "ft_colors.h"
 #include "ft_stddef.h"
-
+#include <unistd.h>
+#include <time.h>
+#include <stdlib.h>
 #endif

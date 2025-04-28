@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:37:03 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:28:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:13:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_list.h"
 //#include "TDD/test.h"
 /**
  * Adds a new node to the front of a linked list.

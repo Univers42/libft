@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:50:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:37:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:11:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_list.h"
 //#include "TDD/test.h"
 /**
  * Returns the number of nodes in the linked list.

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:30:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:36:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:12:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_list.h"
 //#include "TDD/test.h"
 /**
  * --- /!\ MALLOC --> don't forget to verfifye and freed

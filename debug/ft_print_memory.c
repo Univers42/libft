@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_memory.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:43:35 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/03/23 06:13:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:57:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-void	print_hex(unsigned char *addr, unsigned int size);
-void	print_ascii(unsigned char *addr, unsigned int size);
-
+#include "../ft_stddef.h"
+#include "../stdio/ft_stdio.h"
+#include "ft_debug.h"
+#include <stdio.h>
 /**
  * Prints the memory content of a given address.
  * @param addr The address to print
@@ -32,64 +31,35 @@ void	*ft_print_memory(void *addr, unsigned int size)
 {
 	unsigned int	i;
 	unsigned char	*p;
+	unsigned int	chunk_size;
 
 	p = (unsigned char *)addr;
 	i = 0;
 	while (i < size)
 	{
-		print_hex(p + i, size - i);
-		print_ascii(p + i, size - i);
+		if (size - i > 16)
+			chunk_size = 16;
+		else
+			chunk_size = size - i;
+		ft_print_hex(p + i, chunk_size, (unsigned long)(p + i));
+		ft_print_ascii(p + i, chunk_size);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		i += 16;
 	}
 	return (addr);
 }
 
-void	print_hex(unsigned char *addr, unsigned int size)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < 16 && i < size)
-	{
-		if (i % 2 == 0)
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		ft_putnbr_base(addr[i], "0123456789abcdef");
-		i++;
-	}
-	while (i < 16)
-	{
-		if (i % 2 == 0)
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		ft_putstr_fd("  ", STDOUT_FILENO);
-		i++;
-	}
-	ft_putstr_fd("  ", STDOUT_FILENO);
-}
-
-void	print_ascii(unsigned char *addr, unsigned int size)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < 16 && i < size)
-	{
-		if (addr[i] >= 32 && addr[i] <= 126)
-			ft_putchar_fd(addr[i], STDOUT_FILENO);
-		else
-			ft_putchar_fd('.', STDOUT_FILENO);
-		i++;
-	}
-}
-
-/*
-int	main(void)
-{
-	char	*str;
-
-	str = "Bonjour les amines\n\t
-	ce qu on peut faire avec.\n\tprint_memory\n\nlol.lol\n ";
-	ft_print_memory(str, 80);
-	return (0);
-}
-*/
+//#include <stdio.h>
+//#include "../libft.h"
+//
+//int main(void)
+//{
+//    char buffer[] = "Hello, World!\nThis is
+// a test buffer for ft_print_memory.\x01\x7F";
+//    unsigned int size = sizeof(buffer) - 1; // exclude null terminator
+//
+//    printf("Memory dump:\n");
+//    ft_print_memory(buffer, size);
+//
+//    return 0;
+//}

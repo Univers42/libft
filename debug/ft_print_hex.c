@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:47:24 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/02/28 20:49:20 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/28 09:55:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
+#include "../stdio/ft_stdio.h"
 
 void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr)
 {
@@ -25,15 +26,33 @@ void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr)
 	{
 		ft_putchar_fd(hex[p[j] / 16], STDOUT_FILENO);
 		ft_putchar_fd(hex[p[j] % 16], STDOUT_FILENO);
-		if (j % 2)
+		if (j % 2 == 1)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		j++;
 	}
 	while (j < 16)
 	{
-		ft_putstr_fd("   ", STDOUT_FILENO);
-		if (j % 2)
+		ft_putstr_fd("  ", STDOUT_FILENO);
+		if (j % 2 == 1)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		j++;
 	}
 }
+
+//#include <stdio.h>
+//#include <unistd.h>
+//#include "../libft.h"
+//
+//int main(void)
+//{
+//    unsigned char buffer[20] = {
+//        'H', 'e', 'l', 'l', 'o', ',', ' ', 'W', 'o', 'r', 'l', 
+//'d', '!', 0x0A, 0x00, 0x7F, 0x20, 0x41, 0x42, 0x43
+//    };
+//
+//    printf("Hex output:\n");
+//    ft_print_hex(buffer, 20, (unsigned long)buffer);
+//    printf("\n");
+//
+//    return 0;
+//}

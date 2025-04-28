@@ -6,7 +6,6 @@
 # include <time.h>
 # include <string.h>
 # include <unistd.h>
-
 /* Test parameters */
 #define BENCHMARK_ITERATIONS 10000000
 #define CHAR_RANGE 256  /* Test all possible char values including extended ASCII */

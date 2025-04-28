@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_ascii.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:48:55 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/02/28 20:49:54 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/04/28 09:54:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../ft_stddef.h"
+#include "../stdio/ft_stdio.h"
+#include <stdio.h>
 
 void	ft_print_ascii(unsigned char *p, unsigned int size)
 {
 	unsigned int	j;
 
 	j = 0;
+	ft_putchar_fd(' ', STDOUT_FILENO);
 	while (j < 16 && j < size)
 	{
 		if (p[j] >= 32 && p[j] <= 126)
@@ -26,3 +29,17 @@ void	ft_print_ascii(unsigned char *p, unsigned int size)
 		j++;
 	}
 }
+
+//int main(void)
+//{
+//    unsigned char buffer[20] = {
+//        'H', 'e', 'l', 'l', 'o', ',', ' ', 'W', 'o', 'r', 'l',
+// 'd', '!', 0x0A, 0x00, 0x7F, 0x20, 0x41, 0x42, 0x43
+//    };
+//
+//    printf("ASCII output: ");
+//    ft_print_ascii(buffer, 20);
+//    printf("\n");
+//
+//    return 0;
+//}

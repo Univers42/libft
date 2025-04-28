@@ -6,27 +6,51 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 20:01:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:01:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_divide(int dividend, int divisor)
+#include "ft_math.h"
+
+static void	ft_divide_loop(unsigned int *a,
+							unsigned int b,
+							unsigned int *result)
 {
-    if (divisor == 0)
-        return 0;
+	int	i;
 
-    int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;
-    unsigned int a = (dividend < 0) ? -dividend : dividend;
-    unsigned int b = (divisor < 0) ? -divisor : divisor;
-    unsigned int result = 0;
+	i = 31;
+	while (i >= 0)
+	{
+		if ((*a >> i) >= b)
+		{
+			*a -= (b << i);
+			*result |= (1U << i);
+		}
+		i--;
+	}
+}
 
-    for (int i = 31; i >= 0; i--)
-    {
-        if ((a >> i) >= b)
-        {
-            a = ft_subtract(a, (b << i));
-            result |= (1U << i);
-        }
-    }
-    return sign * result;
+int	ft_divide(int dividend, int divisor)
+{
+	unsigned int	a;
+	unsigned int	b;
+	unsigned int	result;
+	int				sign;
+
+	if (divisor == 0)
+		return (0);
+	sign = 1;
+	if ((dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0))
+		sign = -1;
+	if (dividend < 0)
+		a = -dividend;
+	else
+		a = dividend;
+	if (divisor < 0)
+		b = -divisor;
+	else
+		b = divisor;
+	result = 0;
+	ft_divide_loop(&a, b, &result);
+	return (sign * (int)result);
 }

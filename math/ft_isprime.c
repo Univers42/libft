@@ -6,29 +6,34 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:44:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 19:14:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:07:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int	is_prime(int x)
+int	ft_is_prime(int x)
 {
-	int i;
+	int	i;
 
-	i = -1;
-	while(++i < x)
+	if (x < 2)
+		return (0);
+	i = 2;
+	while ((i * i) <= x)
 	{
-		if (x % i == 0)
+		if (!(x % i))
 			return (0);
+		i++;
 	}
 	return (1);
 }
 
 //int main(int argc, char **argv)
 //{
-//	if (argc != 2)
-//		return (ft_putchar('\n', STDOUT_FILENO), 1);
-//	int number = ft_atoi(argv[1]);
-//	is_prime(number);
+//    if (argc != 2)
+//        return 1;
+//    int x = atoi(argv[1]);
+//    printf("%d is %sprime\n", x, ft_is_prime(x) ? "" : "not ");
+//    return 0;
 //}

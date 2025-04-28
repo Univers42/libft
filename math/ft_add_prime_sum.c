@@ -6,35 +6,37 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 18:03:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 22:48:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_math.h"
 
-int ft_add_prime_sum(int x)
+int	ft_add_prime_sum(int x)
 {
-    int sum = 0;
-    int i;
+	int	sum;
+	int	i;
 
-    if (x < 2)
-        return (0);
-    for (i = 2; i <= x; i++)
-    {
-        if (ft_is_prime(i))
-            sum += i;
-    }
-    return (sum);
+	i = 1;
+	if (x < 2)
+		return (0);
+	while (++i <= x)
+	{
+		if (ft_is_prime(i))
+			sum = ft_add(sum, i);
+	}
+	return (sum);
 }
 
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        write(1, "\n", 1);
-        return (1);
-    }
-    int x = ft_atoi(argv[1]);
-    printf("The sum of prime numbers up to %d is: %d\n", x, ft_add_prime_sum(x));
-    return (0);
-}
+//int main(int argc, char **argv)
+//{
+//    if (argc != 2)
+//    {
+//        write(1, "\n", 1);
+//        return (1);
+//    }
+//    int x = ft_atoi(argv[1]);
+//    printf("The sum of prime numbers ""
+//up to %d is: %d\n", x, ft_add_prime_sum(x));
+//    return (0);
+//}

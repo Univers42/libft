@@ -6,30 +6,30 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 20:00:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:26:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ft_math.h"
+#include "../stdio/ft_stdio.h"
 
-int ft_tab_mult(int x)
+int	ft_tab_mult(int x)
 {
-    int i = 0;
-    while (++i < 10)
-        ft_printf("%d x %d = %d\n", x, i, ft_multiply(x, i));
-    return 0;
+	int	i;
+
+	i = 0;
+	while (++i < 10)
+		ft_printf("%d x %d = %d\n", x, i, ft_multiply(x, i));
+	return (0);
 }
 
-//int main(void)
-//{
-//    int x;
 //
-//    ft_printf("Enter a number : ");
-//    if (scanf("%d", &x) != 1)
-//    {
-//        ft_printf("Invalid input.\n");
+//int main(int argc, char **argv)
+//{
+//    if (argc != 2)
 //        return 1;
-//    }
+//    int x = atoi(argv[1]);
+//    ft_tab_mult(x);
 //    return 0;
 //}

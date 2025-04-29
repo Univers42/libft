@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:29:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:46:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
+#include "../strings/ft_string.h"
+#include "ft_memory.h"
 void	ft_reverse_string(char *str)
 {
 	char	*start;

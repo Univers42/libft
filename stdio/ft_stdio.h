@@ -6,12 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:31:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:08:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDIO_H
 # define FT_STDIO_H
+
+typedef int (*ops)(int, int);
 
 void	ft_first_word(char *str);
 void	ft_putchar_fd(char c, int fd);

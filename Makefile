@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dlesieur <dlesieur@student.42madrid.com>   +#+  +:+       +#+         #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2023/01/26 12:30:42 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/04/29 11:13:55 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ AR = ar rcs
 RM = rm -f
 
 # Directories
-SRC_DIRS = ctype lists memory stdio stdlib string
+SRC_DIRS = ctype debug lists math memory stdio stdlib strings
 OBJ_DIR = obj
 
 # Source files from all directories

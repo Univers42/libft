@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:20:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 00:15:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:09:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_stddef.h"
-
+#include <stdlib.h>
 /**
  * Counts the number of digits in an unsigned integer
  */

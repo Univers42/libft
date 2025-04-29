@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:02:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:15:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_math.h"
+#include <stdio.h>
 
 void	ft_fprime(int n)
 {

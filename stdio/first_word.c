@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/27 17:53:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:49:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../ctype/ft_ctype.h"
+#include <unistd.h>
 
 void	ft_first_word(char *str)
 {
@@ -27,7 +28,7 @@ void	ft_first_word(char *str)
 		str++;
 	}
 	write(1, temp, count);
-	NEWLINE();
+	write(1,"\n", 1);
 }
 
 /*

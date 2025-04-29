@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:59:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 19:48:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 09:46:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_memory.h"
 //#include "TDD/test.h"
 /**
  * Copies `n` bytes from the memory area `src` to the memory area `dest`.

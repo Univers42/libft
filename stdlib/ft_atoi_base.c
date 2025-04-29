@@ -6,12 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:09:31 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 23:32:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:07:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
+#include "../ctype/ft_ctype.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "../ft_stddef.h"
 /**
  * write a function that converts the initial portion 
  * of the string pointed to by nptr to int representation.
@@ -30,11 +33,114 @@
  * @note EXAMPLE: ft_atoi("A", "0123456789ABCDEF") returns 10
  */
 
-int ft_atoi_base(const char *str, int base)
+/* Check if the digit is valid for the given base */
+static int	is_valid_for_base(int digit, int base)
 {
-        
+	return (digit < base);
 }
 
+static int	conv_char(char c)
+{
+	int	digit;
+	int	upper_case;
+	int	lower_case;
+
+	digit = 0;
+	if (c >= '0' && c <= '9')
+		digit = c - '0';
+	upper_case = 0;
+	if (c >= 'A' && c <= 'Z')
+		upper_case = c - 'A' + 10;
+	lower_case = 0;
+	if (c >= 'a' && c <= 'z')
+		lower_case = c - 'a' + 10;
+	return (digit | upper_case | lower_case);
+}
+
+/* Process digits and accumulate result */
+static int	process_digits(const char *str, int base, int sign)
+{
+	int	res;
+	int	digit;
+	int	valid;
+
+	res = 0;
+	while (*str)
+	{
+		digit = conv_char(*str);
+		valid = is_valid_for_base(digit, base);
+		if (!valid)
+			break ;
+		if (res > (INT_MAX - digit) / base)
+		{
+			if (sign == 1)
+				return (INT_MAX);
+			return (INT_MIN);
+		}
+		res = res * base + digit;
+		str++;
+	}
+	return (res * sign);
+}
+
+/* Convert string to integer in specified base */
+int	ft_atoi_base(const char *str, int base)
+{
+	int	sign;
+
+	while (ft_isspace(*str))
+		str++;
+	sign = 1;
+	if (*str == '-')
+		sign = -1;
+	if (*str == '+' || *str == '-')
+		str++;
+	if (*str == '+' || *str == '-')
+		return (0);
+	return (process_digits(str, base, sign));
+}
+
+//int main(int argc, char *argv[])
+//{
+//    int base;
+//    char *endptr, *str;
+//    long val;
+//    int val_atoi;
+//    
+//    if (argc < 2)
+//    {
+//        fprintf(stderr, "Usage: %s str [base]\n", argv[0]);
+//        exit(EXIT_FAILURE);
+//    }
+//    str = argv[1];
+//    base = (argc > 2) ? atoi(argv[2]) : 0;
+//    errno = 0;
+//    strtol("0", NULL, base);
+//    if (errno == EINVAL)
+//    {
+//        perror("strtol");
+//        exit(EXIT_FAILURE);
+//    }
+//    errno = 0;
+//    val = strtol(str, &endptr, base);
+//    val_atoi = ft_atoi_base(str, base);
+//    if (errno == ERANGE)
+//    {
+//        perror("strtol");
+//        exit(EXIT_FAILURE);
+//    }
+//    //if (endptr == str)
+//    //{
+//    //    fprintf(stderr, "No digits were found\n");
+//    //    exit(EXIT_FAILURE);
+//    //}
+//
+//    printf("strtol() returned %ld\n", val);
+//    printf("ft_atoi_base() returned %d \n", val_atoi);
+//    if (*endptr != '\0')
+//        printf("Further characters after number: \"%s\"\n", endptr);
+//    exit(EXIT_SUCCESS);
+//}
 ////int main()
 //{
 //    printf("%d\n", ft_atoi_base("101010", 2));       // Binary: 42

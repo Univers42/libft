@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:31:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 22:56:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:01:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "ft_math.h"
 
 int	ft_abs(int x)
 {

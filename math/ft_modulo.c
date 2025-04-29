@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:15:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:00:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "ft_math.h"
 
 int ft_modulo(int a, int b)
 {

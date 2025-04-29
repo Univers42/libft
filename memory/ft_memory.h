@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memory.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/28 23:29:57 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_MEMORY_H
 # define FT_MEMORY_H
 # include "../ft_stddef.h"
@@ -5,7 +17,7 @@
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 void	ft_swap(void *a, void *b, t_size size);
-void	ft_reverse(void *arr, t_size size, t_size n);
+void	ft_reverse_string(char *str);
 void	ft_bzero(void *s, t_size n);
 void	*ft_memset(void *ptr, int value, t_size num);
 void	*ft_memcpy(void *dest, const void *src, t_size n);

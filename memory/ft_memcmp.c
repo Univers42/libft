@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:43:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 21:28:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:29:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
+
 //#include "TDD/test.h"
 /**
  * Compares the first `n` bytes of two memory areas `s1` and `s2`.
@@ -34,7 +29,7 @@
  * and the result is based on the difference between 
  * the first differing byte. If no differences are found, zero is returned.
  */
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, t_size n)
 {
 	size_t	i;
 

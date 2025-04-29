@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:04:20 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 21:02:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:08:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stdlib.h>
+#include "ft_string.h"
 //#include "TDD/test.h"
 /**
  * Concatenates the string `s2` to the end of 
@@ -27,29 +28,24 @@
  * the new string and copies both `s1` and `s2` into it.
  * The new string is null-terminated.
  */
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	char	*res;
-	int		i;
-	int		k;
+	char	*new_str;
+	char	*dst;
+	const char *src;
 
-	i = 0;
-	k = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (res == NULL)
+	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!new_str)
 		return (NULL);
-	while (s1[i])
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	while (s2[k])
-	{
-		res[i + k] = s2[k];
-		k++;
-	}
-	res[i + k] = '\0';
-	return (res);
+	dst = new_str;
+	src = s1;
+	while (*src)
+		*dst++ = *src++;
+	src = s2;
+	while (*src)
+		*dst++ = *src++;
+	*dst = '\0';
+	return (new_str);
 }

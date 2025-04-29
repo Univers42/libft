@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stdlib.h                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:32:20 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/28 23:38:07 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/04/28 23:56:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STDLIB_H
-# define FT_STDLIB_H
 # include "../ft_stddef.h"
+# include <stdlib.h>
+char	*ft_strndup(const char *s, t_size n)
+{
+	char	*dup;
+	char	*d;
 
-char	*ft_itoa(int n);
-char	*ft_utoa(unsigned int n);
-char	*ft_xtoa(unsigned long int num, int is_upper);
-int		ft_atoi(const char *nptr);
-void	ft_putnbr_base(int nbr, char *radix);
-int		ft_atoi_base(const char *str, int base);
-void	*ft_calloc(t_size nmemb, t_size size);
-#endif
+	dup = (char *)malloc(n + 1);
+	if (!dup)
+		return (NULL);
+	d = dup;
+	while (*s && n--)
+		*d++ = *s++;
+	*d = '\0';
+	return (dup);
+}

@@ -6,35 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:41:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:02:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	*ft_memmove(void *dst, const void *src, t_size len)
-{
-	unsigned char		*d;
-	const unsigned char	*s;
-
-	d = (unsigned char *)dst;
-	s = (const unsigned char *)src;
-	if (d == s)
-		return (dst);
-	if (d < s)
-	{
-		while (len--)
-			*d++ = *s++;
-	}
-	else
-	{
-		d += len;
-		s += len;
-		while (len--)
-			*--d = *--s;
-	}
-	return (dst);
-}
+void	*ft_memmove(void *dst, const void *src, t_size n);
 
 static char	*ft_store_chunks(int fd, char *memory)
 {
@@ -55,7 +33,7 @@ static char	*ft_store_chunks(int fd, char *memory)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		memory = ft_strjoin(memory, buffer);
+		memory = ft_strjoin_gnl(memory, buffer);
 		if (!memory)
 			return (free(buffer), NULL);
 	}

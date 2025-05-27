@@ -6,11 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 00:04:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:42:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+/* Forward declaration for libft function */
+t_size	ft_strlen(const char *s);
 
 char	*ft_strjoin_gnl(char *s1, const char *s2)
 {

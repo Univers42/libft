@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:38:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:56:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:56:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../ft_stddef.h"
+# include "../render/ft_stddef.h"
 # include <stdlib.h>
 char	*ft_strndup(const char *s, t_size n)
 {

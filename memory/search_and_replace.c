@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 17:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 09:47:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:53:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../stdio/ft_stdio.h"
-#include "../ft_stddef.h"
+#include "../render/ft_stddef.h"
 /**
  * ft_search_and_replace - Print a string to stdout, replacing all occurrences
  * of a given character with another character, without using any branches.

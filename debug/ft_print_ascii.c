@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:48:55 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 09:54:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:52:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_stddef.h"
+#include "../render/ft_stddef.h"
 #include "../stdio/ft_stdio.h"
 #include <stdio.h>
 

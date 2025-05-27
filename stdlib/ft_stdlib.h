@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:32:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:50:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDLIB_H
 # define FT_STDLIB_H
-# include "../ft_stddef.h"
+# include "../render/ft_stddef.h"
 
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);

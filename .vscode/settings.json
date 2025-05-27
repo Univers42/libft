@@ -6,6 +6,12 @@
         "scminput": false
     },
     "files.associations": {
-        "get_next_line.h": "c"
+        "*.embeddedhtml": "html",
+        "get_next_line.h": "c",
+        "ft_string.h": "c",
+        "ft_stdlib.h": "c",
+        "ft_memory.h": "c",
+        "ft_stdio.h": "c",
+        "ft_debug.h": "c"
     }
 }

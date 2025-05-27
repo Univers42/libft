@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:09:31 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/29 11:07:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:55:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../ft_stddef.h"
+#include "../render/ft_stddef.h"
 /**
  * write a function that converts the initial portion 
  * of the string pointed to by nptr to int representation.

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 11:11:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:49:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "lists/ft_list.h"
 #include "math/ft_math.h"
 #include "stdlib/ft_stdlib.h"
+#include "stdio/ft_stdio.h"
+#include "render/ft_render.h"
 #include "debug/ft_debug.h"
-#include "ft_colors.h"
-#include "ft_stddef.h"
+#include "render/ft_colors.h"
+#include "render/ft_stddef.h"
 #include <unistd.h>
 #include <time.h>
 #include <stdlib.h>

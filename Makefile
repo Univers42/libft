@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/04/29 11:13:55 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/05/27 18:48:31 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,17 @@ AR = ar rcs
 RM = rm -f
 
 # Directories
-SRC_DIRS = ctype debug lists math memory stdio stdlib strings
+SRC_DIRS = ctype debug lists math memory render stdio stdlib strings
 OBJ_DIR = obj
 
-# Source files from all directories
+# Source files from all directories including ft_printf and gnl
 SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+PRINTF_SRCS = $(shell find stdio/ft_printf_42/src -name "*.c" 2>/dev/null)
+GNL_SRCS = $(wildcard stdio/gnl/*.c)
+ALL_SRCS = $(SRCS) $(PRINTF_SRCS) $(GNL_SRCS)
 
 # Object files with directory structure preserved
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
 
 # Header files
 HEADERS = $(wildcard *.h)
@@ -43,7 +46,7 @@ RESET = \033[0m
 BOLD = \033[1m
 
 # Progress counter
-TOTAL_FILES = $(words $(SRCS))
+TOTAL_FILES = $(words $(ALL_SRCS))
 COUNTER = 0
 
 # Default rule: build the library
@@ -63,8 +66,15 @@ $(NAME): $(OBJS)
 $(OBJ_DIR)/%.o: %.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	@$(eval COUNTER=$(shell echo $$(($(COUNTER) + 1))))
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I. -Istdio/ft_printf_42/include -c $< -o $@
 	@printf "\r$(YELLOW)Compiling: [%-30s] %d%%$(RESET)" "$(shell printf '%*s' $$(($(COUNTER) * 30 / $(TOTAL_FILES))) | tr ' ' '▓')" "$$(($(COUNTER) * 100 / $(TOTAL_FILES)))"
+
+# Test program
+test: $(NAME) main.c
+	@printf "$(CYAN)[TEST] Compiling test program...$(RESET)\n"
+	@$(CC) $(CFLAGS) main.c -L. -lft -o test_program
+	@printf "$(GREEN)[TEST] Running test program:$(RESET)\n"
+	@./test_program
 
 # Clean object files
 clean:
@@ -75,6 +85,10 @@ clean:
 fclean: clean
 	@printf "$(RED)[CLEAN] Removing library $(NAME)...$(RESET)\n"
 	@$(RM) $(NAME)
+
+# Clean test program
+clean_test:
+	@$(RM) test_program
 
 # Rebuild the library
 re: fclean all
@@ -94,4 +108,4 @@ help:
 	@printf "  $(GREEN)make debug$(RESET)  - Build with debug symbols and sanitizers\n"
 
 # Declare phony targets
-.PHONY: all clean fclean re debug pre_build help
+.PHONY: all clean fclean re debug pre_build help test clean_test

@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:36:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 23:37:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:56:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_stddef.h"
+#include "../render/ft_stddef.h"
 
 t_size	ft_strclen(const char *s, int c)
 {

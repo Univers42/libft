@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:49:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:28:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,9 @@ char	*ft_strnstr(const char *big, const char *little, t_size len);
 char	*ft_strdup(const char *s);
 t_size	ft_strclen(const char *s, int c);
 char	*ft_strndup(const char *s, t_size n);
+int     ft_strcmp(const char *s1, const char *s2);
+int     ft_countwords(const char *s1, const char limiter);
+int     ft_countwords_space(const char *s1);  // Single parameter version
+long    ft_atol(const char *str);
 
 #endif

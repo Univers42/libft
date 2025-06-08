@@ -51,7 +51,7 @@
  */
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_size			i;
+	size_t			i;
 	char			*mapped;
 	char			*start;
 

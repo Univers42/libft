@@ -45,7 +45,7 @@ int	ft_print_hex_precision(unsigned int num, int precision, int uppercase)
  * @param precision The minimum number of characters to print
  * @return Number of characters printed
  */
-int	ft_print_ptr_hex_precision(t_size n, int precision)
+int	ft_print_ptr_hex_precision(size_t n, int precision)
 {
 	int	count;
 	int	hex_len;

@@ -23,6 +23,6 @@ t_ssize	ft_print_prefix(char prefix_char, char *prefix_str, int prefix_str_len)
 	if (prefix_char)
 		count += ft_print_c(prefix_char);
 	if (prefix_str)
-		count += write(1, prefix_str, (t_size)prefix_str_len);
+		count += write(1, prefix_str, (size_t)prefix_str_len);
 	return (count);
 }

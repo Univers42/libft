@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 21:08:22 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/05/27 18:24:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_BONUS_H
-# define STRUCTS_BONUS_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 # include <stdarg.h>
 # include "ft_types.h"

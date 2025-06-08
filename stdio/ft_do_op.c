@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 10:32:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:32:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	get_op_index(char sign)
 	return (op_idx_map[(unsigned char)sign]);
 }
 
-void	setup_operations(ops *op_funcs)
+void	setup_operations(t_ops *op_funcs)
 {
 	op_funcs[0] = ft_add;
 	op_funcs[1] = ft_subtract;
@@ -60,7 +60,7 @@ void	do_op(int n1, char sign, int n2)
 {
 	int				res;
 	unsigned int	op_map;
-	ops				op_funcs[5];
+	t_ops			op_funcs[5];
 	int				op_idx;
 
 	op_map = 31;

@@ -6,25 +6,38 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 10:00:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:51:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_math.h"
 
-int ft_modulo(int a, int b)
+int	ft_modulo(int a, int b)
 {
-    if (b == 0)
-        return 0;
-    int sign = (a < 0) ? -1 : 1;
-    unsigned int ua = (a < 0) ? -a : a;
-    unsigned int ub = (b < 0) ? -b : b;
-    for (int i = 31; i >= 0; i--)
-    {
-        if ((ua >> i) >= ub)
-            ua = ft_subtract(ua, (ub << i));
-    }
-    return (sign * ua);
+	int				sign;
+	unsigned int	ua;
+	unsigned int	ub;
+	int				i;
+
+	if (b == 0)
+		return (0);
+	sign = 1;
+	if (a < 0)
+		sign = -1;
+	ua = a;
+	if (a < 0)
+		ua = -a;
+	ub = b;
+	if (b < 0)
+		ub = -b;
+	i = 31;
+	while (i >= 0)
+	{
+		if ((ua >> i) >= ub)
+			ua = ft_subtract(ua, (ub << i));
+		i--;
+	}
+	return (sign * ua);
 }
 
 //int main(int argc, char **argv)

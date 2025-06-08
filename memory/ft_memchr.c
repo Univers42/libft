@@ -25,7 +25,7 @@
  * @note The search is done byte-by-byte and the comparison 
  * is performed using unsigned char values.
  */
-void	*ft_memchr(const void *s, int c, t_size n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
 	unsigned char	*str;
 

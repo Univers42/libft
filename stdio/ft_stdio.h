@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:50:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:10:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_STDIO_H
 # include "../render/ft_stddef.h"
 
-typedef int (*ops)(int, int);
+typedef int	(*t_ops)(int, int);
 
 void	ft_first_word(char *str);
 void	ft_putchar_fd(char c, int fd);

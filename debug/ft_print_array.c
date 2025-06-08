@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:51:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/28 13:26:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:43:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,31 @@
 #include <stdio.h>
 #include "../ctype/ft_ctype.h"
 
-void    *ft_print_array(int *arr, int size, char mode)
+void	*ft_print_array(int *arr, int size, char mode)
 {
-    int i;
+	int	i;
 
-    if (!arr || size <= 0)
-        return (arr);
-    
-    i = 0;
-    if (mode == 'v')
-    {
-        while (i < size)
-        {
-            printf("[%i] --> %i \n", i, arr[i]);
-            i++;    
-        }
-        return (arr);
-    }
-    while (i < size)
-    {
-        ft_putnbr_fd(arr[i], STDOUT_FILENO);
-        if (i < size - 1)
-            ft_putchar_fd(' ', STDOUT_FILENO);
-        i++;
-    }
-    ft_putchar_fd('\n', STDOUT_FILENO);
-    return (arr);
+	if (!arr || size <= 0)
+		return (arr);
+	i = 0;
+	if (mode == 'v')
+	{
+		while (i < size)
+		{
+			ft_printf("[%i] --> %i \n", i, arr[i]);
+			i++;
+		}
+		return (arr);
+	}
+	while (i < size)
+	{
+		ft_putnbr_fd(arr[i], STDOUT_FILENO);
+		if (i < size - 1)
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	return (arr);
 }
 
 //int main(int argc, char **argv)
@@ -58,7 +57,8 @@ void    *ft_print_array(int *arr, int size, char mode)
 //        return (ft_putchar_fd('\n', STDOUT_FILENO), 1);
 //    
 //    // Check if first argument is a mode flag or a number
-//    if (argc > 2 && argv[1][0] && !ft_isdigit(argv[1][0]) && argv[1][0] != '-' && argv[1][0] != '+')
+//    if (argc > 2 && argv[1][0] && !ft_isdigit(argv[1][0]) 
+//&& argv[1][0] != '-' && argv[1][0] != '+')
 //    {
 //        // First argument is a mode flag
 //        mode = argv[1][0];

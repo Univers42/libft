@@ -6,20 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 17:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:53:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:40:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../stdio/ft_stdio.h"
 #include "../render/ft_stddef.h"
+
 /**
- * ft_search_and_replace - Print a string to stdout, replacing all occurrences
- * of a given character with another character, without using any branches.
- *
- * @param str:        The input string to process.
- * @param to_find:    The character to search for in the string.
- * @param to_replace: The character to print instead of @to_find.
- *
  * This function iterates through the input string and prints each character.
  * If a character matches @to_find, it prints @to_replace instead.
  * Otherwise, it prints the original character.
@@ -37,7 +31,7 @@ void	ft_search_and_replace(char *str, char to_find, char to_replace)
 	while (*str)
 	{
 		out = (*str == to_find) * to_replace + (*str != to_find) * (*str);
-		ft_putchar_fd(*&out, STDOUT_FILENO);
+		ft_putchar_fd(out, STDOUT_FILENO);
 		str++;
 	}
 	ft_putchar_fd('\n', STDOUT_FILENO);

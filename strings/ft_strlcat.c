@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 12:31:28 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 21:03:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:09:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_size	ft_strlcat(char *dst, const char *src, t_size dsize)
 //    char src[] = "World!";
 //
 //    // Test with a sufficient buffer size
-//    t_size result = strlcat(dst, src, sizeof(dst));
+//    size_t result = strlcat(dst, src, sizeof(dst));
 //    printf("After ft_strlcat:\n");
 //    printf("Destination: %s\n", dst);
 //    printf("Total Length: %zu\n", result);

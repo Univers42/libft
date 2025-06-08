@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:31:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 10:01:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:50:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_abs(int x)
 {
-	int mask;
+	int	mask;
 
 	mask = x >> (sizeof(int) * 8 - 1);
 	return (ft_add(x ^ mask, -mask));

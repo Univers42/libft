@@ -6,13 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:23:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:13:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:30:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_limits.h"
 #include "../ctype/ft_ctype.h"
-
+#include <stddef.h>
+#include <limits.h>
 /**
  * Convert a nptring to an integer
  * @param nptr The input nptring

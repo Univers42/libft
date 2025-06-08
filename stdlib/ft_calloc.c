@@ -15,18 +15,18 @@
 #include "ft_stdlib.h"
 #include "../memory/ft_memory.h"
 // Calcular dinámicamente SIZE_MAX sin macros ni bucles for
-static t_size	size_max(void)
+static size_t	size_max(void)
 {
-	t_size	size_max;
-	t_size	bit_count;
-	t_size	i;
+	size_t	size_max;
+	size_t	bit_count;
+	size_t	i;
 
 	size_max = 0;
-	bit_count = sizeof(t_size) * 8;
+	bit_count = sizeof(size_t) * 8;
 	i = 0;
 	while (i < bit_count)
 	{
-		size_max |= (t_size)1 << i;
+		size_max |= (size_t)1 << i;
 		i++;
 	}
 	return (size_max);
@@ -40,9 +40,9 @@ static t_size	size_max(void)
  * @param size Size of each element in bytes.
  * @return A pointer to the allocated memory, or NULL if the allocation fails.
  */
-void	*ft_calloc(t_size nmemb, t_size size)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_size	total;
+	size_t	total;
 	void	*buf;
 
 	if (nmemb && size > size_max() / nmemb)

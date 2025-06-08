@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 12:33:34 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 21:04:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:08:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
  */
 t_size	ft_strlcpy(char *dst, const char *src, t_size dsize)
 {
-	size_t	i;
+	t_size	i;
 
 	i = 0;
 	if (dsize > 0)

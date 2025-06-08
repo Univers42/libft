@@ -6,24 +6,27 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:42:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:11:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /* Forward declaration for libft function */
-t_size	ft_strlen(const char *s);
+size_t	ft_strlen(const char *s);
 
 char	*ft_strjoin_gnl(char *s1, const char *s2)
 {
 	char		*new_str;
 	char		*ptr;
-	t_size		len2;
-	t_size		len1;
+	size_t		len2;
+	size_t		len1;
 	char		*orig_s1;
 
-	len1 = s1 ? ft_strlen(s1) : 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	else
+		len1 = 0;
 	len2 = ft_strlen(s2);
 	new_str = malloc(len1 + len2 + 1);
 	if (!new_str)
@@ -40,7 +43,7 @@ char	*ft_strjoin_gnl(char *s1, const char *s2)
 	return (new_str);
 }
 
-t_fd_list	*ft_get_fd_node(t_fd_list **fd_list, t_size fd)
+t_fd_list	*ft_get_fd_node(t_fd_list **fd_list, size_t fd)
 {
 	t_fd_list	*current;
 	t_fd_list	*new_node;
@@ -62,7 +65,7 @@ t_fd_list	*ft_get_fd_node(t_fd_list **fd_list, t_size fd)
 	return (new_node);
 }
 
-void	ft_remove_fd_node(t_fd_list **fd_list, t_size fd)
+void	ft_remove_fd_node(t_fd_list **fd_list, size_t fd)
 {
 	t_fd_list	*prev;
 	t_fd_list	*current;

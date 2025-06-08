@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:04:20 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/29 00:08:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:15:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,27 @@
  * the new string and copies both `s1` and `s2` into it.
  * The new string is null-terminated.
  */
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*new_str;
-	char	*dst;
-	const char *src;
+	size_t	len1;
+	size_t	len2;
+	size_t	i;
+	size_t	j;
 
 	if (!s1 || !s2)
 		return (NULL);
-	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	new_str = malloc(len1 + len2 + 1);
 	if (!new_str)
 		return (NULL);
-	dst = new_str;
-	src = s1;
-	while (*src)
-		*dst++ = *src++;
-	src = s2;
-	while (*src)
-		*dst++ = *src++;
-	*dst = '\0';
+	i = -1;
+	while (++i < len1)
+		new_str[i] = s1[i];
+	j = -1;
+	while (++j < len2)
+		new_str[i + j] = s2[j];
+	new_str[i + j] = '\0';
 	return (new_str);
 }

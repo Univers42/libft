@@ -24,7 +24,7 @@
  * for overlapping areas, 
  *       `memmove` should be used instead.
  */
-void	*ft_memcpy(void *dest, const void *src, t_size n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	ft_memmove(dest, src, n);
 	return (dest);

@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:08:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:26:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:40:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "TDD/test.h"
+#include "ft_ctype.h"
+
 /**
  * Checks if the given character is printable, including space.
  * Printable characters are those with values between 32 
@@ -26,7 +27,7 @@ XORing with 1 inverts this (1 if in range, 0 if out of range)
  */
 int	ft_isprint(int c)
 {
-	return ((unsigned)((c - 32) | (126 - c)) >> 31 ^ 1);
+	return (c >= 32 && c <= 126);
 }
 //
 //#include <stdio.h>

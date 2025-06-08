@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:14:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 21:21:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:45:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //#include "TDD/test.h"
 //char *strrev(char *str)
 //{
-//    t_size str_len;
+//    size_t str_len;
 //    char *left;
 //    char *right;
 //
@@ -47,9 +47,6 @@
 //
 //}
 /**
- * Locates the last occurrence of the character `c` in the string `s`.
- * 
- * @param s The string to search for the character `c`.
  * @param c The character to search for in the string `s`.
  * @return A pointer to the last occurrence of `c` in the string `s`, 
  *         or NULL if `c` is not found.

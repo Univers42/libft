@@ -24,7 +24,7 @@
  * @note Unlike `memcpy`, `memmove` handles overlapping memory regions correctly
  *       by temporarily copying the data to a temporary buffer if needed.
  */
-void	*ft_memmove(void *dst, const void *src, t_size n)
+void	*ft_memmove(void *dst, const void *src, size_t n)
 {
 	const unsigned char	*s;
 	unsigned char		*d;
@@ -54,16 +54,16 @@ void	*ft_memmove(void *dst, const void *src, t_size n)
 //	char *str = "hello, world!";
 //	int arr[] = {31223,1,541,564,515,44,545467,889,51,31,54};
 //	int *ptr;
-//	t_size arr_size = sizeof(arr)/sizeof(arr[0]);
+//	size_t arr_size = sizeof(arr)/sizeof(arr[0]);
 //	ptr = malloc(sizeof(int)*arr_size);
 //	if(!ptr)
 //		return 1;
 //	ft_memmove((int *)ptr, (int *)arr, sizeof(arr));
 //	printf("original array: \n");
-//	for(t_size i = 0; i < arr_size; i++)
+//	for(size_t i = 0; i < arr_size; i++)
 //		printf("%d ", arr[i]);
 //	printf("\n");
-//	for(t_size i = 0; i < arr_size; i++)
+//	for(size_t i = 0; i < arr_size; i++)
 //		printf("%d ", ptr[i]);
 //	printf("\n");
 //	free(ptr);

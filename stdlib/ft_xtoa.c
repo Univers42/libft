@@ -16,9 +16,9 @@
 /**
  * Calculates the number of digits in a hexadecimal number
  */
-static t_size	ft_xtoa_len(unsigned long num)
+static size_t	ft_xtoa_len(unsigned long num)
 {
-	t_size	len;
+	size_t	len;
 
 	len = 0;
 	if (num == 0)
@@ -34,7 +34,7 @@ static t_size	ft_xtoa_len(unsigned long num)
 /**
  * Converts a number to hexadecimal string representation
  */
-static char	*ft_hex_to_str(unsigned long int num, char *str, t_size len)
+static char	*ft_hex_to_str(unsigned long int num, char *str, size_t len)
 {
 	int		mod;
 
@@ -42,7 +42,7 @@ static char	*ft_hex_to_str(unsigned long int num, char *str, t_size len)
 	if (str == NULL)
 		return (NULL);
 	len--;
-	while (len != (t_size)-1)
+	while (len != (size_t)-1)
 	{
 		mod = num % 16;
 		if (mod < 10)
@@ -61,7 +61,7 @@ static char	*ft_hex_to_str(unsigned long int num, char *str, t_size len)
  */
 char	*ft_xtoa(unsigned long int num, int is_upper)
 {
-	t_size	len;
+	size_t	len;
 	char	*str;
 	int		i;
 

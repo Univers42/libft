@@ -5,48 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 18:45:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:56:10 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/06/04 18:31:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-void	ft_print_padding(int count, char c)
-{
-	while (count-- > 0)
-		ft_printf("%c", c);
-}
-
-void	ft_print_centered_text(const char *text, int width)
-{
-	int	text_len = ft_strlen(text);
-	int	padding = (width - text_len) / 2;
-	int	remaining = width - text_len - padding;
-	
-	ft_print_padding(padding, ' ');
-	ft_printf("%s%s%s", BOLD, text, RESET);
-	ft_print_padding(remaining, ' ');
-}
-
-void	ft_print_status(const char *message, const char *status, const char *color)
-{
-	ft_printf("[%s%s%s] %s\n", color, status, RESET, message);
-}
-
-void	ft_print_progress_bar(int current, int total, int width)
-{
-	int	filled = (current * width) / total;
-	int	percentage = (current * 100) / total;
-	
-	ft_printf("[%s", GREEN);
-	ft_print_padding(filled, '#');
-	ft_printf("%s", RESET);
-	ft_print_padding(width - filled, '-');
-	ft_printf("] %d%%\r", percentage);
-}
+#include "ft_render.h"
 
 void	ft_clear_screen(void)
 {
-	ft_printf("\033[2J\033[H");
+	printf("\033[2J\033[H");
+	fflush(stdout);
+}
+
+void	ft_move_cursor(int x, int y)
+{
+	printf("\033[%d;%dH", y, x);
+	fflush(stdout);
+}
+
+int	ft_get_terminal_width(void)
+{
+	struct winsize	w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0)
+		return (w.ws_col);
+	return (80); // Default fallback
+}
+
+int	ft_get_terminal_height(void)
+{
+	struct winsize	w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0)
+		return (w.ws_row);
+	return (24);
+}
+
+void	ft_print_centered(const char *text)
+{
+	int	width;
+	int	padding;
+	int	i;
+
+	if (!text)
+		return ;
+	width = ft_get_terminal_width();
+	padding = (width - (int)strlen(text)) / 2;
+	i = 0;
+	while (i < padding)
+	{
+		printf(" ");
+		i++;
+	}
+	printf("%s\n", text);
 }

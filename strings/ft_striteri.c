@@ -12,7 +12,7 @@
 
 #include "../libft.h"
 //#include "TDD/test.h"
-//    t_size len = 0;
+//    size_t len = 0;
 //    while (s[len])
 //        len++;
 //    return (len);
@@ -23,7 +23,7 @@
 //    if (*c >= 'a' && *c <= 'z')
 //        *c -= 32; // Convert to uppercase
 //}
-//static t_size ft_strlen(char *s) {
+//static size_t ft_strlen(char *s) {
 
 /**
  * Iterates over each character in the string `s`

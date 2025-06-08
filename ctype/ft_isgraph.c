@@ -6,9 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 23:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:25:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:40:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_ctype.h"
 
 /**
  * Checks if the given character has a graphical representation.

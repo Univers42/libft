@@ -36,7 +36,7 @@
  *
  * Note: If @a and @b point to the same memory, the function does nothing.
  */
-void	ft_swap(void *a, void *b, t_size size)
+void	ft_swap(void *a, void *b, size_t size)
 {
 	unsigned char	*pa;
 	unsigned char	*pb;

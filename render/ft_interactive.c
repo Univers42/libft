@@ -6,60 +6,87 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 19:01:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:40:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_render.h"
+#include "../stdio/ft_stdio.h"
 
 void	ft_print_menu(char **options, int count, int selected)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	ft_printf("\n%s┌─ SELECT OPTION ─┐%s\n", CYAN, RESET);
 	while (i < count)
 	{
 		if (i == selected)
 			ft_printf("%s│ ► %-12s │%s\n", GREEN, options[i], RESET);
 		else
-			ft_printf("%s│   %-12s │%s\n", CYAN, options[i], RESET);
+			ft_printf("%s│   %-12s │%s\n", WHITE, options[i], RESET);
 		i++;
 	}
 	ft_printf("%s└─────────────────┘%s\n", CYAN, RESET);
 }
 
-void	ft_print_graph(int *values, int count, int max_height)
+static void	print_timeline_item(char *time, char *event, int is_last)
 {
-	int max_val = 0;
-	int i = 0;
-	
-	// Find maximum value
+	if (is_last)
+		ft_printf("%s└─ %s%s %s%s\n", CYAN, time, RESET, event, RESET);
+	else
+	{
+		ft_printf("%s├─ %s%s %s%s\n", CYAN, time, RESET, event, RESET);
+		ft_printf("%s│%s\n", CYAN, RESET);
+	}
+}
+
+void	ft_print_timeline(char **events, char **times, int count)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("\n%s── TIMELINE ──%s\n", CYAN, RESET);
 	while (i < count)
 	{
-		if (values[i] > max_val)
-			max_val = values[i];
+		print_timeline_item(times[i], events[i], (i == count - 1));
 		i++;
 	}
-	
-	// Print graph from top to bottom
-	int row = max_height;
-	while (row > 0)
+}
+
+static void	print_graph_row(int *values, int count, t_graph_params params)
+{
+	int	i;
+	int	bar_height;
+
+	i = 0;
+	while (i < count)
 	{
-		i = 0;
-		while (i < count)
-		{
-			int bar_height = (values[i] * max_height) / max_val;
-			if (bar_height >= row)
-				ft_printf("%s█%s", GREEN, RESET);
-			else
-				ft_printf(" ");
-			i++;
-		}
-		ft_printf("\n");
-		row--;
+		bar_height = (values[i] * params.max_height) / params.max_val;
+		if (bar_height >= params.row)
+			ft_printf("%s█%s", GREEN, RESET);
+		else
+			ft_printf(" ");
+		i++;
 	}
-	
-	// Print values at bottom
+	ft_printf("\n");
+}
+
+void	ft_print_graph(int *values, int count, int max_height)
+{
+	t_graph_params	params;
+	int				i;
+
+	params.max_val = 0;
+	i = 0;
+	while (i < count && values[i] > params.max_val)
+		params.max_val = values[i++];
+	params.row = max_height;
+	while (params.row > 0)
+	{
+		print_graph_row(values, count, params);
+		params.row--;
+	}
 	i = 0;
 	while (i < count)
 	{
@@ -67,36 +94,4 @@ void	ft_print_graph(int *values, int count, int max_height)
 		i++;
 	}
 	ft_printf("\n");
-}
-
-void	ft_print_loading_spinner(int duration_ms)
-{
-	char *spinner = "|/-\\";
-	int i = 0;
-	int cycles = duration_ms / 100;
-	
-	while (i < cycles)
-	{
-		ft_printf("\r%sLoading %c%s", YELLOW, spinner[i % 4], RESET);
-		usleep(100000);
-		i++;
-	}
-	ft_printf("\r%sLoading complete!%s\n", GREEN, RESET);
-}
-
-void	ft_print_timeline(char **events, char **times, int count)
-{
-	int i = 0;
-	
-	ft_printf("\n%s── TIMELINE ──%s\n", CYAN, RESET);
-	while (i < count)
-	{
-		if (i == count - 1)
-			ft_printf("%s└─ %s%s %s%s\n", CYAN, times[i], RESET, events[i], RESET);
-		else
-			ft_printf("%s├─ %s%s %s%s\n", CYAN, times[i], RESET, events[i], RESET);
-		if (i < count - 1)
-			ft_printf("%s│%s\n", CYAN, RESET);
-		i++;
-	}
 }

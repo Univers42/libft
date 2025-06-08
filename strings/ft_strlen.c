@@ -26,7 +26,7 @@
  * counting the number of characters.
  */
 //cause👇🏽👇🏽segmentation fault with strjoin
-//t_size	ft_strlen(const char *s)
+//size_t	ft_strlen(const char *s)
 //{
 //	const char	*cpy;
 //
@@ -36,23 +36,23 @@
 //	return ((s - cpy) - 1);
 //}
 
-//t_size ft_strlen(const char *s)
+//size_t ft_strlen(const char *s)
 //{
-//    t_size len = 0;
+//    size_t len = 0;
 //    while (s && *s++)
 //        len++;
 //    return len;
 //}
 //yo
 //fr
-//t_size ft_strlen(const char *s)
+//size_t ft_strlen(const char *s)
 //{
 //    int i = 0;
 //    while(s[i])
 //        i++;
 //    return i;
 //}
-t_size	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	const char	*ptr;
 
@@ -61,20 +61,20 @@ t_size	ft_strlen(const char *s)
 		;
 	return ((ptr - s) - 1);
 }
-//t_size ft_strlen(const char *s)
+//size_t ft_strlen(const char *s)
 //{
 //    const char *start;
-//    const t_size *word_ptr;
-//    t_size word;
+//    const size_t *word_ptr;
+//    size_t word;
 //    
 //    start = s;
-//    while(((uintptr_t)s  & (sizeof(t_size) - 1)) != 0)
+//    while(((uintptr_t)s  & (sizeof(size_t) - 1)) != 0)
 //    {
 //        if (*s == '\0')
 //            return s - start;
 //        s++;
 //    }
-//    word_ptr = (const t_size *)s;
+//    word_ptr = (const size_t *)s;
 //    while (1)
 //    {
 //        word = * word_ptr++;

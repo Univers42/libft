@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/27 21:09:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:49:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
  * @return a new multidimensional array of characters, NULL if faulty
  */
 
-static int	safe_malloc(char **token_v, t_size pos, t_size buffer)
+static int	safe_alloc(char **token_v, size_t pos, size_t buffer)
 {
-	t_size	i;
+	size_t	i;
 
 	i = 0;
 	token_v[pos] = malloc(buffer);
@@ -47,11 +47,11 @@ static int	safe_malloc(char **token_v, t_size pos, t_size buffer)
 static int	allocate_and_copy_token(char **tokens,
 									char **current_token,
 									const char *start,
-									t_size len)
+									size_t len)
 {
 	char	*token;
 
-	if (safe_malloc(tokens, current_token - tokens, len + 1))
+	if (safe_alloc(tokens, current_token - tokens, len + 1))
 		return (1);
 	token = *current_token;
 	while (len--)
@@ -63,11 +63,11 @@ static int	allocate_and_copy_token(char **tokens,
 static int	allocate_and_copy_tokens(char **tokens,
 									const char *s,
 									char delimiter,
-									t_size token_count)
+									size_t token_count)
 {
 	char		**current_token;
 	const char	*start;
-	t_size		len;
+	size_t		len;
 
 	current_token = tokens;
 	while (*s && current_token < tokens + token_count)
@@ -90,7 +90,7 @@ static int	allocate_and_copy_tokens(char **tokens,
 
 static int	count_segments(const char *str, char delimiter)
 {
-	t_size	segment;
+	size_t	segment;
 	int		in_segment;
 
 	segment = 0;
@@ -111,7 +111,7 @@ static int	count_segments(const char *str, char delimiter)
 
 char	**ft_split(char const *s, char c)
 {
-	t_size	tokens;
+	size_t	tokens;
 	char	**token_v;
 
 	if (!s)

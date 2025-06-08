@@ -29,7 +29,7 @@
  * and the result is based on the difference between 
  * the first differing byte. If no differences are found, zero is returned.
  */
-int	ft_memcmp(const void *s1, const void *s2, t_size n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t	i;
 

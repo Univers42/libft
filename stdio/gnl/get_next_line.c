@@ -13,9 +13,9 @@
 #include "get_next_line.h"
 
 /* Forward declarations for libft functions */
-void	*ft_memmove(void *dst, const void *src, t_size n);
-t_size	ft_strclen(const char *s, int c);
-char	*ft_strndup(const char *s, t_size n);
+void	*ft_memmove(void *dst, const void *src, size_t n);
+size_t	ft_strclen(const char *s, int c);
+char	*ft_strndup(const char *s, size_t n);
 
 static char	*ft_store_chunks(int fd, char *memory)
 {
@@ -81,15 +81,15 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node = ft_get_fd_node(&fd_list, (t_size)fd);
+	fd_node = ft_get_fd_node(&fd_list, (size_t)fd);
 	if (!fd_node)
 		return (NULL);
 	fd_node->memory = ft_store_chunks(fd, fd_node->memory);
 	if (!fd_node->memory)
-		return (ft_remove_fd_node(&fd_list, (t_size)fd), NULL);
+		return (ft_remove_fd_node(&fd_list, (size_t)fd), NULL);
 	line = ft_get_line(fd_node->memory);
 	fd_node->memory = ft_get_leftover(fd_node->memory);
 	if (!line)
-		ft_remove_fd_node(&fd_list, (t_size)fd);
+		ft_remove_fd_node(&fd_list, (size_t)fd);
 	return (line);
 }

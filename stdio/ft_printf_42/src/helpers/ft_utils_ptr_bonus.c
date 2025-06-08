@@ -19,7 +19,7 @@
  * @param uppercase Flag to use uppercase letters for hex
  * @return Number of characters printed
  */
-int	ft_print_hex_value(t_size n, int uppercase)
+int	ft_print_hex_value(size_t n, int uppercase)
 {
 	int		count;
 	char	*hex_digits;

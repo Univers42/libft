@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_types_bonus.h                                   :+:      :+:    :+:   */
+/*   ft_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 21:00:00 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/03/23 23:39:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_TYPES_BONUS_H
-# define FT_TYPES_BONUS_H
+#ifndef FT_TYPES_H
+# define FT_TYPES_H
 
 /**
  *  Flag bit positions

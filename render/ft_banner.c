@@ -5,46 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 18:45:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:54:49 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/06/04 14:33:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_render.h"
 
-void	ft_print_banner(const char *title, const char *subtitle, t_banner_style style)
+static void	print_border(int width, char corner, char line)
 {
-	int	width = 60;
-	int	title_len = ft_strlen(title);
-	int	subtitle_len = subtitle ? ft_strlen(subtitle) : 0;
-	
-	if (title_len + 4 > width)
-		width = title_len + 6;
-	if (subtitle_len + 4 > width)
-		width = subtitle_len + 6;
+	int	i;
 
-	ft_printf("\n");
-	
+	printf("%c", corner);
+	i = 0;
+	while (i < width - 2)
+	{
+		printf("%c", line);
+		i++;
+	}
+	printf("%c\n", corner);
+}
+
+static void	print_centered(const char *text, int width)
+{
+	int	text_len;
+	int	padding;
+	int	i;
+
+	if (!text)
+		return ;
+	text_len = strlen(text);
+	if (text_len > width - 4)
+		text_len = width - 4;
+	padding = (width - text_len) / 2;
+	i = 0;
+	while (i < padding)
+	{
+		printf(" ");
+		i++;
+	}
+	printf("%s\n", text);
+}
+
+void	ft_print_banner(const char *title, const char *subtitle,
+			t_banner_style style)
+{
+	int		width;
+	char	corner;
+	char	line;
+
+	if (!title)
+		return ;
+	width = ft_get_terminal_width();
+	if (width > 80)
+		width = 80;
+	corner = '+';
+	line = '-';
 	if (style == BANNER_DOUBLE)
 	{
-		ft_printf("%s+", CYAN);
-		ft_print_padding(width - 2, '=');
-		ft_printf("+%s\n", RESET);
-		
-		ft_printf("%s|", CYAN);
-		ft_print_centered_text(title, width - 2);
-		ft_printf("|%s\n", RESET);
-		
-		if (subtitle)
-		{
-			ft_printf("%s|", CYAN);
-			ft_print_centered_text(subtitle, width - 2);
-			ft_printf("|%s\n", RESET);
-		}
-		
-		ft_printf("%s+", CYAN);
-		ft_print_padding(width - 2, '=');
-		ft_printf("+%s\n", RESET);
+		corner = '#';
+		line = '=';
 	}
-	ft_printf("\n");
+	print_border(width, corner, line);
+	print_centered(title, width);
+	if (subtitle)
+		print_centered(subtitle, width);
+	print_border(width, corner, line);
+}
+
+void	ft_print_boxed(const char *text)
+{
+	int	width;
+	int	text_len;
+	int	padding;
+	int	i;
+
+	if (!text)
+		return ;
+	width = ft_get_terminal_width();
+	text_len = strlen(text);
+	if (text_len > width - 4)
+		text_len = width - 4;
+	padding = (width - text_len - 2) / 2;
+	print_border(width, '+', '-');
+	printf("|");
+	i = -1;
+	while (++i < padding)
+		printf(" ");
+	printf("%.*s", text_len, text);
+	i = -1;
+	while (++i < width - text_len - padding - 2)
+		printf(" ");
+	printf("|\n");
+	print_border(width, '+', '-');
 }

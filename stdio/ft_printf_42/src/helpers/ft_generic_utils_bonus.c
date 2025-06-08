@@ -28,7 +28,7 @@ int	ft_print_c(char c)
  * @return The number of digits
  * @note  
  */
-int	ft_nbr_len(t_size n, int base)
+int	ft_nbr_len(size_t n, int base)
 {
 	int	len;
 
@@ -37,7 +37,7 @@ int	ft_nbr_len(t_size n, int base)
 		return (1);
 	while (n > 0)
 	{
-		n /= (t_size)base;
+		n /= (size_t)base;
 		len++;
 	}
 	return (len);

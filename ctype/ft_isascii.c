@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:05:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:21:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:40:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "TDD/test.h"
+#include "ft_ctype.h"
+
 /**
  * Checks if the given character is part of the ASCII character set.
  * The ASCII character set includes characters with values from 0 to 127.
@@ -23,7 +24,7 @@
  */
 int	ft_isascii(int c)
 {
-	return (!((c & ~0x7F)));
+	return (c >= 0 && c <= 127);
 }
 //
 //#include <stdio.h>

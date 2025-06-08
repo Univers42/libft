@@ -26,7 +26,7 @@
  * we can pass any type of pointer to this function
  */
 // definition of the function
-//void *ft_memset(void *ptr, int value, t_size num) {
+//void *ft_memset(void *ptr, int value, size_t num) {
 //    unsigned char *byte_ptr = (unsigned char *)ptr;
 //    unsigned char byte_value = (unsigned char)value;
 //
@@ -64,7 +64,7 @@
  * @note The `value` is treated as an unsigned char, 
  * and it is replicated across the `num` bytes.
  */
-void	*ft_memset(void *ptr, int value, t_size num)
+void	*ft_memset(void *ptr, int value, size_t num)
 {
 	unsigned char	*byte;
 

@@ -19,7 +19,7 @@
  * @param s Pointer to the memory area to be zeroed.
  * @param n Number of bytes to set to zero.
  */
-void	ft_bzero(void *s, t_size n)
+void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
 }
@@ -32,7 +32,7 @@ void	ft_bzero(void *s, t_size n)
  * as old network data) remains in memory. 
  */
 
-//void prepare_network_packet(char *buffer, t_size size)
+//void prepare_network_packet(char *buffer, size_t size)
 //{
 	/**
 	 * int this functio we initialize the buffer;
@@ -50,14 +50,14 @@ void	ft_bzero(void *s, t_size n)
 //	ft_memcpy(buffer, "START", 5);
 //	printf("Buffer prepare for sending: \n");
 //	printf("Byte-by-byte content of buffer : \n");
-//	for (t_size i = 0; i < size; i++)
+//	for (size_t i = 0; i < size; i++)
 //	//this will print byte-byte  in hexadecimal format
 //		printf("%02x ", (unsigned char)*(buffer + i));
 //	printf("\n");
 //}
 //int main(void)
 //{
-//	t_size DEST_BUF;
+//	size_t DEST_BUF;
 //	char *packet_buffer;
 //	
 //	printf("how many allocation you need for buffer :");

@@ -6,21 +6,20 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:36:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:56:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:08:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../render/ft_stddef.h"
-
+#include "ft_string.h"
 t_size	ft_strclen(const char *s, int c)
 {
-	t_size	i;
+	t_size	len;
 
-	i = 0;
 	if (!s)
 		return (0);
-	while (s[i] && s[i] != c)
-		i++;
-	return (i);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
 }
-

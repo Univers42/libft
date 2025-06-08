@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 18:31:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/08 12:33:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_get_terminal_width(void)
 
 	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0)
 		return (w.ws_col);
-	return (80); // Default fallback
+	return (80);
 }
 
 int	ft_get_terminal_height(void)

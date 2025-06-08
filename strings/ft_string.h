@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/07 01:06:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/08 12:34:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_countwords(const char *s1, const char limiter);
 int		ft_countwords_space(const char *s1);
 long	ft_atol(const char *str);
-char    *ft_strnjoin(const char *first, ...);
+char	*ft_strnjoin(const char *first, ...);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strtok(char *str, const char *delim);

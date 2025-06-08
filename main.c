@@ -6,17 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:48:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 18:04:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/08 12:37:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-    printf("Libft test compiled successfully!\n");
-    return (0);
+	ft_printf("Libft test compiled successfully!\n");
+	return (0);
 }
 
 //#include "libft.h"

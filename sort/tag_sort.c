@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tag_sort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 21:50:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 22:00:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:42:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-typedef struct s_tagged_element
-{
-    int value;
-    int tag;
-}t_tagged_element;
 
 static t_tagged_element *create_tagged_array(int *arr, int size)
 {
@@ -64,29 +57,15 @@ void tag_sort(int *arr, int size)
     free(tagged);
 }
 
-void print_array(int *arr, int size, const char *label)
-{
-    int i;
-    
-    printf("%s: ", label);
-    for (i = 0; i < size; i++)
-    {
-        printf("%d", arr[i]);
-        if (i < size - 1)
-            printf(", ");
-    }
-    printf("\n");
-}
-
-int main(void)
-{
-    int arr[] = {64, 34, 25, 12, 22, 11, 90};
-    int size = sizeof(arr) / sizeof(arr[0]);
-    
-    printf("=== Tag Sort Test ===\n");
-    print_array(arr, size, "Before sorting");
-    tag_sort(arr, size);
-    print_array(arr, size, "After sorting");
-    
-    return (0);
-}
+//int main(void)
+//{
+//    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//    
+//    printf("=== Tag Sort Test ===\n");
+//    print_array(arr, size);
+//    tag_sort(arr, size);
+//    print_array(arr, size);
+//    
+//    return (0);
+//}

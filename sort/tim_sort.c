@@ -3,58 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tim_sort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:12:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 13:50:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:56:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ft_sort.h"
-
-#define RUN 32
-
-static int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-void	insertion_sort(int arr[], int left, int right)
-{
-	int	i;
-	int	j;
-	int	key;
-
-	i = left + 1;
-	while (i <= right)
-	{
-		key = arr[i];
-		j = i - 1;
-		while (j >= left && arr[j] > key)
-		{
-			arr[j + 1] = arr[j];
-			j--;
-		}
-		arr[j + 1] = key;
-		i++;
-	}
-}
-
-static void	print_array(int *arr, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		printf("%d ", arr[i]);
-		i++;
-	}
-	printf("\n");
-}
 
 static void	tim_sort_runs(int *arr, int n)
 {
@@ -96,17 +52,17 @@ void	tim_sort(int *arr, int n)
 	tim_sort_runs(arr, n);
 	tim_sort_merge(arr, n);
 }
-
-int	main(void)
-{
-	int	arr[] = {2, 802, 24, 45, 66, 170, 75, 90};
-	int	size;
-
-	size = 8;
-	printf("Original array: ");
-	print_array(arr, size);
-	tim_sort(arr, size);
-	printf("Sorted array: ");
-	print_array(arr, size);
-	return (0);
-}
+//
+//int	main(void)
+//{
+//	int	arr[] = {2, 802, 24, 45, 66, 170, 75, 90};
+//	int	size;
+//
+//	size = 8;
+//	printf("Original array: ");
+//	print_array(arr, size);
+//	tim_sort(arr, size);
+//	printf("Sorted array: ");
+//	print_array(arr, size);
+//	return (0);
+//}

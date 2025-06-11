@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   merge_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:57:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 13:38:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:20:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static void	fill_left(int *arr, int *left, int l, int m)
 {

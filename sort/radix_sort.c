@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   radix_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:58:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 15:17:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:56:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-int	max(int *arr, int size)
-{
-	int	max_rest;
-
-	if (size == 1)
-		return (arr[0]);
-	max_rest = max(arr + 1, size - 1);
-	if (arr[0] > max_rest)
-		return (arr[0]);
-	else
-		return (max_rest);
-}
 
 int	get_max_bits(int max_num)
 {

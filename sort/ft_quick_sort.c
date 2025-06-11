@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quick_sort.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:17:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/09 16:58:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:44:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
 
-static void swap_elements(int *a, int *b)
-{
-    if (!a || !b || a == b)
-        return ;
-    (*a ^= *b) , (*b ^= *a), (*a ^= *b);
-}
 /**
  * Initial: [64, 34, 25, 12, 22, 90]  pivot=90, i=-1
 
@@ -67,22 +60,22 @@ int *ft_quick_sort(int *arr, int low, int high)
     }
 }
 
-int main(void)
-{
-    int arr[] = {64, 34, 25, 12, 22, 90};
-    int size = 6;
-    
-    printf("Before sorting: ");
-    for (int i = 0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-    
-    ft_quick_sort(arr, 0, size - 1);
-    
-    printf("After sorting: ");
-    for (int i = 0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-    
-    return (0);
-}
+//int main(void)
+//{
+//    int arr[] = {64, 34, 25, 12, 22, 90};
+//    int size = 6;
+//    
+//    printf("Before sorting: ");
+//    for (int i = 0; i < size; i++)
+//        printf("%d ", arr[i]);
+//    printf("\n");
+//    
+//    ft_quick_sort(arr, 0, size - 1);
+//    
+//    printf("After sorting: ");
+//    for (int i = 0; i < size; i++)
+//        printf("%d ", arr[i]);
+//    printf("\n");
+//    
+//    return (0);
+//}

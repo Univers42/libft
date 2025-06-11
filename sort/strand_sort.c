@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   strand_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:02:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 22:12:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:43:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 
 // Helper: merge two sorted arrays into result
 void merge(int *result, int *a, int a_size, int *b, int b_size) {
@@ -71,25 +70,14 @@ void strand_sort(int *arr, int size) {
     free(used);
 }
 
-// Test function
-void print_array(int *arr, int size, const char *label) {
-    printf("%s: ", label);
-    for (int i = 0; i < size; i++) {
-        printf("%d", arr[i]);
-        if (i < size - 1)
-            printf(", ");
-    }
-    printf("\n");
-}
-
-int main(void) {
-    int arr[] = {64, 34, 25, 12, 22, 11, 90};
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    printf("=== Strand Sort Test ===\n");
-    print_array(arr, size, "Before sorting");
-    strand_sort(arr, size);
-    print_array(arr, size, "After sorting");
-
-    return 0;
-}
+//int main(void) {
+//    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//
+//    printf("=== Strand Sort Test ===\n");
+//    print_array(arr, size);
+//    strand_sort(arr, size);
+//    print_array(arr, size);
+//
+//    return 0;
+//}

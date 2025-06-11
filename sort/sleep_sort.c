@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sleep_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 17:24:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:43:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <pthread.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-// Structure to pass data to thread
-typedef struct s_thread_data
-{
-	int				value;
-	int				*result_array;
-	int				*index;
-	pthread_mutex_t	*mutex;
-}	t_thread_data;
 
 // Thread function that sleeps and then stores the value
 static void	*sleep_and_store(void *arg)
@@ -100,35 +88,20 @@ int	*ft_sleep_sort(int *arr, int size)
 	return (result);
 }
 
-// Helper function to print array
-static void	print_array(int *arr, int size, char *label)
-{
-	int	i;
-
-	printf("%s: ", label);
-	i = 0;
-	while (i < size)
-	{
-		printf("%d ", arr[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-int	main(void)
-{
-	int	arr[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
-	int	size = 10;
-	int	*sorted_result;
-
-	print_array(arr, size, "Original array");
-	printf("\n=== Sleep Sort ===\n");
-	printf("Sorted values will appear as threads wake up:\n");
-	sorted_result = ft_sleep_sort(arr, size);
-	if (sorted_result)
-	{
-		print_array(sorted_result, size, "Sorted result");
-		free(sorted_result);
-	}
-	return (0);
-}
+//int	main(void)
+//{
+//	int	arr[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
+//	int	size = 10;
+//	int	*sorted_result;
+//
+//	print_array(arr, size, "Original array");
+//	printf("\n=== Sleep Sort ===\n");
+//	printf("Sorted values will appear as threads wake up:\n");
+//	sorted_result = ft_sleep_sort(arr, size);
+//	if (sorted_result)
+//	{
+//		print_array(sorted_result, size);
+//		free(sorted_result);
+//	}
+//	return (0);
+//}

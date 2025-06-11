@@ -3,28 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   coktail_shaker_sort.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:15:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 16:45:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:47:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include "stdio.h"
 /**
  * bi directional bubble sort
  * it is a variation of bubble sort that's easier to understand and implement
  * 
  */
-
-
- static void swap (int *a, int *b)
-{
-    if (!a || !b || a == b)
-        return ;
-        (*a ^= *b), (*b ^= *a), (*a ^= *b);
-}
 
 void	cocktail_shaker_sort(int *arr, int size)
 {
@@ -67,20 +58,12 @@ void	cocktail_shaker_sort(int *arr, int size)
         start++;
     }
 }
-void    print_array(int *arr, int size)
-{
-    int i;
 
-    i = -1;
-    while (++i < size)
-        printf("[%d] ==> %d\n",i,  arr[i]);
-}
-
-int main(void)
-{
-    int arr[] = {32, 1, 12, 53, 41};
-    int size = sizeof(arr) / sizeof(arr[0]);
-    print_array(arr, size);
-    cocktail_shaker_sort(arr, size);
-    print_array(arr, size);
-}
+//int main(void)
+//{
+//    int arr[] = {32, 1, 12, 53, 41};
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//    print_array(arr, size);
+//    cocktail_shaker_sort(arr, size);
+//    print_array(arr, size);
+//}

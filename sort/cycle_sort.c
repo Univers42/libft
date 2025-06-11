@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cycle_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:07:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 17:22:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:50:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static void	print_array(int *arr, int size);
 static int	find_position(int *arr, int size, int item, int start);
@@ -34,12 +32,6 @@ static int	find_position(int *arr, int size, int item, int start)
 		i++;
 	}
 	return (pos);
-}
-
-static void	handle_duplicates(int *arr, int *pos, int item)
-{
-	while (item == arr[*pos])
-		(*pos)++;
 }
 
 static int	place_item(int *arr, int *item, int pos, int start)
@@ -103,31 +95,19 @@ int	ft_cycle_sort(int *arr, int size)
 	return (writes);
 }
 
-static void	print_array(int *arr, int size)
-{
-	int	i;
 
-	i = 0;
-	while (i < size)
-	{
-		printf("%d ", arr[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-int	main(void)
-{
-	int	arr2[] = {20, 30, 10, 40, 60, 50, 5};
-	int	size2;
-	int	writes;
-
-	size2 = 7;
-	printf("Original array: ");
-	print_array(arr2, size2);
-	writes = ft_cycle_sort(arr2, size2);
-	printf("Sorted array: ");
-	print_array(arr2, size2);
-	printf("Total writes: %d\n", writes);
-	return (0);
-}
+//int	main(void)
+//{
+//	int	arr2[] = {20, 30, 10, 40, 60, 50, 5};
+//	int	size2;
+//	int	writes;
+//
+//	size2 = 7;
+//	printf("Original array: ");
+//	print_array(arr2, size2);
+//	writes = ft_cycle_sort(arr2, size2);
+//	printf("Sorted array: ");
+//	print_array(arr2, size2);
+//	printf("Total writes: %d\n", writes);
+//	return (0);
+//}

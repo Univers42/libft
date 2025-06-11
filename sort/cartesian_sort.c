@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cartesian_sort.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:13:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 16:14:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:25:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <ft_sort.h>
-
-#include "ft_sort.h"
-#include <stdlib.h>
-
-typedef struct s_node
-{
-    int				value;
-    int				index;
-    struct s_node	*left;
-    struct s_node	*right;
-}	t_node;
 
 static t_node	*create_node(int value, int index)
 {

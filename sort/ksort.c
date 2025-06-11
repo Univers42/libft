@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ksort.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:17:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 22:17:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:58:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "ft_sort.h"
 
-// Swap helper
-static void swap(int *a, int *b) {
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
 
 // Min-heap helpers
 static void heapify_down(int *heap, int size, int i) {
@@ -79,26 +72,15 @@ void ksort(int *arr, int n, int k) {
     free(heap);
 }
 
-// Test function
-void print_array(int *arr, int size, const char *label) {
-    printf("%s: ", label);
-    for (int i = 0; i < size; i++) {
-        printf("%d", arr[i]);
-        if (i < size - 1)
-            printf(", ");
-    }
-    printf("\n");
-}
-
-int main(void) {
-    int arr[] = {6, 5, 3, 2, 8, 10, 9};
-    int size = sizeof(arr) / sizeof(arr[0]);
-    int k = 3;
-
-    printf("=== K-Sort Test (k=%d) ===\n", k);
-    print_array(arr, size, "Before sorting");
-    ksort(arr, size, k);
-    print_array(arr, size, "After sorting");
-
-    return 0;
-}
+//int main(void) {
+//    int arr[] = {6, 5, 3, 2, 8, 10, 9};
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//    int k = 3;
+//
+//    printf("=== K-Sort Test (k=%d) ===\n", k);
+//    print_array(arr, size);
+//    ksort(arr, size, k);
+//    print_array(arr, size);
+//
+//    return 0;
+//}

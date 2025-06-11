@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "ft_sort.h"
 
 // Compare function for qsort
 static int cmp_int(const void *a, const void *b) {

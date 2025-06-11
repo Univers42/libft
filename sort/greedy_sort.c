@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   greedy_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:26:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 22:31:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:59:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct s_stack
-{
-    int *data;
-    int size;
-}t_stack;
-
-
-int find_min_index(t_stack *stack)
-{
-    int min = stack->data[0];
-    int idx = 0;
-    for (int i = 1; i < stack->size; i++)
-    {
-        if (stack->data[i] < min)
-        {
-            min = stack->data[i];
-            idx = i;
-        }
-    }
-    return idx;
-}
 
 void rotate(t_stack *stack) {
     if (stack->size < 2) return;
@@ -84,12 +60,12 @@ void greedy_sort(int *arr, int size) {
 }
 
 // Test
-int main(void) {
-    int arr[] = {5, 2, 4, 3, 1};
-    int size = sizeof(arr) / sizeof(arr[0]);
-    greedy_sort(arr, size);
-    for (int i = 0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-    return 0;
-}
+//int main(void) {
+//    int arr[] = {5, 2, 4, 3, 1};
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//    greedy_sort(arr, size);
+//    for (int i = 0; i < size; i++)
+//        printf("%d ", arr[i]);
+//    printf("\n");
+//    return 0;
+//}

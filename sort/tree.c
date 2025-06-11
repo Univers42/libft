@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:36:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 19:15:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:53:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ft_sort.h"
 
 
@@ -200,22 +199,22 @@ void print_visual_tree(int *arr, int size)
 	printf("\n");
 }
 
-int main(void)
-{
-    int arr[] = {50, 30, 70, 20, 40, 60, 80,1,65,1,6,5,54};
-    int size = sizeof(arr)/ sizeof(arr[0]);
-    int i;
-    
-    printf("Array: ");
-    i = 0;
-    while (i < size)
-    {
-        printf("%d ", arr[i]);
-        i++;
-    }
-    printf("\nTree relationships:\n");
-    print_tree_relationships(arr, size);
-    print_visual_tree(arr, size);
-    
-    return (0);
-}
+//int main(void)
+//{
+//    int arr[] = {50, 30, 70, 20, 40, 60, 80,1,65,1,6,5,54};
+//    int size = sizeof(arr)/ sizeof(arr[0]);
+//    int i;
+//    
+//    printf("Array: ");
+//    i = 0;
+//    while (i < size)
+//    {
+//        printf("%d ", arr[i]);
+//        i++;
+//    }
+//    printf("\nTree relationships:\n");
+//    print_tree_relationships(arr, size);
+//    print_visual_tree(arr, size);
+//    
+//    return (0);
+//}

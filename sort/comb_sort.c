@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   comb_sort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:57:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/10 17:02:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:45:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <stdio.h>
-
-
-static void swap(int *a, int *b)
-{
-    int temp;
-
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
 
 static int get_next_gap(int gap)
 {
@@ -57,29 +46,15 @@ void    comb_sort(int *arr, int size)
     }
 }
 
-
-void	print_array(int *arr, int size)
-{
-    int	i;
-
-    i = 0;
-    while (i < size)
-    {
-        printf("%d ", arr[i]);
-        i++;
-    }
-    printf("\n");
-}
-
-int	main(void)
-{
-    int	arr[] = {8, 4, 1, 56, 3, -44, 23, -6, 28, 0};
-    int	size = sizeof(arr) / sizeof(arr[0]);
-
-    printf("Original array: ");
-    print_array(arr, size);
-    comb_sort(arr, size);
-    printf("Sorted array:   ");
-    print_array(arr, size);
-    return (0);
-}
+//int	main(void)
+//{
+//    int	arr[] = {8, 4, 1, 56, 3, -44, 23, -6, 28, 0};
+//    int	size = sizeof(arr) / sizeof(arr[0]);
+//
+//    printf("Original array: ");
+//    print_array(arr, size);
+//    comb_sort(arr, size);
+//    printf("Sorted array:   ");
+//    print_array(arr, size);
+//    return (0);
+//}

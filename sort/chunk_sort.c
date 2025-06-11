@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:57:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/09 22:33:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:48:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,41 +23,6 @@
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-static int get_min(int *arr, int size)
-{
-    int min_val;
-    int i;
-
-    min_val = arr[0];
-    i = 1;
-    while (i < size)
-    {
-        if (arr[i] < min_val)
-            min_val = arr[i];
-        i++;
-    }
-    return (min_val);
-}
-
-static int get_max(int *arr, int size)
-{
-    int max_val;
-    int i;
-
-    max_val = arr[0];
-    i = 1;
-    while (i < size)
-    {
-        if (arr[i] > max_val)
-            max_val = arr[i];
-        i++;
-    }
-    return (max_val);
-}
 
 static int normalized_value(int val, int min, int max, char *stat)
 {
@@ -214,32 +179,18 @@ void ft_chunk_sort(int *arr, int size)
     free(sorted_arr);
 }
 
-// Helper function to print array
-static void print_array(int *arr, int size)
-{
-    int i;
-    
-    i = 0;
-    while (i < size)
-    {
-        printf("%d ", arr[i]);
-        i++;
-    }
-    printf("\n");
-}
-
-int main(void)
-{
-    int arr[] = {2, 802, 24, 45, 66, 170, 75, 90};
-    int size = 8;
-
-    printf("Original array: ");
-    print_array(arr, size);
-
-    ft_chunk_sort(arr, size);
-
-    printf("Sorted array: ");
-    print_array(arr, size);
-
-    return (0);
-}
+//int main(void)
+//{
+//    int arr[] = {2, 802, 24, 45, 66, 170, 75, 90};
+//    int size = 8;
+//
+//    printf("Original array: ");
+//    print_array(arr, size);
+//
+//    ft_chunk_sort(arr, size);
+//
+//    printf("Sorted array: ");
+//    print_array(arr, size);
+//
+//    return (0);
+//}

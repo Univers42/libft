@@ -3,68 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   cycle_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:07:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:50:54 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:23:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-static void	print_array(int *arr, int size);
-static int	find_position(int *arr, int size, int item, int start);
-static void	handle_duplicates(int *arr, int *pos, int item);
-static int	place_item(int *arr, int *item, int pos, int start);
-static int	complete_cycle(int *arr, int size, int *item, int start);
-
-static int	find_position(int *arr, int size, int item, int start)
+static int	find_correct_position(int *arr, int size, int value)
 {
 	int	pos;
 	int	i;
 
-	pos = start;
-	i = start + 1;
+	pos = 0;
+	i = 0;
 	while (i < size)
 	{
-		if (arr[i] < item)
+		if (arr[i] < value)
 			pos++;
 		i++;
 	}
 	return (pos);
 }
 
-static int	place_item(int *arr, int *item, int pos, int start)
+static void	handle_duplicate_values(int *arr, int *pos, int value, int size)
 {
-	int	temp;
-
-	if (pos != start)
-	{
-		temp = *item;
-		*item = arr[pos];
-		arr[pos] = temp;
-		return (1);
-	}
-	return (0);
-}
-
-static int	complete_cycle(int *arr, int size, int *item, int start)
-{
-	int	pos;
-	int	writes;
-
-	writes = 0;
-	pos = find_position(arr, size, *item, start);
-	handle_duplicates(arr, &pos, *item);
-	writes += place_item(arr, item, pos, start);
-	while (pos != start)
-	{
-		pos = find_position(arr, size, *item, start);
-		handle_duplicates(arr, &pos, *item);
-		if (*item != arr[pos])
-			writes += place_item(arr, item, pos, start);
-	}
-	return (writes);
+	while (*pos < size && arr[*pos] == value)
+		(*pos)++;
 }
 
 int	ft_cycle_sort(int *arr, int size)
@@ -73,28 +40,58 @@ int	ft_cycle_sort(int *arr, int size)
 	int	cycle_start;
 	int	item;
 	int	pos;
+	int	temp;
 
 	if (!arr || size <= 1)
 		return (0);
 	writes = 0;
 	cycle_start = 0;
-	while (cycle_start <= size - 2)
+	while (cycle_start < size - 1)
 	{
 		item = arr[cycle_start];
-		pos = find_position(arr, size, item, cycle_start);
+		pos = cycle_start;
+		
+		// Count how many elements are smaller than item
+		pos = find_correct_position(arr + cycle_start + 1, 
+			size - cycle_start - 1, item) + cycle_start;
+		
+		// If item is already in correct position
 		if (pos == cycle_start)
 		{
 			cycle_start++;
 			continue ;
 		}
-		handle_duplicates(arr, &pos, item);
-		writes += place_item(arr, &item, pos, cycle_start);
-		writes += complete_cycle(arr, size, &item, cycle_start);
+		
+		// Skip duplicates
+		handle_duplicate_values(arr, &pos, item, size);
+		
+		// Place item in correct position
+		if (pos < size && item != arr[pos])
+		{
+			temp = item;
+			item = arr[pos];
+			arr[pos] = temp;
+			writes++;
+		}
+		
+		// Continue the cycle
+		while (pos != cycle_start && pos < size)
+		{
+			pos = find_correct_position(arr, size, item);
+			handle_duplicate_values(arr, &pos, item, size);
+			
+			if (pos < size && item != arr[pos])
+			{
+				temp = item;
+				item = arr[pos];
+				arr[pos] = temp;
+				writes++;
+			}
+		}
 		cycle_start++;
 	}
 	return (writes);
 }
-
 
 //int	main(void)
 //{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:57:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:20:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:07:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	merge_arrays(int *arr, int *left, int *right, int l)
 	int	j;
 	int	k;
 
-	len1 = left[0] - 1;
-	len2 = right[0] - 1;
+	len1 = left[0];
+	len2 = right[0];
 	i = 1;
 	j = 1;
 	k = l;

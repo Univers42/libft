@@ -3,75 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   tree_sort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:16:13 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:36:07 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:13:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-
-static t_tree_node *create_tree_node(int data)
+static t_tree_node	*create_tree_node(int data)
 {
-    t_tree_node *tree;
+	t_tree_node	*tree;
 
-    tree = (t_tree_node *)malloc(sizeof(t_tree_node*));
-    if (!tree)
-        return (NULL);
-    tree->data = data;
-    tree->left = NULL;
-    tree->right = NULL;
-    return (tree);
+	tree = malloc(sizeof(t_tree_node));
+	if (!tree)
+		return (NULL);
+	tree->data = data;
+	tree->left = NULL;
+	tree->right = NULL;
+	return (tree);
 }
 
-/**
- * @note duplicate are ignored
- */
-static t_tree_node *insert_node(t_tree_node *root, int data)
+static t_tree_node	*insert_node(t_tree_node *root, int data)
 {
-    if (root == NULL)
-        return (create_tree_node(data));
-    if (data < root->data)
-        root->left = insert_node(root->left, data);
-    if (data > root->data)
-        root->right = insert_node(root->right, data);
-    return (root);   
+	if (root == NULL)
+		return (create_tree_node(data));
+	if (data < root->data)
+		root->left = insert_node(root->left, data);
+	if (data > root->data)
+		root->right = insert_node(root->right, data);
+	return (root);
 }
 
-static void inorder_traversal(t_tree_node *root, int *res, int *index)
+static void	inorder_traversal(t_tree_node *root, int *res, int *index)
 {
-    if (root == NULL)
-        return ;
-    inorder_traversal(root->left, res, index);
-    res[(*index)++] = root->data;
-    inorder_traversal(root->right, res, index);
+	if (root == NULL)
+		return ;
+	inorder_traversal(root->left, res, index);
+	res[(*index)++] = root->data;
+	inorder_traversal(root->right, res, index);
 }
 
-static void free_tree(t_tree_node *root)
+static void	free_tree(t_tree_node *root)
 {
-    if (root == NULL)
-        return ;
-    free_tree(root->left);
-    free_tree(root->right);
-    free(root);    
+	if (root == NULL)
+		return ;
+	free_tree(root->left);
+	free_tree(root->right);
+	free(root);
 }
 
-void tree_sort(int *arr, int size)
+void	tree_sort(int *arr, int size)
 {
-    t_tree_node *root = NULL;
-    int index = 0;
-    int i;
+	t_tree_node	*root;
+	int			index;
+	int			i;
 
-    i = -1;
-    while (++i < size)
-        root = insert_node(root, arr[i]);
-    inorder_traversal(root, arr, &index);
-    free_tree(root);
+	if (!arr || size <= 1)
+		return ;
+	root = NULL;
+	index = 0;
+	i = 0;
+	while (i < size)
+	{
+		root = insert_node(root, arr[i]);
+		if (!root)
+		{
+			free_tree(root);
+			return ;
+		}
+		i++;
+	}
+	inorder_traversal(root, arr, &index);
+	free_tree(root);
 }
-
-
 
 //int main(void)
 //{

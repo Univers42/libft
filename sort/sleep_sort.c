@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sleep_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:43:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:25:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-
-// Thread function that sleeps and then stores the value
 static void	*sleep_and_store(void *arg)
 {
 	t_thread_data	*data;
@@ -28,80 +26,79 @@ static void	*sleep_and_store(void *arg)
 	return (NULL);
 }
 
-// Thread function for simple version (just prints)
-static void	*sleep_and_print(void *arg)
+static int	*allocate_resources(int size, pthread_t **threads,
+	t_thread_data **thread_data)
 {
-	t_thread_data	*data;
+	int	*result;
 
-	data = (t_thread_data *)arg;
-	usleep(data->value * 1000);
-	pthread_mutex_lock(data->mutex);
-	printf("%d ", data->value);
-	fflush(stdout);
-	pthread_mutex_unlock(data->mutex);
-	return (NULL);
-}
-
-// Complete sleep sort that returns sorted array
-int	*ft_sleep_sort(int *arr, int size)
-{
-	pthread_t		*threads;
-	t_thread_data	*thread_data;
-	pthread_mutex_t	mutex;
-	int				*result;
-	int				index;
-	int				i;
-
-	if (!arr || size <= 0)
-		return (NULL);
-	threads = malloc(size * sizeof(pthread_t));
-	thread_data = malloc(size * sizeof(t_thread_data));
+	*threads = malloc(size * sizeof(pthread_t));
+	*thread_data = malloc(size * sizeof(t_thread_data));
 	result = malloc(size * sizeof(int));
-	if (!threads || !thread_data || !result)
+	if (!*threads || !*thread_data || !result)
 	{
-		free(threads);
-		free(thread_data);
+		free(*threads);
+		free(*thread_data);
 		free(result);
 		return (NULL);
 	}
-	pthread_mutex_init(&mutex, NULL);
-	index = 0;
+	return (result);
+}
+
+static void	setup_thread_data(t_thread_data *thread_data, int *arr,
+	int *result, pthread_mutex_t *mutex)
+{
+	int	*index;
+	int	i;
+
+	index = malloc(sizeof(int));
+	*index = 0;
 	i = 0;
-	while (i < size)
+	while (i < 10)
 	{
 		thread_data[i].value = arr[i];
 		thread_data[i].result_array = result;
-		thread_data[i].index = &index;
-		thread_data[i].mutex = &mutex;
-		pthread_create(&threads[i], NULL, sleep_and_store, &thread_data[i]);
+		thread_data[i].index = index;
+		thread_data[i].mutex = mutex;
 		i++;
 	}
+}
+
+static void	join_threads(pthread_t *threads, int size)
+{
+	int	i;
+
 	i = 0;
 	while (i < size)
 	{
 		pthread_join(threads[i], NULL);
 		i++;
 	}
+}
+
+int	*ft_sleep_sort(int *arr, int size)
+{
+	pthread_t		*threads;
+	t_thread_data	*thread_data;
+	pthread_mutex_t	mutex;
+	int				*result;
+	int				i;
+
+	if (!arr || size <= 0)
+		return (NULL);
+	result = allocate_resources(size, &threads, &thread_data);
+	if (!result)
+		return (NULL);
+	pthread_mutex_init(&mutex, NULL);
+	setup_thread_data(thread_data, arr, result, &mutex);
+	i = 0;
+	while (i < size)
+	{
+		pthread_create(&threads[i], NULL, sleep_and_store, &thread_data[i]);
+		i++;
+	}
+	join_threads(threads, size);
 	pthread_mutex_destroy(&mutex);
 	free(threads);
 	free(thread_data);
 	return (result);
 }
-
-//int	main(void)
-//{
-//	int	arr[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
-//	int	size = 10;
-//	int	*sorted_result;
-//
-//	print_array(arr, size, "Original array");
-//	printf("\n=== Sleep Sort ===\n");
-//	printf("Sorted values will appear as threads wake up:\n");
-//	sorted_result = ft_sleep_sort(arr, size);
-//	if (sorted_result)
-//	{
-//		print_array(sorted_result, size);
-//		free(sorted_result);
-//	}
-//	return (0);
-//}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selection_sort.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:58:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:21:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:13:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_selection_sort(int *arr, int n)
 	int	j;
 	int	min_idx;
 
+	if (!arr || n <= 1)
+		return ;
 	i = 0;
 	while (i < n - 1)
 	{
@@ -30,7 +32,7 @@ void	ft_selection_sort(int *arr, int n)
 			j++;
 		}
 		if (min_idx != i)
-			ft_swap(&arr[min_idx], &arr[i]);
+			ft_swap(&arr[min_idx], &arr[i], sizeof(int));
 		i++;
 	}
 }

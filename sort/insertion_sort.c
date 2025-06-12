@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   insertion_sort.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:57:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:56:11 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:44:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	insertion_sort(int arr[], int left, int right)
 		i++;
 	}
 }
-
 
 //int main(void)
 //{

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gnome_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:51:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:40:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-
 
 // Gnome sort implementation
 void	ft_gnome_sort(int *arr, int size)
@@ -29,7 +28,7 @@ void	ft_gnome_sort(int *arr, int size)
 			index++;
 		else
 		{
-			ft_swap(&arr[index], &arr[index - 1]);
+			ft_swap(&arr[index], &arr[index - 1], sizeof(int));
 			index--;
 		}
 	}

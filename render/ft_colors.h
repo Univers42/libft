@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/08 09:05:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:32:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@
 
 // Dim colors
 # define DIM			"\033[2m"
-
+# define BOLD           "\033[1m"
 #endif

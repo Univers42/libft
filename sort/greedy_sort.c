@@ -3,60 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   greedy_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:26:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:59:07 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:07:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-void rotate(t_stack *stack) {
-    if (stack->size < 2) return;
-    int tmp = stack->data[0];
-    for (int i = 0; i < stack->size - 1; i++)
-        stack->data[i] = stack->data[i + 1];
-    stack->data[stack->size - 1] = tmp;
+static void	rotate_stack(t_stack *stack)
+{
+	int	tmp;
+	int	i;
+
+	if (stack->size < 2)
+		return ;
+	tmp = stack->data[0];
+	i = 0;
+	while (i < stack->size - 1)
+	{
+		stack->data[i] = stack->data[i + 1];
+		i++;
+	}
+	stack->data[stack->size - 1] = tmp;
 }
 
-// Push top of src to dest
-void push(t_stack *src, t_stack *dest) {
-    if (src->size == 0) return;
-    for (int i = dest->size; i > 0; i--)
-        dest->data[i] = dest->data[i - 1];
-    dest->data[0] = src->data[0];
-    dest->size++;
-    for (int i = 0; i < src->size - 1; i++)
-        src->data[i] = src->data[i + 1];
-    src->size--;
+static void	push_stack(t_stack *src, t_stack *dest)
+{
+	int	i;
+
+	if (src->size == 0)
+		return ;
+	i = dest->size;
+	while (i > 0)
+	{
+		dest->data[i] = dest->data[i - 1];
+		i--;
+	}
+	dest->data[0] = src->data[0];
+	dest->size++;
+	i = 0;
+	while (i < src->size - 1)
+	{
+		src->data[i] = src->data[i + 1];
+		i++;
+	}
+	src->size--;
 }
 
-// Greedy sort: always move the minimal element to B, then back to A
-void greedy_sort(int *arr, int size) {
-    t_stack a = { malloc(size * sizeof(int)), size };
-    t_stack b = { malloc(size * sizeof(int)), 0 };
-    for (int i = 0; i < size; i++)
-        a.data[i] = arr[i];
+void	greedy_sort(int *arr, int size)
+{
+	t_stack	a;
+	t_stack	b;
+	int		min_idx;
+	int		i;
 
-    // Move all elements to B in sorted order
-    while (a.size > 0) {
-        int min_idx = find_min_index(&a);
-        // Rotate A until min is on top
-        while (min_idx-- > 0)
-            rotate(&a);
-        push(&a, &b);
-    }
-    // Move back to A (now sorted)
-    while (b.size > 0)
-        push(&b, &a);
-
-    // Copy back to arr
-    for (int i = 0; i < size; i++)
-        arr[i] = a.data[i];
-
-    free(a.data);
-    free(b.data);
+	if (!arr || size <= 1)
+		return ;
+	a.data = malloc(size * sizeof(int));
+	a.size = size;
+	b.data = malloc(size * sizeof(int));
+	b.size = 0;
+	if (!a.data || !b.data)
+	{
+		free(a.data);
+		free(b.data);
+		return ;
+	}
+	i = 0;
+	while (i < size)
+	{
+		a.data[i] = arr[i];
+		i++;
+	}
+	while (a.size > 0)
+	{
+		min_idx = find_min_index(&a);
+		while (min_idx > 0)
+		{
+			rotate_stack(&a);
+			min_idx--;
+		}
+		push_stack(&a, &b);
+	}
+	while (b.size > 0)
+		push_stack(&b, &a);
+	i = 0;
+	while (i < size)
+	{
+		arr[i] = a.data[i];
+		i++;
+	}
+	free(a.data);
+	free(b.data);
 }
 
 // Test

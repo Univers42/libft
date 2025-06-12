@@ -3,84 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ksort.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:17:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:58:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 11:26:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
+static void	simple_insertion_sort(int *arr, int n)
+{
+	int	i;
+	int	j;
+	int	key;
 
-// Min-heap helpers
-static void heapify_down(int *heap, int size, int i) {
-    int smallest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    if (l < size && heap[l] < heap[smallest])
-        smallest = l;
-    if (r < size && heap[r] < heap[smallest])
-        smallest = r;
-    if (smallest != i) {
-        swap(&heap[i], &heap[smallest]);
-        heapify_down(heap, size, smallest);
-    }
+	i = 1;
+	while (i < n)
+	{
+		key = arr[i];
+		j = i - 1;
+		while (j >= 0 && arr[j] > key)
+		{
+			arr[j + 1] = arr[j];
+			j--;
+		}
+		arr[j + 1] = key;
+		i++;
+	}
 }
 
-static void heapify_up(int *heap, int i) {
-    if (i && heap[(i - 1) / 2] > heap[i]) {
-        swap(&heap[i], &heap[(i - 1) / 2]);
-        heapify_up(heap, (i - 1) / 2);
-    }
+static void	k_way_insertion_sort(int *arr, int n, int k)
+{
+	int	i;
+	int	j;
+	int	key;
+	int	start;
+	int	end;
+
+	i = 1;
+	while (i < n)
+	{
+		key = arr[i];
+		start = (i - k < 0) ? 0 : i - k;
+		end = i - 1;
+		
+		// Find position in the k-limited range
+		j = end;
+		while (j >= start && arr[j] > key)
+		{
+			arr[j + 1] = arr[j];
+			j--;
+		}
+		arr[j + 1] = key;
+		i++;
+	}
 }
 
-static void heap_push(int *heap, int *size, int val) {
-    heap[(*size)++] = val;
-    heapify_up(heap, *size - 1);
+void	ksort(int *arr, int n, int k)
+{
+	if (!arr || n <= 1 || k <= 0)
+		return ;
+	
+	// If k is large enough, just do regular insertion sort
+	if (k >= n - 1)
+	{
+		simple_insertion_sort(arr, n);
+		return ;
+	}
+	
+	// Use k-way insertion sort for smaller k values
+	k_way_insertion_sort(arr, n, k);
+	
+	// Final pass with regular insertion sort to ensure complete sorting
+	simple_insertion_sort(arr, n);
 }
-
-static int heap_pop(int *heap, int *size) {
-    int ret = heap[0];
-    heap[0] = heap[--(*size)];
-    heapify_down(heap, *size, 0);
-    return ret;
-}
-
-// ksort implementation
-void ksort(int *arr, int n, int k) {
-    if (k <= 0) return; // Already sorted
-
-    int heap_size = 0;
-    int *heap = malloc((k + 1) * sizeof(int));
-    int i, j = 0;
-
-    // Build initial heap from first k+1 elements
-    for (i = 0; i < k + 1 && i < n; i++)
-        heap_push(heap, &heap_size, arr[i]);
-
-    // Process the rest of the array
-    for (; i < n; i++) {
-        arr[j++] = heap_pop(heap, &heap_size);
-        heap_push(heap, &heap_size, arr[i]);
-    }
-
-    // Extract remaining elements
-    while (heap_size > 0)
-        arr[j++] = heap_pop(heap, &heap_size);
-
-    free(heap);
-}
-
-//int main(void) {
-//    int arr[] = {6, 5, 3, 2, 8, 10, 9};
-//    int size = sizeof(arr) / sizeof(arr[0]);
-//    int k = 3;
-//
-//    printf("=== K-Sort Test (k=%d) ===\n", k);
-//    print_array(arr, size);
-//    ksort(arr, size, k);
-//    print_array(arr, size);
-//
-//    return 0;
-//}

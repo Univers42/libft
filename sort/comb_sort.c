@@ -3,47 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   comb_sort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:57:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:45:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:22:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-static int get_next_gap(int gap)
+static int	get_next_gap(int gap)
 {
-    gap = (gap * 10) / 13;
-    if (gap < 1)
-        return (1);
-    return (gap);
+	gap = (gap * 10) / 13;
+	if (gap < 1)
+		return (1);
+	return (gap);
 }
 
-void    comb_sort(int *arr, int size)
+void	comb_sort(int *arr, int size)
 {
-    int gap;
-    int swapped;
-    int i;
-    if (!arr || size <= 1)
-        return ;
-    gap = size;
-    swapped = 1;
-    while (gap != 1 || swapped)
-    {
-        gap = get_next_gap(gap);
-        swapped = 0;
-        i = 0;
-        while (i < size - gap)
-        {
-            if (arr[i] > arr[i + gap])
-            {
-                swap(&arr[i], &arr[i + gap]);
-                swapped = 1;
-            }
-            i++;
-        }
-    }
+	int	gap;
+	int	swapped;
+	int	i;
+
+	if (!arr || size <= 1)
+		return ;
+	gap = size;
+	swapped = 1;
+	while (gap != 1 || swapped)
+	{
+		gap = get_next_gap(gap);
+		swapped = 0;
+		i = 0;
+		while (i < size - gap)
+		{
+			if (arr[i] > arr[i + gap])
+			{
+				ft_swap(&arr[i], &arr[i + gap], sizeof(int));
+				swapped = 1;
+			}
+			i++;
+		}
+	}
 }
 
 //int	main(void)

@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/05/27 19:10:29 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/06/11 15:42:52 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,3 +53,11 @@ UNDERLINE = \033[4m
 BLINK = \033[5m
 REVERSE = \033[7m
 STRIKETHROUGH = \033[9m
+
+# Enhanced colors and formatting
+BRIGHT_GREEN = \033[1;32m
+BRIGHT_RED = \033[1;31m
+BRIGHT_YELLOW = \033[1;33m
+BRIGHT_BLUE = \033[1;34m
+BRIGHT_MAGENTA = \033[1;35m
+BRIGHT_CYAN = \033[1;36m

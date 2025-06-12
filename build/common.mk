@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/05/27 19:10:29 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/06/11 22:11:51 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@
 # ════════════════════════════════════════════════════════════════════════════
 
 # Compiler and flags
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -L. -lft -pthread -lm
 AR = ar rcs
 RM = rm -f
 
@@ -35,14 +36,6 @@ include $(BUILD_DIR)/colors.mk
 define create_dirs
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(BUILD_DIR)
-endef
-
-# Function to print compilation progress
-define print_progress
-	@$(eval COUNTER=$(shell echo $$(($(COUNTER) + 1))))
-	@printf "\r$(YELLOW)Compiling: [%-30s] %d%%$(RESET)" \
-		"$(shell printf '%*s' $$(($(COUNTER) * 30 / $(TOTAL_FILES))) | tr ' ' '▓')" \
-		"$$(($(COUNTER) * 100 / $(TOTAL_FILES)))"
 endef
 
 # Function to print status messages

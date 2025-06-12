@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quick_sort.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:17:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:44:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:58:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,37 +27,39 @@ Use indices - low and high are array indices
 Pivot positioning - the partition puts pivot in its final sorted position
 Recursive calls - sort left and right subarrays separately
  */
-static int partition(int *array, int low, int high)
+static int	partition(int *array, int low, int high)
 {
-    int pivot;
-    int i;
-    int j;
+	int	pivot;
+	int	i;
+	int	j;
 
-    pivot = array[high];
-    i = low - 1;
-    j = low;
-
-    while (j < high)
-    {
-        if (array[j] < pivot)
-        {
-            i++;
-            swap_elements(&array[i], &array[j]);
-        }
-        j++;
-    }
+	pivot = array[high];
+	i = low - 1;
+	j = low;
+	while (j < high)
+	{
+		if (array[j] < pivot)
+		{
+			i++;
+			ft_swap(&array[i], &array[j], sizeof(int));
+		}
+		j++;
+	}
+	ft_swap(&array[i + 1], &array[high], sizeof(int));
+	return (i + 1);
 }
 
-int *ft_quick_sort(int *arr, int low, int high)
+int	*ft_quick_sort(int *arr, int low, int high)
 {
-    int pivot_index;
+	int	pivot_index;
 
-    if (low < high)
-    {
-        pivot_index = partition(arr, low, high);
-        ft_quick_sort(arr, low, pivot_index - 1);
-        ft_quick_sort(arr, pivot_index + 1, high);
-    }
+	if (low < high)
+	{
+		pivot_index = partition(arr, low, high);
+		ft_quick_sort(arr, low, pivot_index - 1);
+		ft_quick_sort(arr, pivot_index + 1, high);
+	}
+	return (arr);
 }
 
 //int main(void)

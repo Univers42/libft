@@ -56,7 +56,7 @@ void	handle_duplicates(int *arr, int *pos, int item)
 		(*pos)++;
 }
 
-int	find_min_index(t_stack *stack)
+int	find_min_index(t_stck *stack)
 {
 	int	min;
 	int	idx;

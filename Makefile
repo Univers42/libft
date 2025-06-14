@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/06/11 22:11:49 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/06/14 22:20:05 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ include build/common.mk
 NAME = libft.a
 
 # Directories
-SRC_DIRS = ctype debug lists math memory render stdio stdlib strings sort
+DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
+					data_structures/lists data_structures/vector
+SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort
 
 # Source files from all directories including ft_printf and gnl
 SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))

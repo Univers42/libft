@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:13:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/14 00:26:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 
 # define RUN 32
 
-typedef struct s_stack
+typedef struct s_stck
 {
 	int	*data;
 	int	size;
-}		t_stack;
+}		t_stck;
 
 typedef struct s_tagged_element
 {
@@ -64,13 +64,13 @@ void	merge(int *arr, int l, int m, int r);
 void	cocktail_shaker_sort(int *arr, int size);
 void	comb_sort(int *arr, int size);
 void	counting_sort(int *arr, int size);
-void	greedy_sort(int *arr, int size);
+void	greed_sort(int *arr, int size);
 void	ft_gnome_sort(int *arr, int size);
 void	hybrid_sort(int *arr, int size);
 void	hybrid2_sort(int *arr, int size, int *tag_to_value);
 void	insertion_sort(int arr[], int left, int right);
 void	ksort(int *arr, int n, int k);
-void	radix_sort(int *arr, int size, int max_bits);
+void	radi_sort(int *arr, int size, int max_bits);
 void	ft_selection_sort(int *arr, int n);
 void	tag_sort(int *arr, int size);
 void	tim_sort(int *arr, int n);
@@ -102,7 +102,7 @@ int		ft_cycle_sort(int *arr, int size);
 int		get_min(int *arr, int size);
 int		*ft_quick_sort(int *arr, int low, int high);
 int		get_max(int *arr, int size);
-int		find_min_index(t_stack *stack);
+int		find_min_index(t_stck *stack);
 int		ft_min(int a, int b);
 int		cmp_int(const void *a, const void *b);
 

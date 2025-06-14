@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 13:27:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:15:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "strings/ft_string.h"
 # include "memory/ft_memory.h"
 # include "ctype/ft_ctype.h"
-# include "lists/ft_list.h"
+# include "data_structures/data_structures.h"
 # include "math/ft_math.h"
 # include "stdlib/ft_stdlib.h"
 # include "stdio/ft_stdio.h"

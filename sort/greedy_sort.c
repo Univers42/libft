@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:26:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:07:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/14 00:25:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-static void	rotate_stack(t_stack *stack)
+static void	rotate_stack(t_stck *stack)
 {
 	int	tmp;
 	int	i;
@@ -29,7 +29,7 @@ static void	rotate_stack(t_stack *stack)
 	stack->data[stack->size - 1] = tmp;
 }
 
-static void	push_stack(t_stack *src, t_stack *dest)
+static void	push_stack(t_stck *src, t_stck *dest)
 {
 	int	i;
 
@@ -54,8 +54,8 @@ static void	push_stack(t_stack *src, t_stack *dest)
 
 void	greedy_sort(int *arr, int size)
 {
-	t_stack	a;
-	t_stack	b;
+	t_stck	a;
+	t_stck	b;
 	int		min_idx;
 	int		i;
 

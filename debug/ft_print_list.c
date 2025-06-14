@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:22:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 22:24:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:16:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_debug.h"
-#include "../lists/ft_list.h"
+#include "../data_structures/data_structures.h"
 #include "../stdio/ft_stdio.h"
 
 //void print_list(t_ps *)

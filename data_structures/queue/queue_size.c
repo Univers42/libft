@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/14 22:09:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:50:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_queue.h"
 
-size_t  ft_queue_size(t_queue *queue)
+size_t	ft_queue_size(t_queue *queue)
 {
-    if (!queue)
-        return (0);
-    return (queue->size);
+	if (!queue)
+		return (0);
+	return (queue->size);
 }

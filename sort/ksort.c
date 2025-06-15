@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:17:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:26:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:13:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,16 @@ static void	k_way_insertion_sort(int *arr, int n, int k)
 	int	j;
 	int	key;
 	int	start;
-	int	end;
 
 	i = 1;
 	while (i < n)
 	{
 		key = arr[i];
-		start = (i - k < 0) ? 0 : i - k;
-		end = i - 1;
-		
-		// Find position in the k-limited range
-		j = end;
+		if (i - k < 0)
+			start = 0;
+		else
+			start = i - k;
+		j = i - 1;
 		while (j >= start && arr[j] > key)
 		{
 			arr[j + 1] = arr[j];
@@ -64,17 +63,11 @@ void	ksort(int *arr, int n, int k)
 {
 	if (!arr || n <= 1 || k <= 0)
 		return ;
-	
-	// If k is large enough, just do regular insertion sort
 	if (k >= n - 1)
 	{
 		simple_insertion_sort(arr, n);
 		return ;
 	}
-	
-	// Use k-way insertion sort for smaller k values
 	k_way_insertion_sort(arr, n, k);
-	
-	// Final pass with regular insertion sort to ensure complete sorting
 	simple_insertion_sort(arr, n);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/14 22:21:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:57:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 
 typedef struct s_vector
 {
-    void    **data;
-    size_t  size;
-    size_t  capacity;
-}               t_vector;
-
+	void	**data;
+	size_t	size;
+	size_t	capacity;
+}			t_vector;
 
 t_vector	*ft_vector_create(void);
 void		ft_vector_destroy(t_vector *vector);
@@ -46,6 +45,7 @@ bool		ft_vector_reserve(t_vector *vector, size_t capacity);
 bool		ft_vector_insert(t_vector *vector, size_t index, void *element);
 void		*ft_vector_remove(t_vector *vector, size_t index);
 void		ft_vector_print_addresses(t_vector *vector);
-int			ft_vector_binary_search(t_vector *vector, void *target, int (*cmp)(const void *, const void *));
+int			ft_vector_binary_search(t_vector *vector, void *target,
+				int (*cmp)(const void *, const void *));
 
 #endif

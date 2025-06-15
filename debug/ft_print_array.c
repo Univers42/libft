@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:51:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 02:23:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/15 18:18:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,14 @@ void	*ft_print_array(int *arr, int size, char mode)
 	return (arr);
 }
 
-void print_array(int *arr, int size)
+void	print_array(int *arr, int size)
 {
-    int i;
-    
-    i = 0;
-    while (i < size)
-    {
-        printf("%d ", arr[i]);
-        i++;
-    }
-    printf("\n");
+	int	i;
+
+	i = -1;
+	while (++i < size)
+		printf("%d ", arr[i]);
+	printf("\n");
 }
 
 //int main(int argc, char **argv)

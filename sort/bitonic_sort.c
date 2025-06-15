@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 10:18:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:20:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:14:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,11 @@ static void	bitonic_sort_rec(int *arr, int low, int cnt, int dir)
 	}
 }
 
-void	bitonic_sort(int *arr, int size)
+static void	copy_and_pad_array(int *arr, int *padded_arr, int size,
+				int power_of_2)
 {
-	int	power_of_2;
-	int	*padded_arr;
 	int	i;
 
-	if (!arr || size <= 1)
-		return ;
-	
-	// Find next power of 2
-	power_of_2 = 1;
-	while (power_of_2 < size)
-		power_of_2 *= 2;
-	
-	// If size is already power of 2, sort directly
-	if (power_of_2 == size)
-	{
-		bitonic_sort_rec(arr, 0, size, 1);
-		return ;
-	}
-	
-	// Create padded array for non-power-of-2 sizes
-	padded_arr = malloc(power_of_2 * sizeof(int));
-	if (!padded_arr)
-		return ;
-	
-	// Copy original data and pad with maximum values
 	i = 0;
 	while (i < size)
 	{
@@ -80,19 +58,43 @@ void	bitonic_sort(int *arr, int size)
 	}
 	while (i < power_of_2)
 	{
-		padded_arr[i] = 2147483647; // INT_MAX
+		padded_arr[i] = 2147483647;
 		i++;
 	}
-	
-	bitonic_sort_rec(padded_arr, 0, power_of_2, 1);
-	
-	// Copy back only the original elements
+}
+
+static void	copy_back_array(int *arr, int *padded_arr, int size)
+{
+	int	i;
+
 	i = 0;
 	while (i < size)
 	{
 		arr[i] = padded_arr[i];
 		i++;
 	}
-	
+}
+
+void	bitonic_sort(int *arr, int size)
+{
+	int	power_of_2;
+	int	*padded_arr;
+
+	if (!arr || size <= 1)
+		return ;
+	power_of_2 = 1;
+	while (power_of_2 < size)
+		power_of_2 *= 2;
+	if (power_of_2 == size)
+	{
+		bitonic_sort_rec(arr, 0, size, 1);
+		return ;
+	}
+	padded_arr = malloc(power_of_2 * sizeof(int));
+	if (!padded_arr)
+		return ;
+	copy_and_pad_array(arr, padded_arr, size, power_of_2);
+	bitonic_sort_rec(padded_arr, 0, power_of_2, 1);
+	copy_back_array(arr, padded_arr, size);
 	free(padded_arr);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:13:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:24:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	process_chunks(int *normalized_arr, int size, int num_chunks)
 {
-	int	chunk_size;
 	int	**chunks;
 	int	*chunk_counts;
 	int	i;
 
-	chunk_size = 100 / num_chunks + 1;
 	chunks = malloc(num_chunks * sizeof(int *));
 	chunk_counts = calloc(num_chunks, sizeof(int));
 	i = 0;

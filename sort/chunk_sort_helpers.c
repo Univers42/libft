@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:13:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:27:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ void	sort_and_merge_chunks(int *normalized_arr, int **chunks,
 
 void	cleanup_chunks(int **chunks, int *chunk_counts, int num_chunks)
 {
+	int	i;
+
+	i = 0;
+	while (i < num_chunks)
+	{
+		free(chunks[i]);
+		i++;
+	}
 	free(chunks);
 	free(chunk_counts);
 }

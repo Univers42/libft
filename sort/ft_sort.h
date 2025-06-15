@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:14:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:27:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,21 +126,13 @@ void	sort_and_merge_chunks(int *arr, int **chunks, int *counts, int num);
 void	cleanup_chunks(int **chunks, int *chunk_counts, int num_chunks);
 void	choose_chunk_size_and_process(int *normalized_arr, int size);
 void	process_chunks(int *normalized_arr, int size, int num_chunks);
-void	normalize_array(int *arr, int *normalized_arr, int size,
-			t_norm_params *params);
-void	denormalize_array(int *arr, int *normalized_arr, int size,
-			t_norm_params *params);
-int		normalized_value(int val, int min, int max, char *stat);
 
 // Bitonic sort helpers
-void	copy_and_pad_array(int *arr, int *padded_arr, int size, int power_of_2);
-void	copy_back_array(int *arr, int *padded_arr, int size);
 
 // Greedy sort helpers
 void	initialize_stacks(t_stck *a, t_stck *b, int *arr, int size);
 void	copy_result_back(int *arr, t_stck *a, int size);
 
 // Cycle sort helpers
-int		process_cycle_item(int *arr, int size, int item, int start_pos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 10:18:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:16:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:27:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ int	normalized_value(int val, int min, int max, char *stat)
 	else if (strcmp(stat, "normalize") == 0)
 		return ((val - min) * 100 / (max - min));
 	return (val);
-}
-
-static int	compare_ints(const void *a, const void *b)
-{
-	int	ia;
-	int	ib;
-
-	ia = *(const int *)a;
-	ib = *(const int *)b;
-	return ((ia > ib) - (ia < ib));
 }
 
 static void	normalize_array(int *arr, int *normalized_arr, int size,

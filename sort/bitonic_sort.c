@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 10:18:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:14:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:30:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,21 @@ static void	copy_and_pad_array(int *arr, int *padded_arr, int size,
 {
 	int	i;
 
-	i = 0;
-	while (i < size)
-	{
+	i = -1;
+	while (++i < size)
 		padded_arr[i] = arr[i];
-		i++;
-	}
-	while (i < power_of_2)
-	{
+	i = -1;
+	while (++i < power_of_2)
 		padded_arr[i] = 2147483647;
-		i++;
-	}
 }
 
 static void	copy_back_array(int *arr, int *padded_arr, int size)
 {
 	int	i;
 
-	i = 0;
-	while (i < size)
-	{
+	i = -1;
+	while (++i < size)
 		arr[i] = padded_arr[i];
-		i++;
-	}
 }
 
 void	bitonic_sort(int *arr, int size)

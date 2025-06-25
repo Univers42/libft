@@ -6,12 +6,26 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/14 22:15:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/25 20:15:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+/* Feature test macros - define before any system includes */
+#ifndef _POSIX_C_SOURCE
+# define _POSIX_C_SOURCE 200809L
+#endif
+
+#ifndef _DEFAULT_SOURCE
+# define _DEFAULT_SOURCE
+#endif
+
+#ifndef _BSD_SOURCE
+# define _BSD_SOURCE
+#endif
+
 # include "strings/ft_string.h"
 # include "memory/ft_memory.h"
 # include "ctype/ft_ctype.h"
@@ -25,13 +39,11 @@
 # include "render/ft_stddef.h"
 # include "sort/ft_sort.h"
 # include <unistd.h>
+# include <signal.h>
 # include <time.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <string.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <sys/stat.h>
-
 #endif

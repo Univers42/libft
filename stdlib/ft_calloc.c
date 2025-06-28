@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:12:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:55:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:13:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static size_t	size_max(void)
  * @param size Size of each element in bytes.
  * @return A pointer to the allocated memory, or NULL if the allocation fails.
  */
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_calloc(t_size nmemb, t_size size)
 {
-	size_t	total;
+	t_size	total;
 	void	*buf;
 
 	if (nmemb && size > size_max() / nmemb)

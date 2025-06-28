@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/25 20:15:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:47:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 # define LIBFT_H
 
 /* Feature test macros - define before any system includes */
-#ifndef _POSIX_C_SOURCE
-# define _POSIX_C_SOURCE 200809L
-#endif
+# ifndef _POSIX_C_SOURCE
+#  define _POSIX_C_SOURCE 200809L
+# endif
 
-#ifndef _DEFAULT_SOURCE
-# define _DEFAULT_SOURCE
-#endif
+# ifndef _DEFAULT_SOURCE
+#  define _DEFAULT_SOURCE
+# endif
 
-#ifndef _BSD_SOURCE
-# define _BSD_SOURCE
-#endif
+# ifndef _BSD_SOURCE
+#  define _BSD_SOURCE
+# endif
 
 # include "strings/ft_string.h"
 # include "memory/ft_memory.h"
@@ -46,4 +46,11 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/stat.h>
+
+typedef char*				t_string;
+typedef unsigned char		t_uint8;
+typedef struct sigaction	t_sigaction;
+// used for inter-thread or signal communication
+typedef volatile int		t_atomic_flag;
+
 #endif

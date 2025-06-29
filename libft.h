@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/26 13:47:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/06/29 23:13:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ typedef char*				t_string;
 typedef unsigned char		t_uint8;
 typedef struct sigaction	t_sigaction;
 // used for inter-thread or signal communication
-typedef volatile int		t_atomic_flag;
-
+typedef volatile int		t_sig_atomic;
+typedef int*				t_array;
+// Good name for char** typedef:
+typedef char**				t_strings;
+typedef int					t_flag;
 #endif

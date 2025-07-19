@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:11:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:51:14 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,22 @@ void	ft_remove_fd_node(t_fd_list **fd_list, size_t fd)
 		prev = current;
 		current = current->next;
 	}
+}
+
+void	free_all_gnl(void)
+{
+	t_fd_list	**fd_list_ptr;
+	t_fd_list	*current;
+	t_fd_list	*next;
+
+	fd_list_ptr = get_gnl_fd_list();
+	current = *fd_list_ptr;
+	while (current)
+	{
+		next = current->next;
+		free(current->memory);
+		free(current);
+		current = next;
+	}
+	*fd_list_ptr = NULL;
 }

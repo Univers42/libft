@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:42:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:23:27 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char		*get_next_line(int fd);
 char		*ft_strjoin_gnl(char *s1, const char *s2);
 t_fd_list	*ft_get_fd_node(t_fd_list **fd_list, t_size fd);
 void		ft_remove_fd_node(t_fd_list **fd_list, t_size fd);
+void		free_all_gnl(void);
 
 /* Forward declarations for libft functions used in GNL */
 t_size		ft_strlen(const char *s);

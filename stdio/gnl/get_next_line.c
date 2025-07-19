@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/27 18:42:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:51:06 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,31 @@ static char	*ft_get_leftover(char *memory)
 	return (free(memory), leftover);
 }
 
-char	*get_next_line(int fd)
+static t_fd_list	**get_gnl_fd_list(void)
 {
 	static t_fd_list	*fd_list = NULL;
-	t_fd_list			*fd_node;
-	char				*line;
 
+	return (&fd_list);
+}
+
+char	*get_next_line(int fd)
+{
+	t_fd_list	**fd_list_ptr;
+	t_fd_list	*fd_node;
+	char		*line;
+
+	fd_list_ptr = get_gnl_fd_list();
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node = ft_get_fd_node(&fd_list, (size_t)fd);
+	fd_node = ft_get_fd_node(fd_list_ptr, (size_t)fd);
 	if (!fd_node)
 		return (NULL);
 	fd_node->memory = ft_store_chunks(fd, fd_node->memory);
 	if (!fd_node->memory)
-		return (ft_remove_fd_node(&fd_list, (size_t)fd), NULL);
+		return (ft_remove_fd_node(fd_list_ptr, (size_t)fd), NULL);
 	line = ft_get_line(fd_node->memory);
 	fd_node->memory = ft_get_leftover(fd_node->memory);
 	if (!line)
-		ft_remove_fd_node(&fd_list, (size_t)fd);
+		ft_remove_fd_node(fd_list_ptr, (size_t)fd);
 	return (line);
 }

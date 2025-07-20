@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/19 17:51:06 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/07/20 18:18:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	*ft_get_leftover(char *memory)
 	return (free(memory), leftover);
 }
 
-static t_fd_list	**get_gnl_fd_list(void)
+t_fd_list	**get_gnl_fd_list(void)
 {
 	static t_fd_list	*fd_list = NULL;
 

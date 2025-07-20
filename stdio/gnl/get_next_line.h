@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:23:27 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/07/20 18:18:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ void		free_all_gnl(void);
 t_size		ft_strlen(const char *s);
 t_size		ft_strclen(const char *s, int c);
 char		*ft_strndup(const char *s, t_size n);
-
+t_fd_list	**get_gnl_fd_list(void);
 #endif

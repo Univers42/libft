@@ -12,6 +12,7 @@
         "ft_stdlib.h": "c",
         "ft_memory.h": "c",
         "ft_stdio.h": "c",
-        "ft_debug.h": "c"
+        "ft_debug.h": "c",
+        "random": "c"
     }
 }

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stdio.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:30:09 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/07/21 19:19:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDIO_H
 # define FT_STDIO_H
+
 # include "../render/ft_stddef.h"
 # include "gnl/get_next_line.h"
+
 typedef int	(*t_ops)(int, int);
 
 void	ft_first_word(char *str);

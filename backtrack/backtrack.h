@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 00:27:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/21 00:57:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:14:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 
 typedef struct s_tree_node
 {
-	void *content;
+	void				*content;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 }						t_tree_node;
 
-char **binaryTreePaths(t_tree_node *root, int *returnSize);
-# endif
+char	**binaryTreePaths(t_tree_node *root, int *returnSize);
+
+#endif

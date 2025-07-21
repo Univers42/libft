@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 00:57:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/21 15:24:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:17:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	print_array(int **arr, int size, int returnSize)
 {
 	int	**row;
-	int *elem;
-	int *end_elem;
+	int	*elem;
+	int	*end_elem;
 	int	**end_row;
 
 	row = arr;
@@ -38,57 +38,55 @@ void	print_array(int **arr, int size, int returnSize)
 	}
 }
 
-int P(int n, int r)
+static int	p(int n, int r)
 {
-	int result;
-	int *pn;
-	int i;
+	int	result;
+	int	*pn;
+	int	i;
 
 	result = 1;
 	pn = &n;
-	i = 0;
-	while (i < r)
+	i = -1;
+	while (++i < r)
 	{
 		result *= *pn;
 		(*pn)--;
-		i++;
 	}
 	return (result);
 }
 
-
-static int **all_perm(int **arr, int size, int *returnSize)
+static int	**all_perm(int **arr, int size, int *returnSize)
 {
-	int **perm_arr;
-	int size;
+	int	**perm_arr;
+	int	size;
 
-	perm_arr = (int**)(malloc(sizeof(int *) * P(size ,size)));
+	perm_arr = (malloc(sizeof(int *) * p(size, size)));
 	if (!perm_arr)
 		return (NULL);
 	return (arr);
 }
 
-int	main(int argc, char **argv)
-{
-	int	*arr;
-	int	*ptr;
-	int	*end;
-	int	size;
-	int *returnSize;
-
-	if (argc == 1)
-		return (1);
-	size = argc - 1;
-	arr = calloc(size, sizeof(char));
-	if (!arr)
-		return (NULL);
-	ptr = arr;
-	end = ptr + size - 1;
-	++argv;
-	while (ptr < end)
-		*ptr++ = atoi(*argv++);
-	all_perm(arr, size, returnSize);
-	print_array(arr, size, returnSize);
-	free(ptr);
-	return (0);
-}
+//int	main(int argc, char **argv)
+//{
+//	int	*arr;
+//	int	*ptr;
+//	int	*end;
+//	int	size;
+//	int *returnSize;
+//
+//	if (argc == 1)
+//		return (1);
+//	size = argc - 1;
+//	arr = calloc(size, sizeof(char));
+//	if (!arr)
+//		return (NULL);
+//	ptr = arr;
+//	end = ptr + size - 1;
+//	++argv;
+//	while (ptr < end)
+//		*ptr++ = atoi(*argv++);
+//	all_perm(arr, size, returnSize);
+//	print_array(arr, size, returnSize);
+//	free(ptr);
+//	return (0);
+//}

@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_handler.h                                    :+:      :+:    :+:   */
+/*   setters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 17:19:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 17:20:38 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/07/28 17:41:09 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/07/28 17:54:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_HANDLER_H
-# define INPUT_HANDLER_H
+#include "window.h"
 
-#endif
+bool    set_size(t_Window window, int width, int height)
+{
+    if (!window)
+        return (false);
+    window.width = width;
+    window.height = height;
+}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 11:01:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:54:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,35 +35,23 @@ typedef struct s_WindowKeyState
 struct s_Window
 {
 	const t_WindowVTable	*vtable;
-	t_server				*server;//!legacy data structure
+	char					*screen_buffer;
 	int						width;
 	int						height;
 	int						is_resizing;
 	void					*mlx;
 	void					*win;
 	void					*img;
-	t_WindowKeyState		key_state;
-	int						mouse_left_pressed;
-	int						mouse_right_pressed;
-	int						mouse_motion_active;
 };
 
-
-t_WindowVTable g_WindowVTable = {
+t_WindowVTable g_WindowVTable =
+{
 		.destroy = Window_destroy_impl,
 		.resize = Window_resize_impl,
-		.handle_key = Window_handle_key_impl,
-		.handle_mouse = Window_handle_mouse_impl,
 		.redraw = Window_redraw_impl,
 };
 
 t_Window	*Window_new(t_server *server, int width, int height, const char *title);
 void		Window_destroy(t_Window *self);
-void		Window_handle_key_event(t_Window *self, int keycode);
-int			mlx_mouse_motion_cb(int x, int y, void *param);
-int			mlx_mouse_release_cb(int button, int x, int y, void *param);
-int			mlx_mouse_press_cb(int button, int x, int y, void *param);
-int			mlx_key_hook_cb(int keycode, void *param);
-
 
 #endif

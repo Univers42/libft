@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/29 23:13:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:16:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ typedef int*				t_array;
 // Good name for char** typedef:
 typedef char**				t_strings;
 typedef int					t_flag;
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 19:46:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:51:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // Add a key state array to track pressed keys
 static char key_states[MAX_KEYS] = {0};
 
-static void on_key_press(t_InputHandler *self, t_Window *win, int keycode)
+static void on_key_press(t_input_handler *self, t_window *win, int keycode)
 {
 	(void)self; (void)win;
 	printf("[KEY PRESS] keycode=%d\n", keycode);
@@ -30,7 +30,7 @@ static void on_key_press(t_InputHandler *self, t_Window *win, int keycode)
 		key_states[keycode] = 1;
 }
 
-static void on_key_release(t_InputHandler *self, t_Window *win, int keycode)
+static void on_key_release(t_input_handler *self, t_window *win, int keycode)
 {
 	(void)self;
 	printf("[KEY RELEASE] keycode=%d\n", keycode);
@@ -40,25 +40,25 @@ static void on_key_release(t_InputHandler *self, t_Window *win, int keycode)
 		win->vtable->close(win);
 }
 
-static void on_mouse_press(t_InputHandler *self, t_Window *win, int button, int x, int y)
+static void on_mouse_press(t_input_handler *self, t_window *win, int button, int x, int y)
 {
 	(void)self; (void)win;
 	printf("[MOUSE PRESS] button=%d x=%d y=%d\n", button, x, y);
 }
 
-static void on_mouse_release(t_InputHandler *self, t_Window *win, int button, int x, int y)
+static void on_mouse_release(t_input_handler *self, t_window *win, int button, int x, int y)
 {
 	(void)self; (void)win;
 	printf("[MOUSE RELEASE] button=%d x=%d y=%d\n", button, x, y);
 }
 
-static void on_mouse_motion(t_InputHandler *self, t_Window *win, int x, int y)
+static void on_mouse_motion(t_input_handler *self, t_window *win, int x, int y)
 {
 	(void)self; (void)win;
 	printf("[MOUSE MOTION] x=%d y=%d\n", x, y);
 }
 
-const t_InputHandlerVTable g_InputHandlerVTable = {
+const t_input_handlerVTable g_InputHandlerVTable = {
 	.on_key_press = on_key_press,
 	.on_key_release = on_key_release,
 	.on_mouse_press = on_mouse_press,
@@ -66,9 +66,9 @@ const t_InputHandlerVTable g_InputHandlerVTable = {
 	.on_mouse_motion = on_mouse_motion
 };
 
-t_InputHandler *InputHandler_new(void)
+t_input_handler *InputHandler_new(void)
 {
-	t_InputHandler *handler = malloc(sizeof(t_InputHandler));
+	t_input_handler *handler = malloc(sizeof(t_input_handler));
 	if (!handler)
 		return NULL;
 	handler->vtable = &g_InputHandlerVTable;
@@ -77,8 +77,8 @@ t_InputHandler *InputHandler_new(void)
 
 static int mlx_key_press_cb(int keycode, void *param)
 {
-	t_Window *win = (t_Window *)param;
-	t_InputHandler *handler = (t_InputHandler *)win->input_handler;
+	t_window *win = (t_window *)param;
+	t_input_handler *handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_key_press)
 		handler->vtable->on_key_press(handler, win, keycode);
 	return 0;
@@ -86,8 +86,8 @@ static int mlx_key_press_cb(int keycode, void *param)
 
 static int mlx_key_release_cb(int keycode, void *param)
 {
-	t_Window *win = (t_Window *)param;
-	t_InputHandler *handler = (t_InputHandler *)win->input_handler;
+	t_window *win = (t_window *)param;
+	t_input_handler *handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_key_release)
 		handler->vtable->on_key_release(handler, win, keycode);
 	return 0;
@@ -95,8 +95,8 @@ static int mlx_key_release_cb(int keycode, void *param)
 
 static int mlx_mouse_press_cb(int button, int x, int y, void *param)
 {
-	t_Window *win = (t_Window *)param;
-	t_InputHandler *handler = (t_InputHandler *)win->input_handler;
+	t_window *win = (t_window *)param;
+	t_input_handler *handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_mouse_press)
 		handler->vtable->on_mouse_press(handler, win, button, x, y);
 	return 0;
@@ -104,8 +104,8 @@ static int mlx_mouse_press_cb(int button, int x, int y, void *param)
 
 static int mlx_mouse_release_cb(int button, int x, int y, void *param)
 {
-	t_Window *win = (t_Window *)param;
-	t_InputHandler *handler = (t_InputHandler *)win->input_handler;
+	t_window *win = (t_window *)param;
+	t_input_handler *handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_mouse_release)
 		handler->vtable->on_mouse_release(handler, win, button, x, y);
 	return 0;
@@ -113,8 +113,8 @@ static int mlx_mouse_release_cb(int button, int x, int y, void *param)
 
 static int mlx_mouse_motion_cb(int x, int y, void *param)
 {
-	t_Window *win = (t_Window *)param;
-	t_InputHandler *handler = (t_InputHandler *)win->input_handler;
+	t_window *win = (t_window *)param;
+	t_input_handler *handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_mouse_motion)
 		handler->vtable->on_mouse_motion(handler, win, x, y);
 	return 0;
@@ -122,7 +122,7 @@ static int mlx_mouse_motion_cb(int x, int y, void *param)
 
 static int mlx_destroy_notify_cb(void *param)
 {
-	t_Window *win = (t_Window *)param;
+	t_window *win = (t_window *)param;
 	if (win && win->vtable && win->vtable->close)
 		win->vtable->close(win);
 	return 0;
@@ -140,7 +140,7 @@ static int key_repeat_loop(void *param)
 	return 0;
 }
 
-void input_handler_register(t_Window *win, t_InputHandler *handler)
+void input_handler_register(t_window *win, t_input_handler *handler)
 {
 	win->input_handler = handler;
 	mlx_hook(win->win, 2, 1L<<0, mlx_key_press_cb, win); // KeyPress

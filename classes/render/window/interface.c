@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:06:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:11:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ t_window	*window_new(int width, int height, const char *title)
 	win->height = height;
 	win->is_resizing = 0;
 	win->mlx = mlx_init();
-	if (win->win)
-		mlx_new_window(win->mlx, width, height, title);
+	if (title)
+		win->win = mlx_new_window(win->mlx, width, height, (char *)(title));
 	else
-		mlx_new_window(win->mlx, width, height, "Window");
+		win->win = mlx_new_window(win->mlx, width, height, "Window");
 	win->img = mlx_new_image(win->mlx, width, height);
 	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
 	if (win->screen_buffer)

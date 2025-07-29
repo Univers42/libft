@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:06:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:09:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // Forward declaration for t_server if needed
 typedef struct s_server			t_server;
 typedef struct s_input_handler	t_input_handler;
-typedef struct t_window			t_window;
+typedef struct s_window			t_window;
 
 typedef struct t_window_vtable
 {
@@ -47,8 +47,6 @@ typedef struct s_window_key_state
 typedef struct s_window
 {
 	const t_window_vtable	*vtable;
-	// Add t_server *server if you use it in your implementation
-	// t_server				*server;
 	char					*screen_buffer;
 	int						width;
 	int						height;
@@ -62,7 +60,6 @@ typedef struct s_window
 	void					*win;
 	void					*img;
 	t_input_handler			*input_handler;
-	// t_window_key_state		key_state; // Uncomment if
 }	t_window;
 
 // Only declare the API, don't define it in the header

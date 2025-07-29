@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:19:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 19:40:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:01:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 int main(void)
 {
-    t_Window *win = Window_new(800, 600, "Test Window with events");
+    t_window *win = window_new(800, 600, "Test Window with events");
     if (!win)
         return (1);
 
-    t_InputHandler *handler = InputHandler_new();
+    t_input_handler *handler = InputHandler_new();
     if (!handler)
         return (1);
 

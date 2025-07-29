@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 20:48:03 by dlesieur          #+#    #+#             */
+/*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
 /*   Updated: 2025/07/30 00:44:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "window.h"
 #include "input_handler.h"
-#include "mlx.h"
-#include <unistd.h>
+#include "camera.h"
 
-int	main(void)
+t_camera *input_handler_get_camera(t_input_handler *handler)
 {
-	t_window	*win;
-	t_input_handler *handler;
-
-	win = window_new(800, 600, "Test Window with events");
-	if (!win)
-		return (1);
-
-	handler = InputHandler_new(NULL);
 	if (!handler)
-		return (1);
-
-	win->vtable->set_resizable(win);
-	input_handler_register(win, handler);
-
-	mlx_loop(win->mlx);
-
-	win->vtable->destroy(win);
-	free(handler);
-	return (0);
+		return NULL;
+	return handler->camera;
 }
 
-// In your event loop or event registration, call:
-void on_mouse_wheel_event(int x, int y, int delta, int ctrl, t_window *win)
-{
-	win->vtable->handle_mouse_wheel(win, x, y, delta, ctrl);
-}
+// ...existing code...

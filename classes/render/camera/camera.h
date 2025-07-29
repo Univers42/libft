@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:03:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 22:05:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:34:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_camera_vtable
 	t_camera_perspective (*get_perspective)(t_camera *self);
 	t_vec2 (*project_point)(t_camera *self, t_point *point);
 	void (*move)(t_camera *self, double dx, double dy);    // Pan
-	void (*set_zoom)(t_camera *self, double zoom);         // Set zoom
-	void (*zoom_by)(t_camera *self, double factor);        // Zoom in/out
+	void (*set_zoom)(t_camera *self, double zoom, double center_x, double center_y);         // Set zoom centralized
+	void (*zoom_by)(t_camera *self, double factor, double center_x, double center_y);        // Zoom in/out centralized
 	void (*destroy)(t_camera *self);
 }	t_camera_vtable;
 

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:14:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:47:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:10:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_point	*point_new(int x, int y, int z)
 	point->color.s_rgba.b = 255;
 	point->color.s_rgba.a = 255;
 	point->vtable = singleton_vpoint();
+	point->speed = 10.0; // Default speed
 	return (point);
 }
 
@@ -141,10 +142,16 @@ bool	point_translate(t_point *self, int dx, int dy)
 {
 	if (!self)
 		return (false);
-	self->coordinate.x += dx;
-	self->coordinate.y += dy;
-	self->world_pos.x += (double)dx;
-	self->world_pos.y += (double)dy;
+	double len = ft_sqrt((double)dx * dx + (double)dy * dy);
+	if (len > 0)
+	{
+		double sx = (dx / len) * self->speed;
+		double sy = (dy / len) * self->speed;
+		self->world_pos.x += sx;
+		self->world_pos.y += sy;
+		self->coordinate.x = (int)self->world_pos.x;
+		self->coordinate.y = (int)self->world_pos.y;
+	}
 	return (true);
 }
 

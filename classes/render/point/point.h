@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:41:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:09:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
 
 typedef struct s_vector
 {
-	int x;
-	int y;
+	double x;
+	double y;
 	union
 	{
 		struct
 		{
-			int z;
+			double z;
 		}   s_v3;
 		struct
 		{
-			int z;
-			int w;
+			double z;
+			double w;
 		}   s_v4;
 	}   u_ctx;
 }   t_vector;
@@ -82,6 +82,7 @@ struct s_point
 	t_position		world_pos;
 	t_color			color;
 	t_point_vtable	*vtable;
+	double			speed; // Add speed member
 };
 
 /* Constructor and destructor */

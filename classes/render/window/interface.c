@@ -6,13 +6,18 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:12:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:54:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "window.h"
 #include <stdlib.h>
 #include "mlx.h"
+#include "input_handler.h"
+#include "camera.h"
+
+#define DRAW_OFFSET_X 300
+#define DRAW_OFFSET_Y 200
 
 void	window_init(t_window *self);
 void	window_set_resizable(t_window *self);
@@ -25,6 +30,35 @@ void	window_close(t_window *self)
 	exit(0);
 }
 
+void* window_get_image_buffer(t_window *self, int *bpp, int *size_line, int *endian)
+{
+	if (!self || !self->img)
+		return NULL;
+	return mlx_get_data_addr(self->img, bpp, size_line, endian);
+}
+
+void window_update_image(t_window *self)
+{
+	if (!self || !self->img || !self->win)
+		return;
+	mlx_put_image_to_window(self->mlx, self->win, self->img, 0, 0);
+}
+
+void	window_handle_mouse_wheel(t_window *self, int x, int y, int delta, int ctrl)
+{
+	if (!self || !self->input_handler)
+		return;
+	t_camera *camera = input_handler_get_camera(self->input_handler);
+	if (!camera)
+		return;
+	if (ctrl)
+	{
+		double factor = (delta > 0) ? 1.1 : 0.9;
+		// Subtract the drawing offset to centralize zoom under the mouse
+		camera->vtable->zoom_by(camera, factor, x - self->draw_offset_x, y - self->draw_offset_y);
+	}
+}
+
 const t_window_vtable	*get_window_vtable(void)
 {
 	static const t_window_vtable	vtable = {
@@ -32,7 +66,10 @@ const t_window_vtable	*get_window_vtable(void)
 		.resize = window_resize,
 		.init = window_init,
 		.set_resizable = window_set_resizable,
-		.close = window_close
+		.close = window_close,
+		.get_image_buffer = window_get_image_buffer,
+		.update_image = window_update_image,
+		.handle_mouse_wheel = window_handle_mouse_wheel
 	};
 
 	return (&vtable);
@@ -69,6 +106,8 @@ t_window	*window_new(int width, int height, const char *title)
 	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
 	if (win->screen_buffer)
 		ft_memset(win->screen_buffer, 0, sizeof(unsigned int) * width * height);
+	win->draw_offset_x = 300; // default for camera demo
+	win->draw_offset_y = 200;
 	return (win);
 }
 

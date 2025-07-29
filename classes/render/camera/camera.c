@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:03:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 22:05:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:44:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,24 @@ static void camera_move(t_camera *self, double dx, double dy)
 	self->offset_y += dy;
 }
 
-static void camera_set_zoom(t_camera *self, double zoom)
+// centralized zoom: center_x, center_y are in screen coordinates
+static void camera_set_zoom(t_camera *self, double zoom, double center_x, double center_y)
 {
 	if (!self) return;
 	if (zoom < 0.1) zoom = 0.1;
+	double old_zoom = self->zoom;
+	// Keep the world position under (center_x, center_y) fixed
+	self->offset_x = center_x - (center_x - self->offset_x) * (zoom / old_zoom);
+	self->offset_y = center_y - (center_y - self->offset_y) * (zoom / old_zoom);
 	self->zoom = zoom;
 }
 
-static void camera_zoom_by(t_camera *self, double factor)
+static void camera_zoom_by(t_camera *self, double factor, double center_x, double center_y)
 {
 	if (!self) return;
 	double new_zoom = self->zoom * factor;
 	if (new_zoom < 0.1) new_zoom = 0.1;
-	self->zoom = new_zoom;
+	camera_set_zoom(self, new_zoom, center_x, center_y);
 }
 
 static t_vec2 camera_project_point(t_camera *self, t_point *point)
@@ -90,8 +95,8 @@ static t_camera_vtable g_camera_vtable = {
 	.get_perspective = camera_get_perspective,
 	.project_point = camera_project_point,
 	.move = camera_move,
-	.set_zoom = camera_set_zoom,
-	.zoom_by = camera_zoom_by,
+	.set_zoom = camera_set_zoom,      // updated signature
+	.zoom_by = camera_zoom_by,        // updated signature
 	.destroy = camera_destroy_method
 };
 

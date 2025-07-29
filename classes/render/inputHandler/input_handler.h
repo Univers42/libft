@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:19:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:58:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:58:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,19 @@ extern const t_input_handlerVTable g_InputHandlerVTable;
 
 t_input_handler *InputHandler_new(t_camera *camera); // Update constructor signature
 void input_handler_register(t_window *win, t_input_handler *handler);
+
+// Add keycode definitions for arrow keys (X11/Linux)
+#ifndef KEY_UP
+# define KEY_UP     65362
+#endif
+#ifndef KEY_DOWN
+# define KEY_DOWN   65364
+#endif
+#ifndef KEY_LEFT
+# define KEY_LEFT   65361
+#endif
+#ifndef KEY_RIGHT
+# define KEY_RIGHT  65363
+#endif
+
 #endif

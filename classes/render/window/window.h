@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:09:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:54:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct t_window_vtable
 	void	(*init)(t_window *self);
 	void	(*set_resizable)(t_window *self);
 	void	(*close)(t_window *self);
+	void*	(*get_image_buffer)(t_window *self, int *bpp, int *size_line, int *endian);
+	void	(*update_image)(t_window *self);
+	void	(*handle_mouse_wheel)(t_window *self, int x, int y, int delta, int ctrl);
 }	t_window_vtable;
 
 typedef struct s_window_key_state
@@ -60,6 +63,8 @@ typedef struct s_window
 	void					*win;
 	void					*img;
 	t_input_handler			*input_handler;
+	int						draw_offset_x;
+	int						draw_offset_y;
 }	t_window;
 
 // Only declare the API, don't define it in the header
@@ -69,5 +74,7 @@ void					window_resize(t_window *self, int width, int height);
 void					window_init(t_window *self);
 void					window_set_resizable(t_window *self);
 void					window_close(t_window *self);
+void*	window_get_image_buffer(t_window *self, int *bpp, int *size_line, int *endian);
+void	window_update_image(t_window *self);
 const t_window_vtable	*get_window_vtable(void);
 #endif

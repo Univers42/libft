@@ -21,8 +21,6 @@ extern struct s_col_name mlx_col_name[];
 		return ((void *)0);}
 
 
-
-
 char	*mlx_int_get_line(char *ptr,int *pos,int size)
 {
 	int			pos2;

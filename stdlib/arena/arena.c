@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 12:04:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:00:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	arena_init(t_arena *arena)
  * we allocate as much as we want, and we liberate all in once when done,
  * using the same arena struct as "the manager" for all memory blocks.
  */
-void *arena_alloc(t_arena *arena, size_t size)
+void	*arena_alloc(t_arena *arena, size_t size)
 {
 	t_arena_block	*block;
 
@@ -51,7 +51,7 @@ void *arena_alloc(t_arena *arena, size_t size)
  * @param arena pointer to struct of arena
  * the memory is liberated from the block of allocated memory.
  */
-void arena_destroy(t_arena *arena)
+void	arena_destroy(t_arena *arena)
 {
 	t_arena_block	*block;
 	t_arena_block	*next;

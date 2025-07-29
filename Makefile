@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/07/29 19:32:33 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/07/29 20:41:13 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,14 @@ include build/common.mk
 
 define build_lib
 	$(MAKE) -C $(1) $(2)
+endef
+
+define trans_remove_c
+	find . -type f -name "main.c" -exec sh -c 'mv "$$1" "$${1%.c}.bak"' _ {} \;
+endef
+
+define trans_add_c
+	find . -type f -name "main.bak" -exec sh -c 'mv "$$1" "$${1%.bak}.c"' _ {} \;
 endef
 
 # MAIN ?=
@@ -124,6 +132,10 @@ endif
 TEST_EXE := $(TEST)
 
 .PHONY: test $(TEST_EXE)
+mode_42:
+	@$(trans_remove_c)
+mode_lab:
+	@$(trans_add_c)
 
 test: $(TEST_EXE)
 

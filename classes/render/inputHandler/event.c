@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 20:51:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:58:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input_handler.h"
+#include "camera.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,12 +23,44 @@
 // Add a key state array to track pressed keys
 static char key_states[MAX_KEYS] = {0};
 
+// Static variables for mouse drag
+static int mouse_dragging = 0;
+static int last_mouse_x = 0;
+static int last_mouse_y = 0;
+
 static void on_key_press(t_input_handler *self, t_window *win, int keycode)
 {
-	(void)self; (void)win;
+	(void)win;
 	printf("[KEY PRESS] keycode=%d\n", keycode);
 	if (keycode >= 0 && keycode < MAX_KEYS)
 		key_states[keycode] = 1;
+	// Camera perspective switching
+	if (self && self->camera)
+	{
+		// Perspective
+		if (keycode == 't' || keycode == 'T')
+			self->camera->vtable->set_perspective(self->camera, CAMERA_TOP);
+		else if (keycode == 'i' || keycode == 'I')
+			self->camera->vtable->set_perspective(self->camera, CAMERA_ISOMETRIC);
+		else if (keycode == 's' || keycode == 'S')
+			self->camera->vtable->set_perspective(self->camera, CAMERA_SIDE);
+
+		// Pan (arrow keys)
+		else if (keycode == 65361) // Left
+			self->camera->vtable->move(self->camera, -20, 0);
+		else if (keycode == 65363) // Right
+			self->camera->vtable->move(self->camera, 20, 0);
+		else if (keycode == 65362) // Up
+			self->camera->vtable->move(self->camera, 0, -20);
+		else if (keycode == 65364) // Down
+			self->camera->vtable->move(self->camera, 0, 20);
+
+		// Zoom ('+' and '-')
+		else if (keycode == 61 || keycode == 65451) // '+' (main and keypad)
+			self->camera->vtable->zoom_by(self->camera, 1.1);
+		else if (keycode == 45 || keycode == 65453) // '-' (main and keypad)
+			self->camera->vtable->zoom_by(self->camera, 0.9);
+	}
 }
 
 static void on_key_release(t_input_handler *self, t_window *win, int keycode)
@@ -42,20 +75,50 @@ static void on_key_release(t_input_handler *self, t_window *win, int keycode)
 
 static void on_mouse_press(t_input_handler *self, t_window *win, int button, int x, int y)
 {
-	(void)self; (void)win;
+	(void)win;
 	printf("[MOUSE PRESS] button=%d x=%d y=%d\n", button, x, y);
+	// Left mouse button starts dragging
+	if (self && self->camera && button == 1)
+	{
+		mouse_dragging = 1;
+		last_mouse_x = x;
+		last_mouse_y = y;
+	}
+	// Mouse wheel up (button 4): zoom in
+	else if (self && self->camera && button == 4)
+	{
+		self->camera->vtable->zoom_by(self->camera, 1.1);
+	}
+	// Mouse wheel down (button 5): zoom out
+	else if (self && self->camera && button == 5)
+	{
+		self->camera->vtable->zoom_by(self->camera, 0.9);
+	}
 }
 
 static void on_mouse_release(t_input_handler *self, t_window *win, int button, int x, int y)
 {
-	(void)self; (void)win;
+	(void)self; // Mark as unused to avoid warning
+	(void)win;
 	printf("[MOUSE RELEASE] button=%d x=%d y=%d\n", button, x, y);
+	// Stop dragging on left mouse release
+	if (button == 1)
+		mouse_dragging = 0;
 }
 
 static void on_mouse_motion(t_input_handler *self, t_window *win, int x, int y)
 {
-	(void)self; (void)win;
+	(void)win;
 	printf("[MOUSE MOTION] x=%d y=%d\n", x, y);
+	// If dragging, pan the camera
+	if (self && self->camera && mouse_dragging)
+	{
+		int dx = x - last_mouse_x;
+		int dy = y - last_mouse_y;
+		self->camera->vtable->move(self->camera, dx, dy);
+		last_mouse_x = x;
+		last_mouse_y = y;
+	}
 }
 
 const t_input_handlerVTable g_InputHandlerVTable = {
@@ -66,12 +129,13 @@ const t_input_handlerVTable g_InputHandlerVTable = {
 	.on_mouse_motion = on_mouse_motion
 };
 
-t_input_handler *InputHandler_new(void)
+t_input_handler *InputHandler_new(t_camera *camera)
 {
 	t_input_handler *handler = malloc(sizeof(t_input_handler));
 	if (!handler)
 		return NULL;
 	handler->vtable = &g_InputHandlerVTable;
+	handler->camera = camera; // Store camera pointer
 	return handler;
 }
 

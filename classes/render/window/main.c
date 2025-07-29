@@ -6,27 +6,34 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:48:03 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:01:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:00:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "window.h"
+#include "input_handler.h"
+#include "mlx.h"
 #include <unistd.h>
 
 int	main(void)
 {
 	t_window	*win;
+	t_input_handler *handler;
 
-	win = window_new(800, 600, "Test Window");
+	win = window_new(800, 600, "Test Window with events");
 	if (!win)
 		return (1);
-	win->vtable->init(win);
-	usleep(200000);
+
+	handler = InputHandler_new(NULL);
+	if (!handler)
+		return (1);
+
 	win->vtable->set_resizable(win);
-	usleep(1000000);
-	win->vtable->set_resizable(win);
-	while (1)
-		sleep(1);
+	input_handler_register(win, handler);
+
+	mlx_loop(win->mlx);
+
 	win->vtable->destroy(win);
+	free(handler);
 	return (0);
 }

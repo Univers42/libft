@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 21:11:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:12:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include "mlx.h"
 
-// Forward declaration if not in header
 void	window_init(t_window *self);
 void	window_set_resizable(t_window *self);
 

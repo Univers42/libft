@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 00:14:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 00:57:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:47:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "point.h"
+#include "ft_math.h"
 
 t_point_vtable *singleton_vpoint(void)
 {
@@ -205,7 +206,7 @@ double	point_distance(t_point *p1, t_point *p2)
 	dx = p1->world_pos.x - p2->world_pos.x;
 	dy = p1->world_pos.y - p2->world_pos.y;
 	dz = p1->world_pos.z - p2->world_pos.z;
-	return (sqrt(dx * dx + dy * dy + dz * dz));
+	return (ft_sqrt(dx * dx + dy * dy + dz * dz));
 }
 
 bool	point_equals(t_point *p1, t_point *p2)

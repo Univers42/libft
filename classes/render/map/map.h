@@ -6,8 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:52:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 19:52:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:39:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef map.h
+#ifndef MAP_H
+# define MAP_H
+
+//typedef struct s_map
+//{
+//    
+//}t_map;
+#endif

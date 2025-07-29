@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 17:22:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:41:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+
+#include "../window/window.h"
 
 typedef struct s_vector
 {

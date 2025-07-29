@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 00:48:53 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 14:09:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:15:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include "ft_types.h"
-# include "../../../libft.h"
+# include "libft.h"
 # include "ft_converters.h"
 # include "structs.h"
 /**

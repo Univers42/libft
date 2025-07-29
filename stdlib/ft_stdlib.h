@@ -6,16 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 12:38:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:25:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDLIB_H
 # define FT_STDLIB_H
-# include "../render/ft_stddef.h"
 # include <stdlib.h>
-# include "../memory/ft_memory.h"
-# include "arena/arena.h"
+# include "ft_memory.h"
+# include "arena.h"
 
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);

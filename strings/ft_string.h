@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/08 12:34:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:25:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_STRING_H
 
 # include <stddef.h>
-# include "../render/ft_stddef.h"
+# include "ft_stddef.h"
 
 t_size	ft_strlen(const char *s);
 t_size	ft_strlcpy(char *dst, const char *src, t_size dsize);

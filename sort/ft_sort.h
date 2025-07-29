@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:27:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:16:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SORT_H
 # define FT_SORT_H
 
-# include "../memory/ft_memory.h"
-# include "../debug/ft_debug.h"
+# include "ft_memory.h"
+# include "ft_debug.h"
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>

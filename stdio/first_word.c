@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:10:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:15:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ctype/ft_ctype.h"
+#include "ft_ctype.h"
 #include <unistd.h>
 
 void	ft_first_word(char *str)

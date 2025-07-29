@@ -6,15 +6,32 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 18:31:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:25:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDDEF_H
 # define FT_STDDEF_H
 
+
+typedef void*               t_addr;
+typedef void*               t_ptr;
+
 typedef long				t_ssize;
 typedef unsigned long int	t_size;
+typedef char*				t_string;
+//maps
+typedef char**				t_strings;
+typedef unsigned char		t_uint8;
+typedef struct sigaction	t_sigaction;
+// used for inter-thread or signal communication
+typedef volatile int		t_sig_atomic;
+typedef int*				t_array;
+// Good name for char** typedef:
+typedef int                 t_qty;
+typedef float               t_weight;
+typedef double              t_prec;
+typedef int					t_flag;
 
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2

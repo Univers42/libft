@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:11:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:11:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:13:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../render/ft_stddef.h"
+#include "ft_stddef.h"
 #include <stdlib.h>
 
 static int	ft_len(int n)

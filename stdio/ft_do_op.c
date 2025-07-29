@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:32:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:14:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../math/ft_math.h"
-#include "../stdlib/ft_stdlib.h"
+#include "ft_math.h"
+#include "ft_stdlib.h"
 #include "ft_stdio.h"
 #include <stdio.h>
 

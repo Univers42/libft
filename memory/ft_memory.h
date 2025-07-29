@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/05/28 17:19:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:25:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MEMORY_H
 # define FT_MEMORY_H
-# include "../render/ft_stddef.h"
+# include "ft_stddef.h"
 # include <stdlib.h>
 
 typedef struct s_mem_tracker

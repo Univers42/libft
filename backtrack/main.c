@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   permutations.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 00:57:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/21 19:17:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:05:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,27 @@ static int	**all_perm(int **arr, int size, int *returnSize)
 	return (arr);
 }
 
-//int	main(int argc, char **argv)
-//{
-//	int	*arr;
-//	int	*ptr;
-//	int	*end;
-//	int	size;
-//	int *returnSize;
-//
-//	if (argc == 1)
-//		return (1);
-//	size = argc - 1;
-//	arr = calloc(size, sizeof(char));
-//	if (!arr)
-//		return (NULL);
-//	ptr = arr;
-//	end = ptr + size - 1;
-//	++argv;
-//	while (ptr < end)
-//		*ptr++ = atoi(*argv++);
-//	all_perm(arr, size, returnSize);
-//	print_array(arr, size, returnSize);
-//	free(ptr);
-//	return (0);
-//}
+int	main(int argc, char **argv)
+{
+	int	*arr;
+	int	*ptr;
+	int	*end;
+	int	size;
+	int *returnSize;
+
+	if (argc == 1)
+		return (1);
+	size = argc - 1;
+	arr = calloc(size, sizeof(char));
+	if (!arr)
+		return (NULL);
+	ptr = arr;
+	end = ptr + size - 1;
+	++argv;
+	while (ptr < end)
+		*ptr++ = atoi(*argv++);
+	all_perm(arr, size, returnSize);
+	print_array(arr, size, returnSize);
+	free(ptr);
+	return (0);
+}

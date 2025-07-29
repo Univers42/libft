@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_log10.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:41:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/03/23 06:12:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:14:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 /**
  * Calculate the base-10 logarithm of a number (number of digits - 1)

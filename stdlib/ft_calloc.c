@@ -6,14 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:12:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/26 14:13:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:14:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../render/ft_stddef.h"
+#include "ft_stddef.h"
 #include <stdlib.h>
 #include "ft_stdlib.h"
-#include "../memory/ft_memory.h"
+#include "ft_memory.h"
+
 // Calcular dinámicamente SIZE_MAX sin macros ni bucles for
 static size_t	size_max(void)
 {

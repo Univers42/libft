@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 17:16:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:25:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@
 #  define _BSD_SOURCE
 # endif
 
-# include "strings/ft_string.h"
-# include "memory/ft_memory.h"
-# include "ctype/ft_ctype.h"
-# include "data_structures/data_structures.h"
-# include "math/ft_math.h"
-# include "stdlib/ft_stdlib.h"
-# include "stdio/ft_stdio.h"
-# include "render/ft_render.h"
-# include "debug/ft_debug.h"
-# include "render/ft_colors.h"
-# include "render/ft_stddef.h"
-# include "sort/ft_sort.h"
+# include "ft_string.h"
+# include "ft_memory.h"
+# include "ft_ctype.h"
+# include "data_structures.h"
+# include "ft_math.h"
+# include "ft_stdlib.h"
+# include "ft_stdio.h"
+# include "ft_render.h"
+# include "ft_debug.h"
+# include "ft_colors.h"
+# include "ft_stddef.h"
+# include "ft_sort.h"
 # include <unistd.h>
 # include <signal.h>
 # include <time.h>
@@ -47,14 +47,5 @@
 # include <stdio.h>
 # include <sys/stat.h>
 
-typedef char*				t_string;
-typedef unsigned char		t_uint8;
-typedef struct sigaction	t_sigaction;
-// used for inter-thread or signal communication
-typedef volatile int		t_sig_atomic;
-typedef int*				t_array;
-// Good name for char** typedef:
-typedef char**				t_strings;
-typedef int					t_flag;
 
 #endif

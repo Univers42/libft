@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:09:31 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 14:30:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:13:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ctype/ft_ctype.h"
+#include "ft_ctype.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../render/ft_stddef.h"
+#include "ft_stddef.h"
 #include "limits.h"
 
 /**

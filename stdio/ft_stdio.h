@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/21 19:19:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:14:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STDIO_H
 # define FT_STDIO_H
 
-# include "../render/ft_stddef.h"
-# include "gnl/get_next_line.h"
+# include "ft_stddef.h"
+# include "get_next_line.h"
 
 typedef int	(*t_ops)(int, int);
 

@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/06/15 18:11:31 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/07/29 19:32:33 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,22 @@
 include build/colors.mk
 include build/common.mk
 
+define build_lib
+	$(MAKE) -C $(1) $(2)
+endef
+
+# MAIN ?=
+
 # Library name
 NAME = libft.a
-
+MINILIBX_DIR = minilibx-linux
+MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
 # Directories
 DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
-					data_structures/lists data_structures/vector
+					data_structures/lists data_structures/vector \
+					classes classes/render classes/render/window classes/render/inputHandler
 SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort
+
 
 # Source files from all directories including ft_printf and gnl
 SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
@@ -34,8 +43,21 @@ OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
 # Header files
 HEADERS = $(wildcard *.h)
 
+# Find all unique directories containing .h files in libft, always include root dir
+HEADER_DIRS := $(shell find . -type f -name '*.h' -exec dirname {} \; | sort -u)
+HEADER_DIRS += .
+INCLUDE_FLAGS := $(foreach dir,$(HEADER_DIRS),-I$(dir))
+
+# Add INCLUDE_FLAGS to CFLAGS
+CFLAGS += $(INCLUDE_FLAGS)
+
 # Default rule: build the library
-all: $(NAME)
+all: $(MINILIBX_LIB) $(NAME)
+
+# Build MiniLibX
+$(MINILIBX_LIB):
+	@echo "$(BRIGHT_CYAN)🔧 Building MiniLibX...$(RESET)"
+	@$(MAKE) -C $(MINILIBX_DIR)
 
 # Rule to build the library
 $(NAME): $(OBJS)
@@ -49,6 +71,9 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS)
 	@printf "$(CYAN)Compiling$(RESET) %-40s $(GREEN)✓$(RESET)\n" "$(notdir $<)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+build :
+	@call(build_lib($(MINILIBX), all));
+	
 # Enhanced clean with visual feedback
 clean:
 	@echo "$(BRIGHT_RED)🧹 Cleaning object files...$(RESET)"
@@ -59,6 +84,8 @@ clean:
 	else \
 		echo "$(DIM)No object files to clean$(RESET)"; \
 	fi
+	@echo "$(BRIGHT_RED)🧹 Cleaning MiniLibX...$(RESET)"
+	@$(MAKE) -C $(MINILIBX_DIR) clean
 
 # Enhanced fclean with visual feedback
 fclean: clean
@@ -70,6 +97,8 @@ fclean: clean
 	else \
 		echo "$(DIM)No library to remove$(RESET)"; \
 	fi
+	@echo "$(BRIGHT_RED)🔥 Deep cleaning MiniLibX...$(RESET)"
+	@$(MAKE) -C $(MINILIBX_DIR) clean
 
 # Rebuild
 re: fclean all
@@ -82,4 +111,26 @@ debug:
 	@$(MAKE) re --no-print-directory
 	@echo "$(BRIGHT_YELLOW)🔍 Debug build completed with AddressSanitizer$(RESET)"
 
-.PHONY: all clean fclean re debug
+# Build a test executable from a main.c in a subdirectory
+# Usage: make test TEST=window
+TEST ?=
+
+ifeq ($(TEST),)
+TEST_MAIN :=
+else
+TEST_MAIN := $(shell find . -type f -path "*/$(TEST)/main.c" | head -n 1)
+endif
+
+TEST_EXE := $(TEST)
+
+.PHONY: test $(TEST_EXE)
+
+test: $(TEST_EXE)
+
+$(TEST_EXE): $(MINILIBX_LIB) $(NAME)
+ifneq ($(strip $(TEST_MAIN)),)
+	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(MINILIBX_LIB) -lX11 -lXext -lm
+else
+	@echo "No main.c found for test '$(TEST)'"
+	@exit 1
+endif

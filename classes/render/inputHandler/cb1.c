@@ -6,28 +6,28 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:48:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 05:55:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 08:25:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input_handler.h"
 
-static int mlx_mouse_press_cb(int button, int x, int y, void *param)
+int	mlx_mouse_press_cb(int button, int x, int y, void *param)
 {
-	t_window *win;
-	t_input_handler *handler;
+	t_window		*win;
+	t_input_handler	*handler;
 
 	win = (t_window *)param;
 	handler = (t_input_handler *)win->input_handler;
 	if (handler && handler->vtable->on_mouse_press)
 		handler->vtable->on_mouse_press(handler, win, button, x, y);
-	return 0;
+	return (0);
 }
 
-static int mlx_mouse_release_cb(int button, int x, int y, void *param)
+int	mlx_mouse_release_cb(int button, int x, int y, void *param)
 {
-	t_window *win;
-	t_input_handler *handler;
+	t_window		*win;
+	t_input_handler	*handler;
 
 	win = (t_window *)param;
 	handler = (t_input_handler *)win->input_handler;
@@ -36,10 +36,10 @@ static int mlx_mouse_release_cb(int button, int x, int y, void *param)
 	return (0);
 }
 
-static int mlx_mouse_motion_cb(int x, int y, void *param)
+int	mlx_mouse_motion_cb(int x, int y, void *param)
 {
-	t_window *win;
-	t_input_handler *handler;
+	t_window		*win;
+	t_input_handler	*handler;
 
 	win = (t_window *)param;
 	handler = (t_input_handler *)win->input_handler;

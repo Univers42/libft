@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 05:55:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:37:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,81 +19,66 @@
 #include "mlx_int.h"
 #include "ft_math.h"
 
-#define MAX_KEYS 65536
+// Remove the global variable and use a singleton accessor for key_state
+t_key_state	*get_key_state(void)
+{
+	static t_key_state	key_state = {0, 0, 0, 0};
 
-// Add a key state array to track pressed keys
-static char key_states[MAX_KEYS] = {0};
+	return (&key_state);
+}
 
-// Static variables for mouse drag
-static int mouse_dragging = 0;
-static int last_mouse_x = 0;
-static int last_mouse_y = 0;
+static void	compute_direction_vector(t_vector *dvec, t_key_state *key_state)
+{
+	ft_memset(dvec, 0, sizeof(t_vector));
+	if (key_state->up)
+		dvec->y -= 1;
+	if (key_state->down)
+		dvec->y += 1;
+	if (key_state->left)
+		dvec->x -= 1;
+	if (key_state->right)
+		dvec->x += 1;
+}
 
-// Example key state struct (add to your input handler if not present)
-typedef struct s_key_state {
-	int up;
-	int down;
-	int left;
-	int right;
-} t_key_state;
-
-// In your input handler struct:
-static t_key_state key_state = {0, 0, 0, 0};
-
-
-
+// Add these externs or pass them via context as needed
+extern t_point **g_points;
+extern int g_point_count;
 
 // In your movement update logic (call every frame or on key event):
-void update_movement(t_camera *camera)
+void	update_movement(t_camera *camera)
 {
-	double dx = 0, dy = 0;
-	if (key_state.up)
-		dy -= 1;
-	if (key_state.down)
-		dy += 1;
-	if (key_state.left)
-		dx -= 1;
-	if (key_state.right)
-		dx += 1;
-	if (dx != 0 || dy != 0)
+	double		len;
+	double		speed;
+	t_vector	dvec;
+	t_key_state	*key_state;
+
+	key_state = get_key_state();
+	compute_direction_vector(&dvec, key_state);
+	if (dvec.x != 0 || dvec.y != 0)
 	{
-		double len = ft_sqrt(dx * dx + dy * dy);
-		double speed = 200.0; // Increase speed for faster movement
+		len = ft_sqrt(dvec.x * dvec.x + dvec.y * dvec.y);
+		speed = 200.0;
 		if (len > 0)
 		{
-			dx = (dx / len) * speed;
-			dy = (dy / len) * speed;
+			dvec.x = (dvec.x / len) * speed;
+			dvec.y = (dvec.y / len) * speed;
 		}
-		camera->vtable->move(camera, dx, dy);
+		// Move the camera (for view movement)
+		if (camera)
+			camera->vtable->move(camera, dvec.x, dvec.y);
+
+		// Move all points (for object movement, if desired)
+		// Uncomment if you want points to move instead of camera
+		/*
+		for (int i = 0; i < g_point_count; ++i)
+			if (g_points[i])
+				point_translate(g_points[i], dvec.x, dvec.y);
+		*/
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-// Move these keycode definitions to the very top of the file, before any usage:
-#ifndef KEY_UP
-# define KEY_UP     65362 // Up arrow key (X11)
-#endif
-#ifndef KEY_DOWN
-# define KEY_DOWN   65364 // Down arrow key (X11)
-#endif
-#ifndef KEY_LEFT
-# define KEY_LEFT   65361 // Left arrow key (X11)
-#endif
-#ifndef KEY_RIGHT
-# define KEY_RIGHT  65363 // Right arrow key (X11)
-#endif
-
 // Implementation for input_handler_get_camera
-t_camera *input_handler_get_camera(t_input_handler *handler)
+t_camera	*input_handler_get_camera(t_input_handler *handler)
 {
 	if (!handler)
 		return (NULL);

@@ -14,6 +14,9 @@
         "ft_stdio.h": "c",
         "ft_debug.h": "c",
         "random": "c",
-        "point.h": "c"
+        "point.h": "c",
+        "input_handler.h": "c",
+        "map.h": "c",
+        "ft_ctype.h": "c"
     }
 }

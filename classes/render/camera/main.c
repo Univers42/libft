@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:23:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 04:52:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 08:46:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int main(void)
 		fprintf(stderr, "Failed to create camera\n");
 		return (1);
 	}
-	t_input_handler *handler = InputHandler_new(app_ptr->camera);
+	t_input_handler *handler = input_handler_new(app_ptr->camera);
 	if (!handler) {
 		fprintf(stderr, "Failed to create input handler\n");
 		return (1);
@@ -137,7 +137,7 @@ int main(void)
 	for (int i = 0; i < NUM_POINTS; ++i)
 		point_destroy(app_ptr->points[i]);
 	camera_destroy(app_ptr->camera);
-	InputHandler_destroy(handler);
+	input_handler_destroy(handler);
 	app_ptr->win->vtable->destroy(app_ptr->win);
 	if (app_ptr->win->mlx) {
 		mlx_destroy_display(app_ptr->win->mlx);

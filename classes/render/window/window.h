@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 04:37:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:55:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <X11/Xutil.h>
 # include "camera.h"
 # include "input_handler.h"
+# include "line.h"
 
 // Fallback Defaults
 # define DEFAULT_START_W 800
@@ -80,6 +81,8 @@ typedef struct t_window_vtable
 	void	*(*get_image_buffer)(t_window *self, int *bpp,
 			int *size_line, int *endian);
 	void	(*update_image)(t_window *self);
+	void	(*set_background_color)(t_window *self, unsigned int color);
+	void	(*clear)(t_window *self);
 }	t_window_vtable;
 
 typedef struct s_window_key_state
@@ -108,6 +111,7 @@ typedef struct s_window
 	int						draw_offset_y;
 	void					(*redraw_cb)(void *ctx);
 	void					*redraw_ctx;
+	unsigned int background_color;
 }	t_window;
 
 // Only declare the API, don't define it in the header
@@ -126,4 +130,6 @@ void					window_stop_resizing(t_window *self,
 void					window_poll_resize(t_window *self);
 const t_window_vtable	*get_window_vtable(void);
 void					window_realloc_screen_buffer(t_window *self);
+// Draw a line into the window's image buffer
+void	window_draw_line(t_window *win, t_line *line);
 #endif

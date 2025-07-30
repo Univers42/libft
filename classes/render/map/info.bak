@@ -1,0 +1,557 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*   polymorphic_parser.h                                                     */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef POLYMORPHIC_PARSER_H
+# define POLYMORPHIC_PARSER_H
+
+# include <stddef.h>
+# include <stdbool.h>
+# include <stdint.h>
+
+// Forward declarations
+typedef struct s_parser_base t_parser_base;
+typedef struct s_parser_vtable t_parser_vtable;
+
+// Parser types enumeration
+typedef enum e_parser_type
+{
+    PARSER_MAP_FDF,
+    PARSER_MAP_OBJ,
+    PARSER_MAP_CSV,
+    PARSER_MAP_CUSTOM
+} t_parser_type;
+
+// Base parser data structure
+typedef struct s_parser_base
+{
+    t_parser_vtable    *vtable;
+    t_parser_type      type;
+    char               *buffer;
+    size_t             buffer_size;
+    size_t             buffer_capacity;
+    size_t             position;
+    bool               error_state;
+    char               *error_message;
+    void               *specific_data; // Parser-specific data
+} t_parser_base;
+
+// Virtual table structure
+typedef struct s_parser_vtable
+{
+    // Core parsing methods
+    bool    (*parse_chunk)(t_parser_base *parser, const char *data, size_t size);
+    bool    (*parse_value)(t_parser_base *parser, const char *data, size_t *offset);
+    bool    (*parse_color)(t_parser_base *parser, const char *data, size_t *offset);
+    bool    (*finalize)(t_parser_base *parser);
+    
+    // Utility methods
+    bool    (*is_delimiter)(char c);
+    size_t  (*skip_delimiters)(const char *data, size_t size, size_t offset);
+    bool    (*advance_line)(t_parser_base *parser);
+    
+    // Memory management
+    bool    (*realloc_data)(t_parser_base *parser);
+    void    (*cleanup)(t_parser_base *parser);
+    
+    // Validation
+    bool    (*validate_format)(t_parser_base *parser, const char *data, size_t size);
+} t_parser_vtable;
+
+// Specific parser data structures
+typedef struct s_fdf_data
+{
+    float      *points;
+    uint32_t   *colors;
+    int        width;
+    int        height;
+    int        x;
+    int        y;
+    int        z;
+    uint32_t   current_color;
+    float      min_z;
+    float      max_z;
+    bool       z_set;
+    bool       width_set;
+    size_t     values_read;
+    size_t     array_capacity;
+} t_fdf_data;
+
+typedef struct s_obj_data
+{
+    float      *vertices;
+    int        *faces;
+    float      *normals;
+    size_t     vertex_count;
+    size_t     face_count;
+    size_t     normal_count;
+    size_t     vertex_capacity;
+    size_t     face_capacity;
+} t_obj_data;
+
+typedef struct s_csv_data
+{
+    char       **fields;
+    char       **headers;
+    size_t     row_count;
+    size_t     column_count;
+    size_t     field_capacity;
+    char       delimiter;
+    bool       has_headers;
+} t_csv_data;
+
+// Constructor functions
+t_parser_base   *parser_create(t_parser_type type, const char *spec);
+void            parser_destroy(t_parser_base *parser);
+
+// Main parsing interface
+bool    parser_parse_data(t_parser_base *parser, const char *data, size_t size);
+bool    parser_parse_file(t_parser_base *parser, const char *filename);
+bool    parser_has_error(t_parser_base *parser);
+const char *parser_get_error(t_parser_base *parser);
+
+// Data access methods
+void    *parser_get_data(t_parser_base *parser);
+size_t  parser_get_data_size(t_parser_base *parser);
+
+// FDF-specific vtable implementation
+extern t_parser_vtable g_fdf_vtable;
+
+// FDF parser methods
+bool    fdf_parse_chunk(t_parser_base *parser, const char *data, size_t size);
+bool    fdf_parse_value(t_parser_base *parser, const char *data, size_t *offset);
+bool    fdf_parse_color(t_parser_base *parser, const char *data, size_t *offset);
+bool    fdf_finalize(t_parser_base *parser);
+bool    fdf_is_delimiter(char c);
+size_t  fdf_skip_delimiters(const char *data, size_t size, size_t offset);
+bool    fdf_advance_line(t_parser_base *parser);
+bool    fdf_realloc_data(t_parser_base *parser);
+void    fdf_cleanup(t_parser_base *parser);
+bool    fdf_validate_format(t_parser_base *parser, const char *data, size_t size);
+
+#endif
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   polymorphic_parser.c                                                     */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "polymorphic_parser.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+// FDF Parser vtable
+t_parser_vtable g_fdf_vtable = {
+    .parse_chunk = fdf_parse_chunk,
+    .parse_value = fdf_parse_value,
+    .parse_color = fdf_parse_color,
+    .finalize = fdf_finalize,
+    .is_delimiter = fdf_is_delimiter,
+    .skip_delimiters = fdf_skip_delimiters,
+    .advance_line = fdf_advance_line,
+    .realloc_data = fdf_realloc_data,
+    .cleanup = fdf_cleanup,
+    .validate_format = fdf_validate_format
+};
+
+// Constructor implementation
+t_parser_base *parser_create(t_parser_type type, const char *spec)
+{
+    t_parser_base *parser = malloc(sizeof(t_parser_base));
+    if (!parser)
+        return (NULL);
+    
+    memset(parser, 0, sizeof(t_parser_base));
+    parser->type = type;
+    parser->buffer_capacity = 4096;
+    parser->buffer = malloc(parser->buffer_capacity);
+    
+    if (!parser->buffer)
+    {
+        free(parser);
+        return (NULL);
+    }
+    
+    // Initialize based on type
+    switch (type)
+    {
+        case PARSER_MAP_FDF:
+        {
+            t_fdf_data *fdf_data = malloc(sizeof(t_fdf_data));
+            if (!fdf_data)
+            {
+                free(parser->buffer);
+                free(parser);
+                return (NULL);
+            }
+            memset(fdf_data, 0, sizeof(t_fdf_data));
+            fdf_data->array_capacity = 1024;
+            fdf_data->points = malloc(sizeof(float) * fdf_data->array_capacity);
+            fdf_data->colors = malloc(sizeof(uint32_t) * fdf_data->array_capacity);
+            fdf_data->current_color = 0xffffff;
+            
+            if (!fdf_data->points || !fdf_data->colors)
+            {
+                free(fdf_data->points);
+                free(fdf_data->colors);
+                free(fdf_data);
+                free(parser->buffer);
+                free(parser);
+                return (NULL);
+            }
+            
+            parser->specific_data = fdf_data;
+            parser->vtable = &g_fdf_vtable;
+            break;
+        }
+        // Add other parser types here
+        case PARSER_MAP_OBJ:
+        case PARSER_MAP_CSV:
+        case PARSER_MAP_CUSTOM:
+        default:
+            // Not implemented yet
+            free(parser->buffer);
+            free(parser);
+            return (NULL);
+    }
+    
+    return (parser);
+}
+
+void parser_destroy(t_parser_base *parser)
+{
+    if (!parser)
+        return;
+    
+    if (parser->vtable && parser->vtable->cleanup)
+        parser->vtable->cleanup(parser);
+    
+    free(parser->buffer);
+    free(parser->error_message);
+    free(parser);
+}
+
+// Main parsing interface
+bool parser_parse_data(t_parser_base *parser, const char *data, size_t size)
+{
+    if (!parser || !data || parser->error_state)
+        return (false);
+    
+    if (parser->vtable && parser->vtable->validate_format)
+    {
+        if (!parser->vtable->validate_format(parser, data, size))
+            return (false);
+    }
+    
+    if (parser->vtable && parser->vtable->parse_chunk)
+        return (parser->vtable->parse_chunk(parser, data, size));
+    
+    return (false);
+}
+
+bool parser_parse_file(t_parser_base *parser, const char *filename)
+{
+    FILE *file = fopen(filename, "r");
+    if (!file)
+        return (false);
+    
+    char buffer[4096];
+    size_t bytes_read;
+    bool success = true;
+    
+    while ((bytes_read = fread(buffer, 1, sizeof(buffer), file)) > 0)
+    {
+        if (!parser_parse_data(parser, buffer, bytes_read))
+        {
+            success = false;
+            break;
+        }
+    }
+    
+    fclose(file);
+    
+    if (success && parser->vtable && parser->vtable->finalize)
+        success = parser->vtable->finalize(parser);
+    
+    return (success);
+}
+
+bool parser_has_error(t_parser_base *parser)
+{
+    return (parser && parser->error_state);
+}
+
+const char *parser_get_error(t_parser_base *parser)
+{
+    return (parser ? parser->error_message : NULL);
+}
+
+void *parser_get_data(t_parser_base *parser)
+{
+    return (parser ? parser->specific_data : NULL);
+}
+
+// FDF Parser implementation (based on your original code)
+bool fdf_is_delimiter(char c)
+{
+    return (c == ' ' || c == '\n' || c == '\t');
+}
+
+size_t fdf_skip_delimiters(const char *data, size_t size, size_t offset)
+{
+    while (offset < size && fdf_is_delimiter(data[offset]))
+        offset++;
+    return (offset);
+}
+
+bool fdf_parse_color(t_parser_base *parser, const char *data, size_t *offset)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    
+    if (*offset < parser->buffer_size && data[*offset] == ',')
+    {
+        (*offset)++;
+        // Parse hexadecimal color
+        uint32_t color = 0;
+        int hex_digits = 0;
+        
+        if (data[*offset] == '0' && (*offset + 1) < parser->buffer_size && 
+            (data[*offset + 1] == 'x' || data[*offset + 1] == 'X'))
+            *offset += 2;
+        
+        while (*offset < parser->buffer_size && hex_digits < 6)
+        {
+            char c = data[*offset];
+            if (c >= '0' && c <= '9')
+                color = (color << 4) | (c - '0');
+            else if (c >= 'a' && c <= 'f')
+                color = (color << 4) | (c - 'a' + 10);
+            else if (c >= 'A' && c <= 'F')
+                color = (color << 4) | (c - 'A' + 10);
+            else
+                break;
+            
+            (*offset)++;
+            hex_digits++;
+        }
+        
+        if (hex_digits == 0)
+            return (false);
+        
+        fdf->current_color = color;
+    }
+    else
+        fdf->current_color = 0xffffff;
+    
+    return (true);
+}
+
+bool fdf_parse_value(t_parser_base *parser, const char *data, size_t *offset)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    int value = 0;
+    bool negative = false;
+    bool has_digits = false;
+    
+    if (*offset < parser->buffer_size && data[*offset] == '-')
+    {
+        negative = true;
+        (*offset)++;
+    }
+    
+    while (*offset < parser->buffer_size && data[*offset] >= '0' && data[*offset] <= '9')
+    {
+        value = value * 10 + (data[*offset] - '0');
+        (*offset)++;
+        has_digits = true;
+    }
+    
+    if (!has_digits)
+        return (false);
+    
+    fdf->z = negative ? -value : value;
+    
+    return (fdf_parse_color(parser, data, offset));
+}
+
+bool fdf_realloc_data(t_parser_base *parser)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    
+    if (fdf->values_read >= fdf->array_capacity)
+    {
+        size_t new_capacity = fdf->array_capacity * 2;
+        
+        float *new_points = realloc(fdf->points, sizeof(float) * new_capacity);
+        uint32_t *new_colors = realloc(fdf->colors, sizeof(uint32_t) * new_capacity);
+        
+        if (!new_points || !new_colors)
+        {
+            free(new_points);
+            free(new_colors);
+            return (false);
+        }
+        
+        fdf->points = new_points;
+        fdf->colors = new_colors;
+        fdf->array_capacity = new_capacity;
+    }
+    
+    return (true);
+}
+
+bool fdf_advance_line(t_parser_base *parser)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    
+    fdf->x = 0;
+    fdf->y++;
+    fdf->height++;
+    
+    if (!fdf->width_set)
+    {
+        fdf->width_set = true;
+        fdf->width = (int)fdf->values_read;
+    }
+    else if (fdf->values_read > (size_t)fdf->y * fdf->width)
+    {
+        parser->error_state = true;
+        parser->error_message = strdup("Error: Bad map - inconsistent row width");
+        return (false);
+    }
+    else if (fdf->values_read < (size_t)fdf->y * fdf->width)
+    {
+        if (!fdf_realloc_data(parser))
+            return (false);
+        
+        while (fdf->values_read < (size_t)fdf->y * fdf->width)
+        {
+            fdf->points[fdf->values_read] = 0;
+            fdf->colors[fdf->values_read] = 0xffffff;
+            fdf->values_read++;
+        }
+    }
+    
+    return (true);
+}
+
+bool fdf_parse_chunk(t_parser_base *parser, const char *data, size_t size)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    size_t i = 0;
+    
+    while (i < size)
+    {
+        i = fdf_skip_delimiters(data, size, i);
+        if (i >= size)
+            break;
+        
+        if (!fdf_parse_value(parser, data, &i))
+            return (false);
+        
+        if (!fdf_realloc_data(parser))
+            return (false);
+        
+        // Store the parsed values
+        fdf->colors[fdf->values_read] = fdf->current_color;
+        fdf->points[fdf->values_read] = (float)fdf->z;
+        
+        if (!fdf->z_set || fdf->z < fdf->min_z)
+            fdf->min_z = fdf->z;
+        if (!fdf->z_set || fdf->z > fdf->max_z)
+            fdf->max_z = fdf->z;
+        fdf->z_set = true;
+        
+        fdf->values_read++;
+        fdf->x++;
+        
+        // Skip spaces
+        while (i < size && data[i] == ' ')
+            i++;
+        
+        // Check for end of line
+        if (i < size && data[i] == '\n')
+        {
+            if (!fdf_advance_line(parser))
+                return (false);
+            i++;
+        }
+    }
+    
+    return (true);
+}
+
+bool fdf_finalize(t_parser_base *parser)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    
+    // Final line processing if needed
+    if (fdf->x > 0 && !fdf_advance_line(parser))
+        return (false);
+    
+    return (true);
+}
+
+void fdf_cleanup(t_parser_base *parser)
+{
+    t_fdf_data *fdf = (t_fdf_data *)parser->specific_data;
+    if (fdf)
+    {
+        free(fdf->points);
+        free(fdf->colors);
+        free(fdf);
+    }
+}
+
+bool fdf_validate_format(t_parser_base *parser, const char *data, size_t size)
+{
+    // Basic validation - check if it looks like FDF format
+    // This is a simple implementation, can be enhanced
+    (void)parser;
+    (void)data;
+    (void)size;
+    return (true);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   usage_example.c                                                          */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "polymorphic_parser.h"
+#include <stdio.h>
+
+int main(void)
+{
+    // Create an FDF parser
+    t_parser_base *fdf_parser = parser_create(PARSER_MAP_FDF, NULL);
+    if (!fdf_parser)
+    {
+        printf("Failed to create FDF parser\n");
+        return (1);
+    }
+    
+    // Parse a file
+    if (!parser_parse_file(fdf_parser, "map.fdf"))
+    {
+        printf("Parsing failed: %s\n", parser_get_error(fdf_parser));
+        parser_destroy(fdf_parser);
+        return (1);
+    }
+    
+    // Get the parsed data
+    t_fdf_data *fdf_data = (t_fdf_data *)parser_get_data(fdf_parser);
+    printf("Parsed map: %dx%d, %zu points\n", 
+           fdf_data->width, fdf_data->height, fdf_data->values_read);
+    printf("Z range: %.2f to %.2f\n", fdf_data->min_z, fdf_data->max_z);
+    
+    // Clean up
+    parser_destroy(fdf_parser);
+    
+    return (0);
+}

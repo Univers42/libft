@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 04:48:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:55:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,37 @@ void	window_set_resizable(t_window *self)
 		((t_win_list *)self->win)->window, &hints);
 }
 
-const t_window_vtable	*get_window_vtable(void)
+void window_set_background_color(t_window *self, unsigned int color)
 {
-	static const t_window_vtable	vtable = {
+	if (!self)
+		return;
+	self->background_color = color;
+}
+
+void window_clear(t_window *self)
+{
+	if (!self || !self->screen_buffer)
+		return;
+	int total = self->width * self->height;
+	unsigned int *buf = (unsigned int *)self->screen_buffer;
+	for (int i = 0; i < total; ++i)
+		buf[i] = self->background_color;
+	if (self->img)
+		window_update_image(self);
+}
+
+const t_window_vtable *get_window_vtable(void)
+{
+	static const t_window_vtable vtable = {
 		.destroy = window_destroy,
 		.resize = window_resize,
 		.init = window_init,
 		.set_resizable = window_set_resizable,
 		.close = window_close,
 		.get_image_buffer = window_get_image_buffer,
-		.update_image = window_update_image
+		.update_image = window_update_image,
+		.set_background_color = window_set_background_color,
+		.clear = window_clear
 	};
 
 	return (&vtable);

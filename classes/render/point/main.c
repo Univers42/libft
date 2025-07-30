@@ -97,7 +97,7 @@ int main(void)
 	camera = camera_new(CAMERA_ISOMETRIC);
 	if (!camera)
 		return (1);
-	handler = InputHandler_new(camera);
+	handler = input_handler_new(camera);
 	if (!handler)
 		return (1);
 
@@ -124,7 +124,7 @@ int main(void)
 	for (i = 0; i < NUM_POINTS; ++i)
 		point_destroy(points[i]);
 	camera_destroy(camera);
-	InputHandler_destroy(handler);
+	input_handler_destroy(handler);
 	win->vtable->destroy(win);
 	free(ctx);
 	return (0);

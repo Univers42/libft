@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 01:51:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:22:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ static void on_key_press(t_input_handler *self, t_window *win, int keycode)
 		if (keycode == 45 || keycode == 65453) // '-' (main and keypad)
 			self->camera->vtable->zoom_by(self->camera, 0.9, win->width / 2, win->height / 2);
 	}
+
+	// Minimal confirmation: press 'r' to simulate resize start, 'e' to simulate resize end
+	if (keycode == 'r' || keycode == 'R')
+		window_start_resizing(win);
+	if (keycode == 'e' || keycode == 'E')
+		window_stop_resizing(win, win->width, win->height);
 }
 
 static void on_key_release(t_input_handler *self, t_window *win, int keycode)

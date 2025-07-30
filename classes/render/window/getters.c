@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 03:10:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:22:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void window_start_resizing(t_window *self)
 {
 	if (!self) return;
 	self->is_resizing = 1;
+	printf("[DEBUG] window_start_resizing: is_resizing=1\n");
 }
 
 // Call this when the user releases the mouse button after resizing
@@ -102,6 +103,7 @@ void window_stop_resizing(t_window *self, int width, int height)
 {
 	if (!self) return;
 	self->is_resizing = 0;
+	printf("[DEBUG] window_stop_resizing: is_resizing=0\n");
 	self->width = width;
 	self->height = height;
 	if (self->img)
@@ -119,6 +121,10 @@ void window_poll_resize(t_window *self)
 {
 	if (!self || !self->mlx || !self->win)
 		return;
+	if (self->is_resizing) {
+		printf("[DEBUG] window_poll_resize: blocked, is_resizing=1\n");
+		return;
+	}
 
 	Window win = ((t_win_list *)self->win)->window;
 	Display *display = ((t_xvar *)self->mlx)->display;

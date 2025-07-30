@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:23:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 03:11:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:22:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,32 @@ int redraw(void *param)
 {
 	t_app *app = (t_app *)param;
 
-	// Poll for window size changes
+	if (app->win->is_resizing) {
+		printf("[DEBUG] redraw: blocked, is_resizing=1\n");
+		return (0);
+	}
+
+	// Strictly block all logic during resizing
+	if (app->win->is_resizing)
+		return (0);
+
+	// Only poll and draw if not resizing
 	window_poll_resize(app->win);
 
-	// Only draw if not resizing
-	if (!app->win->is_resizing)
-	{
-		int bpp, size_line, endian;
-		char *buf = app->win->vtable->get_image_buffer(app->win, &bpp, &size_line, &endian);
-		if (buf)
-			ft_memset(buf, 0, size_line * app->win->height);
+	int bpp, size_line, endian;
+	char *buf = app->win->vtable->get_image_buffer(app->win, &bpp, &size_line, &endian);
+	if (buf)
+		ft_memset(buf, 0, size_line * app->win->height);
 
-		for (int i = 0; i < NUM_POINTS; ++i)
-		{
-			t_vec2 coord = app->camera->vtable->project_point(app->camera, app->points[i]);
-			t_color col = app->points[i]->vtable->get_color(app->points[i]);
-			int size = (int)(app->camera->zoom * 4.0);
-			if (size < 1) size = 1;
-			draw_filled_square_to_buffer(app->win, coord.x + app->win->draw_offset_x, coord.y + app->win->draw_offset_y, size, col.hex_color);
-		}
-		app->win->vtable->update_image(app->win);
+	for (int i = 0; i < NUM_POINTS; ++i)
+	{
+		t_vec2 coord = app->camera->vtable->project_point(app->camera, app->points[i]);
+		t_color col = app->points[i]->vtable->get_color(app->points[i]);
+		int size = (int)(app->camera->zoom * 4.0);
+		if (size < 1) size = 1;
+		draw_filled_square_to_buffer(app->win, coord.x + app->win->draw_offset_x, coord.y + app->win->draw_offset_y, size, col.hex_color);
 	}
+	app->win->vtable->update_image(app->win);
 	return (0);
 }
 

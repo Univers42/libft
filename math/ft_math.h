@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 13:52:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 05:40:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int		ft_divide(int dividend, int divisor);
 int		ft_modulo(int a, int b);
 int		ft_lcm(int x, int y);
 int		ft_tab_mult(int x);
+double	ft_fabs(double x);
 
 #endif

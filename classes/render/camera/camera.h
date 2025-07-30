@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:03:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 02:27:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 04:42:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ typedef enum e_camera_perspective
 
 typedef struct s_camera t_camera;
 
+// Move these forward declarations to the top, before t_camera_vtable
+struct s_vector;
+typedef struct s_vector t_vec2;
+
+struct s_point;
+typedef struct s_point t_point;
+
 typedef struct s_camera_vtable
 {
 	void (*set_perspective)(t_camera *self, t_camera_perspective perspective);
@@ -64,6 +71,8 @@ struct s_camera
 	double					zoom;       // Zoom factor
 	t_camera_vtable			*vtable;
 };
+
+typedef struct s_window t_window;
 
 typedef struct s_app
 {

@@ -70,8 +70,10 @@ static int redraw(void *param)
 
 	for (int i = 0; i < NUM_POINTS; ++i)
 	{
-		t_vec2 coord = ctx->camera->vtable->project_point(ctx->camera, ctx->points[i]);
-		t_color col = ctx->points[i]->vtable->get_color(ctx->points[i]);
+		t_vec2 coord;
+		t_color col;
+		ctx->camera->vtable->project_point(ctx->camera, ctx->points[i]); // unchanged
+		ctx->points[i]->vtable->get_color(ctx->points[i], &col);
 		int size = (int)(ctx->camera->zoom * 4.0);
 		if (size < 1) size = 1;
 		draw_filled_square_to_buffer(ctx->win, coord.x, coord.y, size, col.hex_color);
@@ -122,6 +124,7 @@ int main(void)
 	for (i = 0; i < NUM_POINTS; ++i)
 		point_destroy(points[i]);
 	camera_destroy(camera);
+	InputHandler_destroy(handler);
 	win->vtable->destroy(win);
 	free(ctx);
 	return (0);

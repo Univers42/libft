@@ -6,81 +6,115 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 01:32:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 05:38:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef POINT_H
-#define POINT_H
+# define POINT_H
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
+# include <stdint.h>
+# include <stdbool.h>
+# include <stdlib.h>
+# include "ft_math.h"
+# include "window.h"
 
-#include "../window/window.h"
+typedef enum e_terrain
+{
+	GROUND720 = 0xac7456,
+	PURPLE1 = 0Xbfabcc,
+	YELLOW_PALE = 0xdecd51,
+	GREEN = 0xaced99,
+	PURPLE = 0Xac74f9,
+	AQUA = 0x40cdbf,
+	SHALLOW = 0X189995,
+	DEEP = 0X555999,
+	PURPLE2 = 0x60699b,
+	PURPLE3 = 0x8879be,
+	PURPLE4 = 0xac74f9,
+	PINK = 0X997498,
+	WHITE1 = 0xdeddcc,
+	WHITE2 = 0xe9cab3,
+	ORANGE = 0xc56930,
+	ORANGE2 = 0Xc66a31,
+	ORANGE3 = 0Xd77b34,
+	YELLOW = 0xe79b34,
+	GREEN_PALE = 0xb5baa6,
+	GREEN_PALE2 = 0xb2b8a5,
+	BLUE = 0X3babbf,
+	BLUE2 = 0x3aaaaf,
+	BLUE3 = 0X3ca9af,
+	BLUE4 = 0x3a98ae
+}			t_terrain;
+
+typedef enum e_gamma
+{
+	gamma1 = 0xac74f9,
+	gamma2 = 0x997498
+}			t_gamma;
 
 typedef struct s_vector
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 	union
 	{
 		struct
 		{
-			double z;
-		}   s_v3;
+			double	z;
+		}	s_v3;
 		struct
 		{
-			double z;
-			double w;
-		}   s_v4;
-	}   u_ctx;
-}   t_vector;
+			double	z;
+			double	w;
+		}	s_v4;
+	}	u_ctx;
+}	t_vector;
 
-typedef struct s_position 
+typedef struct s_position
 {
-	double x;
-	double y;
-	double z;
-}   t_position;
+	double	x;
+	double	y;
+	double	z;
+}	t_position;
 
 typedef struct s_simple_pos
 {
-	int x;
-	int y;
-	int z;
-}t_pos;
+	int	x;
+	int	y;
+	int	z;
+}		t_pos;
 
 typedef struct s_color
 {
-	uint32_t hex_color;
+	uint32_t	hex_color;
 	struct
 	{
-		uint8_t r;
-		uint8_t g;
-		uint8_t b;
-		uint8_t a;
-	}s_rgba;
-}   t_color;
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
+	}	s_rgba;
+}	t_color;
 
-typedef t_vector t_vec2;
-typedef t_vector t_vec3;
-typedef t_vector t_vec4;
+typedef t_vector		t_vec2;
+typedef t_vector		t_vec3;
+typedef t_vector		t_vec4;
+typedef struct s_point	t_point;
 
-typedef struct s_point t_point;
 typedef struct s_point_vtable
 {
-	t_vec2		(*get_coordinate)(t_point *self);
-	t_position	(*get_position)(t_point *self);
-	t_color		(*get_color)(t_point *self);
-	bool		(*set_coordinate)(t_point *self, int x, int y);
-	bool		(*set_position)(t_point *self, double x, double y, double z);
-	bool		(*set_color)(t_point *self, uint32_t hex_color);
-	bool		(*set_z_value)(t_point *self, int z);
-	bool		(*translate)(t_point *self, int dx, int dy);
-	bool		(*scale)(t_point *self, double scale_x, double scale_y);
-	t_point		*(*clone)(t_point *self);
-	void		(*destroy)(t_point *self);
+	void	(*destroy)(t_point *self);
+	void	(*get_coordinate)(t_point *self, t_vec2 *out);
+	void	(*get_position)(t_point *self, t_position *out);
+	void	(*get_color)(t_point *self, t_color *out);
+	int		(*set_coordinate)(t_point *self, int x, int y);
+	int		(*set_position)(t_point *self, double x, double y, double z);
+	int		(*set_color)(t_point *self, uint32_t hex_color);
+	int		(*set_z_value)(t_point *self, int z);
+	int		(*translate)(t_point *self, int dx, int dy);
+	int		(*scale)(t_point *self, double scale_x, double scale_y);
+	t_point	*(*clone)(t_point *self);
 }				t_point_vtable;
 
 struct s_point
@@ -98,22 +132,22 @@ t_point		*point_new_with_color(int x, int y, int z, uint32_t color);
 void		point_destroy(t_point *point);
 
 /* Static vtable functions */
-t_vec2		point_get_coordinate(t_point *self);
-t_position	point_get_position(t_point *self);
-t_color		point_get_color(t_point *self);
-bool		point_set_coordinate(t_point *self, int x, int y);
-bool		point_set_position(t_point *self, double x, double y, double z);
-bool		point_set_color(t_point *self, uint32_t hex_color);
-bool		point_set_z_value(t_point *self, int z);
-bool		point_translate(t_point *self, int dx, int dy);
-bool		point_scale(t_point *self, double scale_x, double scale_y);
+void		point_get_coordinate(t_point *self, t_vec2 *out);
+void		point_get_position(t_point *self, t_position *out);
+void		point_get_color(t_point *self, t_color *out);
+int			point_set_coordinate(t_point *self, int x, int y);
+int			point_set_position(t_point *self, double x, double y, double z);
+int			point_set_color(t_point *self, uint32_t hex_color);
+int			point_set_z_value(t_point *self, int z);
+int			point_translate(t_point *self, int dx, int dy);
+int			point_scale(t_point *self, double scale_x, double scale_y);
 t_point		*point_clone(t_point *self);
 void		point_destroy_method(t_point *self);
 
 /* Utility functions */
 uint32_t	rgb_to_hex(uint8_t r, uint8_t g, uint8_t b);
 void		hex_to_rgb(uint32_t hex, uint8_t *r, uint8_t *g, uint8_t *b);
-double		point_distance(t_point *p1, t_point *p2);
+double		euclidean_dist(t_point *p1, t_point *p2);
 bool		point_equals(t_point *p1, t_point *p2);
 
 #endif

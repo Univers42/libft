@@ -6,17 +6,24 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 03:13:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 04:37:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDOW_H
 # define WINDOW_H
 
-# include "ft_stdlib.h"
 # include "point.h"
 # include "mlx.h"
 # include <stdbool.h>
+# include "window.h"
+# include <string.h>
+# include "ft_stdlib.h"
+# include "mlx_int.h"
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
+# include "camera.h"
+# include "input_handler.h"
 
 // Fallback Defaults
 # define DEFAULT_START_W 800
@@ -99,6 +106,8 @@ typedef struct s_window
 	t_input_handler			*input_handler;
 	int						draw_offset_x;
 	int						draw_offset_y;
+	void					(*redraw_cb)(void *ctx);
+	void					*redraw_ctx;
 }	t_window;
 
 // Only declare the API, don't define it in the header
@@ -112,7 +121,9 @@ void					*window_get_image_buffer(t_window *self,
 							int *bpp, int *size_line, int *endian);
 void					window_update_image(t_window *self);
 void					window_start_resizing(t_window *self);
-void					window_stop_resizing(t_window *self, int width, int height);
+void					window_stop_resizing(t_window *self,
+							int width, int height);
 void					window_poll_resize(t_window *self);
 const t_window_vtable	*get_window_vtable(void);
+void					window_realloc_screen_buffer(t_window *self);
 #endif

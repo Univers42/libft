@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   line.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 01:10:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 11:01:50 by dlesieur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    line.bak                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/28 01:10:21 by dlesieur          #+#    #+#              #
+#    Updated: 2025/07/30 05:02:40 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #include "line.h"
 #include <math.h>
@@ -169,7 +169,7 @@ double	line_get_length(t_line *self)
 {
 	if (!self || !self->start || !self->end)
 		return (-1.0);
-	return (point_distance(self->start, self->end));
+	return (euclidean_dist(self->start, self->end));
 }
 
 double	line_get_slope(t_line *self)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:03:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 02:38:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:35:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_vec2 camera_project_point(t_camera *self, t_point *point)
 
 	if (!self || !point)
 		return (result);
-	pos = point->vtable->get_position(point);
+	point->vtable->get_position(point, &pos); // updated to use output parameter
 	x = pos.x;
 	y = pos.y;
 	z = pos.z;

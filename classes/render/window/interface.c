@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 03:03:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 04:54:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,35 @@ void	window_handle_mouse_wheel(t_window *self, t_pos point,
 	}
 }
 
+static int	window_init_members(t_window *win, int width,
+				int height, const char *title)
+{
+	win->vtable = get_window_vtable();
+	win->width = width;
+	win->height = height;
+	win->is_resizing = 0;
+	win->mlx = mlx_init();
+	if (!win->mlx)
+		return (0);
+	if (title)
+		win->win = mlx_new_window(win->mlx, width, height, (char *)(title));
+	else
+		win->win = mlx_new_window(win->mlx, width, height, "Window");
+	if (!win->win)
+		return (0);
+	win->img = mlx_new_image(win->mlx, width, height);
+	if (!win->img)
+		return (0);
+	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
+	if (win->screen_buffer)
+		ft_memset(win->screen_buffer, 0, sizeof(unsigned int) * width * height);
+	win->draw_offset_x = 300;
+	win->draw_offset_y = 200;
+	win->redraw_cb = NULL;
+	win->redraw_ctx = NULL;
+	return (1);
+}
+
 t_window	*window_new(int width, int height, const char *title)
 {
 	t_window	*win;
@@ -75,21 +104,17 @@ t_window	*window_new(int width, int height, const char *title)
 	win = malloc(sizeof(t_window));
 	if (!win)
 		return (NULL);
-	win->vtable = get_window_vtable();
-	win->width = width;
-	win->height = height;
-	win->is_resizing = 0;
-	win->mlx = mlx_init();
-	if (title)
-		win->win = mlx_new_window(win->mlx, width, height, (char *)(title));
-	else
-		win->win = mlx_new_window(win->mlx, width, height, "Window");
-	win->img = mlx_new_image(win->mlx, width, height);
-	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
-	if (win->screen_buffer)
-		ft_memset(win->screen_buffer, 0, sizeof(unsigned int) * width * height);
-	win->draw_offset_x = 300;
-	win->draw_offset_y = 200;
+	if (!window_init_members(win, width, height, title))
+	{
+		if (win->img)
+			mlx_destroy_image(win->mlx, win->img);
+		if (win->win)
+			mlx_destroy_window(win->mlx, win->win);
+		if (win->mlx)
+			free(win->mlx);
+		free(win);
+		return (NULL);
+	}
 	return (win);
 }
 

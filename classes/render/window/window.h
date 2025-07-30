@@ -6,21 +6,55 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 00:54:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:56:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDOW_H
 # define WINDOW_H
 
-# define START_W	800
-# define START_H	600
-# define END_W		400
-# define END_H		300
-# define STEPS		60
-
 # include "ft_stdlib.h"
+# include "point.h"
+# include "mlx.h"
 # include <stdbool.h>
+
+// Fallback Defaults
+# define DEFAULT_START_W 800
+# define DEFAULT_START_H 600
+# define DEFAULT_END_W   400
+# define DEFAULT_END_H   300
+# define DEFAULT_STEPS   60
+
+# ifndef START_W
+#  define START_W DEFAULT_START_W
+# endif
+# ifndef START_H
+#  define START_H DEFAULT_START_H
+# endif
+# ifndef END_W
+#  define END_W DEFAULT_END_W
+# endif
+# ifndef END_H
+#  define END_H DEFAULT_END_H
+# endif
+# ifndef STEPS
+#  define STEPS DEFAULT_STEPS
+# endif
+
+# if (START_W < 100) || (START_H < 100)|| (END_W < 100) \
+|| (END_H < 100) || (STEPS < 60)
+#  undef START_W
+#  undef START_H
+#  undef END_W
+#  undef END_H
+#  undef STEPS
+#  define START_W DEFAULT_START_W
+#  define START_H DEFAULT_START_H
+#  define END_W   DEFAULT_END_W
+#  define END_H   DEFAULT_END_H
+#  define STEPS   DEFAULT_STEPS
+# endif
+
 // Forward declaration for t_server if needed
 typedef struct s_server			t_server;
 typedef struct s_input_handler	t_input_handler;
@@ -36,9 +70,9 @@ typedef struct t_window_vtable
 	void	(*init)(t_window *self);
 	void	(*set_resizable)(t_window *self);
 	void	(*close)(t_window *self);
-	void*	(*get_image_buffer)(t_window *self, int *bpp, int *size_line, int *endian);
+	void	*(*get_image_buffer)(t_window *self, int *bpp,
+			int *size_line, int *endian);
 	void	(*update_image)(t_window *self);
-	void	(*handle_mouse_wheel)(t_window *self, int x, int y, int delta, int ctrl);
 }	t_window_vtable;
 
 typedef struct s_window_key_state
@@ -74,7 +108,11 @@ void					window_resize(t_window *self, int width, int height);
 void					window_init(t_window *self);
 void					window_set_resizable(t_window *self);
 void					window_close(t_window *self);
-void*	window_get_image_buffer(t_window *self, int *bpp, int *size_line, int *endian);
-void	window_update_image(t_window *self);
+void					*window_get_image_buffer(t_window *self,
+							int *bpp, int *size_line, int *endian);
+void					window_update_image(t_window *self);
+void					window_start_resizing(t_window *self);
+void					window_stop_resizing(t_window *self, int width, int height);
+void					window_poll_resize(t_window *self);
 const t_window_vtable	*get_window_vtable(void);
 #endif

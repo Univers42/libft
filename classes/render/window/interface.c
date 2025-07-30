@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 00:54:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:03:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "window.h"
 #include <stdlib.h>
-#include "mlx.h"
+
 #include "input_handler.h"
 #include "camera.h"
 
@@ -30,60 +30,42 @@ void	window_close(t_window *self)
 	exit(0);
 }
 
-void* window_get_image_buffer(t_window *self, int *bpp, int *size_line, int *endian)
+/**
+ * @brief for who's asking why we're using window as handler of
+ * event like zooming when we have a camera. It's because 
+ * the camera should be responsible for the zoom logic itself
+ * (the math, state, effect on the view), but the window
+ * (or event system) should be responsible for handling the mouse
+ * wheel event and deciding when to call the camera's zoom function.
+ * The camera knows how to zoom but should not know about events, mouse
+ * or windowing
+ * The camera only provide a clean API for zooming, pannign,etc..
+ * @param self structure of window itself clalback
+ * @param point x and y member
+ * @param delta difference between point
+ * @param ctrl type of ctrl
+ * @return void just do the action no error expected
+ */
+void	window_handle_mouse_wheel(t_window *self, t_pos point,
+			int delta, int ctrl)
 {
-	if (!self || !self->img)
-		return NULL;
-	return mlx_get_data_addr(self->img, bpp, size_line, endian);
-}
+	t_camera	*camera;
+	double		factor;
 
-void window_update_image(t_window *self)
-{
-	if (!self || !self->img || !self->win)
-		return;
-	mlx_put_image_to_window(self->mlx, self->win, self->img, 0, 0);
-}
-
-void	window_handle_mouse_wheel(t_window *self, int x, int y, int delta, int ctrl)
-{
 	if (!self || !self->input_handler)
-		return;
-	t_camera *camera = input_handler_get_camera(self->input_handler);
+		return ;
+	camera = input_handler_get_camera(self->input_handler);
 	if (!camera)
-		return;
+		return ;
 	if (ctrl)
 	{
-		double factor = (delta > 0) ? 1.1 : 0.9;
-		// Subtract the drawing offset to centralize zoom under the mouse
-		camera->vtable->zoom_by(camera, factor, x - self->draw_offset_x, y - self->draw_offset_y);
+		if (delta > 0)
+			factor = 1.1;
+		else
+			factor = 0.9;
+		camera->vtable->zoom_by(camera, factor,
+			point.x - self->draw_offset_x, point.y - self->draw_offset_y);
 	}
-}
-
-const t_window_vtable	*get_window_vtable(void)
-{
-	static const t_window_vtable	vtable = {
-		.destroy = window_destroy,
-		.resize = window_resize,
-		.init = window_init,
-		.set_resizable = window_set_resizable,
-		.close = window_close,
-		.get_image_buffer = window_get_image_buffer,
-		.update_image = window_update_image,
-		.handle_mouse_wheel = window_handle_mouse_wheel
-	};
-
-	return (&vtable);
-}
-
-void	window_init(t_window *self)
-{
-	if (!self)
-		return ;
-	self->startw = START_W;
-	self->starth = START_H;
-	self->endh = END_H;
-	self->steps = STEPS;
-	self->endw = END_W;
 }
 
 t_window	*window_new(int width, int height, const char *title)
@@ -106,7 +88,7 @@ t_window	*window_new(int width, int height, const char *title)
 	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
 	if (win->screen_buffer)
 		ft_memset(win->screen_buffer, 0, sizeof(unsigned int) * width * height);
-	win->draw_offset_x = 300; // default for camera demo
+	win->draw_offset_x = 300;
 	win->draw_offset_y = 200;
 	return (win);
 }

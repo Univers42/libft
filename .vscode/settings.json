@@ -13,6 +13,7 @@
         "ft_memory.h": "c",
         "ft_stdio.h": "c",
         "ft_debug.h": "c",
-        "random": "c"
+        "random": "c",
+        "point.h": "c"
     }
 }

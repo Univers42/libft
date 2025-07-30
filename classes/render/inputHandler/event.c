@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 01:13:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:51:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,3 +285,11 @@ void input_handler_register(t_window *win, t_input_handler *handler)
 #ifndef KEY_RIGHT
 # define KEY_RIGHT  65363 // Right arrow key (X11)
 #endif
+
+// Implementation for input_handler_get_camera
+t_camera *input_handler_get_camera(t_input_handler *handler)
+{
+	if (!handler)
+		return NULL;
+	return handler->camera;
+}

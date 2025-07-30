@@ -1,20 +1,21 @@
-#include "window.h"
-#include "point.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 02:23:53 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/07/30 03:11:28 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "camera.h"
-#include "input_handler.h"
-#include <unistd.h>
-#include "mlx.h"
-#include <X11/Xlib.h>      // Add this line
-#include "mlx_int.h"       // Add this line for t_xvar and t_win_list
 
-#define NUM_POINTS 5
+t_app *g_app_ptr = NULL;
 
-typedef struct s_app
-{
-	t_window *win;
-	t_camera *camera;
-	t_point *points[NUM_POINTS];
-} t_app;
+// Forward declaration for redraw (if not already present)
+int redraw(void *param);
 
 // Helper to draw a filled square centered at (x, y) with given size into the image buffer
 static void draw_filled_square_to_buffer(t_window *win, int x, int y, int size, uint32_t color)
@@ -37,41 +38,31 @@ static void draw_filled_square_to_buffer(t_window *win, int x, int y, int size, 
 	}
 }
 
-static int redraw(void *param)
+int redraw(void *param)
 {
 	t_app *app = (t_app *)param;
 
-	// --- Poll window size and resize image buffer if needed ---
-	int actual_width, actual_height;
-	mlx_get_screen_size(app->win->mlx, &actual_width, &actual_height); // fallback, not always reliable
-	// Instead, use X11 directly to get the window size:
-	Window root;
-	int x, y;
-	unsigned int w, h, border, depth;
-	Display *dpy = ((t_xvar *)app->win->mlx)->display;
-	Window win = ((t_win_list *)app->win->win)->window;
-	XGetGeometry(dpy, win, &root, &x, &y, &w, &h, &border, &depth);
+	// Poll for window size changes
+	window_poll_resize(app->win);
 
-	if (app->win->width != (int)w || app->win->height != (int)h)
+	// Only draw if not resizing
+	if (!app->win->is_resizing)
 	{
-		app->win->vtable->resize(app->win, w, h);
-	}
+		int bpp, size_line, endian;
+		char *buf = app->win->vtable->get_image_buffer(app->win, &bpp, &size_line, &endian);
+		if (buf)
+			ft_memset(buf, 0, size_line * app->win->height);
 
-	// Clear image buffer
-	int bpp, size_line, endian;
-	char *buf = app->win->vtable->get_image_buffer(app->win, &bpp, &size_line, &endian);
-	if (buf)
-		ft_memset(buf, 0, size_line * app->win->height);
-
-	for (int i = 0; i < NUM_POINTS; ++i)
-	{
-		t_vec2 coord = app->camera->vtable->project_point(app->camera, app->points[i]);
-		t_color col = app->points[i]->vtable->get_color(app->points[i]);
-		int size = (int)(app->camera->zoom * 4.0);
-		if (size < 1) size = 1;
-		draw_filled_square_to_buffer(app->win, coord.x + app->win->draw_offset_x, coord.y + app->win->draw_offset_y, size, col.hex_color);
+		for (int i = 0; i < NUM_POINTS; ++i)
+		{
+			t_vec2 coord = app->camera->vtable->project_point(app->camera, app->points[i]);
+			t_color col = app->points[i]->vtable->get_color(app->points[i]);
+			int size = (int)(app->camera->zoom * 4.0);
+			if (size < 1) size = 1;
+			draw_filled_square_to_buffer(app->win, coord.x + app->win->draw_offset_x, coord.y + app->win->draw_offset_y, size, col.hex_color);
+		}
+		app->win->vtable->update_image(app->win);
 	}
-	app->win->vtable->update_image(app->win);
 	return (0);
 }
 
@@ -87,6 +78,7 @@ int on_window_resize(int new_width, int new_height, void *param)
 int main(void)
 {
 	t_app app;
+	g_app_ptr = &app; // Set global pointer for access in window_stop_resizing
 	app.win = window_new(800, 600, "Camera Demo");
 	if (!app.win)
 		return (1);

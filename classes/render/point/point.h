@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 01:09:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:32:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ typedef struct s_position
 	double y;
 	double z;
 }   t_position;
+
+typedef struct s_simple_pos
+{
+	int x;
+	int y;
+	int z;
+}t_pos;
 
 typedef struct s_color
 {

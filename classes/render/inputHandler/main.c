@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:19:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 22:00:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/30 03:41:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int main(void)
     mlx_loop(win->mlx);
 
     win->vtable->destroy(win);
-    free(handler);
+    InputHandler_destroy(handler);
     return 0;
 }

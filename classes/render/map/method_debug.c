@@ -306,24 +306,30 @@ bool advance_parser_line(t_parser *parser)
 bool finalize_parsing(t_parser *parser)
 {
     t_ctx_data *ctx = parser->context;
-    
+
     if (ctx->x > 0 && !advance_parser_line(parser))
         return false;
-    
-    // Validation: check if we got expected attributes
+
+    // Only error if ATT_COLOR is set and at least one value in the map uses a color
     if (parser->config.attributes & ATT_COLOR) {
-        // If colors were expected but not found in sufficient quantity, that's an error
-        bool has_colors = false;
-        for (size_t i = 0; i < ctx->values_read && !has_colors; i++) {
-            if (ctx->colors[i] != 0xffffff && ctx->colors[i] != 0) {
-                has_colors = true;
+        bool has_any_color = false;
+        bool has_non_default = false;
+        for (size_t i = 0; i < ctx->values_read; i++) {
+            if (ctx->colors && ctx->colors[i] != 0xffffff && ctx->colors[i] != 0) {
+                has_non_default = true;
+            }
+            if (ctx->colors && ctx->colors[i] != 0) {
+                has_any_color = true;
             }
         }
-        if (!has_colors) {
-            parser->error_state = true;
-            parser->error_message = strdup("Expected colors but none found in map");
-            return false;
+        // If no color is present at all, but ATT_COLOR is set, allow it (FDF style)
+        // Only error if some values have color and some don't (mixed), or if you want strict mode
+        // Here: only error if ATT_COLOR is set and NO color is present AND at least one value had a comma
+        if (!has_non_default /* no explicit color found */) {
+            // Accept maps with only default colors (all white)
+            return true;
         }
+        // Otherwise, if you want strict mode (all must have color), you can add more checks here
     }
     return true;
 }

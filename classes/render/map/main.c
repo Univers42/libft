@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:27:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 23:25:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 00:04:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int main(int argc, char **argv)
 
     // Parse command line arguments with defaults
     t_format_type format = FORMAT_DECIMAL;
-    t_delimiter delimiter = DELIM_SPACE;
-    uint32_t attributes = ATT_VALUE | ATT_COLOR; // Default: values and color
+    t_delimiter delimiter = DELIM_SPACE; // default
+    uint32_t attributes = ATT_VALUE; // Default: values and color
     
     // Use command-line or default to ATT_VALUE | ATT_COLOR
     if (argc > 2) format = (t_format_type)atoi(argv[2]);
     if (argc > 3) delimiter = (t_delimiter)atoi(argv[3]);
+    else delimiter = DELIM_SPACE; // or DELIM_COMMA if you want comma as default
     if (argc > 4) attributes = (uint32_t)atoi(argv[4]);
 
     // Create parser with 4 parameters as requested

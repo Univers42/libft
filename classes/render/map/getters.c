@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:16:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 23:08:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 00:04:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@ bool is_delimiter(char c)
 
 size_t skip_delimiters(const char *data, size_t size, size_t offset)
 {
-	while (offset < size && is_delimiter(data[offset]))
-		offset++;
-	return offset;
+    while (offset < size) {
+        char c = data[offset];
+        // Skip spaces and tabs, but NOT newlines (those are handled separately)
+        if (c == ' ' || c == '\t') {
+            offset++;
+        } else {
+            break;
+        }
+    }
+    return offset;
 }
 
 bool validate_parser_format(t_parser *parser, const char *data, size_t size)
@@ -58,10 +65,13 @@ size_t skip_parser_delimiters(t_parser *parser, size_t offset)
 
 bool is_parser_delimiter(t_parser *parser, char c)
 {
+    // Accept both space and comma as delimiters if either is configured
+    if (parser->config.delimiter == DELIM_SPACE || parser->config.delimiter == DELIM_COMMA) {
+        return c == ' ' || c == ',';
+    }
     if (parser->config.delimiter == DELIM_CUSTOM) {
         return c == parser->config.custom_delimiter;
     }
-    
     return c == (char)parser->config.delimiter;
 }
 

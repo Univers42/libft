@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:52:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 23:29:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 00:04:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool parse_value_token(t_parser *parser, t_token *token)
     int value = 0;
     bool negative = false;
     bool has_digits = false;
-    
+
     // Handle sign
     if (pos < parser->buffer_size && parser->buffer[pos] == '-') {
         negative = true;
@@ -95,7 +95,7 @@ bool parse_value_token(t_parser *parser, t_token *token)
     } else if (pos < parser->buffer_size && parser->buffer[pos] == '+') {
         pos++;
     }
-    
+
     // Parse based on format
     switch (parser->config.format) {
         case FORMAT_DECIMAL:
@@ -107,7 +107,6 @@ bool parse_value_token(t_parser *parser, t_token *token)
                 has_digits = true;
             }
             break;
-            
         case FORMAT_OCTAL:
             while (pos < parser->buffer_size && 
                    parser->buffer[pos] >= '0' && parser->buffer[pos] <= '7') {
@@ -116,7 +115,6 @@ bool parse_value_token(t_parser *parser, t_token *token)
                 has_digits = true;
             }
             break;
-            
         case FORMAT_HEXADECIMAL:
             if (pos + 1 < parser->buffer_size && 
                 parser->buffer[pos] == '0' && 
@@ -140,25 +138,30 @@ bool parse_value_token(t_parser *parser, t_token *token)
                 pos++;
             }
             break;
-            
         default:
+            parser->error_message = strdup("Unknown format in parse_value_token");
             return false;
     }
-    
-    if (!has_digits)
+
+    // Print debug info if parse fails
+    if (!has_digits) {
+        char dbg[128];
+        snprintf(dbg, sizeof(dbg), "No digits found in parse_value_token at pos %zu: '%c'", pos, parser->buffer[pos]);
+        parser->error_message = strdup(dbg);
         return false;
-    
+    }
+
     // Store result
     token->attribute = ATT_VALUE;
     token->format = parser->config.format;
     token->data.int_val = negative ? -value : value;
     token->position = parser->position;
     token->valid = true;
-    
+
     parser->position = pos;
     parser->context->z = negative ? -value : value;
     parser->context->current_z = (float)(negative ? -value : value);
-    
+
     return true;
 }
 
@@ -378,35 +381,46 @@ t_parser *parser_create(const char *filename, t_format_type format,
 bool parse_token_sequence(t_parser *parser)
 {
     t_token token;
-    
-    // Always parse value first (mandatory)
-    if (!parser->method->parse_value(parser, &token))
+
+    if (!parser->method->parse_value(parser, &token)) {
+        parser->error_message = strdup("Failed to parse value");
         return false;
-    
-    if (!store_parsed_value(parser, &token))
+    }
+
+    if (!store_parsed_value(parser, &token)) {
+        parser->error_message = strdup("Failed to store parsed value");
         return false;
-    
-    // Parse additional attributes based on configuration
-    while (parser->position < parser->buffer_size && 
+    }
+
+    // Accept comma before color, regardless of delimiter
+    while (parser->position < parser->buffer_size &&
            parser->buffer[parser->position] != '\n' &&
-           parser->buffer[parser->position] != ' ') {
-        
-        if (!parser->method->is_delimiter(parser, parser->buffer[parser->position]))
-            break;
-        
-        parser->position++; // Skip delimiter
-        
-        // Parse next attribute based on what's expected
-        if (parser->config.attributes & ATT_COLOR) {
+           parser->buffer[parser->position] != ' ')
+    {
+        char c = parser->buffer[parser->position];
+
+        // Accept comma for color, or the configured delimiter for other attributes
+        if (c == ',' && (parser->config.attributes & ATT_COLOR)) {
+            parser->position++; // Skip comma
             if (parse_color_token(parser, &token)) {
                 store_parsed_color(parser, &token);
-                continue;
+            } else {
+                parser->error_message = strdup("Invalid color after comma");
+                return false;
             }
+            continue;
         }
-        
-        // Add other attribute parsing here as needed
-        break;
+        // For other attributes, only accept the configured delimiter
+        if (!parser->method->is_delimiter(parser, c)) {
+            char dbg[128];
+            snprintf(dbg, sizeof(dbg), "Unexpected character '%c' at pos %zu, expected delimiter", c, parser->position);
+            parser->error_message = strdup(dbg);
+            return false;
+        }
+
+        parser->position++; // Skip delimiter
+        break; // Only one delimiter/attribute allowed after value
     }
-    
+
     return true;
 }

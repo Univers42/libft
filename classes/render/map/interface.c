@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:06:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 22:55:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/31 23:39:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,22 @@ void cleanup_parser(t_parser *parser)
     free(parser->buffer);
     free(parser->error_message);
     free(parser->filename);
+}
+
+bool advance_line(t_parser *parser)
+{
+    t_ctx_data *ctx = parser->context;
+    
+    // Set width on first line
+    if (!ctx->width_set && ctx->x > 0) {
+        ctx->width = ctx->x;
+        ctx->width_set = true;
+    }
+    
+    // Reset x position and increment y/height
+    ctx->x = 0;
+    ctx->y++;
+    ctx->height++;
+    
+    return true;
 }

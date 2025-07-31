@@ -6,39 +6,57 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:06:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 20:15:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:55:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-t_parser_vtable *singleton(void)
+t_method *get_parser_method(void)
 {
-    static  t_parser_vtable vtable = 
-    {
-        .parse_chunk = parse_chunk,
-        .parse_value = parse_val,
-        .parse_color = parse_color,
-        .finalize = finalize,
-        .is_delimiter = is_delimiter,
-        .skip_delimiters = skip_delimiters,
-        .line_advance = line_advance,
-        .validate_format = validate_format,
-        .cleanup = cleanup,
-        .realloc_data = realloc_data,
+    static t_method method = {
+        .parse = parser_parse,
+        .parse_token = NULL,
+        .parse_value = parse_value_token,
+        .parse_color = parse_color_token,
+        .parse_string = NULL,
+        .finalize = finalize_parsing,
+        .cleanup = cleanup_parser,
+        .realloc_data = realloc_parser_data,
+        .print_debug = parser_print_debug,
+        .advance_line = advance_parser_line,
+        .skip_delimiter = skip_parser_delimiters,
+        .is_delimiter = is_parser_delimiter,
+        .validate_format = validate_parser_format
     };
-
-    return (&vtable);
+    return &method;
 }
 
-void    parser_destroy(t_parser_base *parser)
+void parser_destroy(t_parser *parser)
 {
     if (!parser)
-        return ;
-    if (parser->vtable && parser->vtable->cleanup)
-        parser->vtable->cleanup(parser);
-    free(parser->buffer);
-    free(parser->error_message);
+        return;
+    if (parser->method && parser->method->cleanup)
+        parser->method->cleanup(parser);
     free(parser);
 }
 
+void cleanup_parser(t_parser *parser)
+{
+    if (!parser)
+        return;
+    if (parser->context) {
+        free(parser->context->points);
+        free(parser->context->colors);
+        if (parser->context->strings) {
+            for (size_t i = 0; i < parser->context->values_read; i++) {
+                free(parser->context->strings[i]);
+            }
+            free(parser->context->strings);
+        }
+        free(parser->context);
+    }
+    free(parser->buffer);
+    free(parser->error_message);
+    free(parser->filename);
+}

@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/07/30 15:58:49 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/07/31 23:13:57 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,9 @@ MINILIBX_DIR = minilibx-linux
 MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
 # Directories
 DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
-					data_structures/lists data_structures/vector classes/render/line \
-					classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
+					data_structures/lists data_structures/vector classes/render/map
+
+# classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
 SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort
 
 
@@ -57,7 +58,7 @@ HEADER_DIRS += .
 INCLUDE_FLAGS := $(foreach dir,$(HEADER_DIRS),-I$(dir))
 
 # Add INCLUDE_FLAGS to CFLAGS
-CFLAGS += $(INCLUDE_FLAGS)
+CFLAGS += $(INCLUDE_FLAGS) -g3
 
 # Default rule: build the library
 all: $(MINILIBX_LIB) $(NAME)

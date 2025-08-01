@@ -5,9 +5,9 @@
 
 // Example: Cycle through terrain colors as themes
 static t_terrain g_themes[] = {
-    GROUND720, PURPLE1, YELLOW_PALE, GREEN, PURPLE, AQUA, SHALLOW, DEEP,
+    GROUND720, PURPLE1, YELLOW_PALE, GREEN_TERRAIN, PURPLE, AQUA, SHALLOW, DEEP,
     PURPLE2, PURPLE3, PURPLE4, PINK, WHITE1, WHITE2, ORANGE, ORANGE2, ORANGE3,
-    YELLOW, GREEN_PALE, GREEN_PALE2, BLUE, BLUE2, BLUE3, BLUE4
+    YELLOW_TERRAIN, GREEN_PALE, GREEN_PALE2, BLUE_TERRAIN, BLUE2, BLUE3, BLUE4
 };
 static int g_theme_count = sizeof(g_themes) / sizeof(g_themes[0]);
 static int g_current_theme = 0;

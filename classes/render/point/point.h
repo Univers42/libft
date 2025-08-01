@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 05:38:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 02:08:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_terrain
 	GROUND720 = 0xac7456,
 	PURPLE1 = 0Xbfabcc,
 	YELLOW_PALE = 0xdecd51,
-	GREEN = 0xaced99,
+	GREEN_TERRAIN = 0xaced99,
 	PURPLE = 0Xac74f9,
 	AQUA = 0x40cdbf,
 	SHALLOW = 0X189995,
@@ -38,10 +38,10 @@ typedef enum e_terrain
 	ORANGE = 0xc56930,
 	ORANGE2 = 0Xc66a31,
 	ORANGE3 = 0Xd77b34,
-	YELLOW = 0xe79b34,
+	YELLOW_TERRAIN = 0xe79b34,
 	GREEN_PALE = 0xb5baa6,
 	GREEN_PALE2 = 0xb2b8a5,
-	BLUE = 0X3babbf,
+	BLUE_TERRAIN = 0X3babbf,
 	BLUE2 = 0x3aaaaf,
 	BLUE3 = 0X3ca9af,
 	BLUE4 = 0x3a98ae
@@ -52,24 +52,6 @@ typedef enum e_gamma
 	gamma1 = 0xac74f9,
 	gamma2 = 0x997498
 }			t_gamma;
-
-typedef struct s_vector
-{
-	double	x;
-	double	y;
-	union
-	{
-		struct
-		{
-			double	z;
-		}	s_v3;
-		struct
-		{
-			double	z;
-			double	w;
-		}	s_v4;
-	}	u_ctx;
-}	t_vector;
 
 typedef struct s_position
 {
@@ -97,9 +79,36 @@ typedef struct s_color
 	}	s_rgba;
 }	t_color;
 
+// Only define t_vector if not already defined
+#ifndef FT_VECTOR_H
+#define FT_VECTOR_H
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+	union
+	{
+		struct
+		{
+			double	z;
+		}	s_v3;
+		struct
+		{
+			double	z;
+			double	w;
+		}	s_v4;
+	}	u_ctx;
+}	t_vector;
+#endif
+
+// Only define t_vector typedef if not already defined
+#ifndef POINT_T_VECTOR_TYPEDEF
+#define POINT_T_VECTOR_TYPEDEF
 typedef t_vector		t_vec2;
 typedef t_vector		t_vec3;
 typedef t_vector		t_vec4;
+#endif
+
 typedef struct s_point	t_point;
 
 typedef struct s_point_vtable

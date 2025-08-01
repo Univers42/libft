@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:52:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 00:04:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 01:54:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,43 +164,6 @@ bool parse_value_token(t_parser *parser, t_token *token)
 
     return true;
 }
-
-// Remove this unused function:
-// static bool parse_token_sequence(t_parser *parser)
-// {
-//     t_token token;
-//    
-//     // Always parse value first (mandatory)
-//     if (!parser->method->parse_value(parser, &token))
-//         return false;
-//    
-//     if (!store_parsed_value(parser, &token))
-//         return false;
-//    
-//     // Parse additional attributes based on configuration
-//     while (parser->position < parser->buffer_size && 
-//            parser->buffer[parser->position] != '\n' &&
-//            parser->buffer[parser->position] != ' ') {
-//        
-//         if (!parser->method->is_delimiter(parser, parser->buffer[parser->position]))
-//             break;
-//        
-//         parser->position++; // Skip delimiter
-//        
-//         // Parse next attribute based on what's expected
-//         if (parser->config.attributes & ATT_COLOR) {
-//             if (parse_color_token(parser, &token)) {
-//                 store_parsed_value(parser, &token); // Use store_parsed_value instead
-//                 continue;
-//             }
-//         }
-//        
-//         // Add other attribute parsing here as needed
-//         break;
-//     }
-//    
-//     return true;
-// }
 
 bool parser_parse(t_parser *parser)
 {

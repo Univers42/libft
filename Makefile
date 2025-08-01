@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/07/31 23:13:57 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/08/01 02:36:24 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,10 @@ MINILIBX_DIR = minilibx-linux
 MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
 # Directories
 DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
-					data_structures/lists data_structures/vector classes/render/map
+					data_structures/lists data_structures/vector classes/render/map classes/render/window classes/render/inputHandler
 
 # classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
-SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort
+SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort classes/render/inputHandler
 
 
 # Source files from all directories including ft_printf and gnl

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:17:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 22:54:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 01:55:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,5 @@ void fsm_handle_word(t_parser *parser)
 {
     while (parser->position < parser->buffer_size &&
            !is_parser_delimiter(parser, parser->buffer[parser->position]))
-    {
         parser->position++;
-    }
 }

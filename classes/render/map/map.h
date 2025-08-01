@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:52:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 23:08:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 07:53:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include "window.h" // Add this to get the full definition of struct s_method
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 4096
@@ -90,7 +91,7 @@ typedef struct s_token
     bool            valid;
 } t_token;
 
-typedef struct s_method
+typedef struct s_vmap
 {
     bool    (*parse)(t_parser *parser);
     bool    (*parse_token)(t_parser *parser, t_token *token);
@@ -105,7 +106,7 @@ typedef struct s_method
     size_t  (*skip_delimiter)(t_parser *parser, size_t pos);
     bool    (*is_delimiter)(t_parser *parser, char c);
     bool    (*validate_format)(t_parser *parser, const char *data, size_t size);
-} t_method;
+} t_vmap;
 
 typedef struct s_ctx_data
 {
@@ -133,7 +134,7 @@ typedef struct s_ctx_data
 
 typedef struct s_parser
 {
-    t_method            *method;
+    t_vmap              *method; // <-- change from t_method * to t_vmap *
     t_parser_config     config;
     char                *buffer;
     char                *error_message;
@@ -163,7 +164,8 @@ size_t      skip_parser_delimiters(t_parser *parser, size_t offset);
 bool        advance_parser_line(t_parser *parser);
 bool        validate_parser_format(t_parser *parser, const char *data, size_t size);
 void        cleanup_parser(t_parser *parser);
-t_method    *get_parser_method(void);
+t_vmap      *get_parser_method(void); // <-- fix prototype to match implementation
+void        parser_cleanup(t_parser *parser); // <-- add prototype
 
 // Add these prototypes for legacy/basic parser support:
 bool        parse_val(t_parser *parser, const char *data, size_t *offset);

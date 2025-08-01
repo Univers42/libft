@@ -19,8 +19,8 @@ bool	line_is_vertical(t_line *self)
 
 	if (!self || !self->start || !self->end)
 		return (false);
-	start_coord = self->start->vtable->get_coordinate(self->start);
-	end_coord = self->end->vtable->get_coordinate(self->end);
+	self->start->vtable->get_coordinate(self->start, &start_coord);
+	self->end->vtable->get_coordinate(self->end, &end_coord);
 	return (start_coord.x == end_coord.x);
 }
 
@@ -31,8 +31,8 @@ bool	line_is_horizontal(t_line *self)
 
 	if (!self || !self->start || !self->end)
 		return (false);
-	start_coord = self->start->vtable->get_coordinate(self->start);
-	end_coord = self->end->vtable->get_coordinate(self->end);
+	self->start->vtable->get_coordinate(self->start, &start_coord);
+	self->end->vtable->get_coordinate(self->end, &end_coord);
 	return (start_coord.y == end_coord.y);
 }
 

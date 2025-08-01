@@ -37,7 +37,7 @@ static void create_random_points(t_point **points, int count, int width, int hei
 // Redraw callback: clear, project, and draw all points
 static int redraw(void *param) {
     t_app_ctx *ctx = (t_app_ctx *)param;
-    ctx->win->vtable->clear(ctx->win);
+    ctx->win->method->clear(ctx->win);
     for (int i = 0; i < ctx->point_count; ++i) {
         t_point *pt = ctx->points[i];
         t_vec2 projected = {0};
@@ -47,7 +47,7 @@ static int redraw(void *param) {
             projected = pt->coordinate;
         window_draw_point(ctx->win, (int)projected.x, (int)projected.y, pt->color.hex_color);
     }
-    ctx->win->vtable->update_image(ctx->win);
+    ctx->win->method->update_image(ctx->win);
     return 0;
 }
 
@@ -64,19 +64,19 @@ int main(void)
     t_camera *camera = camera_new(CAMERA_ISOMETRIC);
     if (!camera) {
         fprintf(stderr, "Failed to create camera\n");
-        win->vtable->destroy(win);
+        win->method->destroy(win);
         return 1;
     }
 
     t_input_handler *handler = input_handler_new(camera);
     if (!handler) {
         fprintf(stderr, "Failed to create input handler\n");
-        win->vtable->destroy(win);
+        win->method->destroy(win);
         camera_destroy(camera);
         return 1;
     }
 
-    win->vtable->set_resizable(win);
+    win->method->set_resizable(win);
     input_handler_register(win, handler);
 
     // Create and store points (only once, do not recreate in redraw)
@@ -105,7 +105,7 @@ int main(void)
     for (int i = 0; i < POINT_COUNT; ++i)
         if (points[i]) point_destroy(points[i]);
     free(ctx);
-    win->vtable->destroy(win);
+    win->method->destroy(win);
     input_handler_destroy(handler);
     camera_destroy(camera);
     return 0;

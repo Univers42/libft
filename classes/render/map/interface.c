@@ -6,22 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:06:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/31 23:39:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 07:52:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 
-t_method *get_parser_method(void)
+t_vmap *get_parser_method(void)
 {
-    static t_method method = {
+    static t_vmap method = {
         .parse = parser_parse,
         .parse_token = NULL,
         .parse_value = parse_value_token,
         .parse_color = parse_color_token,
         .parse_string = NULL,
         .finalize = finalize_parsing,
-        .cleanup = cleanup_parser,
+        .cleanup = parser_cleanup,
         .realloc_data = realloc_parser_data,
         .print_debug = parser_print_debug,
         .advance_line = advance_parser_line,
@@ -39,6 +39,14 @@ void parser_destroy(t_parser *parser)
     if (parser->method && parser->method->cleanup)
         parser->method->cleanup(parser);
     free(parser);
+}
+
+void parser_cleanup(t_parser *parser)
+{
+    if (!parser)
+        return;
+    // Actual cleanup logic here
+    cleanup_parser(parser);
 }
 
 void cleanup_parser(t_parser *parser)

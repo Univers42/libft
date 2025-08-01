@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 13:37:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:14:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_key_state	*get_key_state(void)
 	return (&key_state);
 }
 
-static void	compute_direction_vector(t_vector *dvec, t_key_state *key_state)
+static void	compute_direction_vector(t_vectorN *dvec, t_key_state *key_state)
 {
-	ft_memset(dvec, 0, sizeof(t_vector));
+	ft_memset(dvec, 0, sizeof(t_vectorN));
 	if (key_state->up)
 		dvec->y -= 1;
 	if (key_state->down)
@@ -49,7 +49,7 @@ void	update_movement(t_camera *camera)
 {
 	double		len;
 	double		speed;
-	t_vector	dvec;
+	t_vectorN	dvec;
 	t_key_state	*key_state;
 
 	key_state = get_key_state();

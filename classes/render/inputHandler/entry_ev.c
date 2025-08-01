@@ -35,8 +35,8 @@ void dispatch_event(t_input_handler *handler, t_window *win, int keycode, int is
     if (mask & EVENT_EXIT)
     {
         // Example: close window on exit event
-        if (win && win->vtable && win->vtable->close)
-            win->vtable->close(win);
+        if (win && win->method && win->method->close)
+            win->method->close(win);
     }
     if (mask & EVENT_MOUSE)
     {

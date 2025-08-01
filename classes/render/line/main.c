@@ -36,7 +36,7 @@ int	main(void)
 	handler = input_handler_new(NULL);
 	if (!handler)
 		return (1);
-	win->vtable->set_resizable(win);
+	win->method->set_resizable(win); // <-- use .method instead of .vtable
 	input_handler_register(win, handler);
 
 	// Create points and lines
@@ -55,7 +55,7 @@ int	main(void)
 	window_draw_line(win, line3);
 
 	// Show the result
-	win->vtable->update_image(win);
+	win->method->update_image(win); // <-- use .method instead of .vtable
 
 	// Cleanup lines and points (window does not own them)
 	line1->vtable->destroy(line1);
@@ -69,7 +69,7 @@ int	main(void)
 	// Enter event loop
 	mlx_loop(win->mlx);
 
-	win->vtable->destroy(win);
+	win->method->destroy(win); // <-- use .method instead of .vtable
 	free(handler);
 	return (0);
 }

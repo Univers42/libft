@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:49:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 01:10:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 08:54:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LINE_H
 # define LINE_H
+# include <stdint.h>
 # include "point.h"
 
 typedef struct s_line t_line;

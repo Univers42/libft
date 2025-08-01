@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:47:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 13:34:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 07:54:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	mlx_destroy_notify_cb(void *param)
 	t_window	*win;
 
 	win = (t_window *)param;
-	if (win && win->vtable && win->vtable->close)
-		win->vtable->close(win);
+	if (win && win->method && win->method->close)
+		win->method->close(win);
 	return (0);
 }
 

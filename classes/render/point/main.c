@@ -9,7 +9,7 @@
 static void draw_filled_square_to_buffer(t_window *win, int x, int y, int size, uint32_t color)
 {
 	int bpp, size_line, endian;
-	char *buf = win->vtable->get_image_buffer(win, &bpp, &size_line, &endian);
+	char *buf = win->method->get_image_buffer(win, &bpp, &size_line, &endian);
 	if (!buf) return;
 	int half = size / 2;
 	for (int dy = -half; dy <= half; ++dy)
@@ -33,7 +33,7 @@ int on_window_resize(int new_width, int new_height, void *param)
 	t_window *win = (t_window *)param;
 	if (!win)
 		return (0);
-	win->vtable->resize(win, new_width, new_height);
+	win->method->resize(win, new_width, new_height);
 	return (0);
 }
 
@@ -61,10 +61,10 @@ static int redraw(void *param)
 	// If window size changed, resize buffer and redraw
 	if (ctx->win->width != (int)w || ctx->win->height != (int)h)
 	{
-		ctx->win->vtable->resize(ctx->win, w, h);
+		ctx->win->method->resize(ctx->win, w, h);
 	}
 
-	buf = ctx->win->vtable->get_image_buffer(ctx->win, &bpp, &size_line, &endian);
+	buf = ctx->win->method->get_image_buffer(ctx->win, &bpp, &size_line, &endian);
 	if (buf)
 		ft_memset(buf, 0, size_line * ctx->win->height);
 
@@ -78,7 +78,7 @@ static int redraw(void *param)
 		if (size < 1) size = 1;
 		draw_filled_square_to_buffer(ctx->win, coord.x, coord.y, size, col.hex_color);
 	}
-	ctx->win->vtable->update_image(ctx->win);
+	ctx->win->method->update_image(ctx->win);
 	return (0);
 }
 
@@ -125,7 +125,7 @@ int main(void)
 		point_destroy(points[i]);
 	camera_destroy(camera);
 	input_handler_destroy(handler);
-	win->vtable->destroy(win);
+	win->method->destroy(win);
 	free(ctx);
 	return (0);
 }

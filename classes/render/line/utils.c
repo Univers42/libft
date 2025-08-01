@@ -26,9 +26,9 @@ double	line_distance_to_point(t_line *line, t_point *point)
 
 	if (!line || !point || !line->start || !line->end)
 		return (-1.0);
-	start = line->start->vtable->get_position(line->start);
-	end = line->end->vtable->get_position(line->end);
-	p = point->vtable->get_position(point);
+	line->start->vtable->get_position(line->start, &start);
+	line->end->vtable->get_position(line->end, &end);
+	point->vtable->get_position(point, &p);
 	line_len_sq = (end.x - start.x) * (end.x - start.x)
 		+ (end.y - start.y) * (end.y - start.y);
 	if (line_len_sq == 0.0)

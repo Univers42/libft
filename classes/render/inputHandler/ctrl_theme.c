@@ -16,15 +16,15 @@ void handle_theme_key(t_input_handler *handler, t_window *win, int keycode)
 {
     (void)win;
     (void)handler;
-    if (!win || !win->vtable)
+    if (!win || !win->method)
         return;
     if (keycode == 't')
     {
         g_current_theme = (g_current_theme + 1) % g_theme_count;
         unsigned int color = g_themes[g_current_theme];
         printf("[THEME] Key 't' pressed: switching to theme color 0x%06x\n", color);
-        win->vtable->set_background_color(win, color);
-        win->vtable->clear(win);
+        win->method->set_background_color(win, color);
+        win->method->clear(win);
     }
     // Add more theme keys if needed
 }

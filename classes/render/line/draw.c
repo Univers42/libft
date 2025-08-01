@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:08:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 16:15:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:52:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	line_draw_bresenham(t_line *self, t_pixel_callback callback, void *data)
 
 	if (!self || !self->start || !self->end || !callback)
 		return ;
-	start = self->start->vtable->get_coordinate(self->start);
-	end = self->end->vtable->get_coordinate(self->end);
+	// Fix: pass second argument to get_coordinate
+	self->start->vtable->get_coordinate(self->start, &start);
+	self->end->vtable->get_coordinate(self->end, &end);
 	dx = ft_abs(end.x - start.x);
 	dy = ft_abs(end.y - start.y);
 	sx = start.x < end.x ? 1 : -1;
@@ -79,8 +80,9 @@ void	line_draw_dda(t_line *self, t_pixel_callback callback, void *data)
 
 	if (!self || !self->start || !self->end || !callback)
 		return ;
-	start = self->start->vtable->get_coordinate(self->start);
-	end = self->end->vtable->get_coordinate(self->end);
+	// Fix: pass second argument to get_coordinate
+	self->start->vtable->get_coordinate(self->start, &start);
+	self->end->vtable->get_coordinate(self->end, &end);
 	dx = end.x - start.x;
 	dy = end.y - start.y;
 	steps = ft_abs(dx) > ft_abs(dy) ? ft_abs(dx) : ft_abs(dy);

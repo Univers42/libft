@@ -6,11 +6,31 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:05:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 16:14:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:52:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line.h"
+
+static t_line_vtable	g_line_vtable = {
+	.get_start = line_get_start,
+	.get_end = line_get_end,
+	.set_start = line_set_start,
+	.set_end = line_set_end,
+	.set_points = line_set_points,
+	.get_length = line_get_length,
+	.get_slope = line_get_slope,
+	.is_vertical = line_is_vertical,
+	.is_horizontal = line_is_horizontal,
+	.interpolate_color = line_interpolate_color,
+	.interpolate_point = line_interpolate_point,
+	.draw_bresenham = line_draw_bresenham,
+	.draw_dda = line_draw_dda,
+	.translate = line_translate,
+	.scale = line_scale,
+	.clone = line_clone,
+	.destroy = line_destroy_method
+};
 
 /* Constructor - references existing points */
 t_line	*line_new(t_point *start, t_point *end)

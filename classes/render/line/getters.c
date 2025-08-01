@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:04:20 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 16:07:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:52:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ double	line_get_slope(t_line *self)
 
 	if (!self || !self->start || !self->end)
 		return (0.0);
-	start_coord = self->start->vtable->get_coordinate(self->start);
-	end_coord = self->end->vtable->get_coordinate(self->end);
+	self->start->vtable->get_coordinate(self->start, &start_coord);
+	self->end->vtable->get_coordinate(self->end, &end_coord);
 	dx = end_coord.x - start_coord.x;
 	dy = end_coord.y - start_coord.y;
 	if (dx == 0)

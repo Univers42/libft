@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:01:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 15:55:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:50:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # include "camera.h"
 # include "input_handler.h"
 # include "line.h"
+# include <stdint.h> // <-- Add this line
+
+// Forward declaration for t_line to resolve circular dependency
+struct s_line;
+typedef struct s_line t_line;
 
 // Fallback Defaults
 # define DEFAULT_START_W 800
@@ -68,7 +73,53 @@ typedef struct s_server			t_server;
 typedef struct s_input_handler	t_input_handler;
 typedef struct s_window			t_window;
 
-typedef struct t_window_vtable
+typedef enum e_layer_type
+{
+    LAYER_BACKGROUND = 0,  // Static background (rarely changes)
+    LAYER_MAP,            // Map data (changes on pan/zoom)
+    LAYER_OBJECTS,        // Dynamic objects (frequent updates)
+    LAYER_UI,             // UI elements (overlays, menus)
+    LAYER_COUNT
+} t_layer_type;
+
+// Dirty region tracking
+typedef struct s_dirty_rect
+{
+    int x, y, width, height;
+    int is_dirty;
+} t_dirty_rect;
+
+// Cache layer structure
+typedef struct s_cache_layer
+{
+    void *img;                    // MLX image for this layer
+    char *buffer;                 // Raw pixel buffer
+    t_dirty_rect dirty_rect;      // Dirty region tracking
+    int is_visible;               // Layer visibility
+    int needs_full_redraw;        // Force complete redraw flag
+    unsigned long last_update;    // Timestamp for cache invalidation
+} t_cache_layer;
+
+// Enhanced window structure with caching
+typedef struct s_window_cache
+{
+    t_cache_layer layers[LAYER_COUNT];
+    void *composite_img;          // Final composited image
+    char *composite_buffer;       // Composite buffer
+    int viewport_x, viewport_y;   // Current viewport position
+    double zoom_level;            // Current zoom level
+    int cache_enabled;            // Global cache toggle
+    
+    // Optimization flags
+    int background_cached;        // Background is cached and valid
+    int map_cache_valid;          // Map cache is valid for current view
+    
+    // Performance counters (optional)
+    int cache_hits;
+    int cache_misses;
+} t_window_cache;
+
+typedef struct s_method
 {
 	void	(*destroy)(t_window *self);
 	void	(*resize)(t_window *self, int width, int height);
@@ -83,7 +134,7 @@ typedef struct t_window_vtable
 	void	(*update_image)(t_window *self);
 	void	(*set_background_color)(t_window *self, unsigned int color);
 	void	(*clear)(t_window *self);
-}	t_window_vtable;
+}	t_method;
 
 typedef struct s_window_key_state
 {
@@ -93,26 +144,31 @@ typedef struct s_window_key_state
 
 typedef struct s_window
 {
-	const t_window_vtable	*vtable;
-	char					*screen_buffer;
-	int						width;
-	int						height;
-	int						startw;
-	int						endw;
-	int						starth;
-	int						endh;
-	int						steps;
-	int						is_resizing;
-	void					*mlx;
-	void					*win;
-	void					*img;
-	t_input_handler			*input_handler;
-	int						draw_offset_x;
-	int						draw_offset_y;
-	void					(*redraw_cb)(void *ctx);
-	void					*redraw_ctx;
-	unsigned int background_color;
-}	t_window;
+    const t_method          *method;
+    char                    *screen_buffer;
+    t_window_cache          *cache;           // NEW: Cache system
+    int                     width;
+    int                     height;
+    int                     startw;
+    int                     endw;
+    int                     starth;
+    int                     endh;
+    int                     steps;
+    int                     is_resizing;
+    void                    *mlx;
+    void                    *win;
+    void                    *img;
+    void                    *img_bg;         // Keep existing layers for compatibility
+    void                    *img_fg;
+    void                    *img_ui;
+    t_input_handler         *input_handler;
+    int                     draw_offset_x;
+    int                     draw_offset_y;
+    void                    (*redraw_cb)(void *ctx);
+    void                    *redraw_ctx;
+    unsigned int            background_color;
+} t_window;
+
 
 // Only declare the API, don't define it in the header
 t_window				*window_new(int width, int height, const char *title);
@@ -128,8 +184,23 @@ void					window_start_resizing(t_window *self);
 void					window_stop_resizing(t_window *self,
 							int width, int height);
 void					window_poll_resize(t_window *self);
-const t_window_vtable	*get_window_vtable(void);
-void					window_realloc_screen_buffer(t_window *self);
+const t_method			*get_method(void);
+void					window_realloc_screen_buffer(t_window *self, int old_width, int old_height);
 // Draw a line into the window's image buffer
-void	window_draw_line(t_window *win, t_line *line);
+void					window_draw_line(t_window *win, t_line *line);
+void					window_set_background_color(t_window *self, unsigned int color);
+void					window_sync_screen_buffer_to_image(t_window *self);
+
+// Cache API prototypes
+int window_cache_init(t_window *win);
+void window_cache_destroy(t_window *win);
+void window_cache_smart_update(t_window *win);
+void window_cache_render_background(t_window *win);
+void window_cache_draw_line_to_layer(t_window *win, t_layer_type layer, t_line *line);
+void window_cache_draw_point(t_window *win, t_layer_type layer, int x, int y, unsigned int color);
+void window_cache_update_viewport(t_window *win, int cam_x, int cam_y, double zoom);
+void window_cache_clear_layer(t_window *win, t_layer_type layer, unsigned int color);
+void window_cache_mark_dirty(t_window *win, t_layer_type layer, int x, int y, int width, int height);
+void window_cache_smart_update(t_window *win);
+
 #endif

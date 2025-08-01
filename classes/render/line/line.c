@@ -32,14 +32,26 @@ uint32_t	line_interpolate_color(t_line *self, double t)
 
 	if (!self || !self->start || !self->end || t < 0.0 || t > 1.0)
 		return (0);
-	start_color = self->start->vtable->get_color(self->start);
-	end_color = self->end->vtable->get_color(self->end);
+	self->start->vtable->get_color(self->start, &start_color);
+	self->end->vtable->get_color(self->end, &end_color);
 	return (color_lerp(start_color.hex_color, end_color.hex_color, t));
 }
 
+/* Constructor - references existing points */
+t_line	*line_new(t_point *start, t_point *end)
+{
+	t_line	*line;
 
-
-
-
+	if (!start || !end)
+		return (NULL);
+	line = malloc(sizeof(t_line));
+	if (!line)
+		return (NULL);
+	line->start = start;
+	line->end = end;
+	line->owns_points = false;
+	line->vtable = &g_line_vtable;
+	return (line);
+}
 
 /* Utility functions */

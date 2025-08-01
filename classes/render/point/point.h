@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 02:08:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:49:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ typedef struct s_color
 	}	s_rgba;
 }	t_color;
 
-// Only define t_vector if not already defined
-#ifndef FT_VECTOR_H
-#define FT_VECTOR_H
-typedef struct s_vector
+typedef struct s_vectorN
 {
 	double	x;
 	double	y;
@@ -98,18 +95,17 @@ typedef struct s_vector
 			double	w;
 		}	s_v4;
 	}	u_ctx;
-}	t_vector;
-#endif
+}	t_vectorN;
 
-// Only define t_vector typedef if not already defined
-#ifndef POINT_T_VECTOR_TYPEDEF
-#define POINT_T_VECTOR_TYPEDEF
-typedef t_vector		t_vec2;
-typedef t_vector		t_vec3;
-typedef t_vector		t_vec4;
-#endif
+typedef t_vectorN		t_vec2;
+typedef t_vectorN		t_vec3;
+typedef t_vectorN		t_vec4;
 
 typedef struct s_point	t_point;
+
+// Forward declaration for t_line to resolve circular dependency
+struct s_line;
+typedef struct s_line t_line;
 
 typedef struct s_point_vtable
 {
@@ -132,6 +128,7 @@ struct s_point
 	t_position		world_pos;
 	t_color			color;
 	t_point_vtable	*vtable;
+	t_pos			pos;
 	double			speed; // Add speed member
 };
 

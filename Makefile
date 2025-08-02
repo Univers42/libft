@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/01 10:45:16 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/08/03 00:53:43 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ MINILIBX_DIR = minilibx-linux
 MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
 # Directories
 DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
-					data_structures/lists data_structures/vector classes/render/map classes/render/window classes/render/inputHandler classes/render/point classes/render/line
+					data_structures/lists data_structures/vector classes/render/map classes/render/window classes/render/inputHandler classes/render/point classes/render/line classes/trace/error \
+					stdlib/arena stdlib/pool stdlib/slab
 
 # classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
 SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib strings sort classes/render/inputHandler

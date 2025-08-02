@@ -137,7 +137,20 @@ void	*mlx_int_new_image(t_xvar *xvar,int width, int height,int format)
   return (img);
 }
 
-
+/**
+ * creates a new empty image buffer in memory with the specified
+ * width and height. It returns a pointer to this image, which we can
+ * then draw on (by modifying its pixel data) before displaying it in a
+ * window using `mlx_put_image_to_window`
+ * @param xvar pointer struct of the window
+ * @param width to adapt the buffer screen of the window size
+ * @param height to adapt the buffer screen of the window size
+ * @return return the pointer to buffer image ready to be filled
+ * SUMMARY:
+ * - Allocates an off-screen image buffer (not visible until we display it)
+ * - We can access and modify the pixel data using `mlx_get_data_addr`
+ * used for custom drawing, double buffering, and efficient rendering
+ */
 void	*mlx_new_image(t_xvar *xvar,int width, int height)
 {
   t_img	*img;

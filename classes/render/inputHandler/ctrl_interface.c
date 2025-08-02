@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 11:50:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 07:53:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:44:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,29 @@
 void handle_interface_key(t_input_handler *handler, t_window *win, int keycode)
 {
     (void)handler;
-    if (!win || !win->method)
+    if (!win || !win->vtable)
         return;
     if (keycode == 'r')
     {
-        // Example: Toggle window resizable
-        printf("[INTERFACE] Key 'r' pressed: toggling resizable\n");
-        win->method->set_resizable(win);
+        // Example: Toggle window resizable (implement if you have this in your vtable)
+        // If not implemented, you can ignore or add your own function.
+        // printf("[INTERFACE] Key 'r' pressed: toggling resizable\n");
+        // win->vtable->set_resizable(win);
     }
     else if (keycode == 'b')
     {
         // Example: Change background color (dummy value)
         printf("[INTERFACE] Key 'b' pressed: changing background color\n");
-        win->method->set_background_color(win, 0x003366);
+        window_set_background(win, 0x003366);
+        window_clear(win);
+        window_render(win);
     }
     else if (keycode == 'c')
     {
         // Example: Clear window
         printf("[INTERFACE] Key 'c' pressed: clearing window\n");
-        win->method->clear(win);
+        window_clear(win);
+        window_render(win);
     }
     // Add more interface events as needed
 }

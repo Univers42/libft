@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:47:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 07:54:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:49:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,21 @@ static void on_mouse_release_adapter(t_input_handler *self, t_window *win, int b
 }
 
 // Replace the global variable with a singleton accessor
-const t_input_handlerVTable	*get_input_handler_vtable(void)
+const t_input_handlerVTable *get_input_handler_vtable(void)
 {
-	static t_input_handlerVTable	vtable = {
+	static t_input_handlerVTable vtable = {
 		.on_key_press = on_key_press,
 		.on_key_release = on_key_release,
 		.on_mouse_press = on_mouse_press,
 		.on_mouse_release = on_mouse_release_adapter,
-		.on_mouse_motion = on_mouse_motion
-	};
+		.on_mouse_motion = on_mouse_motion};
 
 	return (&vtable);
 }
 
-t_input_handler	*input_handler_new(t_camera *camera)
+t_input_handler *input_handler_new(t_camera *camera)
 {
-	t_input_handler	*handler;
+	t_input_handler *handler;
 
 	handler = malloc(sizeof(t_input_handler));
 	if (!handler)
@@ -63,17 +62,17 @@ t_input_handler	*input_handler_new(t_camera *camera)
 	return (handler);
 }
 
-int	mlx_destroy_notify_cb(void *param)
+int mlx_destroy_notify_cb(void *param)
 {
-	t_window	*win;
+	t_window *win;
 
 	win = (t_window *)param;
-	if (win && win->method && win->method->close)
-		win->method->close(win);
+	if (win)
+		window_destroy(win);
 	return (0);
 }
 
-void	input_handler_destroy(t_input_handler *handler)
+void input_handler_destroy(t_input_handler *handler)
 {
 	if (handler)
 		free(handler);

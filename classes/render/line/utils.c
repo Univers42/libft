@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:11:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 16:12:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:52:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line.h"
-
+#include "ft_math.h"
 double	line_distance_to_point(t_line *line, t_point *point)
 {
 	t_position	start;
@@ -32,7 +32,7 @@ double	line_distance_to_point(t_line *line, t_point *point)
 	line_len_sq = (end.x - start.x) * (end.x - start.x)
 		+ (end.y - start.y) * (end.y - start.y);
 	if (line_len_sq == 0.0)
-		return (sqrt((p.x - start.x) * (p.x - start.x)
+		return (ft_sqrt((p.x - start.x) * (p.x - start.x)
 				+ (p.y - start.y) * (p.y - start.y)));
 	t = ((p.x - start.x) * (end.x - start.x)
 			+ (p.y - start.y) * (end.y - start.y)) / line_len_sq;
@@ -44,7 +44,7 @@ double	line_distance_to_point(t_line *line, t_point *point)
 	projection_y = start.y + t * (end.y - start.y);
 	dx = p.x - projection_x;
 	dy = p.y - projection_y;
-	return (sqrt(dx * dx + dy * dy));
+	return (ft_sqrt(dx * dx + dy * dy));
 }
 
 uint32_t	color_lerp(uint32_t color1, uint32_t color2, double t)

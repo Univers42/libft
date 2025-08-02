@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:21:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 16:22:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/03 00:16:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ double	util_divide_positive(double a, double b, t_handler *err)
 
 double	util_divide_force_zero(double a, t_handler *err)
 {
+	(void)a;
 	err->last_error = 200;
 	print_error(err, __FILE__, __func__, __LINE__);
 	return (0.0);

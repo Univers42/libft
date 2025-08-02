@@ -3,19 +3,22 @@
 #include "input_handler.h"
 #include "camera.h"
 #include <unistd.h>
-#include "mlx.h" // Add this include for mlx_pixel_put and mlx_loop
+#include <string.h>
+#include "mlx.h"
 
 // Helper to draw a filled square centered at (x, y) with given size into the image buffer
 static void draw_filled_square_to_buffer(t_window *win, int x, int y, int size, uint32_t color)
 {
-	int bpp, size_line, endian;
-	char *buf = win->method->get_image_buffer(win, &bpp, &size_line, &endian);
-	if (!buf) return;
+	int bpp = win->bpp, size_line = win->size_line;
+	char *buf = win->img_data;
+	if (!buf)
+		return;
 	int half = size / 2;
 	for (int dy = -half; dy <= half; ++dy)
 	{
 		int py = y + dy;
-		if (py < 0 || py >= win->height) continue;
+		if (py < 0 || py >= win->height)
+			continue;
 		for (int dx = -half; dx <= half; ++dx)
 		{
 			int px = x + dx;
@@ -33,12 +36,13 @@ int on_window_resize(int new_width, int new_height, void *param)
 	t_window *win = (t_window *)param;
 	if (!win)
 		return (0);
-	win->method->resize(win, new_width, new_height);
+	window_resize(win, new_width, new_height);
 	return (0);
 }
 
 // Remove static/global variables and use a struct context allocated on the heap
-typedef struct s_redraw_ctx {
+typedef struct s_redraw_ctx
+{
 	t_window *win;
 	t_camera *camera;
 	t_point **points;
@@ -47,51 +51,41 @@ typedef struct s_redraw_ctx {
 static int redraw(void *param)
 {
 	t_redraw_ctx *ctx = (t_redraw_ctx *)param;
-	int bpp, size_line, endian;
-	char *buf;
+	int size_line = ctx->win->size_line;
+	char *buf = ctx->win->img_data;
 
-	// Poll actual window size
-	Window root;
-	int x, y;
-	unsigned int w, h, border, depth;
-	Display *dpy = ((t_xvar *)ctx->win->mlx)->display;
-	Window win = ((t_win_list *)ctx->win->win)->window;
-	XGetGeometry(dpy, win, &root, &x, &y, &w, &h, &border, &depth);
+	// If window size changed, resize buffer and redraw (skip X11 polling for now)
+	// If you want to poll X11 size, add the code back and use win->mlx_ptr/win->win_ptr
 
-	// If window size changed, resize buffer and redraw
-	if (ctx->win->width != (int)w || ctx->win->height != (int)h)
-	{
-		ctx->win->method->resize(ctx->win, w, h);
-	}
-
-	buf = ctx->win->method->get_image_buffer(ctx->win, &bpp, &size_line, &endian);
 	if (buf)
-		ft_memset(buf, 0, size_line * ctx->win->height);
+		memset(buf, 0, size_line * ctx->win->height);
 
 	for (int i = 0; i < NUM_POINTS; ++i)
 	{
 		t_vec2 coord;
 		t_color col;
-		ctx->camera->vtable->project_point(ctx->camera, ctx->points[i]); // unchanged
+		// Assign coord using project_point
+		coord = ctx->camera->vtable->project_point(ctx->camera, ctx->points[i]);
 		ctx->points[i]->vtable->get_color(ctx->points[i], &col);
 		int size = (int)(ctx->camera->zoom * 4.0);
-		if (size < 1) size = 1;
+		if (size < 1)
+			size = 1;
 		draw_filled_square_to_buffer(ctx->win, coord.x, coord.y, size, col.hex_color);
 	}
-	ctx->win->method->update_image(ctx->win);
+	window_render(ctx->win);
 	return (0);
 }
 
 int main(void)
 {
-	t_window		*win = NULL;
-	t_camera		*camera = NULL;
-	t_input_handler	*handler = NULL;
-	static t_point	*points[NUM_POINTS];
+	t_window *win = NULL;
+	t_camera *camera = NULL;
+	t_input_handler *handler = NULL;
+	static t_point *points[NUM_POINTS];
 	int i, x, y;
 	uint32_t color;
 
-	win = window_new(800, 600, "Point Demo");
+	win = window_new(800, 600, "Point Demo", 0x000000);
 	if (!win)
 		return (1);
 	camera = camera_new(CAMERA_ISOMETRIC);
@@ -117,15 +111,15 @@ int main(void)
 	ctx->camera = camera;
 	ctx->points = points;
 
-	mlx_loop_hook(win->mlx, redraw, ctx);
+	mlx_loop_hook(win->mlx_ptr, redraw, ctx);
 
-	mlx_loop(win->mlx);
+	mlx_loop(win->mlx_ptr);
 
 	for (i = 0; i < NUM_POINTS; ++i)
 		point_destroy(points[i]);
 	camera_destroy(camera);
 	input_handler_destroy(handler);
-	win->method->destroy(win);
+	window_destroy(win);
 	free(ctx);
 	return (0);
 }

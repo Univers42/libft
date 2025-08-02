@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:05:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:52:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:19:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line.h"
 
-static t_line_vtable	g_line_vtable = {
+static t_line_vtable g_line_vtable = {
 	.get_start = line_get_start,
 	.get_end = line_get_end,
 	.set_start = line_set_start,
@@ -29,13 +29,12 @@ static t_line_vtable	g_line_vtable = {
 	.translate = line_translate,
 	.scale = line_scale,
 	.clone = line_clone,
-	.destroy = line_destroy_method
-};
+	.destroy = line_destroy_method};
 
 /* Constructor - references existing points */
-t_line	*line_new(t_point *start, t_point *end)
+t_line *line_new(t_point *start, t_point *end)
 {
-	t_line	*line;
+	t_line *line;
 
 	if (!start || !end)
 		return (NULL);
@@ -50,12 +49,12 @@ t_line	*line_new(t_point *start, t_point *end)
 }
 
 /* Constructor - creates colored points */
-t_line	*line_new_with_colors(int x1, int y1, int z1, uint32_t color1,
-		int x2, int y2, int z2, uint32_t color2)
+t_line *line_new_with_colors(int x1, int y1, int z1, uint32_t color1,
+							 int x2, int y2, int z2, uint32_t color2)
 {
-	t_point	*start;
-	t_point	*end;
-	t_line	*line;
+	t_point *start;
+	t_point *end;
+	t_line *line;
 
 	start = point_new_with_color(x1, y1, z1, color1);
 	end = point_new_with_color(x2, y2, z2, color2);
@@ -72,16 +71,16 @@ t_line	*line_new_with_colors(int x1, int y1, int z1, uint32_t color1,
 }
 
 /* Destructor */
-void	line_destroy(t_line *line)
+void line_destroy(t_line *line)
 {
 	if (line)
 		line->vtable->destroy(line);
 }
 
-void	line_destroy_method(t_line *self)
+void line_destroy_method(t_line *self)
 {
 	if (!self)
-		return ;
+		return;
 	if (self->owns_points)
 	{
 		if (self->start)
@@ -92,11 +91,10 @@ void	line_destroy_method(t_line *self)
 	free(self);
 }
 
-
-t_line	*line_clone(t_line *self)
+t_line *line_clone(t_line *self)
 {
-	t_point	*start_clone;
-	t_point	*end_clone;
+	t_point *start_clone;
+	t_point *end_clone;
 
 	if (!self || !self->start || !self->end)
 		return (NULL);
@@ -114,11 +112,11 @@ t_line	*line_clone(t_line *self)
 }
 
 /* Constructor - creates points from coordinates */
-t_line	*line_new_coordinates(int x1, int y1, int z1, int x2, int y2, int z2)
+t_line *line_new_coordinates(int x1, int y1, int z1, int x2, int y2, int z2)
 {
-	t_point	*start;
-	t_point	*end;
-	t_line	*line;
+	t_point *start;
+	t_point *end;
+	t_line *line;
 
 	start = point_new(x1, y1, z1);
 	end = point_new(x2, y2, z2);
@@ -135,9 +133,9 @@ t_line	*line_new_coordinates(int x1, int y1, int z1, int x2, int y2, int z2)
 }
 
 /* Constructor - takes ownership of points */
-t_line	*line_new_owned(t_point *start, t_point *end)
+t_line *line_new_owned(t_point *start, t_point *end)
 {
-	t_line	*line;
+	t_line *line;
 
 	line = line_new(start, end);
 	if (!line)
@@ -146,3 +144,14 @@ t_line	*line_new_owned(t_point *start, t_point *end)
 	return (line);
 }
 
+const t_line_vtable *get_line_vtable(void)
+{
+	static const t_line_vtable vtable = {
+		.draw_bresenham = line_draw_bresenham,
+		.get_length = line_get_length,
+		.get_slope = line_get_slope,
+		.interpolate_color = line_interpolate_color,
+		.translate = line_translate,
+		.scale = line_scale};
+	return &vtable;
+}

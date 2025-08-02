@@ -5,73 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 17:41:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:36:51 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/02 18:08:44 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/02 18:13:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "window.h"
 
-void	window_realloc_screen_buffer(t_window *window, int old_width, int old_height);
-
-void window_update_image(t_window *self)
-{
-    if (!self || !self->img || !self->win)
-        return;
-    
-    if (self->cache && self->cache->cache_enabled)
-    {
-        window_cache_smart_update(self);
-        // Buffer is already synced in cache logic, just display
-        mlx_put_image_to_window(self->mlx, self->win, self->img, 0, 0);
-    }
-    else
-    {
-        window_sync_screen_buffer_to_image(self);
-        mlx_put_image_to_window(self->mlx, self->win, self->img, 0, 0);
-    }
-}
-
-void	window_stop_resizing(t_window *self, int width, int height)
+void    set_background(t_window *self, int color)
 {
 	if (!self)
 		return ;
-	self->is_resizing = 0;
-	int old_width = self->width;
-	int old_height = self->height;
-	self->width = width;
-	self->height = height;
-	if (self->img)
-		mlx_destroy_image(self->mlx, self->img);
-	self->img = mlx_new_image(self->mlx, width, height);
-	window_realloc_screen_buffer(self, old_width, old_height);
-	if (self->redraw_cb)
-		self->redraw_cb(self->redraw_ctx);
-	window_update_image(self);
+	self->bg_color = color;
 }
 
-void window_resize(t_window *self, int width, int height)
+void	set_size(t_window *self, int width, int height)
 {
-    if (!self)
-        return;
-    
-    int old_width = self->width;
-    int old_height = self->height;
-    
-    // Destroy old cache
-    window_cache_destroy(self);
-    
-    self->width = width;
-    self->height = height;
-    
-    if (self->img)
-        mlx_destroy_image(self->mlx, self->img);
-    self->img = mlx_new_image(self->mlx, width, height);
-    
-    window_realloc_screen_buffer(self, old_width, old_height);
-    
-    // Reinitialize cache with new dimensions
-    window_cache_init(self);
-    window_cache_render_background(self);
-    window_cache_smart_update(self);
+	if (!self)
+		return ;
+	self->width = width;
+	self->height = height;
+	if (self->img_ptr)
+		mlx_destroy_image(self->mlx_ptr, self->img_ptr);
+	self->img_ptr = mlx_new_image(self->img_ptr, width, height);
+	if (self->img_ptr)
+	self->img_data = mlx_get_data_addr(self->img_ptr, &self->bpp,
+										&self->size_line, &self->endian);
 }
+

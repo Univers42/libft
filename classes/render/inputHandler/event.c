@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:59:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:14:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:47:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@
 #include "mlx.h"
 #include "mlx_int.h"
 #include "ft_math.h"
+#include <string.h> // Add this include for memset
 
 // Remove the global variable and use a singleton accessor for key_state
-t_key_state	*get_key_state(void)
+t_key_state *get_key_state(void)
 {
-	static t_key_state	key_state = {0, 0, 0, 0};
+	static t_key_state key_state = {0, 0, 0, 0};
 
 	return (&key_state);
 }
 
-static void	compute_direction_vector(t_vectorN *dvec, t_key_state *key_state)
+static void compute_direction_vector(t_vectorN *dvec, t_key_state *key_state)
 {
-	ft_memset(dvec, 0, sizeof(t_vectorN));
+	// Use standard memset instead of ft_memset
+	memset(dvec, 0, sizeof(t_vectorN));
 	if (key_state->up)
 		dvec->y -= 1;
 	if (key_state->down)
@@ -45,12 +47,12 @@ extern t_point **g_points;
 extern int g_point_count;
 
 // In your movement update logic (call every frame or on key event):
-void	update_movement(t_camera *camera)
+void update_movement(t_camera *camera)
 {
-	double		len;
-	double		speed;
-	t_vectorN	dvec;
-	t_key_state	*key_state;
+	double len;
+	double speed;
+	t_vectorN dvec;
+	t_key_state *key_state;
 
 	key_state = get_key_state();
 	compute_direction_vector(&dvec, key_state);
@@ -78,7 +80,7 @@ void	update_movement(t_camera *camera)
 }
 
 // Implementation for input_handler_get_camera
-t_camera	*input_handler_get_camera(t_input_handler *handler)
+t_camera *input_handler_get_camera(t_input_handler *handler)
 {
 	if (!handler)
 		return (NULL);

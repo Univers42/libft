@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:52:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 01:54:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:54:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,14 +275,14 @@ bool finalize_parsing(t_parser *parser)
 
     // Only error if ATT_COLOR is set and at least one value in the map uses a color
     if (parser->config.attributes & ATT_COLOR) {
-        bool has_any_color = false;
+        //bool has_any_color = false;
         bool has_non_default = false;
         for (size_t i = 0; i < ctx->values_read; i++) {
             if (ctx->colors && ctx->colors[i] != 0xffffff && ctx->colors[i] != 0) {
                 has_non_default = true;
             }
             if (ctx->colors && ctx->colors[i] != 0) {
-                has_any_color = true;
+                //has_any_color = true;
             }
         }
         // If no color is present at all, but ATT_COLOR is set, allow it (FDF style)

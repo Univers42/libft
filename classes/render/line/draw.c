@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:08:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:52:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:50:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "line.h"
+#include "ft_math.h"
 
 void	line_draw_bresenham(t_line *self, t_pixel_callback callback, void *data)
 {
@@ -40,10 +41,10 @@ void	line_draw_bresenham(t_line *self, t_pixel_callback callback, void *data)
 	err = dx - dy;
 	x = start.x;
 	y = start.y;
-	total_steps = sqrt(dx * dx + dy * dy);
+	total_steps = ft_sqrt(dx * dx + dy * dy);
 	while (1)
 	{
-		t = (total_steps > 0) ? sqrt((x - start.x) * (x - start.x)
+		t = (total_steps > 0) ? ft_sqrt((x - start.x) * (x - start.x)
 				+ (y - start.y) * (y - start.y)) / total_steps : 0.0;
 		color = self->vtable->interpolate_color(self, t);
 		callback(x, y, color, data);

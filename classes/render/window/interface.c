@@ -5,162 +5,160 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 11:01:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 09:04:45 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/02 17:19:53 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/02 20:48:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "window.h"
-#include <stdlib.h>
-#include "input_handler.h"
-#include "point.h"
-#include "camera.h"
+#include <stdio.h>
+#include <string.h>
 
-#define DRAW_OFFSET_X 300
-#define DRAW_OFFSET_Y 200
+// Forward declarations for implementation functions
+extern void window_render_impl(t_window *self);
+extern void window_clear_impl(t_window *self);
+extern void window_add_object_impl(t_window *self, t_object *obj, int z_index);
+extern void window_remove_object_impl(t_window *self, t_object *obj);
+extern void window_set_background_impl(t_window *self, int color);
+extern void window_resize_impl(t_window *self, int width, int height);
+extern int window_handle_events_impl(t_window *self);
 
-void	window_init(t_window *self);
-void	window_set_resizable(t_window *self);
+// Forward declarations for internal functions
+static t_window *window_constructor(int width, int height, char *title, int bg_color);
+static void window_destructor(t_window *self);
+static void init_variables(t_window *win, int width, int height, char *title, int bg_color);
+static bool create_image(t_window *self);
+static bool init_srv(t_window *win);
 
-void	window_close(t_window *self)
+// Global window vtable
+t_window_vtable g_window_vtable = {
+	.new = window_constructor,
+	.destroy = window_destructor,
+	.render = window_render_impl,
+	.clear = window_clear_impl,
+	.add_object = window_add_object_impl,
+	.remove_object = window_remove_object_impl,
+	.set_background = window_set_background_impl,
+	.resize = window_resize_impl,
+	.handle_events = window_handle_events_impl};
+
+t_window_vtable *get_window_method(void)
 {
-	if (!self)
-		return ;
-	self->method->destroy(self);
-	exit(0);
+	return &g_window_vtable;
 }
 
-/**
- * @brief for who's asking why we're using window as handler of
- * event like zooming when we have a camera. It's because 
- * the camera should be responsible for the zoom logic itself
- * (the math, state, effect on the view), but the window
- * (or event system) should be responsible for handling the mouse
- * wheel event and deciding when to call the camera's zoom function.
- * The camera knows how to zoom but should not know about events, mouse
- * or windowing
- * The camera only provide a clean API for zooming, pannign,etc..
- * @param self structure of window itself clalback
- * @param point x and y member
- * @param delta difference between point
- * @param ctrl type of ctrl
- * @return void just do the action no error expected
- */
-void window_handle_mouse_wheel(t_window *self, t_vectorN point, int delta, int ctrl)
+static void init_variables(t_window *win, int width, int height, char *title, int bg_color)
 {
-    t_camera *camera;
-    double factor;
-
-    if (!self || !self->input_handler)
-        return;
-    
-    camera = input_handler_get_camera(self->input_handler);
-    if (!camera)
-        return;
-    
-    if (ctrl)
-    {
-        if (delta > 0)
-            factor = 1.1;
-        else
-            factor = 0.9;
-        
-        camera->vtable->zoom_by(camera, factor,
-            point.x - self->draw_offset_x, point.y - self->draw_offset_y);
-        
-        // NEW: Update cache viewport
-        if (self->cache)
-        {
-            double zoom = camera->zoom;
-            int cam_x = (int)camera->offset_x;
-            int cam_y = (int)camera->offset_y;
-            window_cache_update_viewport(self, cam_x, cam_y, zoom);
-        }
-    }
-}
-
-static void	window_redraw_callback(void *ctx)
-{
-	t_window *win = (t_window *)ctx;
-
-	if (!win)
-		return ;
-	win->method->clear(win);
-	win->method->update_image(win);
-}
-
-static int	window_init_members(t_window *win, int width,
-				int height, const char *title)
-{
-	win->method = get_method();
-	win->width = width;
+	win->bg_color = bg_color;
 	win->height = height;
-	win->is_resizing = 0;
-	win->mlx = mlx_init();
-	if (!win->mlx)
-		return (0);
-	if (title)
-		win->win = mlx_new_window(win->mlx, width, height, (char *)(title));
+	win->width = width;
+	win->title = strdup(title);
+	win->should_close = false;
+	win->vtable = &g_window_vtable;
+	win->layers = NULL;
+	win->user_data = NULL;
+	win->event_handler = NULL;
+}
+
+static bool create_image(t_window *self)
+{
+	printf("🖼️  Creating MLX image %dx%d...\n", self->width, self->height);
+
+	self->img_ptr = mlx_new_image(self->mlx_ptr, self->width, self->height);
+	if (!self->img_ptr)
+	{
+		printf("❌ mlx_new_image failed!\n");
+		return false;
+	}
+	printf("✅ mlx_new_image succeeded: %p\n", self->img_ptr);
+
+	self->img_data = mlx_get_data_addr(self->img_ptr, &self->bpp,
+									   &self->size_line, &self->endian);
+	if (!self->img_data)
+	{
+		printf("❌ mlx_get_data_addr failed!\n");
+		return false;
+	}
+
+	printf("✅ mlx_get_data_addr succeeded:\n");
+	printf("   img_data=%p\n", self->img_data);
+	printf("   bpp=%d\n", self->bpp);
+	printf("   size_line=%d\n", self->size_line);
+	printf("   endian=%d\n", self->endian);
+	printf("   Expected buffer size: %d bytes\n", self->size_line * self->height);
+
+	// Test writing to the first pixel to verify buffer access
+	if (self->bpp == 32)
+	{
+		*(unsigned int *)self->img_data = 0xFF0000; // Red test pixel
+		printf("✅ Test write to first pixel succeeded\n");
+	}
 	else
-		win->win = mlx_new_window(win->mlx, width, height, "Window");
-	if (!win->win)
-		return (0);
-	win->img = mlx_new_image(win->mlx, width, height);
-	if (!win->img)
-		return (0);
-	win->screen_buffer = malloc(sizeof(unsigned int) * width * height);
-	if (win->screen_buffer)
-		ft_memset(win->screen_buffer, 0, sizeof(unsigned int) * width * height);
-	win->draw_offset_x = 300;
-	win->draw_offset_y = 200;
-	win->redraw_cb = window_redraw_callback;
-	win->redraw_ctx = win;
-	return (1);
+	{
+		printf("⚠️  Unexpected bpp: %d (expected 32)\n", self->bpp);
+	}
+
+	return true;
 }
 
-t_window *window_new(int width, int height, const char *title)
+static bool init_srv(t_window *win)
 {
-    t_window *win;
+	win->mlx_ptr = mlx_init();
+	if (!win->mlx_ptr)
+		return false;
 
-    win = malloc(sizeof(t_window));
-    if (!win)
-        return (NULL);
-    
-    if (!window_init_members(win, width, height, title))
-    {
-        if (win->img)
-            mlx_destroy_image(win->mlx, win->img);
-        if (win->win)
-            mlx_destroy_window(win->mlx, win->win);
-        if (win->mlx)
-            free(win->mlx);
-        free(win);
-        return (NULL);
-    }
-    
-    // NEW: Initialize cache system
-    if (!window_cache_init(win))
-    {
-        window_destroy(win);
-        return (NULL);
-    }
-    
-    return (win);
+	win->win_ptr = mlx_new_window(win->mlx_ptr, win->width, win->height, win->title);
+	if (!win->win_ptr)
+		return false;
+
+	if (!create_image(win))
+		return false;
+
+	return true;
 }
 
-void window_destroy(t_window *self)
+static t_window *window_constructor(int width, int height, char *title, int bg_color)
 {
-    if (!self)
-        return;
-    
-    // NEW: Destroy cache first
-    window_cache_destroy(self);
-    
-    if (self->mlx && self->img)
-        mlx_destroy_image(self->mlx, self->img);
-    if (self->mlx && self->win)
-        mlx_destroy_window(self->mlx, self->win);
-    if (self->screen_buffer)
-        free(self->screen_buffer);
-    free(self);
+	t_window *window = malloc(sizeof(t_window));
+	if (!window)
+		return NULL;
+
+	memset(window, 0, sizeof(t_window));
+
+	init_variables(window, width, height, title, bg_color);
+
+	if (!init_srv(window))
+	{
+		if (window->title)
+			free(window->title);
+		free(window);
+		return NULL;
+	}
+
+	return window;
+}
+
+static void window_destructor(t_window *self)
+{
+	t_layer *current;
+	t_layer *next;
+
+	if (!self)
+		return;
+
+	current = self->layers;
+	while (current)
+	{
+		next = current->next;
+		layer_destroy(current);
+		current = next;
+	}
+
+	if (self->img_ptr)
+		mlx_destroy_image(self->mlx_ptr, self->img_ptr);
+	if (self->win_ptr)
+		mlx_destroy_window(self->mlx_ptr, self->win_ptr);
+
+	free(self->title);
+	free(self);
 }

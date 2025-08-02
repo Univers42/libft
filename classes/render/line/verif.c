@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:07:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 16:11:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:00:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "line.c"
+#include "line.h"
 
 bool	line_is_vertical(t_line *self)
 {

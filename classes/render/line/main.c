@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 01:03:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 15:57:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:52:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,34 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int	main(void)
+// Adapter to match t_pixel_callback signature for window_put_pixel
+static void window_pixel_callback(int x, int y, uint32_t color, void *data)
 {
-	t_window		*win;
-	t_input_handler	*handler;
-	t_point			*p1;
-	t_point			*p2;
-	t_point			*p3;
-	t_point			*p4;
-	t_line			*line1;
-	t_line			*line2;
-	t_line			*line3;
+	t_window *win = (t_window *)data;
+	window_put_pixel(win, x, y, color);
+}
+
+int main(void)
+{
+	t_window *win;
+	t_input_handler *handler;
+	t_point *p1;
+	t_point *p2;
+	t_point *p3;
+	t_point *p4;
+	t_line *line1;
+	t_line *line2;
+	t_line *line3;
 
 	// Create window and input handler
-	win = window_new(800, 600, "Line Demo in Window");
+	win = window_new(800, 600, "Line Demo in Window", 0x000000); // Add bg_color argument
 	if (!win)
 		return (1);
 	handler = input_handler_new(NULL);
 	if (!handler)
 		return (1);
-	win->method->set_resizable(win); // <-- use .method instead of .vtable
+	// Remove win->method->set_resizable(win);
+
 	input_handler_register(win, handler);
 
 	// Create points and lines
@@ -50,12 +58,17 @@ int	main(void)
 	line3 = line_new_with_colors(100, 500, 0, 0xFFFFFFFF, 700, 100, 0, 0xFF00FFFF);
 
 	// Draw lines into window buffer
-	window_draw_line(win, line1);
-	window_draw_line(win, line2);
-	window_draw_line(win, line3);
+	for (int i = 0; i < 3; ++i)
+	{
+		t_line *line = (i == 0 ? line1 : (i == 1 ? line2 : line3));
+		if (line && line->vtable && line->vtable->draw_bresenham)
+		{
+			line->vtable->draw_bresenham(line, window_pixel_callback, win);
+		}
+	}
 
 	// Show the result
-	win->method->update_image(win); // <-- use .method instead of .vtable
+	window_render(win);
 
 	// Cleanup lines and points (window does not own them)
 	line1->vtable->destroy(line1);
@@ -67,9 +80,9 @@ int	main(void)
 	point_destroy(p4);
 
 	// Enter event loop
-	mlx_loop(win->mlx);
+	mlx_loop(win->mlx_ptr);
 
-	win->method->destroy(win); // <-- use .method instead of .vtable
+	window_destroy(win);
 	free(handler);
 	return (0);
 }

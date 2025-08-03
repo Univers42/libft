@@ -80,7 +80,7 @@ int main(void)
 {
 	t_window *win = NULL;
 	t_camera *camera = NULL;
-	t_input_handler *handler = NULL;
+	t_input_event *event_system = NULL;
 	static t_point *points[NUM_POINTS];
 	int i, x, y;
 	uint32_t color;
@@ -91,8 +91,8 @@ int main(void)
 	camera = camera_new(CAMERA_ISOMETRIC);
 	if (!camera)
 		return (1);
-	handler = input_handler_new(camera);
-	if (!handler)
+	event_system = create_event();
+	if (!event_system)
 		return (1);
 
 	for (i = 0; i < NUM_POINTS; ++i)
@@ -103,7 +103,7 @@ int main(void)
 		points[i] = point_new_with_color(x, y, 0, color);
 	}
 
-	input_handler_register(win, handler);
+	event_system->prog_hook_events(event_system, win);
 
 	// Allocate context on the heap to ensure it lives for the duration of the loop
 	t_redraw_ctx *ctx = malloc(sizeof(t_redraw_ctx));
@@ -118,7 +118,7 @@ int main(void)
 	for (i = 0; i < NUM_POINTS; ++i)
 		point_destroy(points[i]);
 	camera_destroy(camera);
-	input_handler_destroy(handler);
+	event_system->destroy(event_system);
 	window_destroy(win);
 	free(ctx);
 	return (0);

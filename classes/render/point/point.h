@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:49:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:22:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <stdlib.h>
-# include "ft_math.h"
 # include "window.h"
+# include "ft_math.h"
 
 typedef enum e_terrain
 {
@@ -67,18 +67,6 @@ typedef struct s_simple_pos
 	int	z;
 }		t_pos;
 
-typedef struct s_color
-{
-	uint32_t	hex_color;
-	struct
-	{
-		uint8_t	r;
-		uint8_t	g;
-		uint8_t	b;
-		uint8_t	a;
-	}	s_rgba;
-}	t_color;
-
 typedef struct s_vectorN
 {
 	double	x;
@@ -97,63 +85,66 @@ typedef struct s_vectorN
 	}	u_ctx;
 }	t_vectorN;
 
-typedef t_vectorN		t_vec2;
-typedef t_vectorN		t_vec3;
-typedef t_vectorN		t_vec4;
-
-typedef struct s_point	t_point;
+// Forward declaration for t_pixel (OOP-style point)
+struct s_pixel;
+typedef struct s_pixel t_pixel;
 
 // Forward declaration for t_line to resolve circular dependency
 struct s_line;
 typedef struct s_line t_line;
 
+// Use t_vec2, t_vec3, etc. from geometry.h
+// (do not redefine them here)
+
+// Vtable for OOP-style point
 typedef struct s_point_vtable
 {
-	void	(*destroy)(t_point *self);
-	void	(*get_coordinate)(t_point *self, t_vec2 *out);
-	void	(*get_position)(t_point *self, t_position *out);
-	void	(*get_color)(t_point *self, t_color *out);
-	int		(*set_coordinate)(t_point *self, int x, int y);
-	int		(*set_position)(t_point *self, double x, double y, double z);
-	int		(*set_color)(t_point *self, uint32_t hex_color);
-	int		(*set_z_value)(t_point *self, int z);
-	int		(*translate)(t_point *self, int dx, int dy);
-	int		(*scale)(t_point *self, double scale_x, double scale_y);
-	t_point	*(*clone)(t_point *self);
+	void	(*destroy)(t_pixel *self);
+	void	(*get_coordinate)(t_pixel *self, t_vec2 *out);
+	void	(*get_position)(t_pixel *self, t_position *out);
+	void	(*get_color)(t_pixel *self, t_color *out);
+	int		(*set_coordinate)(t_pixel *self, int x, int y);
+	int		(*set_position)(t_pixel *self, double x, double y, double z);
+	int		(*set_color)(t_pixel *self, uint32_t hex_color);
+	int		(*set_z_value)(t_pixel *self, int z);
+	int		(*translate)(t_pixel *self, int dx, int dy);
+	int		(*scale)(t_pixel *self, double scale_x, double scale_y);
+	t_pixel	*(*clone)(t_pixel *self);
 }				t_point_vtable;
 
-struct s_point
+// OOP-style point struct
+struct s_pixel
 {
 	t_vec2			coordinate;
 	t_position		world_pos;
 	t_color			color;
 	t_point_vtable	*vtable;
 	t_pos			pos;
-	double			speed; // Add speed member
+	double			speed;
 };
 
 /* Constructor and destructor */
-t_point		*point_new(int x, int y, int z);
-t_point		*point_new_with_color(int x, int y, int z, uint32_t color);
-void		point_destroy(t_point *point);
+t_pixel		*point_new(int x, int y, int z);
+t_pixel		*point_new_with_color(int x, int y, int z, uint32_t color);
+void		point_destroy(t_pixel *point);
 
 /* Static vtable functions */
-void		point_get_coordinate(t_point *self, t_vec2 *out);
-void		point_get_position(t_point *self, t_position *out);
-void		point_get_color(t_point *self, t_color *out);
-int			point_set_coordinate(t_point *self, int x, int y);
-int			point_set_position(t_point *self, double x, double y, double z);
-int			point_set_color(t_point *self, uint32_t hex_color);
-int			point_set_z_value(t_point *self, int z);
-int			point_translate(t_point *self, int dx, int dy);
-int			point_scale(t_point *self, double scale_x, double scale_y);
-t_point		*point_clone(t_point *self);
-void		point_destroy_method(t_point *self);
+void		point_get_coordinate(t_pixel *self, t_vec2 *out);
+void		point_get_position(t_pixel *self, t_position *out);
+void		point_get_color(t_pixel *self, t_color *out);
+int			point_set_coordinate(t_pixel *self, int x, int y);
+int			point_set_position(t_pixel *self, double x, double y, double z);
+int			point_set_color(t_pixel *self, uint32_t hex_color);
+int			point_set_z_value(t_pixel *self, int z);
+int			point_translate(t_pixel *self, int dx, int dy);
+int			point_scale(t_pixel *self, double scale_x, double scale_y);
+t_pixel		*point_clone(t_pixel *self);
+void		point_destroy_method(t_pixel *self);
 
 /* Utility functions */
 uint32_t	rgb_to_hex(uint8_t r, uint8_t g, uint8_t b);
 void		hex_to_rgb(uint32_t hex, uint8_t *r, uint8_t *g, uint8_t *b);
-double		euclidean_dist(t_point *p1, t_point *p2);
-bool		point_equals(t_point *p1, t_point *p2);
+double		euclidean_dist(t_pixel *p1, t_pixel *p2);
+bool		point_equals(t_pixel *p1, t_pixel *p2);
 
 #endif

@@ -6,21 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:23:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:57:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:19:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "quaternion.h"
 
-typedef struct s_slerp_interp
-{
-	float	theta_0;
-	float	theta;
-	float	sin_theta;
-	float	sin_theta0;
-	float	s0;
-	float	s1;
-}			t_slerp_interp;
+
 
 static float	quat_dot(const t_quat *a, const t_quat *b)
 {

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:18:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 00:36:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	print_graph_row(int *values, int count, t_graph_params params)
 	{
 		bar_height = (values[i] * params.max_height) / params.max_val;
 		if (bar_height >= params.row)
-			ft_printf("%s█%s", GREEN, RESET);
+			ft_printf("%s█%s", GREEN_TERM, RESET_TERM);
 		else
 			ft_printf(" ");
 		i++;

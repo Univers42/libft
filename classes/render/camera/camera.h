@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:03:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/01 10:14:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 12:50:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_camera t_camera;
 
 // Move these forward declarations to the top, before t_camera_vtable
 struct s_vector;
-typedef struct s_vectorN t_vec2;
 
 struct s_point;
 typedef struct s_point t_point;

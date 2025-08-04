@@ -6,13 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:06:20 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 13:37:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:26:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "point.h"
+#include "ft_math.h"
 
-double	euclidean_dist(t_point *p1, t_point *p2)
+double	euclidean_dist(t_pixel *p1, t_pixel *p2)
 {
 	double	dx;
 	double	dy;
@@ -26,7 +27,7 @@ double	euclidean_dist(t_point *p1, t_point *p2)
 	return (ft_sqrt(dx * dx + dy * dy + dz * dz));
 }
 
-double	manhattan_dist(t_point *p1, t_point *p2)
+double	manhattan_dist(t_pixel *p1, t_pixel *p2)
 {
 	if (!p1 || !p2)
 		return (-1.0);
@@ -35,7 +36,7 @@ double	manhattan_dist(t_point *p1, t_point *p2)
 		+ ft_fabs(p1->world_pos.z - p2->world_pos.z));
 }
 
-int	point_translate(t_point *self, int dx, int dy)
+int	point_translate(t_pixel *self, int dx, int dy)
 {
 	double	len;
 	double	sx;
@@ -56,11 +57,10 @@ int	point_translate(t_point *self, int dx, int dy)
 	return (1);
 }
 
-bool	point_equals(t_point *p1, t_point *p2)
+bool	point_equals(t_pixel *p1, t_pixel *p2)
 {
 	if (!p1 || !p2)
 		return (false);
 	return (p1->coordinate.x == p2->coordinate.x
-		&& p1->coordinate.y == p2->coordinate.y
-		&& p1->coordinate.u_ctx.s_v3.z == p2->coordinate.u_ctx.s_v3.z);
+		&& p1->coordinate.y == p2->coordinate.y);
 }

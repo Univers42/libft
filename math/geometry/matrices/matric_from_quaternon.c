@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:55:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:36:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void matrix_from_quaternion(t_mat4 *out, float x, float y, float z, float w) {
     float wy;
     float wz;
 
-    x * x,
-    yy = y * y,
+    xx = x * x;
+    yy = y * y;
     zz = z * z;
     xy = x * y;
     xz = x * z;

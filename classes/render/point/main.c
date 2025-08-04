@@ -45,7 +45,7 @@ typedef struct s_redraw_ctx
 {
 	t_window *win;
 	t_camera *camera;
-	t_point **points;
+	t_pixel **points;
 } t_redraw_ctx;
 
 static int redraw(void *param)
@@ -54,9 +54,6 @@ static int redraw(void *param)
 	int size_line = ctx->win->size_line;
 	char *buf = ctx->win->img_data;
 
-	// If window size changed, resize buffer and redraw (skip X11 polling for now)
-	// If you want to poll X11 size, add the code back and use win->mlx_ptr/win->win_ptr
-
 	if (buf)
 		memset(buf, 0, size_line * ctx->win->height);
 
@@ -64,8 +61,13 @@ static int redraw(void *param)
 	{
 		t_vec2 coord;
 		t_color col;
-		// Assign coord using project_point
-		coord = ctx->camera->vtable->project_point(ctx->camera, ctx->points[i]);
+		// Convert t_pixel to t_point for projection
+		t_point tmp_point;
+		tmp_point.axis[X] = ctx->points[i]->coordinate.x;
+		tmp_point.axis[Y] = ctx->points[i]->coordinate.y;
+		tmp_point.axis[Z] = ctx->points[i]->world_pos.z;
+		// Optionally copy color if needed
+		coord = ctx->camera->vtable->project_point(ctx->camera, &tmp_point);
 		ctx->points[i]->vtable->get_color(ctx->points[i], &col);
 		int size = (int)(ctx->camera->zoom * 4.0);
 		if (size < 1)
@@ -81,7 +83,7 @@ int main(void)
 	t_window *win = NULL;
 	t_camera *camera = NULL;
 	t_input_event *event_system = NULL;
-	static t_point *points[NUM_POINTS];
+	static t_pixel *points[NUM_POINTS];
 	int i, x, y;
 	uint32_t color;
 

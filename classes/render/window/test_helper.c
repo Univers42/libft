@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:25:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/02 22:19:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:06:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,38 @@
 // Utility functions
 void window_put_pixel(t_window *self, int x, int y, int color)
 {
+    static int debug_pixel_count = 0;
+    debug_pixel_count++;
+    
+    if (debug_pixel_count <= 10)
+    {
+        printf("🔍 WINDOW_PUT_PIXEL #%d: (%d,%d) = 0x%06X\n", debug_pixel_count, x, y, color);
+        printf("   self=%p, img_data=%p\n", self, self ? self->img_data : NULL);
+        if (self)
+        {
+            printf("   window size: %dx%d\n", self->width, self->height);
+            printf("   img_ptr=%p, bpp=%d, size_line=%d, endian=%d\n", 
+                   self->img_ptr, self->bpp, self->size_line, self->endian);
+        }
+    }
+    
     if (!self || !self->img_data || x < 0 || y < 0 ||
         x >= self->width || y >= self->height)
     {
-        printf("❌ window_put_pixel: Invalid parameters - self=%p, img_data=%p, x=%d, y=%d, w=%d, h=%d\n",
-               self, self ? self->img_data : NULL, x, y,
-               self ? self->width : 0, self ? self->height : 0);
+        if (debug_pixel_count <= 10)
+        {
+            printf("❌ WINDOW_PUT_PIXEL: Invalid parameters - self=%p, img_data=%p, x=%d, y=%d, w=%d, h=%d\n",
+                   self, self ? self->img_data : NULL, x, y,
+                   self ? self->width : 0, self ? self->height : 0);
+        }
         return;
     }
 
     // Check MLX image validity
     if (!self->img_ptr)
     {
-        printf("❌ window_put_pixel: img_ptr is NULL!\n");
+        if (debug_pixel_count <= 10)
+            printf("❌ window_put_pixel: img_ptr is NULL!\n");
         return;
     }
 
@@ -41,7 +60,8 @@ void window_put_pixel(t_window *self, int x, int y, int color)
     char *buffer_end = self->img_data + (self->size_line * self->height);
     if (dst >= buffer_end)
     {
-        printf("❌ window_put_pixel: Writing outside buffer! dst=%p, buffer_end=%p\n", dst, buffer_end);
+        if (debug_pixel_count <= 10)
+            printf("❌ window_put_pixel: Writing outside buffer! dst=%p, buffer_end=%p\n", dst, buffer_end);
         return;
     }
 
@@ -49,17 +69,14 @@ void window_put_pixel(t_window *self, int x, int y, int color)
     unsigned int final_color = color & 0xFFFFFF; // Ensure only RGB bits are used
     *(unsigned int *)dst = final_color;
 
-    // Debug: Print first few pixels with more detail
-    static int pixel_count = 0;
-    if (pixel_count < 10)
+    if (debug_pixel_count <= 10)
     {
-        printf("✅ Put pixel %d: (%d,%d) = 0x%06X->0x%06X, dst=%p, offset=%ld, bpp=%d, size_line=%d\n",
-               pixel_count, x, y, color, final_color, dst, dst - self->img_data, self->bpp, self->size_line);
+        printf("✅ Put pixel #%d: (%d,%d) = 0x%06X->0x%06X, dst=%p, offset=%ld\n",
+               debug_pixel_count, x, y, color, final_color, dst, dst - self->img_data);
 
         // Verify the write
         unsigned int readback = *(unsigned int *)dst;
         printf("   Readback: 0x%08X %s\n", readback, (readback == final_color) ? "✅" : "❌");
-        pixel_count++;
     }
 }
 

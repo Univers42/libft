@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:37:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 12:01:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ void matrix_rotate(t_mat4 *out, float angle_rad, float x, float y, float z);
 
 // Quaternion to matrix
 void matrix_from_quaternion(t_mat4 *out, float qx, float qy, float qz, float qw);
-
+void	matrix_init(float (*matrix)[3]);
 #endif // MATRICES_H

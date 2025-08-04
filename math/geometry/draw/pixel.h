@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:07:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 13:46:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:04:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-# define ROJO 		0xc1272d
+// Polar coordinates indices
+#define LAT 0    // Latitude
+#define LONG 1   // Longitude
+
+# define ROJiO 		0xc1272d
 # define VERDE		0x33cc55
 # define FUCSIA 	0xff255c
 # define AZUL		0x1B8EFA
@@ -36,6 +40,7 @@
 # define MENU_COLOR			0x202020
 # define TEXT_COLOR			0xEAEAEA	
 # define NUMBER_COLOR		0xF3AF3D
+
 typedef enum e_axis
 {
     X,

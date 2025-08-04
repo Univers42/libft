@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 12:55:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:04:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ typedef struct s_parser t_parser;
 #define Y 1
 #define Z 2
 
-// Polar coordinates indices
-#define LAT 0    // Latitude
-#define LONG 1   // Longitude
+
 
 // 2D, 3D, 4D Vectors
 typedef struct s_vec2

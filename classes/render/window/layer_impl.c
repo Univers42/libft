@@ -1,4 +1,4 @@
-#include "../../../include/libft/classes/render/window/window.h"
+#include "window.h"
 
 t_layer *layer_new(int z_index)
 {

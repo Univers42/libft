@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 00:38:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 01:25:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdlib.h>
 # include "ft_memory.h"
 # include "arena.h"
-
+#include <stdbool.h>
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);
 char	*ft_xtoa(unsigned long int num, int is_upper);
@@ -27,4 +27,5 @@ void	*ft_calloc(t_size nmemb, t_size size);
 // void    *ft_realloc(void *ptr, t_size old, t_size new);
 void    skip_spaces(int *i, int size, char *str);
 void	dbl_free(char **ptr);
+bool	ft_realloc(void **ptr, size_t *cap, size_t start);
 #endif

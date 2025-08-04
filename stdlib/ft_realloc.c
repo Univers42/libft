@@ -6,29 +6,29 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:06:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/26 14:12:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 01:25:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_stdlib.h"
+#include "ft_memory.h"
+#include <stdbool.h>
 
-void	*ft_realloc(void *ptr, t_size old, t_size new)
+bool	ft_realloc(void **ptr, size_t *cap, size_t start)
 {
-	void	*new_ptr;
-	t_size	copy_size;
+	size_t	new_cap;
+	void	*temp;
 
-	if (new == 0)
-		return (free(ptr), NULL);
-	new_ptr = malloc(new);
-	if (!new_ptr)
-		return (NULL);
-	if (ptr)
-	{
-		if (old < new)
-			copy_size = old;
-		else
-			copy_size = new;
-		(ft_memcpy(new_ptr, ptr, copy_size), free(ptr));
-	}
-	return (new_ptr);
+	if (*cap == 0)
+		new_cap = start;
+	else
+		new_cap = *cap * 2;
+	temp = malloc(new_cap);
+	if (temp == NULL)
+		return (false);
+	ft_memcpy(temp, *ptr, *cap);
+	free(*ptr);
+	*ptr = temp;
+	*cap = new_cap;
+	return (true);
 }

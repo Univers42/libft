@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/04 14:39:53 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/08/05 00:53:47 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdlib string
 
 # Source files from all directories including ft_printf and gnl
 SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
-PRINTF_SRCS = $(shell find stdio/ft_printf_42/src -name "*.c" 2>/dev/null)
+PRINTF_SRCS = $(shell find stdio/ft_printf/src -name "*.c" 2>/dev/null)
 GNL_SRCS = $(wildcard stdio/gnl/*.c)
 ALL_SRCS = $(SRCS) $(PRINTF_SRCS) $(GNL_SRCS)
 

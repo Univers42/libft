@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 20:04:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 00:38:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef void (*t_transform_callback)(t_sphere_data *data);
 // 2D, 3D, 4D Points (alias for vectors)
 typedef t_vec2 t_point2;
 typedef t_vec3 t_point3;
-typedef t_vec4 t_point4;
+// Remove or comment out this line to avoid conflict with struct s_point4
+// typedef t_vec4 t_point4;
 
 // Line (2 points)
 typedef struct

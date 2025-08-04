@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:59:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/29 09:46:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 00:28:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,19 @@
  * for overlapping areas, 
  *       `memmove` should be used instead.
  */
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_mempcpy(void *dest, const void *src, size_t n)
 {
-	ft_memmove(dest, src, n);
-	return (dest);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		++i;
+	}
+	return ((char *)dest + n);
 }
+
 
 //int main(void)
 //{

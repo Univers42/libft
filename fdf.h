@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:47:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 00:31:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:00:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ typedef struct s_fdf
 	t_line *line;       // Line rendering system
 	t_map *map;         // Map/wireframe data
 	t_arena *arena;
-} t_fdf;
+} t_app;
 
 #endif

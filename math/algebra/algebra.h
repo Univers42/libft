@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:22:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:51:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int     ft_tab_mult(int x);
 double  ft_fabs(double x);
 int     ft_round(double num);
 float   lerp(float a, float b, float t);
-
+float	ft_fmaxf(float a, float b);
+float	ft_fminf(float a, float b);
 #endif

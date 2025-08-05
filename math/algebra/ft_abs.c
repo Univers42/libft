@@ -6,18 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:31:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:40:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/05 15:13:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "algebra.h"
 
-int	ft_abs(int x)
+int	ft_abs(int n)
 {
-	int	mask;
-
-	mask = x >> (sizeof(int) * 8 - 1);
-	return (ft_add(x ^ mask, -mask));
+	if (n < 0)
+		return (-n);
+	return (n);
 }
 
 //int main(int argc, char **argv)

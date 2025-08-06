@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 00:38:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:38:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ typedef struct
 	t_point2	max;
 }				t_rect2;
 
+typedef struct s_ipoint
+{
+	int	x;
+	int	y;
+	int	z;
+}t_ipoint;
 // Sphere transformation functions
 
 

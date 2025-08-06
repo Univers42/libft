@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:28:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:08:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 #define TRACKBALLSIZE  (0.5f)
 #define RENORMCOUNT 97
+
 // Quaternion struct definition
 typedef struct s_quat
 {
@@ -90,5 +91,5 @@ void	build_rotmatrix(float m[4][4], float q[4]);
 void	trackball_rotate(float q[4], float p1x, float p1y, float p2x, float p2y);
 void	build_rotmatrix(float m[4][4], float q[4]);
 float    tb_project_to_sphere(float r, float x, float y);
-
+void	quaternion_to_matrix4(float q[4], float m[16]);
 #endif

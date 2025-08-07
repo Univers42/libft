@@ -6,10 +6,9 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 00:50:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:52:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PARSER_PRIVATE_H
 # define PARSER_PRIVATE_H
@@ -52,27 +51,16 @@ void	parser_parse_precision(t_parser *p);
  * 	 PARAM_ASTERISK if * param;
  */
 void	parser_parse_width(t_parser *p);
-
 void	parser_parse_flags(t_parser *p);
-
 void	width_padding(t_parser *p, size_t len, t_padding_position pos);
-
 void	zero_precision_padding(t_parser *p, size_t len);
-
 void	zero_width_padding(t_parser *p, size_t len);
-
 void	parser_write_hex(t_parser *p, bool upper);
-
 void	parser_write_uint(t_parser *p);
-
 void	parser_write_int(t_parser *p);
-
 void	parser_write_pointer_address(t_parser *p);
-
 void	parser_write_string(t_parser *p);
-
 void	parser_write_char(t_parser *p);
-
 void	alt_hex(t_parser *p, size_t len, bool upper, unsigned int value);
 
 #endif

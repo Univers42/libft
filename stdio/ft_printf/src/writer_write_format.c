@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 00:55:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:53:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "writer.h"
 #include "ft_ctype.h"
+
 bool	writer_write_str(t_writer *w, const char *str)
 {
 	while (*str != '\0' && writer_putchar(w, *str))

@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_length.c                                    :+:      :+:    :+:   */
+/*   pool_stats.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 01:54:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:55:09 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 01:55:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 01:55:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "string_length.h"
+#include "pool.h"
+#include <stdio.h>
 
-size_t	hex_len(size_t n)
+void	pool_stats(t_pool *pool)
 {
-	size_t	len;
-
-	len = 1;
-	while (n >= 16)
-	{
-		n /= 16;
-		len++;
-	}
-	return (len);
-}
-
-size_t	uint_len(unsigned int n)
-{
-	size_t	len;
-
-	len = 1;
-	while (n >= 10)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
+	if (pool == NULL)
+		return ;
+	printf("Pool Stats:\n");
+	printf("  Block size: %zu bytes\n", pool->block_size);
+	printf("  Total allocated: %zu\n", pool->total_allocated);
+	printf("  Total freed: %zu\n", pool->total_freed);
+	printf("  Active allocations: %zu\n",
+		pool->total_allocated - pool->total_freed);
 }

@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.h                                         :+:      :+:    :+:   */
+/*   ft_hex_digit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 00:18:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:09:41 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 01:09:25 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 01:09:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CTYPE_H
-# define FT_CTYPE_H
-
-int	ft_isdigit(int c);
-int	ft_isalpha(int c);
-int	ft_isalnum(int c);
-int	ft_isascii(int c);
-int	ft_isprint(int c);
-int	ft_isspace(int c);
-int	ft_isupper(int c);
-int	ft_islower(int c);
-int	ft_toupper(int c);
-int	ft_tolower(int c);
-int	ft_isblank(int c);
-int	ft_isxdigit(int c);
-int	ft_isgraph(int c);
-int	hex_digit(char c);
-#endif
+int	hex_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (c - '0');
+	if (c >= 'a' && c <= 'f')
+		return (c - 'a' + 10);
+	if (c >= 'A' && c <= 'F')
+		return (c - 'A' + 10);
+	return (-1);
+}

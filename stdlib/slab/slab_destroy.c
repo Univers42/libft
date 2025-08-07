@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dbl_free.c                                      :+:      :+:    :+:   */
+/*   slab_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/04 12:02:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:17:31 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 01:40:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "slab.h"
 #include <stdlib.h>
 
-void	dbl_free(char **ptr)
+void		slab_destroy(t_slab_allocator *slab)
 {
-	int	i;
+	size_t			i;
+	t_slab_cache	*cache;
+	t_slab_chunk	*chunk;
+	t_slab_chunk	*next;
 
-	if (!ptr)
+	if (slab == NULL)
 		return ;
 	i = 0;
-	while (ptr[i])
+	while (i < slab->cache_count)
 	{
-		free(ptr[i]);
-		i++;
+		cache = &slab->caches[i];
+		chunk = cache->chunks;
+		while (chunk != NULL)
+		{
+			next = chunk->next;
+			free(chunk->memory);
+			free(chunk);
+			chunk = next;
+		}
+		cache->chunks = NULL;
+		i += 1;
 	}
-	free(ptr);
 }

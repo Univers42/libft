@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fmaxf.c                                         :+:      :+:    :+:   */
+/*   slab_internal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 12:50:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:38:29 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 01:40:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-float	ft_fmaxf(float a, float b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
+#ifndef SLAB_INTERNAL_H
+# define SLAB_INTERNAL_H
+
+# include "slab.h"
+# include <stddef.h>
+
+t_slab_chunk	*create_slab_chunk(t_slab_cache *cache);
+t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size);
+
+#endif

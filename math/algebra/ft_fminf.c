@@ -6,14 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:49:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 12:51:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:38:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 float	ft_fminf(float a, float b)
 {
-    if (a < b)
-        return (a);
-    return (b);
+	if (a < b)
+		return (a);
+	return (b);
 }
-

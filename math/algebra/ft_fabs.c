@@ -6,11 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:40:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 05:40:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:37:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 double	ft_fabs(double x)
 {
-	return (x < 0 ? -x : x);
+	if (x < 0)
+		return (-x);
+	return (x);
 }

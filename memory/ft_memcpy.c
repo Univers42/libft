@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:59:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/05 01:16:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:36:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		((unsigned char *)dest)[i] = ((const unsigned char *)src)[i];
 		++i;
 	}
-	return dest;
+	return (dest);
 }
 
 //int main(void)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:42:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/30 20:48:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:17:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 /**
  * @param i optional depending on implementation
  */
-void skip_spaces(int *i, int size, char *str)
+void	skip_spaces(int *i, int size, char *str)
 {
-    if (i != NULL)
-    {
-        while (*i < size && ft_isspace(str[*i]))
-            (*i)++;
-    }
+	if (i != NULL)
+	{
+		while (*i < size && ft_isspace(str[*i]))
+			(*i)++;
+	}
 }

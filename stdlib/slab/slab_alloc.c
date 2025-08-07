@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:40:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:41:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void		*slab_alloc(t_slab_allocator *slab, size_t size)
+void	*slab_alloc(t_slab_allocator *slab, size_t size)
 {
 	t_slab_cache	*cache;
 	t_slab_chunk	*chunk;

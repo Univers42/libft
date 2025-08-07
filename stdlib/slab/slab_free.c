@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:40:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:45:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,22 @@ static t_slab_block	*slab_get_block_at_ptr(t_slab_chunk *chunk,
 {
 	char			*start;
 	size_t			bsz;
-	char			*end;
 	size_t			offset;
-	size_t			index;
 	t_slab_block	*blk;
 
 	start = chunk->memory;
 	bsz = sizeof(t_slab_block) + cache->block_size;
-	end = start + chunk->total_blocks * bsz;
-	if ((char *)ptr < start || (char *)ptr >= end)
+	if ((char *)ptr < start
+		|| (char *)ptr >= start + chunk->total_blocks * bsz)
 		return (NULL);
-	offset = (size_t)((char *)ptr - start);
-	index = offset / bsz;
-	blk = (t_slab_block *)(start + index * bsz);
+	offset = (size_t)((char *)ptr - start) / bsz;
+	blk = (t_slab_block *)(start + offset * bsz);
 	if (blk->data != ptr)
 		return (NULL);
 	return (blk);
 }
 
-static int		slab_free_in_cache(t_slab_cache *cache, void *ptr)
+static int	slab_free_in_cache(t_slab_cache *cache, void *ptr)
 {
 	t_slab_chunk	*chunk;
 	t_slab_block	*blk;
@@ -62,9 +59,9 @@ static int		slab_free_in_cache(t_slab_cache *cache, void *ptr)
 	return (0);
 }
 
-void		slab_free(t_slab_allocator *slab, void *ptr)
+void	slab_free(t_slab_allocator *slab, void *ptr)
 {
-	size_t			i;
+	size_t	i;
 
 	if (slab == NULL || ptr == NULL)
 		return ;

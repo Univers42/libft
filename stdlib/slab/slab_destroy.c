@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:40:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 01:41:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "slab.h"
 #include <stdlib.h>
 
-void		slab_destroy(t_slab_allocator *slab)
+void	slab_destroy(t_slab_allocator *slab)
 {
 	size_t			i;
 	t_slab_cache	*cache;

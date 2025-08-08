@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:10:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:13:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:18:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,3 @@ void	vset(float *v, float x, float y, float z)
 	v[1] = y;
 	v[2] = z;
 }
-

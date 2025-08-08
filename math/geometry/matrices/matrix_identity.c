@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:55:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:17:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@
 ** Expects: Pointer to a valid t_mat4.
 */
 
-void matrix_identity(t_mat4 *out)
+void	matrix_identity(t_mat4 *out)
 {
-	int i;
+	int	i;
 	int	j;
 
-	i = 0;
-	while (i < 4)
+	i = -1;
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < 4)
+		j = -1;
+		while (++j < 4)
 		{
-			out->m[i][j] = (i == j) ? 1.0f : 0.0f;
-			j++;
+			if (i == j)
+				out->m[i][j] = 1.0f;
+			else
+				out->m[i][j] = 0.0f;
 		}
-		i++;
 	}
 }

@@ -6,49 +6,55 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:38:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 13:38:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:19:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-*	Optimized gradient calculation using integer arithmetic
-*	Removed caching to prevent memory corruption in multithreaded environment
+** Optimized gradient calculation using integer arithmetic.
+** Split into helpers to satisfy norm (max 5 vars per function).
 */
+
+static void	extract_rgb(int color, int dst[3])
+{
+	dst[0] = (color >> 16) & 0xFF;
+	dst[1] = (color >> 8) & 0xFF;
+	dst[2] = color & 0xFF;
+}
+
+static int	interp_channel(int s, int e, int pix, int len)
+{
+	return (s + ((e - s) * pix) / len);
+}
+
+static int	clamp_channel(int v)
+{
+	if (v < 0)
+		return (0);
+	if (v > 255)
+		return (255);
+	return (v);
+}
+
 int	gradient(int startcolor, int endcolor, int len, int pix)
 {
-	int		new[3];
-	int		r_start, g_start, b_start;
-	int		r_end, g_end, b_end;
-	
-	// Bounds checking
+	int	start_rgb[3];
+	int	end_rgb[3];
+	int	out_rgb[3];
+	int	i;
+
 	if (len <= 0 || pix < 0 || pix > len)
 		return (startcolor);
-		
-	// Fast path for no gradient
 	if (startcolor == endcolor)
 		return (startcolor);
-	
-	// Extract RGB components using bit operations
-	r_start = (startcolor >> 16) & 0xFF;
-	g_start = (startcolor >> 8) & 0xFF;
-	b_start = startcolor & 0xFF;
-	
-	r_end = (endcolor >> 16) & 0xFF;
-	g_end = (endcolor >> 8) & 0xFF;
-	b_end = endcolor & 0xFF;
-	
-	// Use integer math to avoid floating point operations
-	new[0] = r_start + ((r_end - r_start) * pix) / len;
-	new[1] = g_start + ((g_end - g_start) * pix) / len;
-	new[2] = b_start + ((b_end - b_start) * pix) / len;
-	
-	// Clamp values to valid range
-	if (new[0] > 255) new[0] = 255;
-	if (new[0] < 0) new[0] = 0;
-	if (new[1] > 255) new[1] = 255;
-	if (new[1] < 0) new[1] = 0;
-	if (new[2] > 255) new[2] = 255;
-	if (new[2] < 0) new[2] = 0;
-	
-	return ((new[0] << 16) | (new[1] << 8) | new[2]);
+	extract_rgb(startcolor, start_rgb);
+	extract_rgb(endcolor, end_rgb);
+	i = 0;
+	while (i < 3)
+	{
+		out_rgb[i] = interp_channel(start_rgb[i], end_rgb[i], pix, len);
+		out_rgb[i] = clamp_channel(out_rgb[i]);
+		i += 1;
+	}
+	return ((out_rgb[0] << 16) | (out_rgb[1] << 8) | out_rgb[2]);
 }

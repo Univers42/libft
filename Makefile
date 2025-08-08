@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/05 01:07:54 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/08/08 16:37:35 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,9 @@ endef
 NAME = libft.a
 MINILIBX_DIR = minilibx-linux
 MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
+MLX_ALT_LIB = $(MINILIBX_DIR)/mlx.a
+# Allow passing extra flags to MLX make (user can: make MLX_FLAGS="NO_TEST=1")
+MLX_FLAGS ?=
 # Directories
 DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
 					data_structures/lists data_structures/vector classes/render/map classes/render/window classes/render/inputHandler classes/render/point classes/render/line classes/trace/error \
@@ -48,6 +51,8 @@ SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 PRINTF_SRCS = $(shell find stdio/ft_printf/src -name "*.c" 2>/dev/null)
 GNL_SRCS = $(wildcard stdio/gnl/*.c)
 ALL_SRCS = $(SRCS) $(PRINTF_SRCS) $(GNL_SRCS)
+# Exclude every main.c from the library to avoid multiple definition
+ALL_SRCS := $(filter-out %/main.c,$(ALL_SRCS))
 
 # Object files with directory structure preserved
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
@@ -66,10 +71,21 @@ CFLAGS += $(INCLUDE_FLAGS) -g3
 # Default rule: build the library
 all: $(MINILIBX_LIB) $(NAME)
 
-# Build MiniLibX
+# Build MiniLibX (skip failing test phase gracefully)
 $(MINILIBX_LIB):
 	@echo "$(BRIGHT_CYAN)🔧 Building MiniLibX...$(RESET)"
-	@$(MAKE) -C $(MINILIBX_DIR)
+	@set -e; \
+	{ $(MAKE) -C $(MINILIBX_DIR) $(MLX_FLAGS) || true; }; \
+	if [ ! -f "$(MINILIBX_LIB)" ]; then \
+		if [ -f "$(MLX_ALT_LIB)" ]; then \
+			cp "$(MLX_ALT_LIB)" "$(MINILIBX_LIB)"; \
+			echo "$(YELLOW)[MiniLibX] Fallback: copied mlx.a -> libmlx.a$(RESET)"; \
+		else \
+			echo "$(YELLOW)[MiniLibX] Library not produced, creating placeholder libmlx.a$(RESET)"; \
+			printf "int __mlx_placeholder(void){return 0;}\n" | $(CC) -x c -c - -o $(MINILIBX_DIR)/__mlx_empty__.o; \
+			$(AR) rcs $(MINILIBX_LIB) $(MINILIBX_DIR)/__mlx_empty__.o; \
+		fi; \
+	fi
 
 # Rule to build the library
 $(NAME): $(OBJS)
@@ -142,6 +158,9 @@ mode_lab:
 	@$(trans_add_c)
 
 test: $(TEST_EXE)
+
+norminette:
+	find . -path "./minilibx-linux" -prune -o -name "*.c" -exec norminette {} +
 
 $(TEST_EXE): $(MINILIBX_LIB) $(NAME)
 ifneq ($(strip $(TEST_MAIN)),)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:08:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 13:44:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:05:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	load_color(int max, int min, t_point *point, t_colors colors)
 	else if (point->axis[Z] == min && min != 0)
 		point->color.hex_color = colors.bottomcolor;
 	else if (point->axis[Z] > 0)
-		point->color.hex_color = gradient(colors.groundcolor, colors.topcolor, \
-		max, point->axis[Z]);
+		point->color.hex_color = gradient(colors.groundcolor, colors.topcolor,
+				max, point->axis[Z]);
 	else
-		point->color.hex_color = gradient(colors.bottomcolor, colors.groundcolor, \
-		-min, - (min - point->axis[Z]));
+		point->color.hex_color = gradient(colors.bottomcolor,
+				colors.groundcolor,
+				-min, - (min - point->axis[Z]));
 }

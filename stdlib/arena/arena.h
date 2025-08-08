@@ -1,8 +1,20 @@
-#ifndef ARENA_H
-#define ARENA_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arena.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/08 01:58:35 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 01:58:48 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdlib.h>
+#ifndef ARENA_H
+# define ARENA_H
+
+# include <stddef.h>
+# include <stdlib.h>
 
 typedef struct s_arena_block
 {

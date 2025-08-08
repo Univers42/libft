@@ -6,13 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:23:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:19:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:27:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "quaternion.h"
-
-
 
 static float	quat_dot(const t_quat *a, const t_quat *b)
 {
@@ -48,21 +46,23 @@ static void	quat_slerp_interp(t_slerp_interp *interp, float dot, float t)
 	interp->theta = interp->theta_0 * t;
 	interp->sin_theta = sinf(interp->theta);
 	interp->sin_theta0 = sinf(interp->theta_0);
-	interp->s0 = cosf(interp->theta) - dot * interp->sin_theta / interp->sin_theta0;
+	interp->s0 = cosf(interp->theta) - dot * interp->sin_theta
+		/ interp->sin_theta0;
 	interp->s1 = interp->sin_theta / interp->sin_theta0;
 }
 
 /*
-** Performs spherical linear interpolation (SLERP) between two quaternions a and b.
+** Performs spherical linear interpolation (SLERP)
+between two quaternions a and b.
 ** t in [0,1] interpolates from a (t=0) to b (t=1).
 ** Usage: quat_slerp(&out, &a, &b, t);
 ** Expects: All pointers are valid and non-NULL; t in [0,1].
 */
 void	quat_slerp(t_quat *out, const t_quat *a, const t_quat *b, float t)
 {
-	float dot;
-	t_quat b2;
-	t_slerp_interp interp;
+	float			dot;
+	t_quat			b2;
+	t_slerp_interp	interp;
 
 	dot = quat_dot(a, b);
 	b2 = *b;
@@ -70,7 +70,7 @@ void	quat_slerp(t_quat *out, const t_quat *a, const t_quat *b, float t)
 	if (dot > 0.9995f)
 	{
 		quat_lerp(out, a, &b2, t);
-		return;
+		return ;
 	}
 	quat_slerp_interp(&interp, dot, t);
 	out->x = (a->x * interp.s0) + (b2.x * interp.s1);

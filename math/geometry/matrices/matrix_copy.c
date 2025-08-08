@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:55:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:10:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 ** Expects: Both pointers are valid and non-NULL.
 */
 
-void matrix_copy(t_mat4 *dst, const t_mat4 *src)
+void	matrix_copy(t_mat4 *dst, const t_mat4 *src)
 {
-	int i;
-    int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < 4)

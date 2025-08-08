@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:43:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:19:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	slab_add_cache(t_slab_allocator *slab,
 	slab->cache_count += 1;
 }
 
-static t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size)
+t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size)
 {
 	size_t			i;
 	t_slab_cache	*best;

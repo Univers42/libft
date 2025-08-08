@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:53:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:16:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:49:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void vcopy(const float *v1, float *v2)
+void	vcopy(const float *v1, float *v2)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (++i < 3)
-        v2[i] = v1[i];
+	i = -1;
+	while (++i < 3)
+		v2[i] = v1[i];
 }

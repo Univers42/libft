@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 00:16:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:36:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static void	handler_set_error(
 static const char	*handler_get_message(
 	t_handler *self, int code)
 {
-	(void) self;
 	t_interface	*reg;
 	const char	*msg;
 
+	(void) self;
 	reg = err_default_registry();
 	msg = reg->get_message(reg, code);
 	if (msg)

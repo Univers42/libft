@@ -6,46 +6,35 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 20:36:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:05:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrices.h"
+#include "pixel.h"
 
 /*
-** Converts a quaternion (x, y, z, w) to a 4x4 rotation matrix.
-** Usage: matrix_from_quaternion(&mat, x, y, z, w);
-** Expects: Quaternion components as floats.
+** Convert quaternion (x,y,z,w) in t_fpoint4 to 3x3 rotation (rest identity).
 */
+void	matrix_from_quaternion(t_mat4 *out, t_fpoint4 q)
+{
+	float	x;
+	float	y;
+	float	z;
+	float	w;
 
-void matrix_from_quaternion(t_mat4 *out, float x, float y, float z, float w) {
-    float xx;
-    float yy;
-    float zz;
-    float xy;
-    float yz;
-    float xz;
-    float wx;
-    float wy;
-    float wz;
-
-    xx = x * x;
-    yy = y * y;
-    zz = z * z;
-    xy = x * y;
-    xz = x * z;
-    yz = y * z;
-    wx = w * x;
-    wy = w * y;
-    wz = w * z;    
-    matrix_identity(out);
-    out->m[0][0] = 1.0f - 2.0f * (yy + zz);
-    out->m[0][1] = 2.0f * (xy - wz);
-    out->m[0][2] = 2.0f * (xz + wy);
-    out->m[1][0] = 2.0f * (xy + wz);
-    out->m[1][1] = 1.0f - 2.0f * (xx + zz);
-    out->m[1][2] = 2.0f * (yz - wx);
-    out->m[2][0] = 2.0f * (xz - wy);
-    out->m[2][1] = 2.0f * (yz + wx);
-    out->m[2][2] = 1.0f - 2.0f * (xx + yy);
+	x = q.x;
+	y = q.y;
+	z = q.z;
+	w = q.w;
+	matrix_identity(out);
+	out->m[0][0] = 1.0f - 2.0f * (y * y + z * z);
+	out->m[0][1] = 2.0f * (x * y - w * z);
+	out->m[0][2] = 2.0f * (x * z + w * y);
+	out->m[1][0] = 2.0f * (x * y + w * z);
+	out->m[1][1] = 1.0f - 2.0f * (x * x + z * z);
+	out->m[1][2] = 2.0f * (y * z - w * x);
+	out->m[2][0] = 2.0f * (x * z - w * y);
+	out->m[2][1] = 2.0f * (y * z + w * x);
+	out->m[2][2] = 1.0f - 2.0f * (x * x + y * y);
 }

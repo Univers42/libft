@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:57:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:23:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 ** Usage: quat_init(&q, x, y, z, w);
 ** Expects: q is a valid pointer.
 */
-void	quat_init(t_quat *q, float x, float y, float z, float w)
+void	quat_init(t_quat *q, t_fpoint4 p)
 {
-	q->x = x;
-	q->y = y;
-	q->z = z;
-	q->w = w;
+	q->x = p.x;
+	q->y = p.y;
+	q->z = p.z;
+	q->w = p.w;
 }

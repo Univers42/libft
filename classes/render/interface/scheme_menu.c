@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:06:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 13:06:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 15:23:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,3 @@ static void	draw_controls(t_meta *meta)
 	print_str(meta, MENU_TAB, line, "F/C Fit/Center");
 	line += LINE_SIZE;
 }
-

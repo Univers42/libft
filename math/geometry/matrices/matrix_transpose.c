@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:55:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:11:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** Expects: Both pointers are valid and non-NULL.
 */
 
-void matrix_transpose(t_mat4 *out, const t_mat4 *in)
+void	matrix_transpose(t_mat4 *out, const t_mat4 *in)
 {
 	int	i;
 	int	j;

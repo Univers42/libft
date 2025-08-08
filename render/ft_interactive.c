@@ -6,13 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 00:41:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:00:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
 #include "../stdio/ft_stdio.h"
 #include "ft_colors.h"
+
 void	ft_print_menu(char **options, int count, int selected)
 {
 	int	i;
@@ -33,10 +34,12 @@ void	ft_print_menu(char **options, int count, int selected)
 static void	print_timeline_item(char *time, char *event, int is_last)
 {
 	if (is_last)
-		ft_printf("%s└─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event, RESET_TERM);
+		ft_printf("%s└─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event,
+			RESET_TERM);
 	else
 	{
-		ft_printf("%s├─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event, RESET_TERM);
+		ft_printf("%s├─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event,
+			RESET_TERM);
 		ft_printf("%s│%s\n", CYAN_TERM, RESET_TERM);
 	}
 }

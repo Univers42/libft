@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 00:41:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:00:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void	ft_print_menu(char **options, int count, int selected)
 static void	print_timeline_item(char *time, char *event, int is_last)
 {
 	if (is_last)
-		ft_printf("%s└─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event, RESET_TERM);
+		ft_printf("%s└─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event,
+			RESET_TERM);
 	else
 	{
-		ft_printf("%s├─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event, RESET_TERM);
+		ft_printf("%s├─ %s%s %s%s\n", CYAN_TERM, time, RESET_TERM, event,
+			RESET_TERM);
 		ft_printf("%s│%s\n", CYAN_TERM, RESET_TERM);
 	}
 }

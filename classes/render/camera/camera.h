@@ -5,36 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 11:03:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 12:50:23 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 15:13:51 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 15:18:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
-#define CAMERA_H
+# define CAMERA_H
 
-#include "window.h"
-#include "point.h"
-#include "input_handler.h"
-#include <unistd.h>
-#include "mlx.h"
-#include <X11/Xlib.h>      // Add this line
-#include "mlx_int.h"       // Add this line for t_xvar and t_win_list
-#include <stdlib.h>
-#include <math.h>
+# include <stdlib.h>
+# include <math.h>
+# include "window.h"
+# include "point.h"
 
-#define NUM_POINTS 6
-/**
- * Treating the camera as an object is important for modularity,
- * encapsulation and flexibility when rendering the system. 
- * The camera can be easily test independently from rendering and input.
- * We can extend the logic and calculation easily (projection, zoom..)
- * view
- * 
- * The camera object is the abstraction for "How the user sees teh world"
- * it is not responsible for drawing, input, or event handling,
- * but for all math and state related to the view and projection.
- */
+# define NUM_POINTS 6
 
 typedef enum e_camera_perspective
 {
@@ -43,44 +27,49 @@ typedef enum e_camera_perspective
 	CAMERA_SIDE
 }	t_camera_perspective;
 
-typedef struct s_camera t_camera;
-
-// Move these forward declarations to the top, before t_camera_vtable
-struct s_vector;
-
-struct s_point;
-typedef struct s_point t_point;
+typedef struct s_camera	t_camera;
+typedef struct s_point	t_point;
 
 typedef struct s_camera_vtable
 {
-	void (*set_perspective)(t_camera *self, t_camera_perspective perspective);
-	t_camera_perspective (*get_perspective)(t_camera *self);
-	t_vec2 (*project_point)(t_camera *self, t_point *point);
-	void (*move)(t_camera *self, double dx, double dy);    // Pan
-	void (*set_zoom)(t_camera *self, double zoom, double center_x, double center_y);         // Set zoom centralized
-	void (*zoom_by)(t_camera *self, double factor, double center_x, double center_y);        // Zoom in/out centralized
-	void (*destroy)(t_camera *self);
+	void				(*set_perspective)(t_camera *, t_camera_perspective);
+	t_camera_perspective(*get_perspective)(t_camera *);
+	t_vec2				(*project_point)(t_camera *, t_point *);
+	void				(*move)(t_camera *, double, double);
+	void				(*set_zoom)(t_camera *, double, double, double);
+	void				(*zoom_by)(t_camera *, double, double, double);
+	void				(*destroy)(t_camera *);
 }	t_camera_vtable;
 
 struct s_camera
 {
 	t_camera_perspective	perspective;
-	double					offset_x;   // Pan horizontally
-	double					offset_y;   // Pan vertically
-	double					zoom;       // Zoom factor
+	double					offset_x;
+	double					offset_y;
+	double					zoom;
 	t_camera_vtable			*vtable;
 };
-
-typedef struct s_window t_window;
 
 typedef struct s_app
 {
 	t_window	*win;
 	t_camera	*camera;
 	t_point		*points[NUM_POINTS];
-} t_app;
+}				t_app;
 
-t_camera *camera_new(t_camera_perspective perspective);
-void camera_destroy(t_camera *camera);
+/* API */
+t_camera				*camera_new(t_camera_perspective perspective);
+void					camera_destroy(t_camera *camera);
+
+/* Internal (vtable targets) */
+void					camera_set_perspective(t_camera *self,
+							t_camera_perspective perspective);
+t_camera_perspective	camera_get_perspective(t_camera *self);
+void					camera_move(t_camera *self, double dx, double dy);
+void					camera_set_zoom(t_camera *self, double zoom,
+							double cx, double cy);
+void					camera_zoom_by(t_camera *self, double factor,
+							double cx, double cy);
+t_vec2					camera_project_point(t_camera *self, t_point *point);
 
 #endif

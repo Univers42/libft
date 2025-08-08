@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 15:55:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:08:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 ** Expects: Pointer to a valid t_mat4.
 */
 
-void    matrix_translate(t_mat4 *out, float tx, float ty, float tz)
+void	matrix_translate(t_mat4 *out, t_fpoint3 t)
 {
-    matrix_identity(out);
-    out->m[0][3] = tx;
-    out->m[1][3] = ty;
-    out->m[2][3] = tz;
+	matrix_identity(out);
+	out->m[0][3] = t.x;
+	out->m[1][3] = t.y;
+	out->m[2][3] = t.z;
 }

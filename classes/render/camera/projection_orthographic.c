@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 14:39:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 14:41:53 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/08 15:13:57 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/08/08 15:19:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void	orto_projection(t_point *points, t_point *projection, int len)
 {
-	int		i;
-	float	matrix[3][3];
+	int	i;
 
-	matrix[0][0] = 1;
-	matrix[1][1] = 1;
+	if (points == NULL || projection == NULL || len <= 0)
+		return ;
 	i = 0;
 	while (i < len)
 	{
-		projection[i] = mul_mat(project_matrix, points[i]);
+		projection[i] = points[i];
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:03:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:57:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
  */
 void	normalize_quat(float q[4])
 {
-    int i;
-    float mag;
+	int		i;
+	float	mag;
 
-    mag = ft_sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);
-    i = -1;
+	mag = ft_sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
+	i = -1;
 	while (++i < 4)
 		q[i] /= mag;
 }

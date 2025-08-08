@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:22:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:58:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <stdlib.h>
+# include "geometry.h"
 # include "window.h"
 # include "ft_math.h"
 
@@ -53,37 +54,6 @@ typedef enum e_gamma
 	gamma2 = 0x997498
 }			t_gamma;
 
-typedef struct s_position
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_position;
-
-typedef struct s_simple_pos
-{
-	int	x;
-	int	y;
-	int	z;
-}		t_pos;
-
-typedef struct s_vectorN
-{
-	double	x;
-	double	y;
-	union
-	{
-		struct
-		{
-			double	z;
-		}	s_v3;
-		struct
-		{
-			double	z;
-			double	w;
-		}	s_v4;
-	}	u_ctx;
-}	t_vectorN;
 
 // Forward declaration for t_pixel (OOP-style point)
 struct s_pixel;
@@ -110,7 +80,7 @@ typedef struct s_point_vtable
 	int		(*translate)(t_pixel *self, int dx, int dy);
 	int		(*scale)(t_pixel *self, double scale_x, double scale_y);
 	t_pixel	*(*clone)(t_pixel *self);
-}				t_point_vtable;
+}	t_point_vtable;
 
 // OOP-style point struct
 struct s_pixel

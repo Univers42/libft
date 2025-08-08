@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:06:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:24:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:08:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_memory.h"
 #include <stdbool.h>
 #include <limits.h>
+#include <stdint.h>
 
 static bool	mul_overflow_size_t(size_t a, size_t b, size_t *out)
 {

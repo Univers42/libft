@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 21:50:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:21:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	tag_sort(int *arr, int size)
 //    int arr[] = {64, 34, 25, 12, 22, 11, 90};
 //    int size = sizeof(arr) / sizeof(arr[0]);
 //    
-//    printf("=== Tag Sort Test ===\n");
+//   	ft_printf("=== Tag Sort Test ===\n");
 //    print_array(arr, size);
 //    tag_sort(arr, size);
 //    print_array(arr, size);

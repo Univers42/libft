@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:41:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 10:13:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 //		ft_lstadd_back(&lst, new_node);
 //	}
 //	ft_lstadd_back(&lst, ft_lstnew(ft_strdup("TAIL")));
-//	printf("Size Before ft_lstclear(): %d\n", ft_lstsize(lst));
+//	ft_printf("Size Before ft_lstclear(): %d\n", ft_lstsize(lst));
 //	ft_lstclear(&lst, &delete);
-//	printf("Size after ft_lstclear(): %d\n", lst ? ft_lstsize(lst) : 0);
+//	ft_printf("Size after ft_lstclear(): %d\n", lst ? ft_lstsize(lst) : 0);
 //	return 0;
 //}

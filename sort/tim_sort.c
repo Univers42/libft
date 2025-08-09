@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:12:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:17:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	tim_sort(int *arr, int n)
 //	int	size;
 //
 //	size = 8;
-//	printf("Original array: ");
+//	ft_printf("Original array: ");
 //	print_array(arr, size);
 //	tim_sort(arr, size);
-//	printf("Sorted array: ");
+//	ft_printf("Sorted array: ");
 //	print_array(arr, size);
 //	return (0);
 //}

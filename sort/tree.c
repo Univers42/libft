@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:36:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:29:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_spaces(int count)
 	i = 0;
 	while (i < count)
 	{
-		printf(" ");
+		ft_printf(" ");
 		i++;
 	}
 }

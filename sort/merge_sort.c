@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:57:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:07:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ void	ft_merge_sort(int *arr, int l, int r)
 //    i = 0;
 //    while (i < size)
 //    {
-//        printf("%d ", arr[i]);
+//       	ft_printf("%d ", arr[i]);
 //        i++;
 //    }
-//    printf("\n");
+//   	ft_printf("\n");
 //}
 //
 //int main(void)
@@ -124,12 +124,12 @@ void	ft_merge_sort(int *arr, int l, int r)
 //	int l = 0;
 //	int r = size - 1;
 //	
-//    printf("Original array: ");
+//   	ft_printf("Original array: ");
 //    print_array(arr, size);
 //
 //    ft_merge_sort(arr, l, r);
 //
-//    printf("Sorted array: ");
+//   	ft_printf("Sorted array: ");
 //    print_array(arr, size);
 //
 //    return (0);

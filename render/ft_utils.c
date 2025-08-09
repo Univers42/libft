@@ -6,21 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/08 12:33:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:35:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
+#include "ft_stdio.h"
 
 void	ft_clear_screen(void)
 {
-	printf("\033[2J\033[H");
+	ft_printf("\033[2J\033[H");
 	fflush(stdout);
 }
 
 void	ft_move_cursor(int x, int y)
 {
-	printf("\033[%d;%dH", y, x);
+	ft_printf("\033[%d;%dH", y, x);
 	fflush(stdout);
 }
 
@@ -55,8 +56,8 @@ void	ft_print_centered(const char *text)
 	i = 0;
 	while (i < padding)
 	{
-		printf(" ");
+		ft_printf(" ");
 		i++;
 	}
-	printf("%s\n", text);
+	ft_printf("%s\n", text);
 }

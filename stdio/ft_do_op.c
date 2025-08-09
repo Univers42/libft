@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:29:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	do_op(int n1, char sign, int n2)
 	if (op_idx < 0 || !(op_map & (1u << op_idx)))
 		return ;
 	res = op_funcs[op_idx](n1, n2);
-	printf("%d %c %d = %d\n", n1, sign, n2, res);
+	ft_printf("%d %c %d = %d\n", n1, sign, n2, res);
 }
 
 //int	main(int argc, char **argv)

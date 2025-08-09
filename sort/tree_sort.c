@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:16:13 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 11:13:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	tree_sort(int *arr, int size)
 //    int arr1[] = {64, 34, 25, 12, 22, 11, 90};
 //    int size1 = sizeof(arr1) / sizeof(arr1[0]);
 //    
-//    printf("=== Tree Sort Test ===\n");
+//   	ft_printf("=== Tree Sort Test ===\n");
 //    print_array_tree(arr1, size1, "Before sorting");
 //    tree_sort(arr1, size1);
 //    print_array_tree(arr1, size1, "After sorting");
@@ -94,7 +94,7 @@ void	tree_sort(int *arr, int size)
 //    int arr2[] = {1, 2, 3, 4, 5};
 //    int size2 = sizeof(arr2) / sizeof(arr2[0]);
 //    
-//    printf("\n=== Already Sorted Test ===\n");
+//   	ft_printf("\n=== Already Sorted Test ===\n");
 //    print_array_tree(arr2, size2, "Before sorting");
 //    tree_sort(arr2, size2);
 //    print_array_tree(arr2, size2, "After sorting");
@@ -103,7 +103,7 @@ void	tree_sort(int *arr, int size)
 //    int arr3[] = {5, 4, 3, 2, 1};
 //    int size3 = sizeof(arr3) / sizeof(arr3[0]);
 //    
-//    printf("\n=== Reverse Sorted Test ===\n");
+//   	ft_printf("\n=== Reverse Sorted Test ===\n");
 //    print_array_tree(arr3, size3, "Before sorting");
 //    tree_sort(arr3, size3);
 //    print_array_tree(arr3, size3, "After sorting");
@@ -112,7 +112,7 @@ void	tree_sort(int *arr, int size)
 //    int arr4[] = {3, 1, 4, 1, 5, 9, 2, 6, 5};
 //    int size4 = sizeof(arr4) / sizeof(arr4[0]);
 //    
-//    printf("\n=== With Duplicates Test ===\n");
+//   	ft_printf("\n=== With Duplicates Test ===\n");
 //    print_array_tree(arr4, size4, "Before sorting");
 //    tree_sort(arr4, size4);
 //    print_array_tree(arr4, size4, "After sorting");

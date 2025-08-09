@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:17:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:58:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ int	*ft_quick_sort(int *arr, int low, int high)
 //    int arr[] = {64, 34, 25, 12, 22, 90};
 //    int size = 6;
 //    
-//    printf("Before sorting: ");
+//   	ft_printf("Before sorting: ");
 //    for (int i = 0; i < size; i++)
-//        printf("%d ", arr[i]);
-//    printf("\n");
+//       	ft_printf("%d ", arr[i]);
+//   	ft_printf("\n");
 //    
 //    ft_quick_sort(arr, 0, size - 1);
 //    
-//    printf("After sorting: ");
+//   	ft_printf("After sorting: ");
 //    for (int i = 0; i < size; i++)
-//        printf("%d ", arr[i]);
-//    printf("\n");
+//       	ft_printf("%d ", arr[i]);
+//   	ft_printf("\n");
 //    
 //    return (0);
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:19:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 17:41:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ char	*ft_strtrim(const char *s1, const char *set)
 //	trimmed = ft_strtrim(s1, set);
 //	if (trimmed)
 //	{
-//		printf("old string : '%s'\n", s1);
-//		printf("new_string : '%s'\n", trimmed);
+//		ft_printf("old string : '%s'\n", s1);
+//		ft_printf("new_string : '%s'\n", trimmed);
 //		free(trimmed);
 //		return 0;
 //	}

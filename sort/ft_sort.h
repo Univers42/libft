@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:16:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:36:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <pthread.h>
 # include <unistd.h>
+# include "ft_stdio.h"
 
 # define RUN 32
 

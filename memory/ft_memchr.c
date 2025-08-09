@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:59:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 13:57:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 //int *ptr = (int *)ft_memchr((int *)arr, 65, sizeof(arr));
 //printf("result - str = [%s - %s] => %ld\n",result, str, result - str);
 // if (ptr)
-// printf("Value %c found in array at index: [%ld]\n", *ptr, ptr - arr);
+//	ft_printf("Value %c found in array at index: [%ld]\n", *ptr, ptr - arr);
 //    else
-//        printf("Value '0' not found in array.\n");
+//       	ft_printf("Value '0' not found in array.\n");
 //}

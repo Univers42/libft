@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:30:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 10:12:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ t_list	*ft_lstnew(void *content)
 //	t_list *curr = new_node;
 //	while(curr != NULL)
 //	{
-//		printf("%s", (char *)curr->content);
+//		ft_printf("%s", (char *)curr->content);
 //		curr = curr->next;
 //	}
-//	printf("\n");
+//	ft_printf("\n");
 //	
 //	//free the memory
 //	curr = new_node;

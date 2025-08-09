@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:05:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 17:40:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:52:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,17 @@ int	ft_isascii(int c)
 //        // Compare truthiness (not the exact values)
 //        if ((!!std) != (!!mine))
 //        {
-//            printf("Mismatch for c = %d: isascii = %d, ft_isascii = %d\n",
+//           	ft_printf("Mismatch for c = %d: isascii = %d,
+// ft_isascii = %d\n",
 //                   c, std, mine);
 //            errors++;
 //        }
 //    }
 //    
 //    if (errors == 0)
-//        printf("All tests passed!\n");
+//       	ft_printf("All tests passed!\n");
 //    else
-//        printf("%d mismatches found.\n", errors);
+//       	ft_printf("%d mismatches found.\n", errors);
 //        
 //    return errors;
 //}

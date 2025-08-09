@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:12:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	*ft_calloc(t_size nmemb, t_size size)
 //    char input[4]; // Buffer to hold input for "yes" or "no"
 //    int row, seat;
 //    
-//    printf("Enter the number of rows in the classroom: ");
+//   	ft_printf("Enter the number of rows in the classroom: ");
 //    scanf("%d", &rows);
-//    printf("Enter the number of seats per row: ");
+//   	ft_printf("Enter the number of seats per row: ");
 //    scanf("%d", &seatsPerRow);
 //
 //    // Allocate memory for seating arrangement
@@ -89,16 +89,16 @@ void	*ft_calloc(t_size nmemb, t_size size)
 //        }
 //    }
 //
-//    printf("The doors are opened, people come." 
+//   	ft_printf("The doors are opened, people come." 
 //		"You have to place people, "
 //			"holding their coordinates in your database...\n");
 //
 //    while (1) {
-//        printf("Has a new person entered the room (yes/no)? ");
+//       	ft_printf("Has a new person entered the room (yes/no)? ");
 //        scanf("%s", input);
 //
 //        if (ft_strncmp(input, "yes", 3) == 0) {
-//            printf("Where are they placed in your coordinates "
+//           	ft_printf("Where are they placed in your coordinates "
 //			"(e.g., [1 2] for row 1, seat 2): ");
 //            scanf("%d %d", &row, &seat);
 //
@@ -106,9 +106,9 @@ void	*ft_calloc(t_size nmemb, t_size size)
 //            if (row >= 1 && row <= rows && seat >= 1 && seat <= seatsPerRow) {
 //                // Mark the seat as occupied (1 for occupied)
 //                seating[row - 1][seat - 1] = 1;
-//                printf("Seat [%d, %d] is now occupied.\n", row, seat);
+//               	ft_printf("Seat [%d, %d] is now occupied.\n", row, seat);
 //            } else {
-//                printf("Invalid seat coordinates. Please try again.\n");
+//               	ft_printf("Invalid seat coordinates. Please try again.\n");
 //            }
 //			continue;
 //        }
@@ -116,12 +116,12 @@ void	*ft_calloc(t_size nmemb, t_size size)
 //    }
 //
 //    // Print the classroom seating arrangement
-//    printf("\nClassroom Seating Arrangement:\n");
+//   	ft_printf("\nClassroom Seating Arrangement:\n");
 //    for (int i = 0; i < rows; i++) {
 //        for (int j = 0; j < seatsPerRow; j++) {
-//            printf("%d ", seating[i][j]);
+//           	ft_printf("%d ", seating[i][j]);
 //        }
-//        printf("\n");
+//       	ft_printf("\n");
 //    }
 //
 //    // Free allocated memory

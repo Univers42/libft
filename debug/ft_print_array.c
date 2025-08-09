@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:51:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:18:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	print_array(int *arr, int size)
 
 	i = -1;
 	while (++i < size)
-		printf("%d ", arr[i]);
-	printf("\n");
+		ft_printf("%d ", arr[i]);
+	ft_printf("\n");
 }
 
 //int main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:32:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 00:19:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	ft_isalnum(int c)
 //int main(void) {
 //    char product_code[100];
 //
-//    printf("Enter the product code [i.e. f2133as1121fd5v1fdd54fd1]: ");
+//   	ft_printf("Enter the product code [i.e. f2133as1121fd5v1fdd54fd1]: ");
 //    fgets(product_code, sizeof(product_code), stdin);
 //    
 //    product_code[strcspn(product_code, "\n")] = 0;
 //    
 //    if (is_valid_product_code(product_code))
-//        printf("The product code '%s' is valid!\n", product_code);
+//       	ft_printf("The product code '%s' is valid!\n", product_code);
 //    else
-//        printf("The product code '%s' is invalid.\n", product_code);
+//       	ft_printf("The product code '%s' is invalid.\n", product_code);
 //
 //    return 0;
 //}

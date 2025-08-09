@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:57:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:22:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	comb_sort(int *arr, int size)
 //    int	arr[] = {8, 4, 1, 56, 3, -44, 23, -6, 28, 0};
 //    int	size = sizeof(arr) / sizeof(arr[0]);
 //
-//    printf("Original array: ");
+//   	ft_printf("Original array: ");
 //    print_array(arr, size);
 //    comb_sort(arr, size);
-//    printf("Sorted array:   ");
+//   	ft_printf("Sorted array:   ");
 //    print_array(arr, size);
 //    return (0);
 //}

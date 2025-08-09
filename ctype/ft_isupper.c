@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 22:28:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 17:38:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int	ft_isupper(int c)
 //        int mine = ft_isupper(c);
 //        if ((!!std) != (!!mine))
 //        {
-//  printf("Mismatch for c = %d ('%c'): isupper = %d, ft_isupper = %d\n",
+// 	ft_printf("Mismatch for c = %d ('%c'): isupper = %d, ft_isupper = %d\n",
 //                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
 //            errors++;
 //        }
 //    }
 //    if (errors == 0)
-//        printf("All tests passed!\n");
+//       	ft_printf("All tests passed!\n");
 //    else
-//        printf("%d mismatches found.\n", errors);
+//       	ft_printf("%d mismatches found.\n", errors);
 //    return errors;
 //}
 //// ...existing code...

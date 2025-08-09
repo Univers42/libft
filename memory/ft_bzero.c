@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:30:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/29 09:45:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,24 @@ void	ft_bzero(void *s, size_t n)
 	 */
 //	ft_bzero(buffer, size);
 //	ft_memcpy(buffer, "START", 5);
-//	printf("Buffer prepare for sending: \n");
-//	printf("Byte-by-byte content of buffer : \n");
+//	ft_printf("Buffer prepare for sending: \n");
+//	ft_printf("Byte-by-byte content of buffer : \n");
 //	for (size_t i = 0; i < size; i++)
 //	//this will print byte-byte  in hexadecimal format
-//		printf("%02x ", (unsigned char)*(buffer + i));
-//	printf("\n");
+//		ft_printf("%02x ", (unsigned char)*(buffer + i));
+//	ft_printf("\n");
 //}
 //int main(void)
 //{
 //	size_t DEST_BUF;
 //	char *packet_buffer;
 //	
-//	printf("how many allocation you need for buffer :");
+//	ft_printf("how many allocation you need for buffer :");
 //	scanf("%ld", &DEST_BUF);
 //	packet_buffer = (char *)malloc(DEST_BUF + 1);
 //	if(!packet_buffer)
 //		return 1;
 //	prepare_network_packet(packet_buffer, DEST_BUF);
-//	printf("%s", packet_buffer);
+//	ft_printf("%s", packet_buffer);
 //	free(packet_buffer);
 //}

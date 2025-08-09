@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:32:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	ft_is_negative(int x)
 //    if (argc != 2)
 //        return 1;
 //    int x = atoi(argv[1]);
-//    printf("%d is %snegative\n", x, ft_is_negative(x) ? "" : "not ");
+//   	ft_printf("%d is %snegative\n", x, ft_is_negative(x) ? "" : "not ");
 //    return 0;
 //}

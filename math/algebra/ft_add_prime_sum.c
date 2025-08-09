@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:40:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_add_prime_sum(int x)
 //        return (1);
 //    }
 //    int x = ft_atoi(argv[1]);
-//    printf("The sum of prime numbers ""
+//   	ft_printf("The sum of prime numbers ""
 //up to %d is: %d\n", x, ft_add_prime_sum(x));
 //    return (0);
 //}

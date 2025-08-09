@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 15:22:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:40:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef t_fpoint3							t_position;
 typedef t_point3							t_pos;
 typedef struct s_sphere_data				t_sphere_data;
 /* Callback for transformations */
-typedef void								\
-(*t_transform_callback)(t_sphere_data *data);
+typedef void								(*t_transform_callback)\
+											(t_sphere_data *data);
 
 /* Forward declaration for parser (map system) */
 typedef struct s_parser						t_parser;

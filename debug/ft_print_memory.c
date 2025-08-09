@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:43:35 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/05/27 18:52:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*ft_print_memory(void *addr, unsigned int size)
 // a test buffer for ft_print_memory.\x01\x7F";
 //    unsigned int size = sizeof(buffer) - 1; // exclude null terminator
 //
-//    printf("Memory dump:\n");
+//   	ft_printf("Memory dump:\n");
 //    ft_print_memory(buffer, size);
 //
 //    return 0;

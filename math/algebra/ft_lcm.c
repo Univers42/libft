@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int	ft_lcm(int x, int y)
 //        return 1;
 //    int a = atoi(argv[1]);
 //    int b = atoi(argv[2]);
-//    printf("LCM of %d and %d is %d\n", a, b, ft_lcm(a, b));
+//   	ft_printf("LCM of %d and %d is %d\n", a, b, ft_lcm(a, b));
 //    return 0;
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:07:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:13:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ int	ft_cycle_sort(int *arr, int size)
 //	int	writes;
 //
 //	size2 = 7;
-//	printf("Original array: ");
+//	ft_printf("Original array: ");
 //	print_array(arr2, size2);
 //	writes = ft_cycle_sort(arr2, size2);
-//	printf("Sorted array: ");
+//	ft_printf("Sorted array: ");
 //	print_array(arr2, size2);
-//	printf("Total writes: %d\n", writes);
+//	ft_printf("Total writes: %d\n", writes);
 //	return (0);
 //}

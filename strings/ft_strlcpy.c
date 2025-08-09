@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 12:33:34 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 18:08:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_size	ft_strlcpy(char *dst, const char *src, t_size dsize)
 //{
 //	char *ptr_to_be_copied;
 //	char *src = "hello world!";
-//	printf("%ld,\n %ld\n", sizeof(src), ft_strlen(src));
-//	printf("%ld\n",ft_strlcpy(ptr_to_be_copied, src, ft_strlen(src) + 1));
-//	printf("%s\n", ptr_to_be_copied);
+//	ft_printf("%ld,\n %ld\n", sizeof(src), ft_strlen(src));
+//	ft_printf("%ld\n",ft_strlcpy(ptr_to_be_copied, src, ft_strlen(src) + 1));
+//	ft_printf("%s\n", ptr_to_be_copied);
 //}

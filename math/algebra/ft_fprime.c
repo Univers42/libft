@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:40:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:34:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "algebra.h"
 #include <stdio.h>
+#include "ft_stdio.h"
 
 void	ft_fprime(int n)
 {
@@ -25,8 +26,8 @@ void	ft_fprime(int n)
 		while (!(n % i))
 		{
 			if (!first)
-				printf("*");
-			printf("%d", i);
+				ft_printf("*");
+			ft_printf("%d", i);
 			n /= i;
 			first = 0;
 		}
@@ -35,10 +36,10 @@ void	ft_fprime(int n)
 	if (n > 1)
 	{
 		if (!first)
-			printf("*");
-		printf("%d", n);
+			ft_printf("*");
+		ft_printf("%d", n);
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 //int main(int argc, char **argv)

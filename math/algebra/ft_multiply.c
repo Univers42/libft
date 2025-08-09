@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int	ft_multiply(int x, int y)
 //        return 1;
 //    int x = atoi(argv[1]);
 //    int y = atoi(argv[2]);
-//    printf("%d * %d = %d\n", x, y, ft_multiply(x, y));
+//   	ft_printf("%d * %d = %d\n", x, y, ft_multiply(x, y));
 //    return 0;
 //}

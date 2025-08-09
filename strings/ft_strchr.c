@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:14:08 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/27 18:38:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*ft_strchr(const char *s, int c)
 //		*found = 'H';
 //		found++;
 //	}	
-//	printf("original string: %s\n", ptr);
-//	printf("Modified string: %s\e\n", cpy);
+//	ft_printf("original string: %s\n", ptr);
+//	ft_printf("Modified string: %s\e\n", cpy);
 //	free(cpy);
 //	return 0;
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:59:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 01:36:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 //	int *ptr;
 //	ptr = malloc(sizeof(int) * (sizeof(arr) / sizeof(arr[0])));
 //	ft_memcpy((int *)ptr, (int *)arr, sizeof(arr));
-//	printf("array => ");
+//	ft_printf("array => ");
 //	for(int i = 0; i < (sizeof(arr) / sizeof(arr[0])); i++)
-//		printf("%d\t", *(ptr + i));
-//	printf("\n");
+//		ft_printf("%d\t", *(ptr + i));
+//	ft_printf("\n");
 //}

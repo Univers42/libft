@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int	ft_modulo(int a, int b)
 //        return 1;
 //    int a = atoi(argv[1]);
 //    int b = atoi(argv[2]);
-//    printf("%d %% %d = %d\n", a, b, ft_modulo(a, b));
+//   	ft_printf("%d %% %d = %d\n", a, b, ft_modulo(a, b));
 //    return 0;
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 17:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 17:40:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	ft_search_and_replace(char *str, char to_find, char to_replace)
 //    char str2[] = "banana";
 //    char str3[] = "42 school";
 //
-//    printf("Original: %s\nReplace 'l' with 'x':\n", str1);
+//   	ft_printf("Original: %s\nReplace 'l' with 'x':\n", str1);
 //    ft_search_and_replace(str1, 'l', 'x');
 //
-//    printf("Original: %s\nReplace 'a' with 'o':\n", str2);
+//   	ft_printf("Original: %s\nReplace 'a' with 'o':\n", str2);
 //    ft_search_and_replace(str2, 'a', 'o');
 //
-//    printf("Original: %s\nReplace ' ' with '_':\n", str3);
+//   	ft_printf("Original: %s\nReplace ' ' with '_':\n", str3);
 //    ft_search_and_replace(str3, ' ', '_');
 //
 //    return 0;

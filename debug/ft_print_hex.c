@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:47:24 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 09:55:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr)
 //'d', '!', 0x0A, 0x00, 0x7F, 0x20, 0x41, 0x42, 0x43
 //    };
 //
-//    printf("Hex output:\n");
+//   	ft_printf("Hex output:\n");
 //    ft_print_hex(buffer, 20, (unsigned long)buffer);
-//    printf("\n");
+//   	ft_printf("\n");
 //
 //    return 0;
 //}

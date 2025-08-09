@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:37:03 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/04/28 10:13:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 //    t_list *curr = new_node;
 //    while (curr)
 //    {
-//        printf("%s\n", (char *)curr->content);
+//       	ft_printf("%s\n", (char *)curr->content);
 //        curr = curr->next;
 //    }
 //
@@ -110,7 +110,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 ////		ft_lstadd_front(&head, new_node);
 ////	}
 ////	ft_lstadd_back(&head, ft_lstnew(ft_strdup("TAIL")));
-////	printf("Size Before ft_lstclear(): %d\n", ft_lstsize(head));
+////	ft_printf("Size Before ft_lstclear(): %d\n", ft_lstsize(head));
 ////	ft_lstclear(&head, &del);
-////	printf("Size after ft_lstclear(): %d\n");
+////	ft_printf("Size after ft_lstclear(): %d\n");
 ////}

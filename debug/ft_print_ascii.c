@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:48:55 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/05/27 18:52:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	ft_print_ascii(unsigned char *p, unsigned int size)
 // 'd', '!', 0x0A, 0x00, 0x7F, 0x20, 0x41, 0x42, 0x43
 //    };
 //
-//    printf("ASCII output: ");
+//   	ft_printf("ASCII output: ");
 //    ft_print_ascii(buffer, 20);
-//    printf("\n");
+//   	ft_printf("\n");
 //
 //    return 0;
 //}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:25:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/27 19:06:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ size_t	ft_strlen(const char *s)
 //int main(void)
 //{
 //    char *lit = "hello world!";
-//    printf("%ld", ft_strlen(lit));
+//   	ft_printf("%ld", ft_strlen(lit));
 //    return 0;
 //}

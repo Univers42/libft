@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 13:51:00 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/29 09:45:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 //	if(!ptr)
 //		return 1;
 //	ft_memmove((int *)ptr, (int *)arr, sizeof(arr));
-//	printf("original array: \n");
+//	ft_printf("original array: \n");
 //	for(size_t i = 0; i < arr_size; i++)
-//		printf("%d ", arr[i]);
-//	printf("\n");
+//		ft_printf("%d ", arr[i]);
+//	ft_printf("\n");
 //	for(size_t i = 0; i < arr_size; i++)
-//		printf("%d ", ptr[i]);
-//	printf("\n");
+//		ft_printf("%d ", ptr[i]);
+//	ft_printf("\n");
 //	free(ptr);
 //	return (0);
 //}

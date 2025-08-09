@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:52:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:53:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:01:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ float	vlength(const float *v);
 float	vdot(const float *v1, const float *v2);
 void	vcross(const float *v1, const float *v2, float *cross);
 void	vadd(const float *src1, const float *src2, float *dst);
-
-void	trackball_rotate(float q[4], t_fpoint2 p1, t_fpoint2 p2);
 void	build_rotmatrix(float m[4][4], float q[4]);
 float	tb_project_to_sphere(float r, t_fpoint2 p);
 void	quaternion_to_matrix4(float q[4], float m[16]);

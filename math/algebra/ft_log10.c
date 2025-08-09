@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:32:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int	ft_log10(int n)
 //    int n = atoi(argv[1]);
 //    if (n < 0)
 //        return (2);
-//    printf("Log10 of %d is %d\n", n, ft_log10(n));
+//   	ft_printf("Log10 of %d is %d\n", n, ft_log10(n));
 //    return (0);    
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 10:18:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:27:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ void	ft_chunk_sort(int *arr, int size)
 //     int arr[] = {2, 802, 24, 45, 66, 170, 75, 90};
 //     int size = 8;
 //
-//     printf("Original array: ");
+//    	ft_printf("Original array: ");
 //     print_array(arr, size);
 //
 //     ft_chunk_sort(arr, size);
 //
-//     printf("Sorted array: ");
+//    	ft_printf("Sorted array: ");
 //     print_array(arr, size);
 //
 //     return (0);

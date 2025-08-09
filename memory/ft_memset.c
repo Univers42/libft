@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:29:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/01/26 19:51:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ void	*ft_memset(void *ptr, int value, size_t num)
 //	if(!cpy)
 //		return 1;
 //	
-//	printf("old string : %s\n", cpy);
+//	ft_printf("old string : %s\n", cpy);
 //	puts("old array:");
 //	for(int i = 0; i < (sizeof(arr) / sizeof(arr[0])); i++)
-//		printf("%d\t", arr[i]);
-//	printf("\n");
+//		ft_printf("%d\t", arr[i]);
+//	ft_printf("\n");
 //	
 //	ft_memset((char *)cpy,0,7);
 //	ft_memset((int *)arr, 0, sizeof(arr));
 //	
-//	printf("new cpying : %s\n", cpy);
+//	ft_printf("new cpying : %s\n", cpy);
 //	puts("new array:");
 //	for(int i = 0; i < (sizeof(arr) / sizeof(arr[0])); i++)
-//		printf("%d\t", arr[i]);
-//	printf("\n");
+//		ft_printf("%d\t", arr[i]);
+//	ft_printf("\n");
 //
 //	free(cpy);
 //	return (0);

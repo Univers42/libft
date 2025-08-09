@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:26:21 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 00:27:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ int	ft_isspace(int c)
 //        // Compare truthiness (not the exact values)
 //        if ((!!std) != (!!mine))
 //        {
-//      printf("Mismatch for c = %d ('%c'): isspace = %d, ft_isspace = %d\n",
+//     	ft_printf("Mismatch for c = %d ('%c'): isspace = %d, ft_isspace = %d\n",
 //                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
 //            errors++;
 //        }
 //    }
 //    
 //    if (errors == 0)
-//        printf("All tests passed!\n");
+//       	ft_printf("All tests passed!\n");
 //    else
-//        printf("%d mismatches found.\n", errors);
+//       	ft_printf("%d mismatches found.\n", errors);
 //        
 //    return errors;
 //}

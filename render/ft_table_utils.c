@@ -6,30 +6,31 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:22:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:35:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
+#include "ft_stdio.h"
 
 static void	print_border_char(char *corner)
 {
 	if (strcmp(corner, "┌") == 0)
-		printf("┐\n");
+		ft_printf("┐\n");
 	else if (strcmp(corner, "├") == 0)
-		printf("┤\n");
+		ft_printf("┤\n");
 	else
-		printf("┘\n");
+		ft_printf("┘\n");
 }
 
 static void	print_separator_char(char *corner)
 {
 	if (strcmp(corner, "┌") == 0)
-		printf("┬");
+		ft_printf("┬");
 	else if (strcmp(corner, "├") == 0)
-		printf("┼");
+		ft_printf("┼");
 	else
-		printf("┴");
+		ft_printf("┴");
 }
 
 void	print_table_border(int cols, char *corner, char *line)
@@ -37,14 +38,14 @@ void	print_table_border(int cols, char *corner, char *line)
 	int	i;
 	int	j;
 
-	printf("%s", corner);
+	ft_printf("%s", corner);
 	i = 0;
 	while (i < cols)
 	{
 		j = 0;
 		while (j < 14)
 		{
-			printf("%s", line);
+			ft_printf("%s", line);
 			j++;
 		}
 		if (i < cols - 1)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:44:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	ft_is_prime(int x)
 //    if (argc != 2)
 //        return 1;
 //    int x = atoi(argv[1]);
-//    printf("%d is %sprime\n", x, ft_is_prime(x) ? "" : "not ");
+//   	ft_printf("%d is %sprime\n", x, ft_is_prime(x) ? "" : "not ");
 //    return 0;
 //}

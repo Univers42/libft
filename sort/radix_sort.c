@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:58:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:17:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	radix_sort(int *arr, int size, int max_bits)
 //
 //	i = -1;
 //	while (++i < size)
-//		printf("[%d] ==> %d\n", i, arr[i]);
+//		ft_printf("[%d] ==> %d\n", i, arr[i]);
 //}
 //int	main(void)
 //{
@@ -121,7 +121,7 @@ void	radix_sort(int *arr, int size, int max_bits)
 //	max_bits = get_max_bits(max_value);
 //	radix_sort(arr, size, max_bits);
 //	print_array(arr, size);
-//	printf("Max value: %d\n", max_value);
-//	printf("Maximum of bits: %d\n", max_bits);
+//	ft_printf("Max value: %d\n", max_value);
+//	ft_printf("Maximum of bits: %d\n", max_bits);
 //	return (0);
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:44:23 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 18:13:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ char	*ft_strnstr(const char *haystack, const char *needle, t_size n)
 //	char *str2 = "a new word!";
 //	char *str3 = "or";
 //
-//	printf("%s\n", ft_strnstr(str, str3, 15));	
-//	printf("%s\n", ft_strnstr(str2, str3, 15));	
-//	printf("%s\n", ft_strnstr(str, "world", 15));	
-//	printf("%s\n", ft_strnstr(str, "hello", 5));	
+//	ft_printf("%s\n", ft_strnstr(str, str3, 15));	
+//	ft_printf("%s\n", ft_strnstr(str2, str3, 15));	
+//	ft_printf("%s\n", ft_strnstr(str, "world", 15));	
+//	ft_printf("%s\n", ft_strnstr(str, "hello", 5));	
 //
 //	return 0;
 //}

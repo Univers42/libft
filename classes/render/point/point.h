@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 18:46:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 13:58:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:51:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef enum e_terrain
 	ORANGE2 = 0Xc66a31,
 	ORANGE3 = 0Xd77b34,
 	YELLOW_TERRAIN = 0xe79b34,
-	GREEN_PALE = 0xb5baa6,
-	GREEN_PALE2 = 0xb2b8a5,
+	GREEN_PALE = 0xc5baa6,
+	GREEN_PALE2 = 0xc2b8a5,
 	BLUE_TERRAIN = 0X3babbf,
 	BLUE2 = 0x3aaaaf,
 	BLUE3 = 0X3ca9af,
@@ -54,14 +54,13 @@ typedef enum e_gamma
 	gamma2 = 0x997498
 }			t_gamma;
 
-
 // Forward declaration for t_pixel (OOP-style point)
-struct s_pixel;
-typedef struct s_pixel t_pixel;
+struct					s_pixel;
+typedef struct s_pixel	t_pixel;
 
 // Forward declaration for t_line to resolve circular dependency
-struct s_line;
-typedef struct s_line t_line;
+struct					s_line;
+typedef struct s_line	t_line;
 
 // Use t_vec2, t_vec3, etc. from geometry.h
 // (do not redefine them here)

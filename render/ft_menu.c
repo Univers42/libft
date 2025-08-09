@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 02:00:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	ft_print_menu(char **options, int count, int selected)
 	int	i;
 
 	i = 0;
-	printf("\n┌─ SELECT OPTION ─┐\n");
+	ft_printf("\n┌─ SELECT OPTION ─┐\n");
 	while (i < count)
 	{
 		if (i == selected)
-			printf("│ ► %-12s │\n", options[i]);
+			ft_printf("│ ► %-12s │\n", options[i]);
 		else
-			printf("│   %-12s │\n", options[i]);
+			ft_printf("│   %-12s │\n", options[i]);
 		i++;
 	}
-	printf("└─────────────────┘\n");
+	ft_printf("└─────────────────┘\n");
 }
 
 static void	print_timeline_item(char *time, char *event, int is_last)

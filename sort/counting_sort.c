@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:46:03 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:42:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,22 @@ void	counting_sort(int *arr, int size)
 //    int	size = sizeof(arr) / sizeof(arr[0]);
 //    int	i;
 //
-//    printf("Before sorting:\n");
+//   	ft_printf("Before sorting:\n");
 //    i = 0;
 //    while (i < size)
 //    {
-//        printf("%d ", arr[i]);
+//       	ft_printf("%d ", arr[i]);
 //        i++;
 //    }
-//    printf("\n");
+//   	ft_printf("\n");
 //    collection_sort(arr, size);
-//    printf("After sorting:\n");
+//   	ft_printf("After sorting:\n");
 //    i = 0;
 //    while (i < size)
 //    {
-//        printf("%d ", arr[i]);
+//       	ft_printf("%d ", arr[i]);
 //        i++;
 //    }
-//    printf("\n");
+//   	ft_printf("\n");
 //    return (0);
 //}

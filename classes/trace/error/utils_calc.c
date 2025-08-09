@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:21:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 00:16:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:33:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "err_handler.h"
 #include <stdio.h>
+#include "ft_stdio.h"
 
 void	print_error(t_handler *err, const char *file,
 			const char *func, int line);
@@ -55,7 +56,7 @@ void	print_error(t_handler *err, const char *file,
 	ctx.func = func;
 	ctx.line = line;
 	err->set_error(err, err->last_error, &ctx);
-	printf("Type error: %s (at %s:%d in %s)\n",
+	ft_printf("Type error: %s (at %s:%d in %s)\n",
 		err->get_message(err, err->last_error),
 		err->file, err->line, err->func);
 }

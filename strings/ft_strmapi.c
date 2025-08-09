@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:12:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 21:15:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 //	char *formatted_key = ft_strmapi(license_key, license_key_formatter);
 //	if(formatted_key)
 //	{
-//		printf("Original key: %s\n", license_key);
-//		printf("Formatted key:  %s\n", formatted_key);
+//		ft_printf("Original key: %s\n", license_key);
+//		ft_printf("Formatted key:  %s\n", formatted_key);
 //		free(formatted_key);
 //	}
 //	else
-//		printf("Error formatting license key.\n");
+//		ft_printf("Error formatting license key.\n");
 //	return (0);
 //}

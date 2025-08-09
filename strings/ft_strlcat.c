@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 12:31:28 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 18:09:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ t_size	ft_strlcat(char *dst, const char *src, t_size dsize)
 //
 //    // Test with a sufficient buffer size
 //    size_t result = strlcat(dst, src, sizeof(dst));
-//    printf("After ft_strlcat:\n");
-//    printf("Destination: %s\n", dst);
-//    printf("Total Length: %zu\n", result);
+//   	ft_printf("After ft_strlcat:\n");
+//   	ft_printf("Destination: %s\n", dst);
+//   	ft_printf("Total Length: %zu\n", result);
 //
 //    // Test with a smaller buffer size
 //    char small_dst[10] = "Hello, ";
 //    result = strlcat(small_dst, src, sizeof(small_dst));
-//    printf("\nAfter ft_strlcat (small buffer):\n");
-//    printf("Destination: %s\n", small_dst);
-//    printf("Total Length: %zu\n", result);
+//   	ft_printf("\nAfter ft_strlcat (small buffer):\n");
+//   	ft_printf("Destination: %s\n", small_dst);
+//   	ft_printf("Total Length: %zu\n", result);
 //
 //    return 0;
 //}

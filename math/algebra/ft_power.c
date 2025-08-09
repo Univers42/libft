@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:19:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_power(int base, int exp)
 //		return 1;
 //	int base = atoi(argv[1]);
 //	int exp = atoi(argv[2]);
-//	printf("%d^%d = %d\n", base, exp, ft_power(base, exp));
+//	ft_printf("%d^%d = %d\n", base, exp, ft_power(base, exp));
 //	return 0;
 //}
 //

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int	ft_max(int a, int b)
 //        return 1;
 //    int a = atoi(argv[1]);
 //    int b = atoi(argv[2]);
-//    printf("max(%d, %d) = %d\n", a, b, ft_max(a, b));
+//   	ft_printf("max(%d, %d) = %d\n", a, b, ft_max(a, b));
 //    return 0;
 //}

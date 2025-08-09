@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:12:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int	ft_min(int a, int b)
 //        return 1;
 //    int a = atoi(argv[1]);
 //    int b = atoi(argv[2]);
-//    printf("min(%d, %d) = %d\n", a, b, ft_min(a, b));
+//   	ft_printf("min(%d, %d) = %d\n", a, b, ft_min(a, b));
 //    return 0;
 //}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:31:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 15:13:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	ft_abs(int n)
 //	if (argc != 2)
 //		return 1;
 //	int x = atoi(argv[1]);
-//	printf("abs(%d) = %d\n", x, ft_abs(x));
+//	ft_printf("abs(%d) = %d\n", x, ft_abs(x));
 //	return 0;
 //}

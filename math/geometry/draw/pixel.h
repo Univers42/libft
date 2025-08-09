@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:07:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:18:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:38:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct m_colors
 
 typedef struct s_color
 {
+	int			z_val;
+	float		zf_val;
 	uint32_t	hex_color;
 	union
 	{
@@ -68,6 +70,14 @@ typedef struct s_color
 		uint8_t	a;
 	}			u_raw_color;
 }				t_color;
+
+typedef struct s_rgba
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+}			t_rgba;
 
 typedef struct s_fvectorfN
 {
@@ -134,6 +144,12 @@ typedef struct s_point
 }			t_point;
 
 // 2D, 3D, 4D Vectors
+typedef struct s_point2
+{
+	int	x;
+	int	y;
+}		t_point2;
+
 typedef struct s_fpoint2
 {
 	float	x;
@@ -155,12 +171,6 @@ typedef struct s_fpoint4
 	float	w;
 }			t_fpoint4;
 
-typedef struct s_point2
-{
-	int	x;
-	int	y;
-}		t_point2;
-
 typedef struct s_point3
 {
 	int	x;
@@ -175,11 +185,6 @@ typedef struct s_point4
 	int	z;
 	int	w;
 }		t_point4;
-
-void	translate(t_point *points, t_point move, int len);
-int		valid_pixel(t_point pixel);
-void	bending(t_point *points, int len, float range);
+void	load_color(int max, int min, t_point *point, t_colors colors);
 int		gradient(int startcolor, int endcolor, int len, int pix);
-void	z_division(t_point *proyect, float divisor, int len);
-
 #endif

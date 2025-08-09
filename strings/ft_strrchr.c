@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:14:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:45:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,16 @@ char	*ft_strrchr(const char *s, int c)
 //    char *ext;
 //
 //    ext = get_file_extension(file_path1);
-//    printf("File Path: %s\n", file_path1);
-//    printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
+//   	ft_printf("File Path: %s\n", file_path1);
+//   	ft_printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
 //
 //    ext = get_file_extension(file_path2);
-//    printf("\nFile Path: %s\n", file_path2);
-//    printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
+//   	ft_printf("\nFile Path: %s\n", file_path2);
+//   	ft_printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
 //
 //    ext = get_file_extension(file_path3);
-//    printf("\nFile Path: %s\n", file_path3);
-//    printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
+//   	ft_printf("\nFile Path: %s\n", file_path3);
+//   	ft_printf("File Extension: %s\n", ext ? ext : "(no extension)\n");
 //
 //    return 0;
 //}

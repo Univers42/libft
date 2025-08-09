@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:24:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 14:41:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	ft_subtract(int x, int y)
 //        return 1;
 //    int a = atoi(argv[1]);
 //    int b = atoi(argv[2]);
-//    printf("%d - %d = %d\n", a, b, ft_subtract(a, b));
+//   	ft_printf("%d - %d = %d\n", a, b, ft_subtract(a, b));
 //    return 0;
 //}

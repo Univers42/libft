@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:08:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 17:40:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ int	ft_isprint(int c)
 //        // Compare truthiness (not the exact values)
 //        if ((!!std) != (!!mine))
 //        {
-//     printf("Mismatch for c = %d ('%c'): isprint = %d, ft_isprint = %d\n",
+//    	ft_printf("Mismatch for c = %d ('%c'): isprint = %d, ft_isprint = %d\n",
 //                   c, (c >= 32 && c < 127) ? c : '.', std, mine);
 //            errors++;
 //        }
 //    }
 //    
 //    if (errors == 0)
-//        printf("All tests passed!\n");
+//       	ft_printf("All tests passed!\n");
 //    else
-//        printf("%d mismatches found.\n", errors);
+//       	ft_printf("%d mismatches found.\n", errors);
 //        
 //    return errors;
 //}

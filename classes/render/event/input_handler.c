@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:28:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 15:32:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:34:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <mlx.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "ft_stdio.h"
 
 t_input_event	*create_event(void)
 {
@@ -46,11 +47,11 @@ void	prog_hook_events_method(t_input_event *self, void *win)
 		return ;
 	self->win_ptr = win;
 	self->mlx_ptr = NULL;
-	printf("🔗 Setting up event hooks...\n");
-	printf("   win_ptr=%p\n", win);
-	printf("🎯 Hooking keyboard events...\n");
+	ft_printf("🔗 Setting up event hooks...\n");
+	ft_printf("   win_ptr=%p\n", win);
+	ft_printf("🎯 Hooking keyboard events...\n");
 	mlx_key_hook(win, handle_keypress, self);
-	printf("🎯 Hooking close events...\n");
+	ft_printf("🎯 Hooking close events...\n");
 	mlx_hook(win, 17, 1L << 17, handle_close, self);
-	printf("✅ Event hooks established successfully\n");
+	ft_printf("✅ Event hooks established successfully\n");
 }

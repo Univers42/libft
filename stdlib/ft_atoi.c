@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:23:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_atoi(const char *str)
 //{
 //	if(argc != 4)
 //	{
-//		printf("./usage [param1]..[param4] *numbers_only");
+//		ft_printf("./usage [param1]..[param4] *numbers_only");
 //		return  1;
 //	}
 //	
@@ -79,31 +79,31 @@ int	ft_atoi(const char *str)
 //		&& ft_strncmp(argv[2], "/",2) != 0
 //		)
 //		{
-//			printf("Err: Invalid operator. Use one of:"
+//			ft_printf("Err: Invalid operator. Use one of:"
 //			"+, -, *, /\n");
 //			return 2;
 //		}
 //	switch (operator)
 //    {
 //    case '+':
-//        printf("Result: %d\n", num1 + num2);
+//       	ft_printf("Result: %d\n", num1 + num2);
 //        break;
 //    case '-':
-//        printf("Result: %d\n", num1 - num2);
+//       	ft_printf("Result: %d\n", num1 - num2);
 //        break;
 //    case '*':
-//        printf("Result: %d\n", num1 * num2);
+//       	ft_printf("Result: %d\n", num1 * num2);
 //        break;
 //    case '/':
 //        if (num2 == 0)
 //        {
-//            printf("Error: Division by zero is not allowed.\n");
+//           	ft_printf("Error: Division by zero is not allowed.\n");
 //            return 1;
 //        }
-//        printf("Result: %d\n", num1 / num2);
+//       	ft_printf("Result: %d\n", num1 / num2);
 //        break;
 //    default:
-//        printf("Error: Invalid operator. Use one of:"
+//       	ft_printf("Error: Invalid operator. Use one of:"
 //			" +, -, *, /\n");
 //        return 1;
 //    }

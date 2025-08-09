@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:11:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:13:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*ft_itoa(int n)
 //{
 //	char *hex_str;
 //    hex_str = ft_itoa_base(hash_value, 16);
-//    printf("Hash value: %s\n", hex_str);
+//   	ft_printf("Hash value: %s\n", hex_str);
 //}
 //
 //int main(void) {

@@ -6,28 +6,29 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 14:28:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:35:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
+#include "ft_stdio.h"
 
 static void	print_table_row(char **row, int cols)
 {
 	int	i;
 
-	printf("│");
+	ft_printf("│");
 	i = 0;
 	while (i < cols)
 	{
 		if (row && row[i])
-			printf(" %-12s ", row[i]);
+			ft_printf(" %-12s ", row[i]);
 		else
-			printf(" %-12s ", "");
-		printf("│");
+			ft_printf(" %-12s ", "");
+		ft_printf("│");
 		i++;
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 static void	print_table_data(char ***data, int rows, int cols)

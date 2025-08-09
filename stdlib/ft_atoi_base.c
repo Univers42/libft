@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:09:31 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/07/29 17:13:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:53:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,27 +137,24 @@ int	ft_atoi_base(const char *str, int base)
 //    //    exit(EXIT_FAILURE);
 //    //}
 //
-//    printf("strtol() returned %ld\n", val);
-//    printf("ft_atoi_base() returned %d \n", val_atoi);
+//   	ft_printf("strtol() returned %ld\n", val);
+//   	ft_printf("ft_atoi_base() returned %d \n", val_atoi);
 //    if (*endptr != '\0')
-//        printf("Further characters after number: \"%s\"\n", endptr);
+//       	ft_printf("Further characters after number: \"%s\"\n", endptr);
 //    exit(EXIT_SUCCESS);
 //}
 ////int main()
 //{
-//    printf("%d\n", ft_atoi_base("101010", 2));       // Binary: 42
-//    printf("%d\n", ft_atoi_base("2A", 16));         // Hexadecimal: 42
-//    printf("%d\n", ft_atoi_base("--42", 10));       // Decimal: 42
-//    printf("%d\n", ft_atoi_base("  +42", 10));      // Decimal: 42
-//    printf("%d\n", ft_atoi_base("Z", 36));          // Base 36: 35
-//    printf("%d\n", ft_atoi_base("++42", 10));       // Decimal: 42
-//    printf("%d\n", ft_atoi_base("-+42", 10));       // Decimal: -42
-//    printf("%d\n", ft_atoi_base("+-42", 10));       // Decimal: -42
-//    printf("%d\n", ft_atoi_base("--42", 10));       // Decimal: 42
-//    printf("%d\n", ft_atoi_base("0", 10));          // Decimal: 0
-//    printf("%d\n", ft_atoi_base("", 10));           // Empty string: 0
-//    printf("%d\n", ft_atoi_base("123abc", 10));     // Invalid characters: 123
-//    printf("%d\n", ft_atoi_base("123abc", 16));     // Hexadecimal: 1194684
-//    printf("%d\n", ft_atoi_base("123abc", 20));     // Base 20: 1784780
+//   	ft_printf("%d\n", ft_atoi_base("101010", 2));       // Binary: 42
+//   	ft_printf("%d\n", ft_atoi_base("2A", 16));         // Hexadecimal: 42
+//   	ft_printf("%d\n", ft_atoi_base("--42", 10));       // Decimal: 42
+//   	ft_printf("%d\n", ft_atoi_base("  +42", 10));      // Decimal: 42
+//   	ft_printf("%d\n", ft_atoi_base("Z", 36));          // Base 36: 35
+//   	ft_printf("%d\n", ft_atoi_base("++42", 10));       // Decimal: 42
+//   	ft_printf("%d\n", ft_atoi_base("-+42", 10));       // Decimal: -42
+//   	ft_printf("%d\n", ft_atoi_base("+-42", 10));       // Decimal: -42
+//   	ft_printf("%d\n", ft_atoi_base("--42", 10));       // Decimal: 42
+//   	ft_printf("%d\n", ft_atoi_base("0", 10));          // Decimal: 0
+//   	ft_printf("%d\n", ft_atoi_base("123abc", 20));     // Base 20: 1784780
 //    return 0;
 //}

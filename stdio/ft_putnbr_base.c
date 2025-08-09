@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyl-syzygy <dyl-syzygy@student.42.fr>      +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:35:36 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/02/28 19:50:22 by dyl-syzygy       ###   ########.fr       */
+/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,35 +62,35 @@ void	ft_putnbr_base(int nbr, char *radix)
 //
 //int main(void)
 //{
-//	printf("Testing ft_putnbr_base:\n");
+//	ft_printf("Testing ft_putnbr_base:\n");
 //
-//	printf("Test 1: Decimal (Base 10)\nExpected: 12345\nOutput: ");
+//	ft_printf("Test 1: Decimal (Base 10)\nExpected: 12345\nOutput: ");
 //	ft_putnbr_base(12345, "0123456789");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 2: Binary (Base 2)\nExpected: 11000000111001\nOutput: ");
+//	ft_printf("Test 2: Binary (Base 2)\nExpected: 11000000111001\nOutput: ");
 //	ft_putnbr_base(12345, "01");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 3: Hexadecimal (Base 16)\nExpected: 3039\nOutput: ");
+//	ft_printf("Test 3: Hexadecimal (Base 16)\nExpected: 3039\nOutput: ");
 //	ft_putnbr_base(12345, "0123456789ABCDEF");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 4: Octal (Base 8)\nExpected: 30071\nOutput: ");
+//	ft_printf("Test 4: Octal (Base 8)\nExpected: 30071\nOutput: ");
 //	ft_putnbr_base(12345, "01234567");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 5: Negative Number (Base 10)\nExpected: -12345\nOutput: ");
+//	ft_printf("Test 5: Negative Number (Base 10)\nExpected: -12345\nOutput: ");
 //	ft_putnbr_base(-12345, "0123456789");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 6: Invalid Base (Base 1)\nExpected: \nOutput: ");
+//	ft_printf("Test 6: Invalid Base (Base 1)\nExpected: \nOutput: ");
 //	ft_putnbr_base(12345, "0");
-//	printf("\n");
+//	ft_printf("\n");
 //
-//	printf("Test 7: Invalid Base (Base 17)\nExpected: \nOutput: ");
+//	ft_printf("Test 7: Invalid Base (Base 17)\nExpected: \nOutput: ");
 //	ft_putnbr_base(12345, "0123456789ABCDEF0");
-//	printf("\n");
+//	ft_printf("\n");
 //
 //	return 0;
 //}

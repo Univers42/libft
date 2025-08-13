@@ -29,18 +29,25 @@ void	*safe_malloc(t_mem_tracker *tracker, size_t size)
 		return (NULL);
 	if (tracker->count >= tracker->capacity)
 	{
+		size_t	new_capacity;
+		void	**new_ptrs;
+
 		if (tracker->capacity == 0)
 		{
-			tracker->capacity = 10;
+			new_capacity = 10;
 		}
 		else
 		{
-			tracker->capacity *= 2;
+			new_capacity = tracker->capacity * 2;
 		}
-		size = tracker->capacity * sizeof(void *);
-		tracker->ptrs = realloc(tracker->ptrs, size);
-		if (!tracker->ptrs)
+		new_ptrs = realloc(tracker->ptrs, new_capacity * sizeof(void *));
+		if (!new_ptrs)
+		{
+			free(ptr);
 			return (NULL);
+		}
+		tracker->ptrs = new_ptrs;
+		tracker->capacity = new_capacity;
 	}
 	tracker->ptrs[tracker->count++] = ptr;
 	return (ptr);

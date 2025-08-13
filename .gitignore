@@ -6,3 +6,8 @@
 *.swo
 *.swm
 *.a
+
+# Test executables  
+cmd_flag_test
+*_test
+test_*

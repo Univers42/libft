@@ -28,6 +28,11 @@ static int	registry_add_message(
 		return (-1);
 	entry->code = code;
 	entry->message = strdup(message);
+	if (!entry->message)
+	{
+		free(entry);
+		return (-1);
+	}
 	entry->next = impl->head;
 	impl->head = entry;
 	return (0);

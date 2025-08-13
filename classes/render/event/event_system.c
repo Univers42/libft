@@ -84,6 +84,10 @@ int	handle_close(void *param)
 
 	event_system = (t_input_event *)param;
 	if (event_system && event_system->mlx_ptr)
+	{
+		if (event_system->destroy)
+			event_system->destroy(event_system);
 		exit(0);
+	}
 	return (0);
 }

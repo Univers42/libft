@@ -1,4 +1,4 @@
-.o
+*.o
 */*.o
 */*/*.o
 *.ds_store
@@ -6,3 +6,5 @@
 *.swo
 *.swm
 *.a
+obj/
+libft.a

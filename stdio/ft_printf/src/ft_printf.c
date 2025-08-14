@@ -6,7 +6,7 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/14 16:03:49 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:29:36 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_vfprintf(int fd, const char *format, va_list *ap)
 
 	if (format == NULL || fd < 0)
 		return (-1);
-	buf_out.fd = fd;
+	/* Initialize the writer explicitly in FD mode */
+	writer_init_fd(&buf_out, fd);
 	return_value = parser_parse_and_write(&parser, format, ap, &buf_out);
 	return (return_value);
 }

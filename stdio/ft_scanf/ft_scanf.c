@@ -6,7 +6,7 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 01:00:39 by syzygy            #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:27 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:54:07 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,13 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
-
-# define BUFFER_SIZE 1024
-
-typedef struct s_scanf_data
-{
-    char    buffer[BUFFER_SIZE];
-    int     buf_pos;
-    int     buf_len;
-    int     fd;
-} t_scanf_data;
-
-/* parser function type - keeps your jump table design */
-typedef int (*t_scanning)(t_scanf_data *data, va_list args);
-
-static int get_char(t_scanf_data *data)
-{
-    ssize_t n;
-    if (data->buf_pos >= data->buf_len)
-    {
-        n = read(data->fd, data->buffer, BUFFER_SIZE);
-        if (n <= 0)
-            return (EOF);
-        data->buf_len = (int)n;
-        data->buf_pos = 0;
-    }
-    return (unsigned char)data->buffer[data->buf_pos++];
-}
-
-static void unget_char(t_scanf_data *data, int c)
-{
-    (void)c;
-    if (data->buf_pos > 0)
-        data->buf_pos--;
-}
-
-static void skip_whitespace(t_scanf_data *data)
-{
-    int c;
-    while ((c = get_char(data)) != EOF && isspace((unsigned char)c))
-        ;
-    if (c != EOF)
-        unget_char(data, c);
-}
+#include <sys/types.h>
+#include <sys/wait.h>
+#include "ft_scanf.h"
 
 /* helpers */
 
-static int hexval(int c)
+int hexval(int c)
 {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
@@ -70,165 +29,24 @@ static int hexval(int c)
     return -1;
 }
 
-/* parsers - use va_list inside, signatures match jump table */
-
-static int parse_char(t_scanf_data *data, va_list args)
+/* vscanf-like internal engine (FD-based) */
+int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
 {
-    int c = get_char(data);
-    char *dest = va_arg(args, char*);
-    if (c == EOF)
-        return 0;
-    *dest = (char)c;
-    return 1;
-}
+    int         matches = 0;
+    t_scanning  *parsers;
+    int         i;
+    int         c;
 
-static int parse_string(t_scanf_data *data, va_list args)
-{
-    char *dest = va_arg(args, char*);
-    int c;
-    int len = 0;
-
-    skip_whitespace(data);
-    while ((c = get_char(data)) != EOF && !isspace((unsigned char)c))
-    {
-        dest[len++] = (char)c;
-    }
-    if (c != EOF)
-        unget_char(data, c);
-    dest[len] = '\0';
-    return (len > 0) ? 1 : 0;
-}
-
-static int parse_decimal(t_scanf_data *data, va_list args)
-{
-    int c;
-    int sign = 1;
-    long num = 0;
-    int digits = 0;
-    int *dest = va_arg(args, int*);
-
-    skip_whitespace(data);
-    c = get_char(data);
-    if (c == '+' || c == '-')
-    {
-        if (c == '-') sign = -1;
-        c = get_char(data);
-    }
-    while (c != EOF && isdigit((unsigned char)c))
-    {
-        num = num * 10 + (c - '0');
-        digits++;
-        c = get_char(data);
-    }
-    if (c != EOF)
-        unget_char(data, c);
-    if (digits == 0)
-        return 0;
-    *dest = (int)(num * sign);
-    return 1;
-}
-
-static int parse_integer(t_scanf_data *data, va_list args)
-{
-    int c;
-    int sign = 1;
-    long num = 0;
-    int digits = 0;
-    int base = 10;
-    int *dest = va_arg(args, int*);
-
-    skip_whitespace(data);
-    c = get_char(data);
-    if (c == '+' || c == '-')
-    {
-        if (c == '-') sign = -1;
-        c = get_char(data);
-    }
-    if (c == '0')
-    {
-        int n = get_char(data);
-        if (n == 'x' || n == 'X')
-        {
-            base = 16;
-            c = get_char(data);
-        }
-        else
-        {
-            base = 8;
-            if (n != EOF)
-                unget_char(data, n);
-            c = get_char(data);
-        }
-    }
-    /* parse according to base */
-    if (base == 10)
-    {
-        while (c != EOF && isdigit((unsigned char)c))
-        {
-            num = num * 10 + (c - '0');
-            digits++;
-            c = get_char(data);
-        }
-    }
-    else if (base == 8)
-    {
-        while (c != EOF && (c >= '0' && c <= '7'))
-        {
-            num = num * 8 + (c - '0');
-            digits++;
-            c = get_char(data);
-        }
-    }
-    else /* base 16 */
-    {
-        while (c != EOF)
-        {
-            int v = hexval(c);
-            if (v < 0) break;
-            num = num * 16 + v;
-            digits++;
-            c = get_char(data);
-        }
-    }
-    if (c != EOF)
-        unget_char(data, c);
-    if (digits == 0)
-        return 0;
-    *dest = (int)(num * sign);
-    return 1;
-}
-
-/* keep your jump table design: table indexed by char value */
-static t_scanning *get_parser_method(void)
-{
-    static t_scanning table[256] = { NULL };
-
-    /* initialize once */
-    if (table['c'] == NULL && table['s'] == NULL && table['d'] == NULL && table['i'] == NULL)
-    {
-        table['c'] = parse_char;
-        table['s'] = parse_string;
-        table['d'] = parse_decimal;
-        table['i'] = parse_integer;
-    }
-    return table;
-}
-
-/* vscanf implementation that walks format and uses the jump table */
-static int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
-{
-    int matches = 0;
-    t_scanning *parsers = get_parser_method();
-    int i = 0;
-    int c;
-
+    matches = 0;
+    i = 0;
+    parsers = get_parser_method();
     while (format[i])
     {
         if (isspace((unsigned char)format[i]))
         {
             skip_whitespace(data);
             i++;
-            continue;
+            continue ;
         }
         if (format[i] == '%')
         {
@@ -244,7 +62,6 @@ static int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
                 i++;
                 continue;
             }
-            /* lookup parser */
             if ((unsigned char)format[i] && parsers[(unsigned char)format[i]])
             {
                 if (parsers[(unsigned char)format[i]](data, args))
@@ -253,10 +70,7 @@ static int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
                     break;
             }
             else
-            {
-                /* unsupported specifier -> stop */
                 break;
-            }
             i++;
         }
         else
@@ -266,58 +80,123 @@ static int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
             if (c == EOF || c != (unsigned char)format[i])
             {
                 if (c != EOF) unget_char(data, c);
-                break;
+                break ;
             }
             i++;
         }
     }
-    return matches;
+    return (matches);
 }
+
+/* Public FD-based APIs */
 
 int ft_scanf(const char *format, ...)
 {
-    va_list args;
-    t_scanf_data data;
-    int matches;
+    va_list         args;
+    t_scanf_data    data;
+    int             matches;
 
     memset(&data, 0, sizeof(data));
     data.fd = STDIN_FILENO;
-
     va_start(args, format);
     matches = vscanf_internal(format, &data, args);
     va_end(args);
+    return (matches);
+}
+
+int ft_vfscanf_fd(int fd, const char *format, va_list args)
+{
+    t_scanf_data data;
+    memset(&data, 0, sizeof(data));
+    data.fd = fd;
+    return (vscanf_internal(format, &data, args));
+}
+
+int ft_fscanf_fd(int fd, const char *format, ...)
+{
+    va_list     args;
+    int         matches;
+
+    va_start(args, format);
+    matches = ft_vfscanf_fd(fd, format, args);
+    va_end(args);
+    return (matches);
+}
+
+/* Exec-based ft_fscanf (emulates popen+fscanf without popen/pclose) */
+
+int ft_vfscanf_exec(const char *path, char *const argv[],
+                    char *const envp[], const char *format, va_list ap)
+{
+    int pipefd[2];
+    pid_t pid;
+    int status = 0;
+    int matches;
+
+    if (!path || !format)
+        return 0;
+    if (pipe(pipefd) == -1)
+        return 0;
+    pid = fork();
+    if (pid == -1)
+    {
+        close(pipefd[0]);
+        close(pipefd[1]);
+        return 0;
+    }
+    if (pid == 0)
+    {
+        /* Child: connect stdout to pipe and execve */
+        if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+            _exit(127);
+        close(pipefd[0]);
+        close(pipefd[1]);
+        execve(path, argv, envp);
+        _exit(127);
+    }
+    /* Parent: read from pipe read-end and scan */
+    close(pipefd[1]);
+    matches = ft_vfscanf_fd(pipefd[0], format, ap);
+    close(pipefd[0]);
+    while (waitpid(pid, &status, 0) == -1)
+        ; /* ignore */
+    (void)status;
     return matches;
 }
 
-//int main(void)
-//{
-//    int     i;
-//    float   fp;
-//    char    c;
-//    char    s[81];
-//
-//    printf("Enter an integer, a real number, and a string: \n");
-//    if (scanf("%d %f %c %s", &i, &fp, &c, s)  != 4)
-//        printf("not all field were assigned");
-//    else
-//    {
-//        printf("integer = %d\n", i);
-//        printf("real number = %f\n", fp);
-//        printf("character = %c\n", c);
-//        printf("srtring = %s\n", s);
-//    }
-//}
+int ft_fscanf_exec(const char *path, char *const argv[],
+                   char *const envp[], const char *format, ...)
+{
+    va_list ap;
+    int ret;
 
+    va_start(ap, format);
+    ret = ft_vfscanf_exec(path, argv, envp, format, ap);
+    va_end(ap);
+    return ret;
+}
 
-//int main(void)
-//{
-//    int number;
-//
-//    printf("enter a hexadecimal number or anything else to quit:\n");
-//    while (scanf("%x", &number))
-//    {
-//        printf("Hexadecimal Number = %x\n", number);
-//        printf("Decimal number = %d\n", number);
-//    }
-//}
+int ft_vfscanf_sh(const char *command, const char *format, va_list ap)
+{
+    extern char **environ;
+    char *argv[4];
 
+    if (!command)
+        return 0;
+    argv[0] = (char*)"sh";
+    argv[1] = (char*)"-c";
+    argv[2] = (char*)command;
+    argv[3] = NULL;
+    return ft_vfscanf_exec("/bin/sh", argv, environ, format, ap);
+}
+
+int ft_fscanf_sh(const char *command, const char *format, ...)
+{
+    va_list ap;
+    int ret;
+
+    va_start(ap, format);
+    ret = ft_vfscanf_sh(command, format, ap);
+    va_end(ap);
+    return ret;
+}

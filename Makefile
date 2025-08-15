@@ -6,7 +6,7 @@
 #    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/15 13:07:09 by syzygy           ###   ########.fr        #
+#    Updated: 2025/08/15 16:52:38 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list da
 					math/geometry/shapes math/geometry/view math/algebra
 
 # classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
-SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory time render stdio stdio/ft_printf/src stdio/ft_scanf stdlib strings sort classes/render/inputHandler
+SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory time render stdio stdio/ft_printf/src stdio/ft_scanf stdio/ft_scanf/parse_format stdlib strings sort classes/render/inputHandler
 
 # Compute effective source directories after excluding tagged ones
 SRC_DIRS_EFF := $(filter-out $(SKIP_DIRS),$(SRC_DIRS))

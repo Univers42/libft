@@ -6,7 +6,7 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:28:49 by syzygy            #+#    #+#             */
-/*   Updated: 2025/08/15 13:29:11 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:54:08 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 int get_char(t_scanf_data *data)
 {
@@ -47,3 +46,5 @@ void skip_whitespace(t_scanf_data *data)
     if (c != EOF)
         unget_char(data, c);
 }
+
+

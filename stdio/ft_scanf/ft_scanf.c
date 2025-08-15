@@ -6,7 +6,7 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 01:00:39 by syzygy            #+#    #+#             */
-/*   Updated: 2025/08/15 12:47:27 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/15 13:29:28 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-# define BUFFER_SIZE 1024
-
-typedef struct s_scanf_data
-{
-    char    buffer[BUFFER_SIZE];
-    int     buf_pos;
-    int     buf_len;
-    int     fd;
-} t_scanf_data;
-
-/* parser function type - keeps your jump table design */
-typedef int (*t_scanning)(t_scanf_data *data, va_list args);
-
-static int get_char(t_scanf_data *data)
-{
-    ssize_t n;
-    if (data->buf_pos >= data->buf_len)
-    {
-        n = read(data->fd, data->buffer, BUFFER_SIZE);
-        if (n <= 0)
-            return (EOF);
-        data->buf_len = (int)n;
-        data->buf_pos = 0;
-    }
-    return (unsigned char)data->buffer[data->buf_pos++];
-}
-
-static void unget_char(t_scanf_data *data, int c)
-{
-    (void)c;
-    if (data->buf_pos > 0)
-        data->buf_pos--;
-}
-
-static void skip_whitespace(t_scanf_data *data)
-{
-    int c;
-    while ((c = get_char(data)) != EOF && isspace((unsigned char)c))
-        ;
-    if (c != EOF)
-        unget_char(data, c);
-}
 
 /* helpers */
 

@@ -6,201 +6,318 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 01:00:39 by syzygy            #+#    #+#             */
-/*   Updated: 2025/08/15 01:13:21 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/15 12:47:27 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// ...existing code...
-#include "ft_scanf.h"
+#include <unistd.h>
 #include <stdarg.h>
-#include <stdio.h>
 #include <ctype.h>
-#include <limits.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-static int read_int(int *out)
+# define BUFFER_SIZE 1024
+
+typedef struct s_scanf_data
+{
+    char    buffer[BUFFER_SIZE];
+    int     buf_pos;
+    int     buf_len;
+    int     fd;
+} t_scanf_data;
+
+/* parser function type - keeps your jump table design */
+typedef int (*t_scanning)(t_scanf_data *data, va_list args);
+
+static int get_char(t_scanf_data *data)
+{
+    ssize_t n;
+    if (data->buf_pos >= data->buf_len)
+    {
+        n = read(data->fd, data->buffer, BUFFER_SIZE);
+        if (n <= 0)
+            return (EOF);
+        data->buf_len = (int)n;
+        data->buf_pos = 0;
+    }
+    return (unsigned char)data->buffer[data->buf_pos++];
+}
+
+static void unget_char(t_scanf_data *data, int c)
+{
+    (void)c;
+    if (data->buf_pos > 0)
+        data->buf_pos--;
+}
+
+static void skip_whitespace(t_scanf_data *data)
 {
     int c;
-    long val = 0;
+    while ((c = get_char(data)) != EOF && isspace((unsigned char)c))
+        ;
+    if (c != EOF)
+        unget_char(data, c);
+}
+
+/* helpers */
+
+static int hexval(int c)
+{
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
+    if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+    return -1;
+}
+
+/* parsers - use va_list inside, signatures match jump table */
+
+static int parse_char(t_scanf_data *data, va_list args)
+{
+    int c = get_char(data);
+    char *dest = va_arg(args, char*);
+    if (c == EOF)
+        return 0;
+    *dest = (char)c;
+    return 1;
+}
+
+static int parse_string(t_scanf_data *data, va_list args)
+{
+    char *dest = va_arg(args, char*);
+    int c;
+    int len = 0;
+
+    skip_whitespace(data);
+    while ((c = get_char(data)) != EOF && !isspace((unsigned char)c))
+    {
+        dest[len++] = (char)c;
+    }
+    if (c != EOF)
+        unget_char(data, c);
+    dest[len] = '\0';
+    return (len > 0) ? 1 : 0;
+}
+
+static int parse_decimal(t_scanf_data *data, va_list args)
+{
+    int c;
     int sign = 1;
+    long num = 0;
     int digits = 0;
+    int *dest = va_arg(args, int*);
 
-    /* skip leading whitespace */
-    do {
-        c = getchar();
-        if (c == EOF)
-            return -1;
-    } while (isspace(c));
-
+    skip_whitespace(data);
+    c = get_char(data);
     if (c == '+' || c == '-')
     {
-        if (c == '-')
-            sign = -1;
-        c = getchar();
-        if (c == EOF)
-            return -1;
+        if (c == '-') sign = -1;
+        c = get_char(data);
     }
-
-    while (c != EOF && isdigit(c))
+    while (c != EOF && isdigit((unsigned char)c))
     {
-        val = val * 10 + (c - '0');
+        num = num * 10 + (c - '0');
         digits++;
-        c = getchar();
+        c = get_char(data);
     }
-
     if (c != EOF)
-        ungetc(c, stdin);
-
+        unget_char(data, c);
     if (digits == 0)
-        return 0; /* mismatch */
-
-    val *= sign;
-    if (val > INT_MAX) val = INT_MAX;
-    if (val < INT_MIN) val = INT_MIN;
-    *out = (int)val;
+        return 0;
+    *dest = (int)(num * sign);
     return 1;
 }
 
-static int read_string(char *buf)
+static int parse_integer(t_scanf_data *data, va_list args)
 {
     int c;
-    size_t i = 0;
+    int sign = 1;
+    long num = 0;
+    int digits = 0;
+    int base = 10;
+    int *dest = va_arg(args, int*);
 
-    /* skip leading whitespace */
-    do {
-        c = getchar();
-        if (c == EOF)
-            return -1;
-    } while (isspace(c));
-
-    /* read until next whitespace or EOF */
-    while (c != EOF && !isspace(c))
+    skip_whitespace(data);
+    c = get_char(data);
+    if (c == '+' || c == '-')
     {
-        buf[i++] = (char)c;
-        c = getchar();
+        if (c == '-') sign = -1;
+        c = get_char(data);
     }
-
-    if (c != EOF)
-        ungetc(c, stdin);
-
-    buf[i] = '\0';
-    return 1;
-}
-
-static int read_char(char *out)
-{
-    int c = getchar();
-    if (c == EOF)
-        return -1;
-    *out = (char)c;
-    return 1;
-}
-
-int vscanf(const char *fmt, va_list ap)
-{
-    const char *p = fmt;
-    int assigned = 0;
-
-    while (*p)
+    if (c == '0')
     {
-        if (isspace((unsigned char)*p))
+        int n = get_char(data);
+        if (n == 'x' || n == 'X')
         {
-            /* skip any whitespace in format: consume any input whitespace */
-            int c;
-            do {
-                c = getchar();
-                if (c == EOF)
-                    return (assigned == 0) ? EOF : assigned;
-            } while (isspace(c));
-            if (c != EOF)
-                ungetc(c, stdin);
-            p++;
-            continue;
-        }
-
-        if (*p != '%')
-        {
-            /* match literal character */
-            int c = getchar();
-            if (c == EOF)
-                return (assigned == 0) ? EOF : assigned;
-            if (c != (unsigned char)*p)
-            {
-                ungetc(c, stdin);
-                return (assigned == 0) ? EOF : assigned;
-            }
-            p++;
-            continue;
-        }
-
-        /* at a '%' */
-        p++;
-        if (*p == '%')
-        {
-            /* literal '%' */
-            int c = getchar();
-            if (c == EOF)
-                return (assigned == 0) ? EOF : assigned;
-            if (c != '%')
-            {
-                ungetc(c, stdin);
-                return (assigned == 0) ? EOF : assigned;
-            }
-            p++;
-            continue;
-        }
-
-        /* handle a few common specifiers: d, s, c */
-        if (*p == 'd')
-        {
-            int *ip = va_arg(ap, int *);
-            int r = read_int(ip);
-            if (r == -1)
-                return (assigned == 0) ? EOF : assigned;
-            if (r == 0)
-                return assigned;
-            assigned++;
-            p++;
-            continue;
-        }
-        else if (*p == 's')
-        {
-            char *s = va_arg(ap, char *);
-            int r = read_string(s);
-            if (r == -1)
-                return (assigned == 0) ? EOF : assigned;
-            if (r == 0)
-                return assigned;
-            assigned++;
-            p++;
-            continue;
-        }
-        else if (*p == 'c')
-        {
-            char *cptr = va_arg(ap, char *);
-            int r = read_char(cptr);
-            if (r == -1)
-                return (assigned == 0) ? EOF : assigned;
-            assigned++;
-            p++;
-            continue;
+            base = 16;
+            c = get_char(data);
         }
         else
         {
-            /* unsupported specifier: treat as mismatch */
-            return (assigned == 0) ? EOF : assigned;
+            base = 8;
+            if (n != EOF)
+                unget_char(data, n);
+            c = get_char(data);
         }
     }
-
-    return assigned;
+    /* parse according to base */
+    if (base == 10)
+    {
+        while (c != EOF && isdigit((unsigned char)c))
+        {
+            num = num * 10 + (c - '0');
+            digits++;
+            c = get_char(data);
+        }
+    }
+    else if (base == 8)
+    {
+        while (c != EOF && (c >= '0' && c <= '7'))
+        {
+            num = num * 8 + (c - '0');
+            digits++;
+            c = get_char(data);
+        }
+    }
+    else /* base 16 */
+    {
+        while (c != EOF)
+        {
+            int v = hexval(c);
+            if (v < 0) break;
+            num = num * 16 + v;
+            digits++;
+            c = get_char(data);
+        }
+    }
+    if (c != EOF)
+        unget_char(data, c);
+    if (digits == 0)
+        return 0;
+    *dest = (int)(num * sign);
+    return 1;
 }
 
-int ft_scanf(const char *fmt, ...)
+/* keep your jump table design: table indexed by char value */
+static t_scanning *get_parser_method(void)
 {
-    va_list ap;
-    int return_value;
+    static t_scanning table[256] = { NULL };
 
-    va_start(ap, fmt);
-    return_value = vscanf(fmt, ap);
-    va_end(ap);
-    return return_value;
+    /* initialize once */
+    if (table['c'] == NULL && table['s'] == NULL && table['d'] == NULL && table['i'] == NULL)
+    {
+        table['c'] = parse_char;
+        table['s'] = parse_string;
+        table['d'] = parse_decimal;
+        table['i'] = parse_integer;
+    }
+    return table;
 }
+
+/* vscanf implementation that walks format and uses the jump table */
+static int vscanf_internal(const char *format, t_scanf_data *data, va_list args)
+{
+    int matches = 0;
+    t_scanning *parsers = get_parser_method();
+    int i = 0;
+    int c;
+
+    while (format[i])
+    {
+        if (isspace((unsigned char)format[i]))
+        {
+            skip_whitespace(data);
+            i++;
+            continue;
+        }
+        if (format[i] == '%')
+        {
+            i++;
+            if (format[i] == '%')
+            {
+                c = get_char(data);
+                if (c == EOF || c != '%')
+                {
+                    if (c != EOF) unget_char(data, c);
+                    break;
+                }
+                i++;
+                continue;
+            }
+            /* lookup parser */
+            if ((unsigned char)format[i] && parsers[(unsigned char)format[i]])
+            {
+                if (parsers[(unsigned char)format[i]](data, args))
+                    matches++;
+                else
+                    break;
+            }
+            else
+            {
+                /* unsupported specifier -> stop */
+                break;
+            }
+            i++;
+        }
+        else
+        {
+            /* literal must match exactly */
+            c = get_char(data);
+            if (c == EOF || c != (unsigned char)format[i])
+            {
+                if (c != EOF) unget_char(data, c);
+                break;
+            }
+            i++;
+        }
+    }
+    return matches;
+}
+
+int ft_scanf(const char *format, ...)
+{
+    va_list args;
+    t_scanf_data data;
+    int matches;
+
+    memset(&data, 0, sizeof(data));
+    data.fd = STDIN_FILENO;
+
+    va_start(args, format);
+    matches = vscanf_internal(format, &data, args);
+    va_end(args);
+    return matches;
+}
+
+//int main(void)
+//{
+//    int     i;
+//    float   fp;
+//    char    c;
+//    char    s[81];
+//
+//    printf("Enter an integer, a real number, and a string: \n");
+//    if (scanf("%d %f %c %s", &i, &fp, &c, s)  != 4)
+//        printf("not all field were assigned");
+//    else
+//    {
+//        printf("integer = %d\n", i);
+//        printf("real number = %f\n", fp);
+//        printf("character = %c\n", c);
+//        printf("srtring = %s\n", s);
+//    }
+//}
+
+
+//int main(void)
+//{
+//    int number;
+//
+//    printf("enter a hexadecimal number or anything else to quit:\n");
+//    while (scanf("%x", &number))
+//    {
+//        printf("Hexadecimal Number = %x\n", number);
+//        printf("Decimal number = %d\n", number);
+//    }
+//}
+

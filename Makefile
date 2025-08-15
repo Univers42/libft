@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/09 20:14:16 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/08/15 16:52:38 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list da
 					math/geometry/shapes math/geometry/view math/algebra
 
 # classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
-SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdio/ft_printf/src stdlib strings sort classes/render/inputHandler
+SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory time render stdio stdio/ft_printf/src stdio/ft_scanf stdio/ft_scanf/parse_format stdlib strings sort classes/render/inputHandler
 
 # Compute effective source directories after excluding tagged ones
 SRC_DIRS_EFF := $(filter-out $(SKIP_DIRS),$(SRC_DIRS))
@@ -267,7 +267,9 @@ endif
 
 $(TEST_EXE): $(MINILIBX_LIB) $(NAME)
 ifneq ($(strip $(TEST_MAIN)),)
-	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
+	@mkdir -p $(dir ./bin/$@)
+	$(CC) $(CFLAGS) -o ./bin/$@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
+	@printf "Built test executable: ./bin/%s\n" "$@"
 else
 	@echo "No main.c found for test '$(TEST)'"
 	@exit 1

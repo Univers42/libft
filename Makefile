@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/15 16:52:38 by syzygy           ###   ########.fr        #
+#    Updated: 2025/08/21 03:23:22 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -206,6 +206,8 @@ clean:
 	else \
 		echo "$(DIM)Skipping MiniLibX clean (not present)$(RESET)"; \
 	fi
+
+MAKEFLAGS += --no-print-directory
 
 # Enhanced fclean with visual feedback
 fclean: clean

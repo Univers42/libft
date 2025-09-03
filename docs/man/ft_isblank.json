@@ -1,0 +1,29 @@
+{
+  "name": "ft_isblank",
+  "category": "ctype",
+  "category_path": "ctype",
+  "tags": ["validation", "ctype", "basic"],
+  "prototype": "int ft_isblank(int c)",
+  "description": "Checks whether c is a blank character. In the C locale, blank characters are space (' ') and horizontal tab ('\\t').",
+  "parameters": [
+    { "name": "c", "type_name": "int", "description": "Character to test (promoted to int)." }
+  ],
+  "return_value": "Returns 1 if c is a blank character, 0 otherwise.",
+  "examples": [
+    {
+      "title": "Basic usage",
+      "code": "#include \"libft.h\"\\n#include <stdio.h>\\n\\nint main(void) {\\n    printf(\"%d %d %d\\n\", ft_isblank(' '), ft_isblank('\\t'), ft_isblank('A'));\\n    return 0;\\n}\\n",
+      "output": "1 1 0"
+    }
+  ],
+  "complexity": "O(1)",
+  "notes": [
+    "Behavior mirrors the standard isblank for the 'C' locale.",
+    "Argument must be representable as unsigned char or EOF."
+  ],
+  "see_also": ["ft_isspace", "ft_isalpha"],
+  "updated_at": "2025-09-03",
+  "author_role": "maintainer",
+  "related": ["ft_isspace", "ft_isascii"],
+  "manual_path": "../manpages/ft_isblank.md"
+}

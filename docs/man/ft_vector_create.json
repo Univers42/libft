@@ -1,0 +1,24 @@
+{
+  "name": "ft_vector_create",
+  "category": "data_structures",
+  "category_path": "data_structures/vector",
+  "tags": ["vector", "allocation", "intermediate"],
+  "prototype": "t_vector *ft_vector_create(void)",
+  "description": "Create a new dynamic vector with initial capacity.",
+  "parameters": [],
+  "return_value": "Pointer to a new vector, or NULL on allocation failure.",
+  "examples": [
+    {
+      "title": "Create a vector",
+      "code": "#include \"ft_vector.h\"\\nint main(void){ t_vector *v = ft_vector_create(); /* ... */ }",
+      "output": null
+    }
+  ],
+  "complexity": "O(1)",
+  "notes": ["Initial capacity is implementation-defined."],
+  "see_also": ["ft_vector_destroy", "ft_vector_add_back"],
+  "updated_at": "2025-09-03",
+  "author_role": "contributor",
+  "related": ["ft_vector_add_back", "ft_vector_resize"],
+  "manual_path": "../manpages/ft_vector_create.md"
+}

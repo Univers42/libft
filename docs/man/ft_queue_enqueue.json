@@ -1,0 +1,27 @@
+{
+  "name": "ft_queue_enqueue",
+  "category": "data_structures",
+  "category_path": "data_structures/queue",
+  "tags": ["queue", "insertion", "basic"],
+  "prototype": "bool ft_queue_enqueue(t_queue *queue, void *data)",
+  "description": "Enqueue an element at the rear of the queue.",
+  "parameters": [
+    { "name": "queue", "type_name": "t_queue*", "description": "Queue handle." },
+    { "name": "data", "type_name": "void*", "description": "Element to enqueue." }
+  ],
+  "return_value": "true on success, false on failure.",
+  "examples": [
+    {
+      "title": "Enqueue integers",
+      "code": "#include \"ft_queue.h\"\\nint main(void){ t_queue *q=ft_queue_create(); int x=42; ft_queue_enqueue(q,&x); }",
+      "output": null
+    }
+  ],
+  "complexity": "O(1)",
+  "notes": ["Does not take ownership of data."],
+  "see_also": ["ft_queue_dequeue", "ft_queue_front"],
+  "updated_at": "2025-09-03",
+  "author_role": "contributor",
+  "related": ["ft_queue_dequeue", "ft_queue_front"],
+  "manual_path": "../manpages/ft_queue_enqueue.md"
+}

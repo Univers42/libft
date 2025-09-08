@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:15:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 17:29:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:28:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdarg.h>
 #include <limits.h>
 
-int ft_vfprintf(int fd, const char *format, va_list *ap)
+int	ft_vfprintf(int fd, const char *format, va_list *ap)
 {
 	static t_writer	buf_out;
 	int				return_value;

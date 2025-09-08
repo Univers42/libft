@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:18:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 17:19:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:32:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * Reserve space for hte trailing NULL by limiting data capacity
  * Finalize with NULL (best-effort)
 */
-int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap)
+int	ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap)
 {
 	t_writer	buf_out;
 	t_parser	parser;

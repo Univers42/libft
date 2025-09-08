@@ -2,6 +2,7 @@
 #include <string.h>
 #include "parser.h"
 #include "writer.h"
+#include "parser_private.h"
 
 // Prototypes for the printf family
 int ft_printf(const char *format, ...);
@@ -78,6 +79,17 @@ int main(void)
     {
         printf("Failed to open file for writing.\n");
     }
+
+    // Example usage of log_print
+    t_log log_info = {.fd = 1, .state = STATE_INFO};
+    t_log log_warn = {.fd = 1, .state = STATE_WARNING};
+    t_log log_success = {.fd = 1, .state = STATE_SUCCESS};
+    t_log log_fail = {.fd = 1, .state = STATE_FAILURE};
+
+    log_print(&log_info, __FILE__, __LINE__, __func__, "This is an info message: %s", "all systems nominal");
+    log_print(&log_warn, __FILE__, __LINE__, __func__, "This is a warning: %d attempts left", 2);
+    log_print(&log_success, __FILE__, __LINE__, __func__, "Operation completed successfully!");
+    log_print(&log_fail, __FILE__, __LINE__, __func__, "Failure occurred: %s", "disk not found");
 
     return 0;
 }

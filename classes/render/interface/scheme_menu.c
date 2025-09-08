@@ -6,9 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:06:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 15:23:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:16:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "pixel.h"
 
 static void	draw_colorscheme(t_meta *meta)
 {

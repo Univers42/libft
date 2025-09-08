@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/08 15:28:39 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/09/08 21:40:16 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ MLX_ENABLED := 1
 endif
 endif
 
+MAKEFLAGS = --no-print-directory
 # Tag directories that depend on MiniLibX
 MLX_TAG_DIRS ?= classes/render/window classes/render/inputHandler classes/render/event
 
@@ -141,6 +142,7 @@ $(NAME): progress_init $(OBJS)
 	@printf "$(BRIGHT_GREEN)✓ $(NAME) created successfully!$(RESET)\n"
 
 # Object compilation rule with live spinner and inline progress bar
+# Add a trap signal to avoid infinite compilation
 $(OBJ_DIR)/%.o: %.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	@{ \
@@ -158,9 +160,10 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS)
 			done; \
 		}; \
 		spinner & SPIN_PID=$$!; \
+		trap 'kill -9 $$SPIN_PID >/dev/null 2>&1; wait $$SPIN_PID 2>/dev/null; exit 130' INT TERM EXIT; \
 		# Compile \
-		$(CC) $(CFLAGS) -c $< -o $@; STATUS=$$?; \
-		# Stop spinner \
+		$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@; STATUS=$$?; \
+		trap - INT TERM EXIT; \
 		kill -9 $$SPIN_PID >/dev/null 2>&1 || true; \
 		wait $$SPIN_PID 2>/dev/null || true; \
 		# Progress accounting \
@@ -276,3 +279,17 @@ $(TEST_EXE): $(MINILIBX_LIB) $(NAME)
 	fi
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
+
+# Build static library (default)
+all: $(NAME)
+
+# Build shared library
+shared: libft.so
+
+# Build both static and shared
+both: $(NAME) libft.so
+
+libft.so: $(OBJS)
+	@echo "$(BRIGHT_MAGENTA)🔗 Linking shared library libft.so...$(RESET)"
+	@$(CC) $(CFLAGS_SHARED) -o libft.so $(OBJS)
+	@echo "$(BRIGHT_GREEN)✓ libft.so created successfully!$(RESET)"

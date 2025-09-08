@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:35:36 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:30:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_putnbr_base(int nbr, char *radix)
 {
 	int		base;
 	char	c;
+	int		size;
 
 	base = 0;
 	while (radix[base])
@@ -51,13 +52,14 @@ void	ft_putnbr_base(int nbr, char *radix)
 		return ;
 	if (nbr < 0)
 	{
-		write(1, "-", 1);
+		size = write(1, "-", 1);
 		nbr = -nbr;
 	}
 	if (nbr >= base)
 		ft_putnbr_base(nbr / base, radix);
 	c = radix[nbr % base];
-	write(1, &c, 1);
+	size = write(1, &c, 1);
+	(void)size;
 }
 //
 //int main(void)

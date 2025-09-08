@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:48:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:29:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@
  */
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	int	size;
+
+	size = write(fd, &c, 1);
+	(void)size;
 }
 //int main(void)
 //{

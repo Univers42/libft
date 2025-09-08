@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:30:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,23 @@
 void	ft_putnbr_fd(int nb, int fd)
 {
 	char	digit;
+	int		size;
 
 	if (nb == -2147483648)
 	{
-		write(fd, "-2147483648", 11);
+		size = write(fd, "-2147483648", 11);
 		return ;
 	}
 	if (nb < 0)
 	{
-		write(fd, "-", 1);
+		size = write(fd, "-", 1);
 		nb = -nb;
 	}
 	if (nb > 9)
 		ft_putnbr_fd(nb / 10, fd);
 	digit = (nb % 10) + '0';
-	write(fd, &digit, 1);
+	size = write(fd, &digit, 1);
+	(void)size;
 }
 //int main(void)
 //{

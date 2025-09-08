@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:50:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:29:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@
  */
 void	ft_putendl_fd(char *s, int fd)
 {
+	int	size;
 	if (s)
 	{
 		while (*s)
-			write(fd, s++, 1);
-		write(fd, "\n", 1);
+			size = write(fd, s++, 1);
+		size = write(fd, "\n", 1);
 	}
+	(void)size;
 }
 
 //int main(void)

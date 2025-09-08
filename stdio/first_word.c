@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:15:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:28:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_first_word(char *str)
 {
 	int		count;
 	char	*temp;
+	int		size_byte;
 
 	count = 0;
 	while (ft_isspace(*str))
@@ -27,8 +28,9 @@ void	ft_first_word(char *str)
 		count++;
 		str++;
 	}
-	write(1, temp, count);
-	write(1, "\n", 1);
+	size_byte = write(1, temp, count);
+	size_byte = write(1, "\n", 1);
+	(void)size_byte;
 }
 
 /*

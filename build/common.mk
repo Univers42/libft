@@ -16,7 +16,9 @@
 
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -MMD -g -O -fPIC
+CFLAGS_SHARED = -Wall -Werror -Wextra -shared
+OUT := libft.so
 LDFLAGS = -L. -lft -pthread -lm
 AR = ar rcs
 RM = rm -f

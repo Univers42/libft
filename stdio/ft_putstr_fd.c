@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:14:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/29 17:14:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:31:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@
  */
 void	ft_putstr_fd(char *s, int fd)
 {
+	int	size;
+
 	if (s)
 	{
 		while (*s)
-			write(fd, s++, 1);
+			size = write(fd, s++, 1);
 	}
+	(void)size;
 }
 
 //int main(void)

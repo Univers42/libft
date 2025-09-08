@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:41:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/20 18:18:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:50:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include "ft_stddef.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-
-typedef unsigned long int	t_size;
-typedef long				t_ssize;
 
 typedef struct s_fd_list
 {

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:46:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 16:04:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 16:58:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #include "writer.h"
 
 typedef struct s_log t_log;
+
+// Context for logging: file, function
+typedef struct s_log_ctx
+{
+	const char *file;
+	const char *func;
+} t_log_ctx;
 
 typedef struct s_token_meta
 {
@@ -41,7 +48,9 @@ int parser_parse_and_write(
 	va_list *params,
 	t_writer *buf_out);
 
-// Log print function for user logging
-int log_print(t_log *state, const char *file, int line, const char *func, const char *format, ...);
+// Log print function for user logging (file only)
+int log_print(t_log *state, const char *file, const char *format, ...);
+
+t_log_ctx *set_log_ctx(void);
 
 #endif

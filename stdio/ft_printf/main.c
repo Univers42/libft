@@ -2,12 +2,22 @@
 #include <string.h>
 #include "parser.h"
 #include "writer.h"
+
 #include "parser_private.h"
 
 // Prototypes for the printf family
 int ft_printf(const char *format, ...);
 int ft_sprintf(char *dst, const char *format, ...);
 int ft_snprintf(char *dst, size_t cap, const char *format, ...);
+
+t_log_ctx *set_log_ctx(void)
+{
+    static t_log_ctx ctx =
+        {
+            .file = __FILE__,
+            .func = __func__};
+    return (&ctx);
+}
 
 int main(void)
 {
@@ -80,16 +90,15 @@ int main(void)
         printf("Failed to open file for writing.\n");
     }
 
-    // Example usage of log_print
+    // Example usage of log_print with file-only context
     t_log log_info = {.fd = 1, .state = STATE_INFO};
     t_log log_warn = {.fd = 1, .state = STATE_WARNING};
     t_log log_success = {.fd = 1, .state = STATE_SUCCESS};
     t_log log_fail = {.fd = 1, .state = STATE_FAILURE};
-
-    log_print(&log_info, __FILE__, __LINE__, __func__, "This is an info message: %s", "all systems nominal");
-    log_print(&log_warn, __FILE__, __LINE__, __func__, "This is a warning: %d attempts left", 2);
-    log_print(&log_success, __FILE__, __LINE__, __func__, "Operation completed successfully!");
-    log_print(&log_fail, __FILE__, __LINE__, __func__, "Failure occurred: %s", "disk not found");
+    log_print(&log_info, __FILE__, "This is an info message: %s", "all systems nominal");
+    log_print(&log_warn, __FILE__, "This is a warning: %d attempts left", 2);
+    log_print(&log_success, __FILE__, "Operation completed successfully!");
+    log_print(&log_fail, __FILE__, "Failure occurred: %s", "disk not found");
 
     return 0;
 }

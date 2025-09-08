@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 15:55:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:04:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,26 +124,22 @@ static const char *log_state_str(t_state state)
 	}
 }
 
-// Enhanced log_print: accepts file, line, func for context
-// Usage: log_print(&log, __FILE__, __LINE__, __func__, "format...", ...);
-int log_print(t_log *state, const char *file, int line, const char *func, const char *format, ...)
+// Enhanced log_print: accepts file for context
+int log_print(t_log *state, const char *file, const char *format, ...)
 {
 	va_list ap;
 	int ret = 0;
-	if (!state || !format || state->fd < 0)
+	if (!state || !file || !format || state->fd < 0)
 		return -1;
-	// Print prefix based on state
 	if (state->state == STATE_WARNING || state->state == STATE_FAILURE)
-		ret += ft_fprintf(state->fd, "[%s] [%s] [%s:%d] -> ", log_state_str(state->state), func, file, line);
+		ret += ft_fprintf(state->fd, "[%s] %s -> ", log_state_str(state->state), file);
 	else if (state->state == STATE_INFO || state->state == STATE_SUCCESS)
 		ret += ft_fprintf(state->fd, "[%s] ", log_state_str(state->state));
 	else
 		ret += ft_fprintf(state->fd, "[LOG] ");
-	// Print user message
 	va_start(ap, format);
 	ret += ft_vfprintf(state->fd, format, &ap);
 	va_end(ap);
-	// Newline
 	ret += ft_fprintf(state->fd, "\n");
 	return ret;
 }

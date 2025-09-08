@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/08/23 17:40:22 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/09/08 15:28:39 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -245,7 +245,11 @@ else
 TEST_MAIN := $(shell find . -type f -path "*/$(TEST)/main.c" | head -n 1)
 endif
 
-TEST_EXE := $(TEST)
+# Extract just the last part of TEST for the executable name
+TEST_EXE_NAME := $(notdir $(TEST))
+# Place test executables in bin/ directory
+BIN_DIR := bin
+TEST_EXE := $(BIN_DIR)/$(TEST_EXE_NAME)
 
 .PHONY: test $(TEST_EXE)
 mode_42:
@@ -266,9 +270,9 @@ LINK_MLX :=
 endif
 
 $(TEST_EXE): $(MINILIBX_LIB) $(NAME)
-ifneq ($(strip $(TEST_MAIN)),)
+	@if [ -z "$(TEST_MAIN)" ]; then \
+		echo "No main.c found for test '$(TEST)'"; \
+		exit 1; \
+	fi
+	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
-else
-	@echo "No main.c found for test '$(TEST)'"
-	@exit 1
-endif

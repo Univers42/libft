@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 13:40:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:44:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "parser_private.h"
 #include "writer.h"
 #include <stdarg.h>
 #include <limits.h>
@@ -101,6 +102,44 @@ int	ft_sprintf(char *dst, const char *format, ...)
 
 	va_start(ap, format);
 	return_value = ft_vsnprintf(dst, (size_t)-1, format, &ap);
+	va_end(ap);
+	return (return_value);
+}
+
+int	ft_vfprintf(int fd, const char *format, va_list *ap)
+{
+	static t_writer			buf_out;
+	int						return_value;
+	t_parser				parser;
+
+	if (format == NULL || fd < 0)
+		return (-1);
+	/* Initialize the writer explicitly in FD mode */
+	writer_init_fd(&buf_out, fd);
+	return_value = parser_parse_and_write(&parser, format, ap, &buf_out);
+	return (return_value);
+}
+
+int	ft_vlogprintf(t_log *state, const char *format, va_list *ap)
+{
+	static	t_writer buf_out;
+	int		return_value;
+	t_parser	parser;
+
+	if (format == NULL || !state || !state->state || !state->fd)
+		return (-1);
+	writer_init_fd(&buf_out, state->fd);
+	return_value = parser_parse_and_write(&parser, format, ap, &buf_out);
+	return (return_value);
+}
+
+int	log_print(t_log *state, const char *format, ...)
+{
+	va_list ap;
+	int		return_value;
+
+	va_start(ap, format);
+	return_value = ft_vlogprintf(state, format, ap);
 	va_end(ap);
 	return (return_value);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 13:44:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:38:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,23 @@
 # define FLAG_SPACE 16
 # define PARAM_ASTERISK -2
 # define FLAG_NOT_SET -1
+
+#ifndef DEBUG_MODE
+#  define DEBUG_MODE false
+# endif
+typedef enum e_state
+{
+	STATE_SUCCESS,
+	STATE_WARNING,
+	STATE_FAILURE,
+	STATE_INFO,
+	/*other type of state */
+}	t_state;
+typedef struct s_log
+{
+	int		fd;
+	t_state state;
+}	t_log;
 
 typedef enum e_padding_position
 {

@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:15:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 17:17:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:29:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "version_print.h"
-
 #include "parser.h"
 #include "parser_private.h"
 #include "writer.h"

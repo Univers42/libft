@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stdio.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/14 16:06:43 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/08/08 01:54:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,4 @@ void	ft_putnbr_base(int nbr, char *radix);
 int		ft_printf(const char *format, ...);
 int		ft_fprintf(int fd, const char *format, ...);
 int		ft_printf(const char *format, ...);
-int     ft_sprintf(char *dst, const char *format, ...);
-int     ft_vsprintf(char *dst, const char *format, va_list *ap);
-int     ft_snprintf(char *dst, size_t cap, const char *format, ...);
-
 #endif

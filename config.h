@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 22:51:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/02 22:57:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/11 23:56:07 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # endif
 
 # ifndef HEIGHT_WIN
-#  define HEIGHT_WIN 800
+#  define HEIGHT_WIN 900
 #endif
 
 # define TITLE_WIN "thread of steel"
 
 # define DEFAULT_SCALE 30
-# define SCALE_INCREMENT 2
+# define SCALE_INCREMENT 5
 # define ROTATE_INCREMENT 30
 # define SCALE_INCREMENT 0.1
 # define TRANSLATION_INCREMENT 10

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/08 21:40:16 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/09/11 23:56:23 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,8 +77,16 @@ ALL_SRCS := $(filter-out %/main.c,$(ALL_SRCS))
 # Object files with directory structure preserved
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
 
+# Automatic dependency files (.d) alongside objects
+DEPS = $(OBJS:.o=.d)
+-include $(DEPS)
+
 # Header files
 HEADERS = $(wildcard *.h)
+# All headers recursively (any change forces full object rebuild as requested)
+GLOBAL_HEADERS := $(shell find . -type f -name '*.h')
+# All sources recursively (force full rebuild if any source changes as requested)
+GLOBAL_SRCS := $(ALL_SRCS)
 
 # Find all unique directories containing .h files in libft, always include root dir
 HEADER_DIRS := $(shell find . -type f -name '*.h' -exec dirname {} \; | sort -u)
@@ -143,7 +151,7 @@ $(NAME): progress_init $(OBJS)
 
 # Object compilation rule with live spinner and inline progress bar
 # Add a trap signal to avoid infinite compilation
-$(OBJ_DIR)/%.o: %.c $(HEADERS)
+$(OBJ_DIR)/%.o: %.c $(GLOBAL_HEADERS) $(GLOBAL_SRCS)
 	@mkdir -p $(dir $@)
 	@{ \
 		# Start a spinner while compiling this file \
@@ -161,8 +169,8 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS)
 		}; \
 		spinner & SPIN_PID=$$!; \
 		trap 'kill -9 $$SPIN_PID >/dev/null 2>&1; wait $$SPIN_PID 2>/dev/null; exit 130' INT TERM EXIT; \
-		# Compile \
-		$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@; STATUS=$$?; \
+		# Compile with automatic dependency generation (-MMD -MP creates .d file next to .o) \
+		$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -MMD -MP -c $< -o $@; STATUS=$$?; \
 		trap - INT TERM EXIT; \
 		kill -9 $$SPIN_PID >/dev/null 2>&1 || true; \
 		wait $$SPIN_PID 2>/dev/null || true; \

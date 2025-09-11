@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:47:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/05 14:00:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/11 23:57:19 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 #define FDF_H
-#include "libft/libft.h"
-#include "libft/classes/render/camera/camera.h"
-#include "libft/classes/render/map/map.h"
-#include "libft/classes/trace/error/err_handler.h"
+#include "libft.h"
+#include "camera.h"
+#include "map.h"
+#include "err_handler.h"
 
 // Forward declaration for t_map if not included by map.h
 #ifndef T_MAP_DEFINED

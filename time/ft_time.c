@@ -6,13 +6,12 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:38:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/11 23:57:41 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/09/12 00:02:53 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 /**
  * recreating ft_time enthropy

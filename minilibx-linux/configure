@@ -12,9 +12,11 @@ logging(){
 	local type=$1; shift
 	printf "${LIGHT_CYAN}${BOLD}configure${RESET} [%b] : %b\n" "$type" "$*"
 }
+
 log_info(){
 	logging "${LIGHT_GREEN}info${RESET}" "$@"
 }
+
 log_error(){
 	logging "${LIGHT_RED}error${RESET}" "$@" >&2
 }

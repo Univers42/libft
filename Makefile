@@ -6,14 +6,19 @@
 #    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/11 23:56:23 by syzygy           ###   ########.fr        #
+#    Updated: 2025/09/12 00:43:37 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Static MAKEFILE includes
+# ============================================================================ #
+#									INCLUDES								   #
+# ============================================================================ #
 include build/colors.mk
 include build/common.mk
 
+# ============================================================================ #
+#									INCLUDES								   #
+# ============================================================================ #
 define build_lib
 	$(MAKE) -C $(1) $(2)
 endef
@@ -26,8 +31,47 @@ define trans_add_c
 	find . -type f -name "main.bak" -exec sh -c 'mv "$$1" "$${1%.bak}.c"' _ {} \;
 endef
 
-# MAIN ?=
+# Logging macros for Makefile usage (revamped colorful format)
+LOG_PREFIX ?= configure
+STATE_INFO  = ${BRIGHT_CYAN}INFO${RESET}
+STATE_WARN  = ${YELLOW}WARN${RESET}
+STATE_OK    = ${BRIGHT_GREEN}OK${RESET}
+STATE_NOTE  = ${MAGENTA}NOTE${RESET}
+STATE_ERROR = ${BRIGHT_RED}ERROR${RESET}
+STATE_DEBUG = ${MAGENTA}DEBUG${RESET}
 
+# $(call logging,STATE_TOKEN,Message)
+# Produces: configure [STATE] : Message (colorized)
+define logging
+	printf "${BRIGHT_CYAN}${BOLD}%s${RESET} [${BOLD}%b${RESET}] : %b\n" "$(LOG_PREFIX)" "$(1)" "$(2)"
+endef
+
+define log_info
+	$(call logging,$(STATE_INFO),$(1))
+endef
+
+define log_warn
+	$(call logging,$(STATE_WARN),$(1))
+endef
+
+define log_ok
+	$(call logging,$(STATE_OK),$(1))
+endef
+
+define log_note
+	$(call logging,$(STATE_NOTE),$(1))
+endef
+
+define log_error
+	$(call logging,$(STATE_ERROR),$(1))
+endef
+
+define log_debug
+	$(call logging,$(STATE_DEBUG),$(1))
+endef
+# ============================================================================ #
+#									INCLUDES								   #
+# ============================================================================ #
 # Library name
 NAME = libft.a
 MINILIBX_DIR ?= minilibx-linux
@@ -36,16 +80,16 @@ MLX_ALT_LIB ?= $(MINILIBX_DIR)/mlx.a
 MLX_FLAGS ?=
 
 # Detect availability of MiniLibX (directory + makefile)
-MLX_ENABLED := 0
+MLX_ENABLED	:= 0
 ifneq ($(wildcard $(MINILIBX_DIR)),)
 ifneq ($(or $(wildcard $(MINILIBX_DIR)/Makefile),$(wildcard $(MINILIBX_DIR)/makefile)),)
-MLX_ENABLED := 1
+MLX_ENABLED	:= 1
 endif
 endif
 
-MAKEFLAGS = --no-print-directory
+MAKEFLAGS		= --no-print-directory
 # Tag directories that depend on MiniLibX
-MLX_TAG_DIRS ?= classes/render/window classes/render/inputHandler classes/render/event
+MLX_TAG_DIRS	?= classes/render/window classes/render/inputHandler classes/render/event
 
 # Allow users to force-skip directories externally
 SKIP_DIRS ?=
@@ -54,31 +98,29 @@ SKIP_DIRS += $(MLX_TAG_DIRS)
 endif
 
 # Directories
-DATA_STRUCTURES = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
+SRC_DIRS = 	data_structures/queue data_structures/circular_linked_list data_structures/doubly_linked_list\
 					data_structures/lists data_structures/vector classes/render/map classes/render/window classes/render/inputHandler classes/render/point classes/render/line classes/trace/error \
 					stdlib/arena stdlib/pool stdlib/slab classes/render/event \
 					math/geometry math/geometry/draw math/geometry/effects math/geometry/matrices/ math/geometry/move math/geometry/quaternion \
-					math/geometry/shapes math/geometry/view math/algebra time
-
-# classes classes/render classes/render/window classes/render/inputHandler classes/render/point/ classes/render/camera
-SRC_DIRS = ctype debug $(DATA_STRUCTURES) math memory render stdio stdio/ft_printf/src stdlib strings sort classes/render/inputHandler
+					math/geometry/shapes math/geometry/view math/algebra time \
+					ctype debug math memory render stdio stdio/ft_printf/src stdlib strings sort classes/render/inputHandler
 
 # Compute effective source directories after excluding tagged ones
 SRC_DIRS_EFF := $(filter-out $(SKIP_DIRS),$(SRC_DIRS))
 
 # Source files from all directories including ft_printf and gnl
-SRCS = $(foreach dir,$(SRC_DIRS_EFF),$(wildcard $(dir)/*.c))
-PRINTF_SRCS = $(shell find stdio/ft_printf/src -name "*.c" 2>/dev/null)
-GNL_SRCS = $(wildcard stdio/gnl/*.c)
-ALL_SRCS = $(SRCS) $(PRINTF_SRCS) $(GNL_SRCS)
+SRCS		= $(foreach dir,$(SRC_DIRS_EFF),$(wildcard $(dir)/*.c))
+PRINTF_SRCS	= $(shell find stdio/ft_printf/src -name "*.c" 2>/dev/null)
+GNL_SRCS	= $(wildcard stdio/gnl/*.c)
+ALL_SRCS	= $(SRCS) $(PRINTF_SRCS) $(GNL_SRCS)
 # Exclude every main.c from the library to avoid multiple definition
-ALL_SRCS := $(filter-out %/main.c,$(ALL_SRCS))
+ALL_SRCS	:= $(filter-out %/main.c,$(ALL_SRCS))
 
 # Object files with directory structure preserved
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
+OBJS		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
 
 # Automatic dependency files (.d) alongside objects
-DEPS = $(OBJS:.o=.d)
+DEPS		= $(OBJS:.o=.d)
 -include $(DEPS)
 
 # Header files
@@ -109,45 +151,56 @@ else
 all: $(NAME)
 endif
 
+# ============================================================================ #
+#									BUILD TARGETS							   #
+# ============================================================================ #
+
+both: $(NAME) libft.so
+# ============================================================================ #
+#									STATIC LIBRARY							   #
+# ============================================================================ #
+
+all: $(NAME)
+# ============================================================================ #
+#									SHARED LIBRARY							   #
+# ============================================================================ #
+
+shared: libft.so
+
+# ============================================================================ #
+#									UTILS TARGET							   #
+# ============================================================================ #
+
 # Build MiniLibX only if present; otherwise skip gracefully
 $(MINILIBX_LIB):
-	@echo "$(BRIGHT_CYAN)🔧 Building MiniLibX...$(RESET)"
+	@$(call log_info,🔧 Building MiniLibX...)
 	@if [ -d "$(MINILIBX_DIR)" ] && { [ -f "$(MINILIBX_DIR)/Makefile" ] || [ -f "$(MINILIBX_DIR)/makefile" ]; }; then \
 		$(MAKE) -C $(MINILIBX_DIR) $(MLX_FLAGS) || true; \
 		if [ ! -f "$(MINILIBX_LIB)" ] && [ -f "$(MLX_ALT_LIB)" ]; then \
 			cp "$(MLX_ALT_LIB)" "$(MINILIBX_LIB)"; \
-			echo "$(YELLOW)[MiniLibX] Fallback: copied mlx.a -> libmlx.a$(RESET)"; \
+			$(call log_warn,[MiniLibX] Fallback: copied mlx.a -> libmlx.a); \
 		fi; \
 	else \
-		echo "$(YELLOW)[MiniLibX] Skipping (not present)$(RESET)"; \
+		$(call log_warn,[MiniLibX] Skipping (not present)); \
 	fi
 
-# Prepare progress state before building objects
-.PHONY: progress_init
 progress_init:
 	@mkdir -p $(OBJ_DIR)
 	@rm -f $(COUNTER_FILE) $(SPIN_FILE)
 	@echo 0 > $(COUNTER_FILE)
 	@echo 0 > $(SPIN_FILE)
-	@printf "$(BRIGHT_MAGENTA)🚀 Starting build of $(NAME) ($(TOTAL_OBJS) objects)$(RESET)\n"
+	@$(call log_info,🚀 Starting build of $(NAME) ($(TOTAL_OBJS) objects))
 
 # Rule to build the library
 $(NAME): progress_init $(OBJS)
 	@{ \
-		# Finalize progress to 100% (visual polish) \
 		count=$$( [ -f "$(COUNTER_FILE)" ] && cat "$(COUNTER_FILE)" || echo 0 ); \
-		total=$(TOTAL_OBJS); \
-		width=$(PROGRESS_WIDTH); \
-		percent=100; \
-		done_chars=$$width; \
-		bar_done=$$(printf "%0.s#" $$(seq 1 $$done_chars)); \
-		# Show a final full bar line before archiving \
-		printf "\r$(BRIGHT_CYAN)[✔]$(RESET) $(DIM)building$(RESET) $(YELLOW)%-30s$(RESET) $(BRIGHT_GREEN)[%s] %3d%%$(RESET) (%d/%d)\n" \
-			"finalizing" "$$bar_done" "$$percent" "$$total" "$$total"; \
+		total=$(TOTAL_OBJS); width=$(PROGRESS_WIDTH); percent=100; done_chars=$$width; bar_done=$$(printf "%0.s#" $$(seq 1 $$done_chars)); \
+		printf "\r$(BRIGHT_CYAN)[✔]$(RESET) $(DIM)building$(RESET) $(YELLOW)%-30s$(RESET) $(BRIGHT_GREEN)[%s] %3d%%$(RESET) (%d/%d)\n" "finalizing" "$$bar_done" "$$percent" "$$total" "$$total"; \
 	}
-	@printf "$(BRIGHT_MAGENTA)📦 Archiving library...$(RESET)\n"
+	@$(call log_info,📦 Archiving library...)
 	@$(AR) $(NAME) $(OBJS)
-	@printf "$(BRIGHT_GREEN)✓ $(NAME) created successfully!$(RESET)\n"
+	@$(call log_ok,✓ $(NAME) created successfully!)
 
 # Object compilation rule with live spinner and inline progress bar
 # Add a trap signal to avoid infinite compilation
@@ -202,37 +255,30 @@ build :
 	
 # Enhanced clean with visual feedback
 clean:
-	@echo "$(BRIGHT_RED)🧹 Cleaning object files...$(RESET)"
+	@$(call log_info,🧹 Cleaning object files...)
 	@if [ -d "$(OBJ_DIR)" ]; then \
-		echo "$(YELLOW)Removing $(OBJ_DIR)/ directory...$(RESET)"; \
+		$(call log_warn,Removing $(OBJ_DIR)/ directory...); \
 		$(RM) -r $(OBJ_DIR); \
-		echo "$(GREEN)✅ Object files cleaned$(RESET)"; \
+		$(call log_ok,✅ Object files cleaned); \
 	else \
-		echo "$(DIM)No object files to clean$(RESET)"; \
-	fi
-	@rm -f $(COUNTER_FILE) $(SPIN_FILE)
-	@echo "$(BRIGHT_RED)🧹 Cleaning MiniLibX...$(RESET)"
-	@if [ -d "$(MINILIBX_DIR)" ] && { [ -f "$(MINILIBX_DIR)/Makefile" ] || [ -f "$(MINILIBX_DIR)/makefile" ]; }; then \
-		$(MAKE) -C $(MINILIBX_DIR) clean || true; \
-	else \
-		echo "$(DIM)Skipping MiniLibX clean (not present)$(RESET)"; \
+		$(call log_warn,No object files to clean); \
 	fi
 
 # Enhanced fclean with visual feedback
 fclean: clean
-	@echo "$(BRIGHT_RED)🔥 Deep cleaning...$(RESET)"
+	@$(call log_info,🔥 Deep cleaning...)
 	@if [ -f "$(NAME)" ]; then \
-		echo "$(YELLOW)Removing library $(NAME)...$(RESET)"; \
+		$(call log_warn,Removing library $(NAME)...); \
 		$(RM) $(NAME); \
-		echo "$(GREEN)✅ Library removed$(RESET)"; \
+		$(call log_ok,✅ Library removed); \
 	else \
-		echo "$(DIM)No library to remove$(RESET)"; \
+		$(call log_warn,No library to remove); \
 	fi
-	@echo "$(BRIGHT_RED)🔥 Deep cleaning MiniLibX...$(RESET)"
+	@$(call log_info,🔥 Deep cleaning MiniLibX...)
 	@if [ -d "$(MINILIBX_DIR)" ] && { [ -f "$(MINILIBX_DIR)/Makefile" ] || [ -f "$(MINILIBX_DIR)/makefile" ]; }; then \
 		$(MAKE) -C $(MINILIBX_DIR) clean || true; \
 	else \
-		echo "$(DIM)Skipping MiniLibX deep clean (not present)$(RESET)"; \
+		$(call log_warn,Skipping MiniLibX deep clean (not present)); \
 	fi
 
 # Rebuild
@@ -241,10 +287,10 @@ re: fclean all
 # Debug mode with enhanced feedback
 debug: CFLAGS += -g3 -fsanitize=address
 debug: 
-	@echo "$(BRIGHT_YELLOW)🐛 DEBUG MODE ENABLED$(RESET)"
-	@echo "$(YELLOW)Flags: $(CFLAGS)$(RESET)"
+	@$(call log_warn,🐛 DEBUG MODE ENABLED)
+	@$(call log_info,Flags: $(CFLAGS))
 	@$(MAKE) re --no-print-directory
-	@echo "$(BRIGHT_YELLOW)🔍 Debug build completed with AddressSanitizer$(RESET)"
+	@$(call log_info,🔍 Debug build completed with AddressSanitizer)
 
 # Build a test executable from a main.c in a subdirectory
 # Usage: make test TEST=window
@@ -262,7 +308,6 @@ TEST_EXE_NAME := $(notdir $(TEST))
 BIN_DIR := bin
 TEST_EXE := $(BIN_DIR)/$(TEST_EXE_NAME)
 
-.PHONY: test $(TEST_EXE)
 mode_42:
 	@$(trans_remove_c)
 mode_lab:
@@ -288,16 +333,24 @@ $(TEST_EXE): $(MINILIBX_LIB) $(NAME)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
 
-# Build static library (default)
-all: $(NAME)
-
-# Build shared library
-shared: libft.so
-
-# Build both static and shared
-both: $(NAME) libft.so
-
 libft.so: $(OBJS)
 	@echo "$(BRIGHT_MAGENTA)🔗 Linking shared library libft.so...$(RESET)"
 	@$(CC) $(CFLAGS_SHARED) -o libft.so $(OBJS)
 	@echo "$(BRIGHT_GREEN)✓ libft.so created successfully!$(RESET)"
+
+help:
+	@$(call log_info,Makefile targets:)
+	@echo "  all (default)      : Build the static library libft.a"
+	@echo "  shared             : Build the shared library libft.so"
+	@echo "  both               : Build both static and shared libraries"
+	@echo "  clean              : Remove object files"
+	@echo "  fclean             : Remove object files and libraries"
+	@echo "  re                 : Rebuild the library from scratch"
+	@echo "  debug              : Build the library with debug flags and AddressSanitizer"
+	@echo "  test TEST=<name>   : Build and run test executable from directory <name>"
+	@echo "  norminette         : Run norminette on all .c files (excluding minilibx)"
+	@echo "  mode_lab           : Rename all main.bak files to main.c (for 42 labs)"
+	@echo "  mode_42            : Rename all main.c files to main.bak (for 42 projects)"
+	@echo "  help               : Show this help message"
+
+.PHONY: both shared all norminette test mode_lab mode_42 test $(TEST_EXE) progress_init debug fclean clean re build

@@ -6,7 +6,7 @@
 #    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/12 00:43:37 by syzygy           ###   ########.fr        #
+#    Updated: 2025/09/12 00:54:24 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -316,7 +316,13 @@ mode_lab:
 test: $(TEST_EXE)
 
 norminette:
-	find . -path "./minilibx-linux" -prune -o -name "*.c" -exec norminette {} +
+	@output="$$(find . -path "./minilibx-linux" -prune -o -name "*.c" -exec norminette {} +)"; \
+	if echo "$$output" | grep -q "Error"; then \
+	    echo "$$output" | grep "Error"; \
+	    $(call log_error,❌ Norminette errors detected!); \
+	else \
+	    $(call log_ok,✅ All files passed norminette!); \
+	fi
 
 # Optional link flags for tests (only when MiniLibX is available)
 ifeq ($(MLX_ENABLED),1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:50:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/08 21:29:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/12 00:54:50 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 void	ft_putendl_fd(char *s, int fd)
 {
 	int	size;
+
 	if (s)
 	{
 		while (*s)

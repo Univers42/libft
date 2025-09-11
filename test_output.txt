@@ -1,1 +1,0 @@
-[fprintf] This line is written to a file.

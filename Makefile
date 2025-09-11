@@ -6,7 +6,7 @@
 #    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/12 00:54:24 by syzygy           ###   ########.fr        #
+#    Updated: 2025/09/12 00:59:49 by syzygy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ endef
 define log_debug
 	$(call logging,$(STATE_DEBUG),$(1))
 endef
+
 # ============================================================================ #
 #									INCLUDES								   #
 # ============================================================================ #
@@ -286,6 +287,7 @@ re: fclean all
 
 # Debug mode with enhanced feedback
 debug: CFLAGS += -g3 -fsanitize=address
+
 debug: 
 	@$(call log_warn,🐛 DEBUG MODE ENABLED)
 	@$(call log_info,Flags: $(CFLAGS))
@@ -310,6 +312,7 @@ TEST_EXE := $(BIN_DIR)/$(TEST_EXE_NAME)
 
 mode_42:
 	@$(trans_remove_c)
+
 mode_lab:
 	@$(trans_add_c)
 

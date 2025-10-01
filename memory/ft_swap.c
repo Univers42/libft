@@ -41,21 +41,13 @@ void	ft_swap(void *a, void *b, size_t size)
 {
 	unsigned char	*pa;
 	unsigned char	*pb;
-	unsigned char	tmp;
-	size_t			i;
 
-	if (!a || !b || a == b || size == 0)
+	pa = (unsigned char*)a;
+	pb = (unsigned char*)b;
+	if (*pa == *pb)
 		return ;
-	pa = (unsigned char *)a;
-	pb = (unsigned char *)b;
-	i = 0;
-	while (i < size)
-	{
-		tmp = pa[i];
-		pa[i] = pb[i];
-		pb[i] = tmp;
-		++i;
-	}
+	while (size--)
+		(*pa ^= *pb), (*pb ^= *pa),  (*pa++ ^= *pb++);
 }
 
 //int main(void)

@@ -31,16 +31,29 @@
  * the comparison is limited to the actual length of the strings.
  */
 // Implémentation de ft_strncmp (pour l'exemple)
-int	ft_strncmp(const char *s1, const char *s2, t_size n)
+//int	ft_strncmp(const char *s1, const char *s2, t_size n)
+//{
+//	while (n--)
+//	{
+//		if (*s1 != *s2)
+//			return (*(unsigned char *)s1 - *(unsigned char *)s2);
+//		if (*s1 == '\0')
+//			return (0);
+//		s1++;
+//		s2++;
+//	}
+//	return (0);
+//}
+
+int ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	while (n--)
+	while (n-- && *s1 && *s2 && (unsigned char)*s1 == (unsigned char)*s2)
 	{
-		if (*s1 != *s2)
-			return (*(unsigned char *)s1 - *(unsigned char *)s2);
-		if (*s1 == '\0')
-			return (0);
 		s1++;
 		s2++;
 	}
-	return (0);
+	if (n == 0)
+		return (0);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
+

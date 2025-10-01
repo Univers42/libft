@@ -27,9 +27,22 @@
  * f `c` is the null terminator, the function
  * returns a pointer to the terminating null byte.
  */
+//char	*ft_strchr(const char *s, int c)
+//{
+//	return (ft_memchr(s, c, ft_strlen(s) + 1));
+//}
+
 char	*ft_strchr(const char *s, int c)
 {
-	return (ft_memchr(s, c, ft_strlen(s) + 1));
+	const char	*cur = s;
+
+	while (*cur)
+	{
+		if (*cur == (char)c)
+			return (cur);
+		cur++;
+	}
+	return (NULL);
 }
 //changes all the occurences of a word
 //int main(void)

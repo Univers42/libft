@@ -12,7 +12,8 @@ SRCS		+=  	$(addprefix slab/, slab_alloc.c slab_destroy.c slab_free.c \
 					slab_helpers.c slab_stats.c slab.c)
 SRCS		+=  	$(addprefix pool/, pool_helpers.c pool_stats.c pool.c)
 SRCS 		+=      $(addprefix arena/, arena.c)
-
+SRCS		+=		$(addprefix strto/, conv.c helpers.c state_conv.c \
+					stub1.c stub2.c stub3.c stub4.c)
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test
 

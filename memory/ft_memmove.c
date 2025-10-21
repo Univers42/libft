@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 13:51:00 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:59:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@
  */
 void	*ft_memmove(void *dst, const void *src, size_t n)
 {
-	const unsigned char	*s;
+	const unsigned char	*s = (unsigned char *)src;
 	unsigned char		*d;
 
 	d = (unsigned char *)dst;
-	s = (const unsigned char *)src;
 	if (d == s || n == 0)
 		return (dst);
-	if (d < s)
+	else if (d < s)
 	{
 		while (n--)
 			*d++ = *s++;
@@ -47,6 +46,7 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	}
 	return (dst);
 }
+
 //TODO : use backward and forward movement
 
 //int main(void)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:42:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 14:09:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:22:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,16 @@ void	ft_swap(void *a, void *b, size_t size)
 	unsigned char	*pa;
 	unsigned char	*pb;
 
-	pa = (unsigned char*)a;
-	pb = (unsigned char*)b;
+	pa = (unsigned char *)a;
+	pb = (unsigned char *)b;
 	if (*pa == *pb)
 		return ;
 	while (size--)
-		(*pa ^= *pb), (*pb ^= *pa),  (*pa++ ^= *pb++);
+	{
+		(*pa ^= *pb);
+		(*pb ^= *pa);
+		(*pa++ ^= *pb++);
+	}
 }
 
 //int main(void)

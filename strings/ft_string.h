@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:14:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:09:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**ft_split(const char *s, char c);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 int		ft_strncmp(const char *s1, const char *s2, t_size n);
+char    *ft_strnchr(char *ptr, int c, size_t n);
 char	*ft_strnstr(const char *big, const char *little, t_size len);
 char	*ft_strdup(const char *s);
 t_size	ft_strclen(const char *s, int c);

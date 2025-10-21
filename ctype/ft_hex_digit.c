@@ -6,9 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:09:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:09:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:56:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_ctype.h"
 
 int	hex_digit(char c)
 {

@@ -1,0 +1,414 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*   example_usage.c - Demonstrates the test framework capabilities          */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "test_framework.h"
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+/* Example functions to test */
+int my_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int my_abs(int n)
+{
+	return (n < 0) ? -n : n;
+}
+
+char *my_strdup(const char *s)
+{
+	size_t len = strlen(s);
+	char *dup = malloc(len + 1);
+	if (dup)
+		strcpy(dup, s);
+	return dup;
+}
+
+/* Custom comparator example */
+int compare_strings_ignore_case(const void *a, const void *b, size_t size)
+{
+	(void)size;
+	return strcasecmp((const char*)a, (const char*)b);
+}
+
+/* Custom validators */
+bool is_even(void *result)
+{
+	return (*(int*)result % 2) == 0;
+}
+
+bool is_valid_range(void *result)
+{
+	int val = *(int*)result;
+	return val >= 0 && val <= 100;
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 1: Comparing Two Functions                      */
+/* ========================================================================== */
+
+void example1_function_comparison(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 1: Comparing Your Function vs Standard Library  ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("isdigit comparison");
+	
+	// Create test cases
+	t_test_case cases[] = {
+		{
+			.description = "Test '0'",
+			.params = {(void*)(long)'0'},
+			.param_count = 1,
+			.compare_type = CMP_BOOL,
+			.data_size = sizeof(int)
+		},
+		{
+			.description = "Test '5'",
+			.params = {(void*)(long)'5'},
+			.param_count = 1,
+			.compare_type = CMP_BOOL,
+			.data_size = sizeof(int)
+		},
+		{
+			.description = "Test 'a'",
+			.params = {(void*)(long)'a'},
+			.param_count = 1,
+			.compare_type = CMP_BOOL,
+			.data_size = sizeof(int)
+		},
+		{
+			.description = "Test ' '",
+			.params = {(void*)(long)' '},
+			.param_count = 1,
+			.compare_type = CMP_BOOL,
+			.data_size = sizeof(int)
+		}
+	};
+	
+	run_test_batch(suite, "my_isdigit vs isdigit", 
+		(void*)my_isdigit, (void*)isdigit, cases, 4);
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 2: Edge Case Testing                            */
+/* ========================================================================== */
+
+void example2_edge_cases(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 2: Edge Case Testing (No Reference Function)    ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("abs() edge cases");
+	
+	t_edge_case cases[] = {
+		{
+			.description = "abs(0) should be 0",
+			.params = {(void*)(long)0},
+			.param_count = 1,
+			.validator = validate_zero
+		},
+		{
+			.description = "abs(-5) should be positive",
+			.params = {(void*)(long)-5},
+			.param_count = 1,
+			.validator = validate_positive
+		},
+		{
+			.description = "abs(42) should be positive",
+			.params = {(void*)(long)42},
+			.param_count = 1,
+			.validator = validate_positive
+		},
+		{
+			.description = "abs(INT_MIN) should not crash",
+			.params = {(void*)(long)(-2147483647-1)},
+			.param_count = 1,
+			.validator = NULL  // Just check it doesn't crash
+		}
+	};
+	
+	run_edge_case_batch(suite, "my_abs", (void*)my_abs, cases, 4);
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 3: Variable Comparison                          */
+/* ========================================================================== */
+
+void example3_variable_comparison(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 3: Direct Variable Comparison                   ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Variable tests");
+	
+	int x = 42;
+	int y = 42;
+	int z = 24;
+	
+	float pi = 3.14159;
+	float approx_pi = 3.14159;
+	
+	const char *str1 = "hello";
+	const char *str2 = "hello";
+	const char *str3 = "world";
+	
+	ASSERT_EQ(suite, x, y, CMP_INT);
+	ASSERT_EQ(suite, pi, approx_pi, CMP_FLOAT);
+	
+	run_variable_test(suite, "x != z", &x, &z, CMP_INT, sizeof(int));
+	run_variable_test(suite, "str1 == str2", str1, str2, CMP_STRING, 0);
+	run_variable_test(suite, "str1 != str3", str1, str3, CMP_STRING, 0);
+	
+	ASSERT_TRUE(suite, x == y);
+	ASSERT_FALSE(suite, x == z);
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 4: Custom Comparator                            */
+/* ========================================================================== */
+
+void example4_custom_comparator(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 4: Custom Comparison Logic                      ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Custom comparisons");
+	
+	// Test case-insensitive string comparison
+	const char *str1 = "Hello";
+	const char *str2 = "HELLO";
+	
+	t_test_case test = {
+		.description = "Case-insensitive string match",
+		.params = {NULL},
+		.param_count = 0,
+		.compare_type = CMP_CUSTOM,
+		.custom_cmp = compare_strings_ignore_case,
+		.data_size = 0
+	};
+	
+	// We're testing variables, not functions, so we manually set expected/actual
+	t_test_result result = {0};
+	result.test_name = "HELLO == hello (case-insensitive)";
+	result.actual = (void*)str1;
+	result.expected = (void*)str2;
+	
+	int cmp = compare_strings_ignore_case(str1, str2, 0);
+	result.status = (cmp == 0) ? TEST_PASS : TEST_FAIL;
+	
+	printf("Testing: '%s' vs '%s' (case-insensitive)\n", str1, str2);
+	printf("Result: %s\n", result.status == TEST_PASS ? "PASS ✓" : "FAIL ✗");
+	
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 5: Multi-Parameter Functions                    */
+/* ========================================================================== */
+
+int my_memcmp_wrapper(void *a, void *b, void *n)
+{
+	return memcmp(a, b, (size_t)(long)n);
+}
+
+int std_memcmp_wrapper(void *a, void *b, void *n)
+{
+	return memcmp(a, b, (size_t)(long)n);
+}
+
+void example5_multi_param(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 5: Testing Multi-Parameter Functions            ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Multi-parameter functions");
+	
+	char buf1[] = "Hello";
+	char buf2[] = "Hello";
+	char buf3[] = "World";
+	
+	t_test_case cases[] = {
+		{
+			.description = "memcmp: identical strings",
+			.params = {buf1, buf2, (void*)(long)5},
+			.param_count = 3,
+			.compare_type = CMP_INT,
+			.data_size = sizeof(int)
+		},
+		{
+			.description = "memcmp: different strings",
+			.params = {buf1, buf3, (void*)(long)5},
+			.param_count = 3,
+			.compare_type = CMP_INT,
+			.data_size = sizeof(int)
+		}
+	};
+	
+	run_test_batch(suite, "memcmp comparison", 
+		(void*)my_memcmp_wrapper, (void*)std_memcmp_wrapper, cases, 2);
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 6: Comprehensive ctype Test                     */
+/* ========================================================================== */
+
+void example6_comprehensive_ctype(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 6: Comprehensive Test (like your original)      ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Complete ctype test");
+	
+	// Test all ASCII characters
+	for (int c = 0; c < 128; c++)
+	{
+		t_test_case test = {
+			.description = NULL,
+			.params = {(void*)(long)c},
+			.param_count = 1,
+			.compare_type = CMP_BOOL,  // Compare truthiness
+			.data_size = sizeof(int)
+		};
+		
+		run_comparison_test(suite, "isdigit", 
+			(void*)my_isdigit, (void*)isdigit, &test);
+	}
+	
+	test_suite_print_summary(suite);
+	test_suite_print_detailed(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 7: Negative Testing                             */
+/* ========================================================================== */
+
+int buggy_abs(int n)
+{
+	// Intentionally buggy: doesn't handle negative numbers
+	return n;
+}
+
+void example7_negative_testing(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 7: Negative Testing (Expected Failures)         ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Negative tests");
+	
+	t_test_case cases[] = {
+		{
+			.description = "This SHOULD fail",
+			.params = {(void*)(long)-5},
+			.param_count = 1,
+			.compare_type = CMP_INT,
+			.data_size = sizeof(int),
+			.should_fail = true  // We EXPECT this to fail
+		}
+	};
+	
+	run_test_batch(suite, "buggy_abs vs abs", 
+		(void*)buggy_abs, (void*)abs, cases, 1);
+	
+	printf("\nNote: The test passed because we EXPECTED it to fail!\n");
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                    EXAMPLE 8: Memory Testing                               */
+/* ========================================================================== */
+
+void example8_memory_comparison(void)
+{
+	printf("\n\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║  EXAMPLE 8: Memory Block Comparison                      ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	
+	t_test_suite *suite = TEST_SUITE("Memory tests");
+	
+	struct {
+		int a;
+		char b;
+		float c;
+	} struct1 = {42, 'X', 3.14};
+	
+	struct {
+		int a;
+		char b;
+		float c;
+	} struct2 = {42, 'X', 3.14};
+	
+	struct {
+		int a;
+		char b;
+		float c;
+	} struct3 = {99, 'Y', 2.71};
+	
+	run_variable_test(suite, "struct1 == struct2", 
+		&struct1, &struct2, CMP_MEMORY, sizeof(struct1));
+	
+	run_variable_test(suite, "struct1 != struct3", 
+		&struct1, &struct3, CMP_MEMORY, sizeof(struct1));
+	
+	test_suite_print_summary(suite);
+	test_suite_destroy(suite);
+}
+
+/* ========================================================================== */
+/*                           MAIN                                             */
+/* ========================================================================== */
+
+int main(void)
+{
+	printf("\n");
+	printf("╔════════════════════════════════════════════════════════════════╗\n");
+	printf("║                                                                ║\n");
+	printf("║        ENHANCED GENERAL PURPOSE TEST FRAMEWORK                ║\n");
+	printf("║                    Usage Examples                              ║\n");
+	printf("║                                                                ║\n");
+	printf("╚════════════════════════════════════════════════════════════════╝\n");
+	
+	example1_function_comparison();
+	example2_edge_cases();
+	example3_variable_comparison();
+	example4_custom_comparator();
+	example5_multi_param();
+	example6_comprehensive_ctype();
+	example7_negative_testing();
+	example8_memory_comparison();
+	
+	printf("\n\n");
+	printf("╔════════════════════════════════════════════════════════════════╗\n");
+	printf("║                    ALL EXAMPLES COMPLETE                       ║\n");
+	printf("╚════════════════════════════════════════════════════════════════╝\n");
+	printf("\n");
+	
+	return 0;
+}

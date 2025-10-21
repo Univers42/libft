@@ -6,9 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:02:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/04/28 00:30:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:57:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_ctype.h"
 
 /**
  * Converts a lowercase letter to its uppercase equivalent.

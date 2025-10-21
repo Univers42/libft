@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:22:36 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 18:13:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:21:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 //	return (0);
 //}
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (n-- && *s1 && *s2 && (unsigned char)*s1 == (unsigned char)*s2)
 	{
@@ -56,4 +56,3 @@ int ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (0);
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-

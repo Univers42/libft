@@ -4,6 +4,3 @@
 [submodule "minilibx-linux"]
 	path = minilibx-linux
 	url = https://github.com/42paris/minilibx-linux.git
-[submodule "stdio/gnl"]
-	path = stdio/gnl
-	url = git@github.com:Univers42/getNextLine.git

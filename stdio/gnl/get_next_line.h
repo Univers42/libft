@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 00:41:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/20 18:18:39 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/10/21 02:57:25 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/21 17:10:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,107 @@
 # define GET_NEXT_LINE_H
 
 # include <stdio.h>
+# include <string.h>
 # include <stdlib.h>
-# include <unistd.h>
+# include <stdbool.h>
+# include <errno.h>
 # include <fcntl.h>
+# include <unistd.h>
+# include "../../stdlib/ft_stdlib.h"
+# include "../ft_stdio.h"
+# include "../../strings/ft_string.h"
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1024
 # endif
 
-typedef unsigned long int	t_size;
-typedef long				t_ssize;
+# define FD_MAX 10000
+# define DFLT_CAP 64
 
-typedef struct s_fd_list
+typedef enum e_state
 {
-	t_size				fd;
-	char				*memory;
-	struct s_fd_list	*next;
-}	t_fd_list;
+	ST_FILE_NOT_FOUND = -1,
+	ST_OK = 0,
+	ST_FOUND_NL,
+	ST_INFO_BASE = 100,
+	ST_FILLED,
+	ST_SCANNING,
+	ST_RESET_ALLOC,
+	ST_RESET_PTR,
+	ST_EOF,
+	ST_ERR_BASE = 200,
+	ST_ERR_ALLOC,
+	ST_ERR_FATAL
+}	t_state;
 
-char		*get_next_line(int fd);
-char		*ft_strjoin_gnl(char *s1, const char *s2);
-t_fd_list	*ft_get_fd_node(t_fd_list **fd_list, t_size fd);
-void		ft_remove_fd_node(t_fd_list **fd_list, t_size fd);
-void		free_all_gnl(void);
+typedef struct s_file
+{
+	char	buf[BUFFER_SIZE];
+	char	*cur;
+	char	*end;
+}	t_file;
 
-/* Forward declarations for libft functions used in GNL */
-t_size		ft_strlen(const char *s);
-t_size		ft_strclen(const char *s, int c);
-char		*ft_strndup(const char *s, t_size n);
-t_fd_list	**get_gnl_fd_list(void);
+typedef struct s_dynstr
+{
+	char	*buf;
+	size_t	size;
+	size_t	cap;
+}	t_dynstr;
+
+char	*get_next_line(int fd);
+char	*get_next_line_bonus(int fd);
+t_state	append_from_buffer(t_file *scan, t_dynstr *line);
+t_state	refill(t_file *scan, int fd);
+t_state	scan_nl(t_file *scan, t_dynstr *line, int fd);
+
+static inline void init(t_file *scan)
+{
+	if (!scan)
+	{
+		scan = malloc(sizeof(t_file));
+		if (!scan)
+			return ;
+		scan->cur = scan->buf;
+		scan->end = scan->buf;
+	}
+}
+
+static inline char	*reset(t_dynstr *line, t_file *scan)
+{
+	if (line)
+	{
+		free(line->buf);
+		line->buf = NULL;
+		line->size = 0;
+		line->cap = 0;
+	}
+	if (scan)
+	{
+		scan->cur = scan->buf;
+		scan->end = scan->buf;
+	}
+	return (NULL);
+}
+
+static inline t_state	ensure_cap(char **line, size_t *cap, size_t need)
+{
+	void	*tmp;
+	size_t	new_cap;
+
+	if (*cap >= need)
+		return (ST_OK);
+	if (*cap)
+		new_cap = *cap;
+	else
+		new_cap = DFLT_CAP;
+	while (new_cap <= need)
+		new_cap *= 2;
+	tmp = ft_realloc(*line, *cap, new_cap);
+	if (!tmp)
+		return (ST_ERR_ALLOC);
+	*cap = new_cap;
+	*line = (char *)tmp;
+	return (ST_OK);
+}
+
 #endif

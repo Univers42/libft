@@ -1,0 +1,122 @@
+#ifndef TEST_FRAMEWORK_H
+# define TEST_FRAMEWORK_H
+
+# include <stddef.h>
+# include <stdbool.h>
+
+typedef enum e_compare_type
+{
+	CMP_INT,
+	CMP_UINT,
+	CMP_CHAR,
+	CMP_UCHAR,
+	CMP_LONG,
+	CMP_ULONG,
+	CMP_FLOAT,
+	CMP_DOUBLE,
+	CMP_PTR,
+	CMP_STRING,
+	CMP_MEMORY,
+	CMP_BOOL,
+	CMP_CUSTOM
+}	t_compare_type;
+
+typedef enum e_test_status
+{
+	TEST_PASS,
+	TEST_FAIL,
+	TEST_ERROR,
+	TEST_SKIP
+}	t_test_status;
+
+typedef struct s_stats
+{
+	t_test_status	st;
+	int				line;
+	const char		*file;
+	const char		*test_name;
+	char			*err_msg;
+	void			*expected;
+	void			*actual;
+	t_compare_type	type;
+}	t_stats;
+
+typedef struct s_test_suite
+{
+	const char	*suite_name;
+	int			total_test;
+	int			passed_test;
+	int			failed_tests;
+	int			error_tests;
+	int			skipped_tests;
+	t_stats		*results;
+}	t_test_suite;
+
+typedef void	*(*t_fn0)(void);
+typedef void	*(*t_fn1)(void *);
+typedef void	*(*t_fn2)(void *, void *);
+typedef void	*(*t_fn3)(void *, void *, void *);
+typedef void	*(*t_fn4)(void *, void *, void *, void *);
+typedef int		(*t_comparator)(const void *a, const void *b, size_t size);
+
+typedef struct s_test_case
+{
+	const char 		*description;
+	void			*params[4];
+	void			*expected;
+	unsigned short	param_count;	//number of param (0-4)
+	unsigned short	data_size;		//size for mem comp
+	t_compare_type	compare_type;	// How to comp result
+	t_comparator	custom_cmp;
+	bool			should_fail;	// for negative testing
+}	t_test_case;
+
+typedef struct s_edge_case
+{
+	const char		*description;
+	void			*params[4];
+	unsigned short	param_count;
+	bool			(*validator)(void *result);
+}	t_edge_case;
+
+
+# define TEST_SUITE(name) test_suite_create(name)
+# define ASSERT_EQ(suite, actual, expected, type)	\
+	run_variable_test(suite, #actual " == " #expected,	\
+		&(actual), &(expected), type, sizeof(actual))
+#define ASSERT_NEQ(suite, actual, expected, type) \
+    do { \
+        int _cmp = compare_values(&(actual), &(expected), type, sizeof(actual)); \
+        if (_cmp == 0) { \
+            /* Record failure */ \
+        } \
+    } while(0)
+
+#define ASSERT_TRUE(suite, expr) \
+    do { \
+        bool _val = !!(expr); \
+        bool _expected = true; \
+        run_variable_test(suite, #expr, &_val, &_expected, CMP_BOOL, sizeof(bool)); \
+    } while(0)
+
+#define ASSERT_FALSE(suite, expr) \
+    do { \
+        bool _val = !!(expr); \
+        bool _expected = false; \
+        run_variable_test(suite, #expr, &_val, &_expected, CMP_BOOL, sizeof(bool)); \
+    } while(0)
+
+#define ASSERT_NULL(suite, ptr) \
+    do { \
+        void *_expected = NULL; \
+        run_variable_test(suite, #ptr " == NULL", \
+            &(ptr), &_expected, CMP_PTR, sizeof(void*)); \
+    } while(0)
+
+#define ASSERT_NOT_NULL(suite, ptr) \
+    do { \
+        if ((ptr) == NULL) { \
+            /* Record failure */ \
+        } \
+    } while(0)
+#endif

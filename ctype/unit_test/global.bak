@@ -1,0 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   global.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 14:03:08 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/21 16:04:18 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
+#include <stddef.h> // for size_t
+
+#define AMAX 255
+
+// to modify the range
+typedef enum e_sev
+{
+    SEV_OK = 0,
+    SEV_INFO = 100,
+    SEV_WARNING = 200,
+    SEV_ERR = 300
+} t_sev;
+
+// to write the num states
+typedef enum e_state
+{
+    ST_OK = SEV_OK,
+    ST_INFO_Z = 0,
+    ST_OK_MATCH = 0,
+    ST_INFO = SEV_INFO,
+    ST_WARN = SEV_WARNING,
+    ST_GT,
+    ST_LT,
+    ST_ERR = SEV_ERR,
+    ST_ERR_MATCH,
+    ST_ERR_FATAL
+} t_state;
+
+/*
+ * t_monitore is a generic structure for test monitoring.
+ * - out1, out2: pointers to results of any type.
+ * - param1..param4: function pointers for test logic with up to 4 parameters.
+ *   All parameters and return types are void* for maximum flexibility.
+ * - tot, outof: counters for test progress.
+ * - st: test state.
+ *
+ * Usage: Cast to/from appropriate types as needed in your test logic.
+ */
+typedef struct s_monitore
+{
+    void *out_given;
+    void *out_expected;
+    void *(*param1)(void *);
+    void *(*param2)(void *, void *);
+    void *(*param3)(void *, void *, void *);
+    void *(*param4)(void *, void *, void *, void *);
+    int case_total;
+    int case_passed;
+    int *test_total;
+    int *test_passed;
+    int exit_code;
+    t_state st;
+} t_monitore;
+
+// Utility functions for t_monitore
+void monitore_set_out1(t_monitore *m, const void *value, size_t n); // sets out_given
+void monitore_set_out2(t_monitore *m, const void *value, size_t n); // sets out_expected
+int monitore_compare(const t_monitore *m, size_t n);
+void monitore_free(t_monitore *m);
+
+#endif

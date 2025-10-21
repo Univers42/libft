@@ -5,99 +5,120 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 00:41:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/20 18:18:34 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/10/21 00:55:37 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/21 17:01:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/* Forward declarations for libft functions */
-void	*ft_memmove(void *dst, const void *src, size_t n);
-size_t	ft_strclen(const char *s, int c);
-char	*ft_strndup(const char *s, size_t n);
-
-static char	*ft_store_chunks(int fd, char *memory)
+t_state	append_from_buffer(t_file *scan, t_dynstr *line)
 {
-	char		*buffer;
-	t_ssize		bytes_read;
+	char	*nl;
+	size_t	chunk;
+	size_t	avail;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	while (ft_strclen(memory, '\n') == ft_strclen(memory, '\0'))
+	avail = (size_t)(scan->end - scan->cur);
+	nl = ft_strnchr(scan->cur, '\n', avail);
+	if (nl)
+		chunk = (size_t)(nl - scan->cur + 1);
+	else
+		chunk = avail;
+	if (ensure_cap(&line->buf, &line->cap, line->size + chunk + 1)
+		== ST_ERR_ALLOC)
+		return (ST_ERR_ALLOC);
+	ft_memmove(line->buf + line->size, scan->cur, chunk);
+	line->size += chunk;
+	line->buf[line->size] = '\0';
+	scan->cur += chunk;
+	return (nl != NULL);
+}
+
+t_state	refill(t_file *scan, int fd)
+{
+	ssize_t	readn;
+
+	readn = read(fd, scan, BUFFER_SIZE);
+	if (readn <= 0)
+		return ((int)readn);
+	scan->cur = scan->buf;
+	scan->end = scan->buf + readn;
+	return (ST_FILLED);
+}
+
+t_state	scan_nl(t_file *scan, t_dynstr *line, int fd)
+{
+	t_state	st;
+
+	while (ST_SCANNING)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read <= 0)
+		if (scan->cur >= scan->end)
 		{
-			free(buffer);
-			if (bytes_read == 0)
-				return (memory);
-			return (NULL);
+			st = refill(scan, fd);
+			if (st == ST_FILE_NOT_FOUND)
+				return (ST_FILE_NOT_FOUND);
+			if (st == 0)
+				return (ST_EOF);
+			if (st != ST_FILLED)
+				return (st);
 		}
-		buffer[bytes_read] = '\0';
-		memory = ft_strjoin_gnl(memory, buffer);
-		if (!memory)
-			return (free(buffer), NULL);
+		st = append_from_buffer(scan, line);
+		if (st == ST_ERR_ALLOC)
+			return (ST_ERR_ALLOC);
+		if (st)
+			break ;
 	}
-	return (free(buffer), memory);
-}
-
-static char	*ft_get_line(char *memory)
-{
-	char	*line;
-	size_t	newline_idx;
-
-	if (!memory || !*memory)
-		return (NULL);
-	newline_idx = ft_strclen(memory, '\n');
-	line = malloc(newline_idx + 2);
-	if (!line)
-		return (NULL);
-	ft_memmove(line, memory, newline_idx + 1);
-	line[newline_idx + 1] = '\0';
-	return (line);
-}
-
-static char	*ft_get_leftover(char *memory)
-{
-	char	*ptr;
-	char	*leftover;
-
-	ptr = memory;
-	while (*ptr && *ptr != '\n')
-		ptr++;
-	if (!*ptr)
-		return (free(memory), NULL);
-	leftover = ft_strndup(ptr + 1, ft_strclen(ptr + 1, '\0'));
-	return (free(memory), leftover);
-}
-
-t_fd_list	**get_gnl_fd_list(void)
-{
-	static t_fd_list	*fd_list = NULL;
-
-	return (&fd_list);
+	return (ST_FOUND_NL);
 }
 
 char	*get_next_line(int fd)
 {
-	t_fd_list	**fd_list_ptr;
-	t_fd_list	*fd_node;
-	char		*line;
+	static t_file	scan;
+	t_dynstr		line;
+	t_state			st;
 
-	fd_list_ptr = get_gnl_fd_list();
+	line = (t_dynstr){NULL, 0, 0};
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node = ft_get_fd_node(fd_list_ptr, (size_t)fd);
-	if (!fd_node)
+	if (scan.cur == NULL || scan.end == NULL)
+	{
+		scan.cur = scan.buf;
+		scan.end = scan.buf;
+	}
+	st = scan_nl(&scan, &line, fd);
+	if (st == ST_ERR_ALLOC || st == ST_FILE_NOT_FOUND)
+		return (reset(&line, &scan));
+	if (st == ST_EOF)
+	{
+		if (line.size > 0)
+			return (line.buf);
+		return (reset(&line, &scan));
+	}
+	if (line.size == 0)
+		return (reset(&line, NULL));
+	return (line.buf);
+}
+
+char	*get_next_line_bonus(int fd)
+{
+	static t_file	*scan[FD_MAX] = {0};
+	t_dynstr		line;
+	t_state			st;
+
+	line = (t_dynstr){NULL, 0, 0};
+	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node->memory = ft_store_chunks(fd, fd_node->memory);
-	if (!fd_node->memory)
-		return (ft_remove_fd_node(fd_list_ptr, (size_t)fd), NULL);
-	line = ft_get_line(fd_node->memory);
-	fd_node->memory = ft_get_leftover(fd_node->memory);
-	if (!line)
-		ft_remove_fd_node(fd_list_ptr, (size_t)fd);
-	return (line);
+	init(scan[fd]);
+	st = scan_nl(scan[fd], &line, fd);
+	if (st == ST_ERR_ALLOC || st == ST_FILE_NOT_FOUND)
+		return (reset(&line, scan[fd]));
+	if (st == ST_EOF)
+	{
+		if (line.size > 0)
+			return (line.buf);
+		return (reset(&line, scan[fd]));
+	}
+	if (line.size == 0)
+		return (reset(&line, NULL));
+	return (line.buf);
 }

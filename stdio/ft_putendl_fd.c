@@ -6,7 +6,7 @@
 /*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:50:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/15 13:12:00 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/09/12 00:54:50 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@
  */
 void	ft_putendl_fd(char *s, int fd)
 {
+	int	size;
+
 	if (s)
 	{
-		write(fd, s, ft_strlen(s));
-		write(fd, "\n", 1);
+		while (*s)
+			size = write(fd, s++, 1);
+		size = write(fd, "\n", 1);
 	}
+	(void)size;
 }
 
 //int main(void)

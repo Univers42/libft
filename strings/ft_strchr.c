@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:14:08 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:20:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,23 @@
  * f `c` is the null terminator, the function
  * returns a pointer to the terminating null byte.
  */
+//char	*ft_strchr(const char *s, int c)
+//{
+//	return (ft_memchr(s, c, ft_strlen(s) + 1));
+//}
+
 char	*ft_strchr(const char *s, int c)
 {
-	return (ft_memchr(s, c, ft_strlen(s) + 1));
+	char	*cur;
+
+	cur = (char *)s;
+	while (*cur)
+	{
+		if (*cur == (char)c)
+			return (cur);
+		cur++;
+	}
+	return (NULL);
 }
 //changes all the occurences of a word
 //int main(void)

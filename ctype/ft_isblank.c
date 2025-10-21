@@ -6,10 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 23:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:52:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:56:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_ctype.h"
 /**
  * Checks if the given character is a blank character.
  * In the "C" locale, blank characters are: space (' ')

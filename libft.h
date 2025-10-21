@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:38:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/03 01:27:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/11 23:38:58 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "ft_colors.h"
 # include "ft_stddef.h"
 # include "ft_sort.h"
-
+# include <immintrin.h>
 # include <unistd.h>
 # include <signal.h>
 # include <time.h>

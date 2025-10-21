@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_countwords.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:05:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/11 23:45:27 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "../ctype/ft_ctype.h"
-#include "../stdio/ft_stdio.h"
+#include "ft_ctype.h"
+#include "ft_stdio.h"
 
 int	ft_countwords(const char *s1, const char limiter)
 {

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   helper_super_trim.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:10:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:15:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/09/12 01:14:50 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_stddef.h"
 #include "ft_ctype.h"
+#include <limits.h>
 
 int	cumul_value(t_addr *ptr, t_addr target)
 {

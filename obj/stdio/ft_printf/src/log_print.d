@@ -1,0 +1,13 @@
+obj/stdio/ft_printf/src/log_print.o: stdio/ft_printf/src/log_print.c \
+ stdio/ft_printf/include/parser.h stdio/ft_printf/include/writer.h \
+ stdio/ft_printf/include/parser_private.h \
+ stdio/ft_printf/include/parser.h stdio/ft_printf/include/writer.h \
+ stdio/ft_printf/include/version_print.h \
+ stdio/ft_printf/include/parser_private.h
+stdio/ft_printf/include/parser.h:
+stdio/ft_printf/include/writer.h:
+stdio/ft_printf/include/parser_private.h:
+stdio/ft_printf/include/parser.h:
+stdio/ft_printf/include/writer.h:
+stdio/ft_printf/include/version_print.h:
+stdio/ft_printf/include/parser_private.h:

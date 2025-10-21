@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:14:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/15 13:13:19 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/09/08 21:31:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@
  */
 void	ft_putstr_fd(char *s, int fd)
 {
+	int	size;
+
 	if (s)
 	{
-		write(fd, s, ft_strlen(s));
+		while (*s)
+			size = write(fd, s++, 1);
 	}
+	(void)size;
 }
 
 //int main(void)

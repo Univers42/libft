@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:59:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/08 12:36:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:33:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include <stdarg.h>
 #include <stdlib.h>
-#include "../memory/ft_memory.h"
+#include "ft_memory.h"
 
 // Helper function to compute the total length of all strings
 static size_t	ft_strnjoin_total_length(const char *first, va_list args)

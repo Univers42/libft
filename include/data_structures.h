@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tab_mult.c                                      :+:      :+:    :+:   */
+/*   data_structures.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 18:02:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 19:54:50 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/06/14 19:59:27 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/21 19:01:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "algebra.h"
-#include "ft_stdio.h"
+#ifndef DATA_STRUCTURES_H
+# define DATA_STRUCTURES_H
 
-int	ft_tab_mult(int x)
-{
-	int	i;
+# include "../data_structures/lists/ft_list.h"
+# include "../data_structures/doubly_linked_list/ft_doubly_list.h"
+# include "../data_structures/circular_linked_list/ft_circular_list.h"
+# include "../data_structures/queue/ft_queue.h"
+# include "../data_structures/vector/ft_vector.h"
 
-	i = 0;
-	while (++i < 10)
-		ft_printf("%d x %d = %d\n", x, i, ft_multiply(x, i));
-	return (0);
-}
-
-//int main(int argc, char **argv)
-//{
-//    if (argc != 2)
-//        return 1;
-//    int x = atoi(argv[1]);
-//    ft_tab_mult(x);
-//    return 0;
-//}
+#endif

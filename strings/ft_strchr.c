@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:14:08 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 17:20:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:32:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 //#include "TDD/test.h"
 /**
  * Locates the first occurrence of the character `c` in the string `s`.

@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tab_mult.c                                      :+:      :+:    :+:   */
+/*   ft_debug.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 18:02:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 19:54:50 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/28 09:53:18 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/21 18:47:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "algebra.h"
-#include "ft_stdio.h"
+#ifndef FT_DEBUG_H
+# define FT_DEBUG_H
+# include "ft_stddef.h"
 
-int	ft_tab_mult(int x)
-{
-	int	i;
-
-	i = 0;
-	while (++i < 10)
-		ft_printf("%d x %d = %d\n", x, i, ft_multiply(x, i));
-	return (0);
-}
-
-//int main(int argc, char **argv)
-//{
-//    if (argc != 2)
-//        return 1;
-//    int x = atoi(argv[1]);
-//    ft_tab_mult(x);
-//    return 0;
-//}
+void	ft_print_ascii(unsigned char *p, unsigned int size);
+void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
+void	*ft_print_memory(void *addr, unsigned int size);
+void	*ft_print_array(int *arr, int size, char mode);
+void	print_array(int *arr, int size);
+#endif

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:30:16 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/01/26 21:00:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:32:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 //#include "TDD/test.h"
 //    size_t len = 0;
 //    while (s[len])

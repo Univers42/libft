@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/07/28 16:52:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:04:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	*sleep_and_store(void *arg)
 	int				current_index;
 
 	data = (t_thread_data *)arg;
-	usleep(data->value * 1000);
+	//usleep(data->value * 1000);
 	pthread_mutex_lock(data->mutex);
 	current_index = (*data->index)++;
 	data->result_array[current_index] = data->value;

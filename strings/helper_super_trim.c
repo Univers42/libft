@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_super_trim.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:10:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/12 01:14:50 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/10/21 20:34:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 #include "ft_ctype.h"
 #include <limits.h>
 
-int	cumul_value(t_addr *ptr, t_addr target)
+int cumul_value(t_addr *ptr, t_addr target)
 {
-	int	*val;
-	int	sign;
+	int *val;
+	int sign;
 
 	val = (int *)target;
 	sign = parse_sign(ptr);
@@ -26,22 +26,21 @@ int	cumul_value(t_addr *ptr, t_addr target)
 	return (*val);
 }
 
-int	extract_hex(t_addr *ptr, t_addr result)
+int extract_hex(t_addr *ptr, t_addr result)
 {
-	int	*color;
-	int	digit;
+	int *color;
+	int digit;
 
 	color = (int *)result;
 	*color = 0;
-	if (*(char *)*ptr == '0'
-		&& (*(char *)(*ptr + 1) == 'x' || *(char *)(*ptr + 1) == 'X'))
+	if (*(char *)*ptr == '0' && (*((char *)*ptr + 1) == 'x' || *((char *)*ptr + 1) == 'X'))
 	{
 		*ptr = (char *)*ptr + 2;
 		while (*(char *)*ptr)
 		{
 			digit = hex_digit(*(char *)*ptr);
 			if (digit == -1)
-				break ;
+				break;
 			*color = *color * 16 + digit;
 			*ptr = (char *)*ptr + 1;
 		}
@@ -51,7 +50,7 @@ int	extract_hex(t_addr *ptr, t_addr result)
 	return (*color);
 }
 
-void	advance_ptr(t_addr *ptr, char delimiter)
+void advance_ptr(t_addr *ptr, char delimiter)
 {
 	while (*(char *)*ptr && *(char *)*ptr != delimiter)
 		*ptr = (char *)*ptr + 1;

@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/04 00:36:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:58:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
-#include "../stdio/ft_stdio.h"
+#include "ft_stdio.h"
 
 static void	print_graph_row(int *values, int count, t_graph_params params)
 {

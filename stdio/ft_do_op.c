@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:10:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "algebra.h"
+#include "ft_math.h"
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
 #include <stdio.h>

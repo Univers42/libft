@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/03 14:49:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:32:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>

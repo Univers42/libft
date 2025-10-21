@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 14:19:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:33:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../strings/ft_string.h"
+#include "ft_string.h"
 
 /**
  * Trims the characters from both ends of 

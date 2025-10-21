@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:42:41 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 18:13:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:33:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 //#include "TDD/test.h"
 /**
  * Extracts a substring from the string `s`, 

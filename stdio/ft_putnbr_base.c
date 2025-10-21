@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:35:36 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/09/08 21:30:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:10:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  * @note meaning it uses the digits 0-9, 
  * @note the letters A-Z, and the symbols + and / to represent numbers.
  */
-#include "../libft.h"
+#include "libft.h"
 
 void	ft_putnbr_base(int nbr, char *radix)
 {

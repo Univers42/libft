@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:47:24 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:59:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-#include "../stdio/ft_stdio.h"
+#include "libft.h"
+#include "ft_stdio.h"
 
 void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr)
 {

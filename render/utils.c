@@ -6,12 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:35:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:01:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
 #include "ft_stdio.h"
+#include <unistd.h>
+#include <sys/time.h>
 
 void	ft_typewriter_effect(const char *text, int delay_ms)
 {
@@ -24,7 +26,7 @@ void	ft_typewriter_effect(const char *text, int delay_ms)
 	{
 		ft_printf("%c", text[i]);
 		fflush(stdout);
-		usleep(delay_ms * 1000);
+		sleep(delay_ms * 1);
 		i++;
 	}
 }
@@ -42,7 +44,7 @@ void	ft_print_loading_spinner(int duration_ms)
 	{
 		ft_printf("\r%c", spinner[frame % 4]);
 		fflush(stdout);
-		usleep(100000);
+		sleep(1);
 		elapsed += 100;
 		frame++;
 	}

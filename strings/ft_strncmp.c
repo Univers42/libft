@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:22:36 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 17:21:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:33:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 //#include "TDD/test.h"
 
 /**

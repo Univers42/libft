@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:38:07 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/04 18:14:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:33:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../render/ft_stddef.h"
+#include "ft_stddef.h"
 #include <stdlib.h>
 #include "ft_string.h"
 

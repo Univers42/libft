@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:48:55 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:59:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../render/ft_stddef.h"
-#include "../stdio/ft_stdio.h"
+#include "ft_stddef.h"
+#include "ft_stdio.h"
 #include <stdio.h>
 
 void	ft_print_ascii(unsigned char *p, unsigned int size)

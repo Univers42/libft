@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 02:57:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 17:10:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:11:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include "../../stdlib/ft_stdlib.h"
-# include "../ft_stdio.h"
-# include "../../strings/ft_string.h"
-
+# include "ft_stdlib.h"
+# include "ft_stdio.h"
+# include "ft_string.h"
+# include "ft_stddef.h"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
@@ -31,21 +31,6 @@
 # define FD_MAX 10000
 # define DFLT_CAP 64
 
-typedef enum e_state
-{
-	ST_FILE_NOT_FOUND = -1,
-	ST_OK = 0,
-	ST_FOUND_NL,
-	ST_INFO_BASE = 100,
-	ST_FILLED,
-	ST_SCANNING,
-	ST_RESET_ALLOC,
-	ST_RESET_PTR,
-	ST_EOF,
-	ST_ERR_BASE = 200,
-	ST_ERR_ALLOC,
-	ST_ERR_FATAL
-}	t_state;
 
 typedef struct s_file
 {

@@ -1,22 +1,23 @@
 {
-    "github.copilot.enable": {
-        "*": true,
-        "plaintext": false,
-        "markdown": false,
-        "scminput": false
-    },
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "get_next_line.h": "c",
-        "ft_string.h": "c",
-        "ft_stdlib.h": "c",
-        "ft_memory.h": "c",
-        "ft_stdio.h": "c",
-        "ft_debug.h": "c",
-        "random": "c",
-        "point.h": "c",
-        "input_handler.h": "c",
-        "map.h": "c",
-        "ft_ctype.h": "c"
-    }
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "get_next_line.h": "c",
+    "ft_string.h": "c",
+    "ft_stdlib.h": "c",
+    "ft_memory.h": "c",
+    "ft_stdio.h": "c",
+    "ft_debug.h": "c",
+    "random": "c",
+    "point.h": "c",
+    "input_handler.h": "c",
+    "map.h": "c",
+    "ft_ctype.h": "c",
+    "ft_stddef.h": "c"
+  }
 }

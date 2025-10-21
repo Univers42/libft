@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:02:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:23:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:04:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
+#include <stdint.h>
 
 static void	merge_helper(int *result, int *a, int a_size, int *counters)
 {

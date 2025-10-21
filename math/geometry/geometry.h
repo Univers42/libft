@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:40:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:03:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdint.h>
 # include <stdbool.h>
-# include "pixel.h"
+# include "./draw/pixel.h"
 # include <math.h>
 
 /* Provide aliases expected by point.h (reuse pixel.h types) */

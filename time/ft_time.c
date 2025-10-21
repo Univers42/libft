@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_time.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:38:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/09/12 00:02:53 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/10/21 20:57:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "ft_time.h"
 /**
  * recreating ft_time enthropy
  */
@@ -20,26 +20,26 @@
 // Extract meaningful bits from stack address
 	// Stack addresses change between program runs
 // keep lower 32 bits
-//unsigned long	ft_time_stack(void)
+//t_time	ft_time_stack(void)
 //{
 //	char			stack_var;
-//	unsigned long	addr;
+//	t_time	addr;
 //
-//	addr = (unsigned long)&stack_var;	
+//	addr = (t_time)&stack_var;	
 //	return (addr & 0xFFFFFFFF);
 //}
 
 // Method 2: Heap address entropy  
-//unsigned long	ft_time_heap(void)
+//t_time	ft_time_heap(void)
 //{
 //	void			*heap_ptr;;
-//	unsigned long	addr;
+//	t_time	addr;
 //
 //	heap_ptr = malloc(1);
 //	addr = 0;
 //	if (heap_ptr)
 //	{
-//		addr = (unsigned long)heap_ptr;
+//		addr = (t_time)heap_ptr;
 //		free(heap_ptr);
 //		return (addr & 0xFFFFFFFF);
 //	}
@@ -47,47 +47,47 @@
 //}
 
 // Method 3: Multiple stack variables for more entropy
-//unsigned long ft_time_multi_stack(void)
+//t_time ft_time_multi_stack(void)
 //{
 //	char a, b, c, d;
-//	unsigned long addr_a = (unsigned long)&a;
-//	unsigned long addr_b = (unsigned long)&b;  
-//	unsigned long addr_c = (unsigned long)&c;
-//	unsigned long addr_d = (unsigned long)&d;
+//	t_time addr_a = (t_time)&a;
+//	t_time addr_b = (t_time)&b;  
+//	t_time addr_c = (t_time)&c;
+//	t_time addr_d = (t_time)&d;
 //	
 //	// Combine multiple stack addresses
 //	return (addr_a ^ (addr_b << 8) ^ (addr_c << 16) ^ (addr_d << 24));
 //}
 
 // Method 4: Function address entropy
-//unsigned long	get_function_addr(void)
+//t_time	get_function_addr(void)
 //{
-//	return ((unsigned long)&get_function_addr);
+//	return ((t_time)&get_function_addr);
 //}
 
 /**
 Combine function addr with stack
 */
-//unsigned long	ft_time_function(void)
+//t_time	ft_time_function(void)
 //{
-//	unsigned long	func_addr;
+//	t_time	func_addr;
 //	char			stack_var;
-//	unsigned long	stack_addr;
+//	t_time	stack_addr;
 //
 //	fun_addr = get_function_addr();
-//	stack_addr = (unsigned long)&stack_var;
+//	stack_addr = (t_time)&stack_var;
 //	return ((func_addr ^ stack_addr) & 0xFFFFFFFF);
 //}
 
 // Method 5: Counter-based with stack entropy
 //Combine counter with current stack position
-//unsigned long	ft_time_counter(void)
+//t_time	ft_time_counter(void)
 //{
-//	static unsigned long	counter = 0;
+//	static t_time	counter = 0;
 //	char					stack_var;
-//	unsigned long			stack_addr;
+//	t_time			stack_addr;
 //
-//	stack_addr = (unsigned long)&stack_var;
+//	stack_addr = (t_time)&stack_var;
 //	return ((++counter * 1000) + (stack_addr & 0xFFF));
 //}
 
@@ -96,18 +96,18 @@ Combine function addr with stack
 // not returning the address itself
 // Combine current address value with recursive call, not returning
 //the addresss itself
-//unsigned long	recursive_entropy(int depth)
+//t_time	recursive_entropy(int depth)
 //{
 //	char			local_var;
-//	unsigned long	entropy;
+//	t_time	entropy;
 //
-//	entropy = (unsigned long)&local_var;
+//	entropy = (t_time)&local_var;
 //	if (depth <= 0)
 //		return (entropy);
 //	return (entropy ^ recursive_entropy(depth - 1));
 //}
 
-//unsigned long	ft_time_recursive(void)
+//t_time	ft_time_recursive(void)
 //{
 //	return (recursive_entropy(5) & 0xFFFFFFFF);
 //}
@@ -120,34 +120,34 @@ Heap entropy (if malloc is allowed)
 counter entropy
 function address entropy
 */
-unsigned long	ft_time(void)
+t_time	ft_time(void)
 {
-	static unsigned long	counter = 0;
-	unsigned long			entropy;
+	static t_time	counter = 0;
+	t_time			entropy;
 	void					*heap_ptr;
 	char					stack_var;
 
 	entropy = 0;
-	entropy ^= (unsigned long)&stack_var;
+	entropy ^= (t_time)&stack_var;
 	heap_ptr = malloc(sizeof(int));
 	if (heap_ptr)
 	{
-		entropy ^= (unsigned long)heap_ptr;
+		entropy ^= (t_time)heap_ptr;
 		free(heap_ptr);
 	}
 	entropy ^= ++counter;
-	entropy ^= (unsigned long)&ft_time;
+	entropy ^= (t_time)&ft_time;
 	return (entropy & 0xFFFFFFFF);
 }
 
 // Simple version if malloc is not allowed
-unsigned long	ft_time_simple(void)
+t_time	ft_time_simple(void)
 {
-	static unsigned long	counter = 0;
-	unsigned long			stack_addr;
-	char					stack_var;
+	static t_time	counter = 0;
+	t_time			stack_addr;
+	char			stack_var;
 
-	stack_addr = (unsigned long)&stack_var;
+	stack_addr = (t_time)&stack_var;
 	return ((stack_addr ^ (++counter * 12345)) & 0xFFFFFFFF);
 }
 

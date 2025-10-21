@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 02:00:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:58:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
-#include "../stdio/ft_stdio.h"
+#include "ft_stdio.h"
 #include "ft_colors.h"
 
 void	ft_print_menu(char **options, int count, int selected)

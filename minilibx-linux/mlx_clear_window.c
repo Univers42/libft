@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:30:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 14:30:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:03:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int		mlx_clear_window(t_xvar *xvar,t_win_list *win)
 {
   XClearWindow(xvar->display,win->window);
   if (xvar->do_flush)
-    XFlush(xvar->display);
+    return(XFlush(xvar->display));
+  return (0);
 }

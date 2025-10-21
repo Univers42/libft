@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/09/12 00:59:49 by syzygy           ###   ########.fr        #
+#    Updated: 2025/10/22 00:31:13 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,7 +104,7 @@ SRC_DIRS = 	data_structures/queue data_structures/circular_linked_list data_stru
 					stdlib/arena stdlib/pool stdlib/slab classes/render/event \
 					math/geometry math/geometry/draw math/geometry/effects math/geometry/matrices/ math/geometry/move math/geometry/quaternion \
 					math/geometry/shapes math/geometry/view math/algebra time \
-					ctype debug math memory render stdio stdio/ft_printf/src stdlib strings sort classes/render/inputHandler
+					ctype debug math memory render stdio stdio/ft_printf/src stdlib strings sort classes/render/inputHandler stdlib/strto
 
 # Compute effective source directories after excluding tagged ones
 SRC_DIRS_EFF := $(filter-out $(SKIP_DIRS),$(SRC_DIRS))

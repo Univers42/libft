@@ -1,24 +1,24 @@
 # If you change SRCS, always run 'make fclean' before 'make' or 'make test'
 
-CC		= 	cc
-CFLAGS	= 	-Wall -Wextra -Werror -pedantic -Wshadow -std=c99 -I../include
-LDFLAGS	= 	-MMD -MP
-NAME	= 	ctype.a
-SRCS	=	ft_hex_digit.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isblank.c ft_isdigit.c ft_isgraph.c \
-			ft_islower.c ft_isprint.c ft_isspace.c ft_isupper.c ft_isxdigit.c ft_tolower.c ft_toupper.c \
+CC			= 		cc
+CFLAGS		= 		-Wall -Wextra -Werror -pedantic -Wshadow -std=c99 -I../include -I./ft_printf/include
+DEPFLAGS	= 		-MMD -MP
+NAME_LIB	= 		memory
+NAME		= 		$(NAME_LIB).a		
+SRCS		=  		ft_bzero.c ft_memchr.c ft_memcmp.c ft_memmove.c ft_memset.c ft_reverse_string.c \
+					ft_swap.c memory_tracker.c search_and_replace.c
 
+OBJ_DIR		=		obj
+TEST_DIR	=		unit_test
 
-OBJ_DIR	=	obj
-TEST_DIR = unit_test
+TEST_SRCS	=		$(TEST_DIR)/test.c
+TEST_OBJS	=		$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
+TEST_BIN	=		test_$(NAME_LIB)
 
-TEST_SRCS = $(TEST_DIR)/test.c
-TEST_OBJS = $(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
-TEST_BIN = test_ctype
-
-OBJS	= 	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
-DPDC	= 	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
-RM		:=	rm -rf
-AR		:=	ar rcs
+OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+DPDC		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
+RM			:=		rm -rf
+AR			:=		ar rcs
 
 all: $(NAME)
 
@@ -26,6 +26,7 @@ $(NAME):$(OBJS)
 	$(AR) $@ $^
 
 $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 $(OBJ_DIR):

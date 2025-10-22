@@ -6,7 +6,7 @@ DEPFLAGS	= 		-MMD -MP
 NAME_LIB	= 		memory
 NAME		= 		$(NAME_LIB).a		
 SRCS		=  		ft_bzero.c ft_memchr.c ft_memcmp.c ft_memmove.c ft_memset.c ft_reverse_string.c \
-					ft_swap.c memory_tracker.c search_and_replace.c ft_memccpy.c
+					ft_swap.c memory_tracker.c search_and_replace.c ft_memccpy.c tset
 
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test

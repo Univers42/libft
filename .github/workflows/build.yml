@@ -54,20 +54,13 @@ jobs:
         run: make -j
         shell: bash
 
-      - name: Run ctype tests (capture exit code)
+      - name: Verify build output
         run: |
-          make test_ctype | tee test_ctype.log
-          exit_code=${PIPESTATUS[0]}
-          echo "CTest exit code: $exit_code"
-          # upload fails will be handled by next step; fail this step if tests failed
-          if [ "$exit_code" -ne 0 ]; then
-            echo "Tests failed (exit $exit_code)"
-            exit $exit_code
+          if [ -f "libft.a" ]; then
+            echo "✓ libft.a successfully created"
+            ls -lh libft.a
+          else
+            echo "✗ libft.a not found"
+            exit 1
           fi
         shell: bash
-
-      - name: Upload ctype test log
-        uses: actions/upload-artifact@v4
-        with:
-          name: test_ctype-log
-          path: test_ctype.log

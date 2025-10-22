@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/22 22:17:18 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/23 00:17:48 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 # Compiler and flags (allow overriding from sub-Makefiles)
 CC ?= cc
 CFLAGS ?= -Wall -Wextra -Werror -MMD -g -O -fPIC
-CFLAGS_SHARED ?= -Wall -Werror -Wextra -shared
+CFLAGS_SHARED ?= -Wall -Werror -Wextra -Wnewline-eof -shared
 OUT ?= libft.so
 LDFLAGS ?= -L. -lft -pthread -lm
 AR ?= ar

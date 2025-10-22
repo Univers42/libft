@@ -51,7 +51,11 @@ jobs:
           fi
 
       - name: Build project
-        run: make -j
+        run: make all
+        shell: bash
+
+      - name: List build output (debug)
+        run: ls -la
         shell: bash
 
       - name: Verify build output

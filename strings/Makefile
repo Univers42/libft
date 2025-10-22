@@ -4,7 +4,7 @@ include ../build/common.mk
 include ../build/debug.mk
 
 # project-specific settings
-CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I./ft_printf/include
+CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
 DEPFLAGS = -MMD -MP
 
 NAME_LIB	= 		string

@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/22 19:04:46 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/22 19:11:31 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,10 +81,10 @@ MLX_ALT_LIB ?= $(MINILIBX_DIR)/mlx.a
 MLX_FLAGS ?=
 
 # Detect availability of MiniLibX (directory + makefile)
-MLX_ENABLED	:= 0
+MLX_ENABLED	:= 1
 ifneq ($(wildcard $(MINILIBX_DIR)),)
 ifneq ($(or $(wildcard $(MINILIBX_DIR)/Makefile),$(wildcard $(MINILIBX_DIR)/makefile)),)
-MLX_ENABLED	:= 1
+MLX_ENABLED	:= 0
 endif
 endif
 

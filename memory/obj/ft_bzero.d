@@ -1,0 +1,3 @@
+obj/ft_bzero.o: ft_bzero.c ../include/ft_memory.h ../include/ft_stddef.h
+../include/ft_memory.h:
+../include/ft_stddef.h:

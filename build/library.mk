@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/05/27 19:10:29 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/22 22:31:31 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 # ════════════════════════════════════════════════════════════════════════════
 
 # Include common definitions
-include $(BUILD_DIR)/common.mk
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+include $(THIS_DIR)common.mk
 
 # Progress counter
 COUNTER = 0

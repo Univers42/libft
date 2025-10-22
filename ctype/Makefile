@@ -1,46 +1,97 @@
-# If you change SRCS, always run 'make fclean' before 'make' or 'make test'
+# friendly, readable Makefile for the ctype module
 
-CC		= 	cc
-CFLAGS	= 	-Wall -Wextra -Werror -I../include
-LDFLAGS	= 	-MMD -MP
-NAME	= 	ctype.a
-SRCS	=	ft_hex_digit.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isblank.c ft_isdigit.c ft_isgraph.c \
-			ft_islower.c ft_isprint.c ft_isspace.c ft_isupper.c ft_isxdigit.c ft_tolower.c ft_toupper.c
+# reuse global common helpers (colors, print_status, create_dirs, etc.)
+BUILD_DIR := ../build
+include $(BUILD_DIR)/common.mk
 
-OBJ_DIR = obj
-OBJS	= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
-TESTOBJ = $(OBJ_DIR)/test.o
-TESTBIN = test_ctype
+# toolchain
+CC ?= $(CC)
+CFLAGS += -I../include
+DEPFLAGS = -MMD -MP
 
-all: $(NAME)
+NAME = ctype.a
 
-$(NAME): $(OBJS)
-	ar rcs $@ $^
+SRCS = \
+	ft_hex_digit.c \
+	ft_isalnum.c \
+	ft_isalpha.c \
+	ft_isascii.c \
+	ft_isblank.c \
+	ft_isdigit.c \
+	ft_isgraph.c \
+	ft_islower.c \
+	ft_isprint.c \
+	ft_isspace.c \
+	ft_isupper.c \
+	ft_isxdigit.c \
+	ft_tolower.c \
+	ft_toupper.c
 
+OBJ_DIR := obj
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+DEPS := $(OBJS:.o=.d)
+
+TESTOBJ := $(OBJ_DIR)/test.o
+TESTBIN := test_ctype
+
+TEST_FRAMEWORK_LIB := ../testing/libtest_framework.a
+LIBFT := ../libft.a
+
+.PHONY: all test clean fclean re
+
+# default
+all: pre_build $(NAME)
+
+pre_build:
+	$(call create_dirs)
+	$(call print_status,$(CYAN),SETUP,Preparing ctype build...)
+
+# archive library
+$(NAME):
+	$(call print_status,$(MAGENTA),ARCHIVE,Ensuring object files and creating $@)
+	@set -e; \
+	for src in $(SRCS); do \
+		srcpath=$$src; \
+		obj="$(OBJ_DIR)/$${srcpath%.c}.o"; \
+		if [ ! -f "$$obj" ]; then \
+			printf "[COMP] building %s -> %s\n" "$$srcpath" "$$obj"; \
+			$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(DEPFLAGS) -c "$$srcpath" -o "$$obj"; \
+		fi; \
+	done; \
+	$(AR) $(ARFLAGS) $@ $(OBJS)
+	$(call print_status,$(GREEN),DONE,$@ created)
+
+# compile rule
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(call print_status,$(YELLOW),COMP,Compiling $<)
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(DEPFLAGS) -c $< -o $@
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-# Path to the test framework static library (adjust if needed)
-TEST_FRAMEWORK_DIR = ../testing
-TEST_FRAMEWORK_LIB = $(TEST_FRAMEWORK_DIR)/libtest_framework.a
-LIBFT = ../libft.a
-
-# Build test binary (links all ctype code + test.c + test framework lib + libft.a)
-$(TESTBIN): $(OBJS) $(TESTOBJ) $(TEST_FRAMEWORK_LIB) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@
+# Test binary (links ctype + test framework + libft)
+$(TESTBIN): $(OBJS) $(TESTOBJ)
+	$(call print_status,$(MAGENTA),LINK,Linking test binary)
+	@$(CC) $(CFLAGS) $^ $(TEST_FRAMEWORK_LIB) $(LIBFT) -o $@
+	$(call print_status,$(GREEN),DONE,Test binary ready: $@)
 
 test: $(TESTBIN)
-	@echo "Run ./$(TESTBIN) to execute tests."
+	$(call print_status,$(CYAN),TEST,Running ctype tests)
+	@./$(TESTBIN)
 
+# helpers to ensure top-level libft.a exists when requested
+$(LIBFT):
+	$(call print_status,$(YELLOW),LIB,Requesting top-level libft.a)
+	@$(MAKE) -C .. libft.a
+
+# Clean
 clean:
-	rm -rf $(OBJ_DIR)
+	$(call print_status,$(RED),CLEAN,Removing object files)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME) $(TESTBIN)
+	$(call print_status,$(RED),FCLEAN,Removing libraries and test binary)
+	@rm -f $(NAME) $(TESTBIN)
 
 re: fclean all
 
-.PHONY: all clean fclean re test
+# include dependency files
+-include $(DEPS)

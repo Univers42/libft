@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:55:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/22 18:01:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:01:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,6 @@ void run_edge_batch(t_suite *suite, const char *batch_name,
 		run_edge_test(suite, test_name, fn_test, &cases[i]);
 		i++;
 	}
-}
-
-static int compare_results(void *actual, void *expected, t_case *tc)
-{
-	if (tc->cmp)
-		return (tc->cmp(actual, expected, tc->data_size));
-	return (cmp_values(actual, expected, tc->type, tc->data_size));
-}
-
-static t_test init_result(const char *name, t_case *tc)
-{
-	t_test result;
-
-	memset(&result, 0, sizeof(t_test));
-	result.test_name = (char *)name; /* cast to avoid discarded-qualifiers error */
-	result.type = tc->type;
-	result.st = TEST_PASS;
-	result.expected_origin = ORIGIN_UNKNOWN;
-	result.actual_origin = ORIGIN_UNKNOWN;
-	result.expected_owned = FALSE;
-	result.actual_owned = FALSE;
-	return (result);
 }
 
 void run_var_test(t_suite *suite, const char *name,

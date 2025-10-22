@@ -3,7 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I../include
 
 OBJ_DIR = obj
-AR = ar rcs
+AR ?= ar
+ARFLAGS ?= rcs
 RM = rm -rf
 LIBFT = ../libft.a
 
@@ -41,10 +42,11 @@ test_multi: $(MULTI_OBJ) $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(MULTI_OBJ) $(OBJS) $(LIBFT)
 
 $(STATIC_LIB): $(OBJS)
-	$(AR) $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 $(LIBFT):
-	make -C ..
+	# Ensure consolidated ../libft.a exists by invoking the libft.a target at repo root
+	$(MAKE) -C .. libft.a
 
 clean:
 	$(RM) $(OBJ_DIR)

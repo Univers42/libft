@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 23:01:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 23:32:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:51:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int64_t finalize_negative_conversion(t_conv_ctx *ctx)
 		errno = ERANGE;
 		return (ctx->type_info.min_val);
 	}
-	result = -(int64_t)ctx->uval;
+	result = (-(int64_t)ctx->uval);
 	return (result);
 }
 
@@ -63,6 +63,18 @@ static int64_t finalize_conversion(t_conv_ctx *ctx)
 	return (result);
 }
 
+const t_type_info *get_type_info(t_type type)
+{
+	size_t count;
+	const type_info_entry *table = get_type_info_table(&count);
+	for (size_t i = 0; i < count; i++)
+	{
+		if (table[i].type == type)
+			return ((const t_type_info *)&table[i]);
+	}
+	return (NULL);
+}
+
 // UNIFIED CONVERSION FUNCTION - Handles all integer types
 int64_t ft_strto(const char *nptr, char **endptr, int base, t_type type)
 {
@@ -81,8 +93,6 @@ int64_t ft_strto(const char *nptr, char **endptr, int base, t_type type)
 		ctx.state = ST_WHITESPACE;
 	while (ctx.state != ST_DONE && ctx.state != ST_ERR_BASE)
 	{
-		// Use the state handler lookup directly
-		extern t_fn_state lookup_state_fn(t_state state); // declare if not already
 		fn = lookup_state_fn(ctx.state);
 		if (!fn)
 			break;

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:38:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 20:57:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:27:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ t_time	ft_time(void)
 {
 	static t_time	counter = 0;
 	t_time			entropy;
-	void					*heap_ptr;
-	char					stack_var;
+	void			*heap_ptr;
+	char			stack_var;
 
 	entropy = 0;
-	entropy ^= (t_time)&stack_var;
+	entropy ^= (t_time)(&stack_var);
 	heap_ptr = malloc(sizeof(int));
 	if (heap_ptr)
 	{
@@ -136,7 +136,7 @@ t_time	ft_time(void)
 		free(heap_ptr);
 	}
 	entropy ^= ++counter;
-	entropy ^= (t_time)&ft_time;
+	entropy ^= (t_time)(&ft_time);
 	return (entropy & 0xFFFFFFFF);
 }
 
@@ -147,7 +147,7 @@ t_time	ft_time_simple(void)
 	t_time			stack_addr;
 	char			stack_var;
 
-	stack_addr = (t_time)&stack_var;
+	stack_addr = (t_time)(&stack_var);
 	return ((stack_addr ^ (++counter * 12345)) & 0xFFFFFFFF);
 }
 

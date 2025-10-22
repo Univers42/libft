@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/22 23:00:39 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/23 00:10:04 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/23 00:24:03 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,3 +96,12 @@ re:
 # Check if selected modules are up to date (rebuilds if needed, reports status)
 check_updated:
 	@sh -c 'for d in $(SUBDIRS); do if [ -f "$$d/Makefile" ]; then printf "\033[1;36m\033[1m[CHECK] Checking $$d...\033[0m\n"; if $(MAKE) -C $$d -q all >/dev/null 2>&1; then printf "\033[1;32m\033[1m[CHECK] $$d is up to date\033[0m\n"; else printf "\033[1;33m\033[1m[CHECK] $$d needs rebuild\033[0m\n"; fi; fi; done'
+
+norminette:
+	@output="$$(find . \( -path "./minilibx-linux" -o -path "./testing" \) -prune -o -name "*.c" -exec norminette {} + 2>/dev/null)"; \
+	if echo "$$output" | grep -q "Error"; then \
+		echo "$$output" | grep "Error"; \
+		echo "❌ Norminette errors detected!"; \
+	else \
+		echo "✅ All files passed norminette!"; \
+	fi

@@ -6,54 +6,76 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 23:03:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 23:33:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:51:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "conv.h"
-
+#include "ft_ctype.h"
 
 const t_type_info *get_type_info(t_type type)
 {
-    size_t count, i;
-    const type_info_entry *table = get_type_info_table(&count);
+	size_t count;
+	size_t i;
+	const type_info_entry *table = get_type_info_table(&count);
 
-    for (i = 0; i < count; ++i)
-    {
-        if (table[i].type == type)
-            return (const t_type_info *)&table[i];
-    }
-    return NULL;
+	i = -1;
+	while (++i < count)
+	{
+		if (table[i].type == type)
+			return ((const t_type_info *)&table[i]);
+	}
+	return (NULL);
 }
 
 // Convert digit character to value
 int char_to_digit(char c, int base)
 {
-    int digit;
+	int digit;
 
-    if (isdigit((unsigned char)c))
-        digit = c - '0';
-    else if (isalpha((unsigned char)c))
-        digit = tolower((unsigned char)c) - 'a' + 10;
-    else
-        return (-1);
-    if (digit >= base)
-        return (-1);
-    return (digit);
+	if (ft_isdigit((unsigned char)c))
+		digit = c - '0';
+	else if (ft_isalpha((unsigned char)c))
+		digit = (ft_tolower((unsigned char)c) - 'a' + 10);
+	else
+		return (-1);
+	if (digit >= base)
+		return (-1);
+	return (digit);
 }
 
 // Initialize conversion context
 void init_conv_ctx(t_conv_ctx *ctx, const char *nptr, char **endptr,
-                   int base, t_type type)
+				   int base, t_type type)
 {
-    ctx->ptr = nptr;
-    ctx->start = nptr;
-    ctx->endptr = endptr;
-    ctx->base = base;
-    ctx->type = type;
-    ctx->type_info = *get_type_info(type);
-    ctx->uval = 0;
-    ctx->negative = false;
-    ctx->any_digit = false;
-    ctx->state = ST_INIT;
+	ctx->ptr = nptr;
+	ctx->start = nptr;
+	ctx->endptr = endptr;
+	ctx->base = base;
+	ctx->type = type;
+	ctx->type_info = *get_type_info(type);
+	ctx->uval = 0;
+	ctx->negative = false;
+	ctx->any_digit = false;
+	ctx->state = ST_INIT;
+}
+
+// Lookup state handler function
+t_fn_state lookup_state_fn(t_state state)
+{
+	switch (state)
+	{
+	case ST_WHITESPACE:
+		return (state_whitespace);
+	case ST_SIGN:
+		return (state_sign);
+	case ST_BASE_PREFIX:
+		return (state_base_prefix);
+	case ST_DIGITS:
+		return (state_digits);
+	case ST_OVERFLOW:
+		return (state_overflow);
+	default:
+		return (NULL);
+	}
 }

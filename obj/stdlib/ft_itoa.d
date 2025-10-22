@@ -1,2 +1,0 @@
-obj/stdlib/ft_itoa.o: stdlib/ft_itoa.c include/ft_stddef.h
-include/ft_stddef.h:

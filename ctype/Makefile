@@ -1,56 +1,46 @@
 # If you change SRCS, always run 'make fclean' before 'make' or 'make test'
 
 CC		= 	cc
-CFLAGS	= 	-Wall -Wextra -Werror -pedantic -Wshadow -std=c99 -I../include
+CFLAGS	= 	-Wall -Wextra -Werror -I../include
 LDFLAGS	= 	-MMD -MP
 NAME	= 	ctype.a
 SRCS	=	ft_hex_digit.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isblank.c ft_isdigit.c ft_isgraph.c \
-			ft_islower.c ft_isprint.c ft_isspace.c ft_isupper.c ft_isxdigit.c ft_tolower.c ft_toupper.c \
+			ft_islower.c ft_isprint.c ft_isspace.c ft_isupper.c ft_isxdigit.c ft_tolower.c ft_toupper.c
 
-
-OBJ_DIR	=	obj
-TEST_DIR = unit_test
-
-TEST_SRCS = $(TEST_DIR)/test.c
-TEST_OBJS = $(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
-TEST_BIN = test_ctype
-
-OBJS	= 	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
-DPDC	= 	$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
-RM		:=	rm -rf
-AR		:=	ar rcs
+OBJ_DIR = obj
+OBJS	= $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+TESTOBJ = $(OBJ_DIR)/test.o
+TESTBIN = test_ctype
 
 all: $(NAME)
 
-$(NAME):$(OBJS)
-	$(AR) $@ $^
+$(NAME): $(OBJS)
+	ar rcs $@ $^
 
-$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/$(TEST_DIR):
-	mkdir -p $(OBJ_DIR)/$(TEST_DIR)
+# Path to the test framework static library (adjust if needed)
+TEST_FRAMEWORK_DIR = ../testing
+TEST_FRAMEWORK_LIB = $(TEST_FRAMEWORK_DIR)/libtest_framework.a
+LIBFT = ../libft.a
 
-# Build test object
-$(OBJ_DIR)/$(TEST_DIR)/%.o : $(TEST_DIR)/%.c | $(OBJ_DIR)/$(TEST_DIR)
-	$(CC) $(CFLAGS) -I. -c $< -o $@
+# Build test binary (links all ctype code + test.c + test framework lib + libft.a)
+$(TESTBIN): $(OBJS) $(TESTOBJ) $(TEST_FRAMEWORK_LIB) $(LIBFT)
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Test target
-test: $(NAME) $(TEST_OBJS)
-	$(CC) $(CFLAGS) $(TEST_OBJS) $(OBJS) -o $(TEST_BIN)
-	@echo "Run ./$(TEST_BIN) to execute tests."
+test: $(TESTBIN)
+	@echo "Run ./$(TESTBIN) to execute tests."
 
 clean:
-	$(RM) $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME) $(TEST_BIN)
+	rm -f $(NAME) $(TESTBIN)
 
 re: fclean all
 
 .PHONY: all clean fclean re test
-
--include $(DPDC)

@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/22 00:31:13 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/22 19:04:46 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -346,6 +346,10 @@ libft.so: $(OBJS)
 	@echo "$(BRIGHT_MAGENTA)🔗 Linking shared library libft.so...$(RESET)"
 	@$(CC) $(CFLAGS_SHARED) -o libft.so $(OBJS)
 	@echo "$(BRIGHT_GREEN)✓ libft.so created successfully!$(RESET)"
+
+test_ctype:
+	$(MAKE) -C ctype/ test
+	./ctype/test_ctype
 
 help:
 	@$(call log_info,Makefile targets:)

@@ -18,6 +18,7 @@
     "input_handler.h": "c",
     "map.h": "c",
     "ft_ctype.h": "c",
-    "ft_stddef.h": "c"
+    "ft_stddef.h": "c",
+    "test.h": "c"
   }
 }

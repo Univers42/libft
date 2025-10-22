@@ -35,3 +35,17 @@ jobs:
       # Step 3: Build the project
       - name: Build project
         run: make -j
+
+      # Step 4: Run the ctype tests and capture output
+      - name: Run ctype tests
+        run: |
+          # run the named make target, capture output and preserve exit status
+          make test_ctype | tee test_ctype.log
+          exit ${PIPESTATUS[0]}
+        shell: bash
+
+      - name: Upload ctype test log
+        uses: actions/upload-artifact@v4
+        with:
+          name: test_ctype-log
+          path: test_ctype.log

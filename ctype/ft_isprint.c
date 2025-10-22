@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:08:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 17:19:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:45:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 Shifting right by 31 isolates this sign bit (1 if out of range, 0 if in range)
 XORing with 1 inverts this (1 if in range, 0 if out of range)
  */
-int	ft_isprint(int c)
+int ft_isprint(int c)
 {
-	return (c >= 32 && c <= 120);
+	return (c >= 32 && c <= 126);
 }
 //
 // #include <stdio.h>

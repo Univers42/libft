@@ -42,9 +42,14 @@ $(OBJ_DIR)/$(TEST_DIR):
 $(OBJ_DIR)/$(TEST_DIR)/%.o : $(TEST_DIR)/%.c | $(OBJ_DIR)/$(TEST_DIR)
 	$(CC) $(CFLAGS) -I. -c $< -o $@
 
+# Path to the test framework static library (adjust if needed)
+TEST_FRAMEWORK_DIR = ../testing
+TEST_FRAMEWORK_LIB = $(TEST_FRAMEWORK_DIR)/libtest_framework.a
+LIBFT = ../libft.a
+
 # Test target
-test: $(NAME) $(TEST_OBJS)
-	$(CC) $(CFLAGS) $(TEST_OBJS) $(OBJS) -o $(TEST_BIN)
+test: $(NAME) $(TEST_OBJS) $(TEST_FRAMEWORK_LIB) $(LIBFT)
+	$(CC) $(CFLAGS) $(TEST_OBJS) $(OBJS) $(TEST_FRAMEWORK_LIB) $(LIBFT) -o $(TEST_BIN)
 	@echo "Run ./$(TEST_BIN) to execute tests."
 
 clean:

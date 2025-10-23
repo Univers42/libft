@@ -48,7 +48,7 @@ endef
 
 # Function to print status messages
 define print_status
-	printf "$(1)$(BOLD)[$(2)] $(3)$(RESET)\n"
+	@printf "$(1)$(BOLD)[$(2)] $(3)$(RESET)\n"
 endef
 
 # Function to clean object files (use rm -rf to remove directory reliably)

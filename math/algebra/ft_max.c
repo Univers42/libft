@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:05:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "algebra.h"
+#include <stdlib.h>
 
 int	ft_max(int a, int b)
 {
@@ -21,7 +22,12 @@ int	ft_max(int a, int b)
 	mask = diff >> (sizeof(int) * 8 - 1);
 	return ((a & ~mask) | (b & mask));
 }
-//
+
+size_t	ft_max2(size_t a, size_t b)
+{
+	return ((a < b) * b + (a >= b) * a);
+}
+
 //int main(int argc, char **argv)
 //{
 //    if (argc != 3)

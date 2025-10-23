@@ -6,16 +6,16 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 23:01:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:51:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:02:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "conv.h"
 
 // Finalize conversion and apply type constraints
-static int64_t finalize_negative_conversion(t_conv_ctx *ctx)
+static int64_t	finalize_negative_conversion(t_conv_ctx *ctx)
 {
-	int64_t result;
+	int64_t	result;
 
 	if (ctx->uval > (uint64_t)-(ctx->type_info.min_val))
 	{
@@ -26,9 +26,9 @@ static int64_t finalize_negative_conversion(t_conv_ctx *ctx)
 	return (result);
 }
 
-static int64_t finalize_positive_conversion(t_conv_ctx *ctx)
+static int64_t	finalize_positive_conversion(t_conv_ctx *ctx)
 {
-	int64_t result;
+	int64_t	result;
 
 	if (ctx->uval > ctx->type_info.max_val)
 	{
@@ -39,9 +39,9 @@ static int64_t finalize_positive_conversion(t_conv_ctx *ctx)
 	return (result);
 }
 
-static int64_t finalize_conversion(t_conv_ctx *ctx)
+static int64_t	finalize_conversion(t_conv_ctx *ctx)
 {
-	int64_t result;
+	int64_t	result;
 
 	if (!ctx->any_digit)
 	{
@@ -63,23 +63,24 @@ static int64_t finalize_conversion(t_conv_ctx *ctx)
 	return (result);
 }
 
-const t_type_info *get_type_info(t_type type)
+const t_type_info	*get_type_info(t_type type)
 {
-	size_t count;
-	const type_info_entry *table = get_type_info_table(&count);
-	for (size_t i = 0; i < count; i++)
-	{
+	size_t					count;
+	const type_info_entry	*table = get_type_info_table(&count);
+	size_t					i;
+
+	i = -1;
+	while (++i < count)
 		if (table[i].type == type)
 			return ((const t_type_info *)&table[i]);
-	}
 	return (NULL);
 }
 
 // UNIFIED CONVERSION FUNCTION - Handles all integer types
-int64_t ft_strto(const char *nptr, char **endptr, int base, t_type type)
+int64_t	ft_strto(const char *nptr, char **endptr, int base, t_type type)
 {
-	t_conv_ctx ctx;
-	t_fn_state fn;
+	t_conv_ctx	ctx;
+	t_fn_state	fn;
 
 	if (base < 0 || base == 1 || base > 36)
 	{
@@ -95,7 +96,7 @@ int64_t ft_strto(const char *nptr, char **endptr, int base, t_type type)
 	{
 		fn = lookup_state_fn(ctx.state);
 		if (!fn)
-			break;
+			break ;
 		fn(&ctx);
 	}
 	return (finalize_conversion(&ctx));

@@ -1,10 +1,22 @@
-void    ft_assert(int cond)
-{
-    volatile char *nullptr;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_assert.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 15:58:24 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/23 15:58:32 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-    if (!cond)
-    {
-        nullptr = (char *)0;
-        *nullptr = 0;
-    }
+void	ft_assert(int cond)
+{
+	volatile char	*nullptr;
+
+	if (!cond)
+	{
+		nullptr = (char *)0;
+		*nullptr = 0;
+	}
 }

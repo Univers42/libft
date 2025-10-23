@@ -6,32 +6,30 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 23:03:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:51:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:06:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "conv.h"
 #include "ft_ctype.h"
 
-const t_type_info *get_type_info(t_type type)
+const t_type_info	*get_type_info(t_type type)
 {
-	size_t count;
-	size_t i;
-	const type_info_entry *table = get_type_info_table(&count);
+	size_t					count;
+	size_t					i;
+	const type_info_entry	*table = get_type_info_table(&count);
 
 	i = -1;
 	while (++i < count)
-	{
 		if (table[i].type == type)
 			return ((const t_type_info *)&table[i]);
-	}
 	return (NULL);
 }
 
 // Convert digit character to value
-int char_to_digit(char c, int base)
+int	char_to_digit(char c, int base)
 {
-	int digit;
+	int	digit;
 
 	if (ft_isdigit((unsigned char)c))
 		digit = c - '0';
@@ -45,8 +43,8 @@ int char_to_digit(char c, int base)
 }
 
 // Initialize conversion context
-void init_conv_ctx(t_conv_ctx *ctx, const char *nptr, char **endptr,
-				   int base, t_type type)
+void	init_conv_ctx(t_conv_ctx *ctx, const char *nptr, char **endptr,
+					int base, t_type type)
 {
 	ctx->ptr = nptr;
 	ctx->start = nptr;
@@ -61,21 +59,18 @@ void init_conv_ctx(t_conv_ctx *ctx, const char *nptr, char **endptr,
 }
 
 // Lookup state handler function
-t_fn_state lookup_state_fn(t_state state)
+t_fn_state	lookup_state_fn(t_state state)
 {
-	switch (state)
-	{
-	case ST_WHITESPACE:
+	if (state == ST_WHITESPACE)
 		return (state_whitespace);
-	case ST_SIGN:
+	else if (state == ST_SIGN)
 		return (state_sign);
-	case ST_BASE_PREFIX:
+	else if (state == ST_BASE_PREFIX)
 		return (state_base_prefix);
-	case ST_DIGITS:
+	else if (state == ST_DIGITS)
 		return (state_digits);
-	case ST_OVERFLOW:
+	else if (state == ST_OVERFLOW)
 		return (state_overflow);
-	default:
+	else
 		return (NULL);
-	}
 }

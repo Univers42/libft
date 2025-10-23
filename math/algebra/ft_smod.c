@@ -1,9 +1,20 @@
-# include <sys/types.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_smod.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 15:57:28 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/10/23 15:58:11 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-ssize_t ft_smod(ssize_t a, ssize_t b)
+#include <sys/types.h>
+
+ssize_t	ft_smod(ssize_t a, ssize_t b)
 {
-    if (a > 0)
-        return (a % b);
-    return ((b + (a % b)) % b);
+	if (a > 0)
+		return (a % b);
+	return ((b + (a % b)) % b);
 }
-

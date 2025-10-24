@@ -6,6 +6,9 @@
 *.swo
 *.swm
 *.a
+**/.d
+*/*.d
+*/*/*.d
 .vscode/*
 .vscode/
 minishell

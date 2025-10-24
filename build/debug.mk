@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/22 22:31:30 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/24 13:05:58 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ debug_sanitize: fclean all
 # $(call logging,STATE_TOKEN,Message)
 # Produces: configure [STATE] : Message (colorized)
 define logging
-	printf "${BRIGHT_CYAN}${BOLD}%s${RESET} [${BOLD}%b${RESET}] : %b\n" "$(LOG_PREFIX)" "$(1)" "$(2)"
+	printf "${BRIGHT_CYAN}${BOLD}%s${RESET} [${BOLD}%b${RESET}] : %b\n" "$(LOG_PREFIX)" "$(1)" "$(2)";
 endef
 
 define log_info

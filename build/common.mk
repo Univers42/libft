@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/23 00:17:48 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/24 00:34:10 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ endef
 
 # Function to print status messages
 define print_status
-	printf "$(1)$(BOLD)[$(2)] $(3)$(RESET)\n"
+	@echo "$(1)$(BOLD)[$(2)] $(3)$(RESET)"
 endef
 
 # Function to clean object files (use rm -rf to remove directory reliably)

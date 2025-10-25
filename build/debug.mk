@@ -25,18 +25,18 @@ OPTIMIZE_FLAGS = -O0
 # Debug build
 .PHONY: debug
 debug: CFLAGS += $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS)
-debug: fclean all
+debug: all
 	$(call print_status,$(YELLOW),DEBUG,Debug mode enabled)
 
 # Debug with sanitizers
 .PHONY: debug_sanitize
 debug_sanitize: CFLAGS += $(DEBUG_FLAGS) $(SANITIZE_FLAGS) $(OPTIMIZE_FLAGS)
-debug_sanitize: fclean all
+debug_sanitize: all
 	$(call print_status,$(YELLOW),DEBUG,Debug mode with sanitizers enabled)
 # $(call logging,STATE_TOKEN,Message)
 # Produces: configure [STATE] : Message (colorized)
 define logging
-	printf "${BRIGHT_CYAN}${BOLD}%s${RESET} [${BOLD}%b${RESET}] : %b\n" "$(LOG_PREFIX)" "$(1)" "$(2)";
+	@printf '%s\n' "${BRIGHT_CYAN}${BOLD}$(LOG_PREFIX)${RESET} [${STATE_COLOR_$(1)}${BOLD}$(1)${RESET}] : $(2)"
 endef
 
 define log_info

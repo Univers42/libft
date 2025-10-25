@@ -15,49 +15,57 @@
 # ════════════════════════════════════════════════════════════════════════════
 
 # Basic colors
-BLACK = \033[0;30m
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-BLUE = \033[0;34m
-MAGENTA = \033[0;35m
-CYAN = \033[0;36m
-WHITE = \033[0;37m
+BLACK        := $(shell printf '\033[0;30m')
+RED          := $(shell printf '\033[0;31m')
+GREEN        := $(shell printf '\033[0;32m')
+YELLOW       := $(shell printf '\033[0;33m')
+BLUE         := $(shell printf '\033[0;34m')
+MAGENTA      := $(shell printf '\033[0;35m')
+CYAN         := $(shell printf '\033[0;36m')
+WHITE        := $(shell printf '\033[0;37m')
 
 # Bold colors
-BOLD_BLACK = \033[1;30m
-BOLD_RED = \033[1;31m
-BOLD_GREEN = \033[1;32m
-BOLD_YELLOW = \033[1;33m
-BOLD_BLUE = \033[1;34m
-BOLD_MAGENTA = \033[1;35m
-BOLD_CYAN = \033[1;36m
-BOLD_WHITE = \033[1;37m
+BOLD_BLACK   := $(shell printf '\033[1;30m')
+BOLD_RED     := $(shell printf '\033[1;31m')
+BOLD_GREEN   := $(shell printf '\033[1;32m')
+BOLD_YELLOW  := $(shell printf '\033[1;33m')
+BOLD_BLUE    := $(shell printf '\033[1;34m')
+BOLD_MAGENTA := $(shell printf '\033[1;35m')
+BOLD_CYAN    := $(shell printf '\033[1;36m')
+BOLD_WHITE   := $(shell printf '\033[1;37m')
 
 # Background colors
-BG_BLACK = \033[40m
-BG_RED = \033[41m
-BG_GREEN = \033[42m
-BG_YELLOW = \033[43m
-BG_BLUE = \033[44m
-BG_MAGENTA = \033[45m
-BG_CYAN = \033[46m
-BG_WHITE = \033[47m
+BG_BLACK     := $(shell printf '\033[40m')
+BG_RED       := $(shell printf '\033[41m')
+BG_GREEN     := $(shell printf '\033[42m')
+BG_YELLOW    := $(shell printf '\033[43m')
+BG_BLUE      := $(shell printf '\033[44m')
+BG_MAGENTA   := $(shell printf '\033[45m')
+BG_CYAN      := $(shell printf '\033[46m')
+BG_WHITE     := $(shell printf '\033[47m')
 
 # Special formatting
-RESET = \033[0m
-BOLD = \033[1m
-DIM = \033[2m
-ITALIC = \033[3m
-UNDERLINE = \033[4m
-BLINK = \033[5m
-REVERSE = \033[7m
-STRIKETHROUGH = \033[9m
+RESET        := $(shell printf '\033[0m')
+BOLD         := $(shell printf '\033[1m')
+DIM          := $(shell printf '\033[2m')
+ITALIC       := $(shell printf '\033[3m')
+UNDERLINE    := $(shell printf '\033[4m')
+BLINK        := $(shell printf '\033[5m')
+REVERSE      := $(shell printf '\033[7m')
+STRIKETHROUGH:= $(shell printf '\033[9m')
 
 # Enhanced colors and formatting
-BRIGHT_GREEN = \033[1;32m
-BRIGHT_RED = \033[1;31m
-BRIGHT_YELLOW = \033[1;33m
-BRIGHT_BLUE = \033[1;34m
-BRIGHT_MAGENTA = \033[1;35m
-BRIGHT_CYAN = \033[1;36m
+BRIGHT_GREEN := $(shell printf '\033[1;32m')
+BRIGHT_RED   := $(shell printf '\033[1;31m')
+BRIGHT_YELLOW:= $(shell printf '\033[1;33m')
+BRIGHT_BLUE  := $(shell printf '\033[1;34m')
+BRIGHT_MAGENTA:= $(shell printf '\033[1;35m')
+BRIGHT_CYAN  := $(shell printf '\033[1;36m')
+
+# State-specific colors (used by logging macro)
+STATE_COLOR_INFO  := $(BRIGHT_CYAN)
+STATE_COLOR_WARN  := $(BRIGHT_YELLOW)
+STATE_COLOR_OK    := $(BRIGHT_GREEN)
+STATE_COLOR_NOTE  := $(BRIGHT_MAGENTA)
+STATE_COLOR_ERROR := $(BRIGHT_RED)
+STATE_COLOR_DEBUG := $(BRIGHT_BLUE)

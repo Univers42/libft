@@ -35,6 +35,15 @@ BUILD_DIR = build
 THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include $(THIS_DIR)colors.mk
 
+# Logging state tokens and prefix
+LOG_PREFIX ?= $(NAME)
+STATE_INFO   = INFO
+STATE_WARN   = WARN
+STATE_OK     = OK
+STATE_NOTE   = NOTE
+STATE_ERROR  = ERROR
+STATE_DEBUG  = DEBUG
+
 # ════════════════════════════════════════════════════════════════════════════
 # ║                           COMMON FUNCTIONS                               ║
 # ════════════════════════════════════════════════════════════════════════════

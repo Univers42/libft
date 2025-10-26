@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ctype.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:18:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:17:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:46:03 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int ft_isblank(int c);
 int ft_isxdigit(int c);
 int ft_isgraph(int c);
 int hex_digit(char c);
-
+int	is_at_end(int c);
+int assert_char(int in, int expect);
 
 #endif

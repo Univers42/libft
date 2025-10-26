@@ -25,7 +25,9 @@ SRCS = \
 	ft_isupper.c \
 	ft_isxdigit.c \
 	ft_tolower.c \
-	ft_toupper.c
+	ft_toupper.c	\
+	is_at_end.c		\
+	assert_char.c
 
 OBJ_DIR := obj
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

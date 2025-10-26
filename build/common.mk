@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/24 00:34:10 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/10/24 18:39:06 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,10 @@ endef
 
 # Function to print status messages
 define print_status
-	@echo "$(1)$(BOLD)[$(2)] $(3)$(RESET)"
+	@printf '%s%s%s[%s%s%s]%s: %s%s\n' \
+		"$(FADED_BOLD_GRAY)" "$(notdir $(CURDIR))" "$(FADED_BOLD_GRAY)" \
+		"$(1)" "$(2)" "$(FADED_BOLD_GRAY)" \
+		"$(FADED_BOLD_GRAY)" "$(WHITE)$(3)" "$(RESET)"
 endef
 
 # Function to clean object files (use rm -rf to remove directory reliably)

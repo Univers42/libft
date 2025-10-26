@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    debug.mk                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+         #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/10/25 02:08:13 by syzygy           ###   ########.fr        #
+#    Created: 2025/10/26 15:22:54 by dlesieur          #+#    #+#              #
+#    Updated: 2025/10/26 15:23:06 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ include $(THIS_DIR)common.mk
 DEBUG_FLAGS = -g3 -DDEBUG
 SANITIZE_FLAGS = -fsanitize=address -fsanitize=undefined
 OPTIMIZE_FLAGS = -O0
-
+PROJECT			:= $(pwd)
 # Debug build
 .PHONY: debug
 debug: CFLAGS += $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS)
@@ -36,43 +36,46 @@ debug_sanitize: all
 # $(call logging,STATE_TOKEN,Message)
 # Produces: configure [STATE] : Message (colorized)
 define logging
-	@printf '%s\n' "${BRIGHT_CYAN}${BOLD}$(LOG_PREFIX)${RESET} [${STATE_COLOR_$(1)}${BOLD}$(1)${RESET}] : $(2)"
+	@printf "%s%s%s[%s%s%s]%s: %s%s\n" \
+		"$(FADED_BOLD_GRAY)" "$(notdir $(CURDIR))" "$(FADED_BOLD_GRAY)" \
+		"$(1)" "$(2)" "$(FADED_BOLD_GRAY)" \
+		"$(FADED_BOLD_GRAY)" "$(WHITE)$(3)" "$(RESET)"
 endef
 
 define log_info
-	$(call logging,$(STATE_INFO),$(1))
+	$(call logging,$(CYAN),INFO,$(1))
 endef
 
 define log_warn
-	$(call logging,$(STATE_WARN),$(1))
+	$(call logging,$(YELLOW),WARN,$(1))
 endef
 
 define log_ok
-	$(call logging,$(STATE_OK),$(1))
+	$(call logging,$(GREEN),OK,$(1))
 endef
 
 define log_note
-	$(call logging,$(STATE_NOTE),$(1))
+	$(call logging,$(BLUE),NOTE,$(1))
 endef
 
 define log_error
-	$(call logging,$(STATE_ERROR),$(1))
+	$(call logging,$(RED),ERROR,$(1))
 endef
 
 define log_debug
-	$(call logging,$(STATE_DEBUG),$(1))
+	$(call logging,$(MAGENTA),DEBUG,$(1))
 endef
 
 # Release build
 .PHONY: release
 release: CFLAGS += -O3 -DNDEBUG
-release: fclean all
+release: all
 	$(call print_status,$(GREEN),RELEASE,Release mode enabled)
 
 # Profile build
 .PHONY: profile
 profile: CFLAGS += -pg -O2
-profile: fclean all
+profile: all
 	$(call print_status,$(BLUE),PROFILE,Profile mode enabled)
 
 # Static analysis

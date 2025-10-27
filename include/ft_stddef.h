@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/26 23:10:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:37:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,21 @@ typedef uint64_t t_time;
 
 typedef enum s_severity
 {
-	SEV_INFO = 100,
+	SEV_INFO = 150,
 	SEV_WARNING = 200,
 	SEV_ERROR = 300
 } t_severity;
 
 typedef enum e_state
 {
-	ST_FILE_NOT_FOUND = -1,
+	ST_FILE_NOT_FOUND = -2,
+	ST_FILE_ERR_FATAL_MEMORY,
 	ST_OK = 0,
 	ST_DONE = 0,
 	ST_INIT = 0,
 	ST_NORMAL = 0,			// Default state
 	ST_FOUND_NL,
+	ST_IN_MEMORY,
 	ST_INFO_BASE = SEV_INFO,
 	ST_IN_SQUOTE,			// Inside single quotes
 	ST_IN_DQUOTE,			// Inside double quotes

@@ -11,7 +11,7 @@ SRCS		=		first_word.c ft_do_op.c ft_log10.c ft_putchar_fd.c \
 					ft_putchar_fd.c ft_putendl_fd.c ft_putstr_fd.c ft_putnbr_base.c \
 					ft_putnbr_fd.c ft_putstr_fd.c
 SRCS		+=  	gnl/get_next_line.c
-SRCS		+=		$(addprefix ft_printf/src/, ft_fprintf.c ft_printf.c \
+SRCS		+=		$(addprefix ft_printf/src/, ft_dprintf.c ft_printf.c \
 					ft_snprintf.c log_print.c parser_hash_flag.c parser_padding.c \
 					parser_parse_format_string.c parser_token.c parser_write_string.c \
 					parser.c string_length.c write_utils.c writer_write_format.c writer.c)

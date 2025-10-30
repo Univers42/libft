@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:15:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 20:16:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:28:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 #include <stdarg.h>
 #include <limits.h>
 
-int	ft_vfprintf(int fd, const char *format, va_list *ap)
+int ft_vdprintf(int fd, const char *format, va_list *ap)
 {
-	static t_writer	buf_out;
-	int				return_value;
-	t_parser		parser;
+	static t_writer buf_out;
+	int return_value;
+	t_parser parser;
 
 	if (format == NULL || fd < 0)
 		return (-1);
@@ -30,13 +30,13 @@ int	ft_vfprintf(int fd, const char *format, va_list *ap)
 	return (return_value);
 }
 
-int	ft_fprintf(int fd, const char *format, ...)
+int ft_dprintf(int fd, const char *format, ...)
 {
-	va_list	ap;
-	int		return_value;
+	va_list ap;
+	int return_value;
 
 	va_start(ap, format);
-	return_value = ft_vfprintf(fd, format, &ap);
+	return_value = ft_vdprintf(fd, format, &ap);
 	va_end(ap);
 	return (return_value);
 }

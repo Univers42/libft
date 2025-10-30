@@ -25,6 +25,17 @@
 #  define DEFAULT_WHITE 0xFFFFFF
 # endif
 
+typedef struct s_subctx
+{
+	size_t templen;
+	size_t tempsize;
+	size_t i;
+	size_t patlen;
+	char *temp;
+	size_t repn;
+	size_t remn;
+} t_subctx;
+
 t_size	ft_strlen(const char *s);
 t_size	ft_strlcpy(char *dst, const char *src, t_size dsize);
 t_size	ft_strlcat(char *dst, const char *src, t_size dsize);

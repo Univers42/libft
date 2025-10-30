@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 00:27:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 00:28:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-size_t	array_num_elements(t_array *a)
+size_t array_num_elements(t_arr *a)
 {
 	return (a->nelem);
 }

@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:20:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 16:26:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void set_first_index(t_array *a, size_t i)
+void set_first_index(t_arr *a, size_t i)
 {
     if (a)
         a->first_idx = i;

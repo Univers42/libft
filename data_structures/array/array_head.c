@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:01:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 16:26:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:03:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-t_arr_elem **array_head(t_array *a)
+t_arr_elem **array_head(t_arr *a)
 {
     if (a == NULL)
         return (NULL);

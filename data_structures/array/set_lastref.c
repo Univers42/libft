@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:09:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 15:55:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void	set_lastref(t_array *a, t_arr_elem *e)
+void set_lastref(t_arr *a, t_arr_elem *e)
 {
 	a->lastref = e;
 }

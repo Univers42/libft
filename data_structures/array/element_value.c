@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:13:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 14:14:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:02:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-char	*element_value(t_arr_elem *ae)
+char *element_value(t_arr_elem *ae)
 {
 	return (ae->val);
 }

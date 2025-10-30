@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 00:39:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 16:26:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:03:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void array_flush(t_array *a)
+void array_flush(t_arr *a)
 {
 	register t_arr_elem *r;
 	register t_arr_elem *r1;

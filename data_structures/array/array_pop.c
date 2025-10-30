@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 13:59:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 14:01:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void	array_pop(t_array *a)
+void array_pop(t_arr *a)
 {
 	array_shift(a, 1, AS_DISPOSE);
 }

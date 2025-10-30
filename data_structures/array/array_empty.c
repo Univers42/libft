@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:12:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 14:12:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:03:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-bool	array_empty(t_array *a)
+bool array_empty(t_arr *a)
 {
 	return (a->nelem == 0);
 }

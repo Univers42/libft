@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:38:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 16:26:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-static void choose_start_and_direction(t_array *a,
+static void choose_start_and_direction(t_arr *a,
 									   size_t i,
 									   t_arr_elem **start,
 									   int *direction)
@@ -32,7 +32,7 @@ static void choose_start_and_direction(t_array *a,
 		*direction = -1;
 }
 
-static char *walk_and_find(t_array *a, size_t i, t_arr_elem *start, int dir)
+static char *walk_and_find(t_arr *a, size_t i, t_arr_elem *start, int dir)
 {
 	t_arr_elem *ae;
 
@@ -56,7 +56,7 @@ static char *walk_and_find(t_array *a, size_t i, t_arr_elem *start, int dir)
 	return (NULL);
 }
 
-char *array_reference(t_array *a, size_t i)
+char *array_reference(t_arr *a, size_t i)
 {
 	t_arr_elem *start;
 	int direction;

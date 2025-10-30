@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:23:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 14:24:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:04:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void	set_num_elements(t_array *a, size_t n)
+void set_num_elements(t_arr *a, size_t n)
 {
 	a->nelem = n;
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:40:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:19:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/07 20:50:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@
 # endif
 
 # include "ft_stddef.h"
+# include <stdio.h>
+# include <sys/types.h>
+# include <time.h>
+# include <stdbool.h>
+
+# define CLOCK_TICK 60
+
+typedef timeval t_timeval;
 
 t_time	ft_time(void);
 t_time	ft_usleep(t_time duration);

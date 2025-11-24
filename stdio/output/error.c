@@ -3,33 +3,241 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:09:49 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/23 17:13:37 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/23 18:42:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include "error.h"
-#include <signal.h>
-#include <unistd.h>
+#include "output.h" /* added to use flush_all() */
+#include <errno.h>
+#include <stdarg.h>
+#include <stdio.h> /* vsnprintf, snprintf */
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h> /* write */
 
+t_error_state *get_error_state(void)
+{
+    static t_error_state st = {
+        .handler = NULL,
+        .exception = 0,
+        .suppressint = 0,
+        .intpending = 0,
+        .errlinno = 0,
+        .err_fd = 2};
+    return (&st);
+}
 
-/**
- * return a string describing an error. then returned string may be a pointer
- * to a static buffer, that wil be overwritten on the next call.
- * Action describe the operation that got the error
- */
+int get_error_fd(void)
+{
+    return (get_error_state()->err_fd);
+}
 
-const char *err_msg(int e, int action)
+void set_error_fd(int fd)
+{
+    if (fd >= 0)
+        get_error_state()->err_fd = fd;
+}
+
+void set_exception_handler(void (*handler)(int))
+{
+    get_error_state()->handler = handler;
+}
+
+void error_int_off(void)
+{
+    get_error_state()->suppressint++;
+    (void)__sync_synchronize;
+}
+
+void error_int_on(void)
+{
+    if (--get_error_state()->suppressint == 0 && get_error_state()->intpending)
+        onint();
+}
+
+void error_force_inton(void)
+{
+    get_error_state()->suppressint = 0;
+    if (get_error_state()->intpending)
+        onint();
+}
+
+int error_saveint(void)
+{
+    return (get_error_state()->suppressint);
+}
+
+void error_restoreint(int v)
+{
+    get_error_state()->suppressint = v;
+    if (get_error_state()->suppressint == 0 && get_error_state()->intpending)
+        onint();
+}
+
+void error_clear_pending_int(void)
+{
+    get_error_state()->intpending = 0;
+}
+
+int error_int_pending(void)
+{
+    return (get_error_state()->intpending != 0);
+}
+
+/*
+** Write formatted message to configured fd without using FILE*.
+*/
+static void write_fd_formatted(const char *prefix, const char *msg,
+                               va_list ap)
+{
+    char buf[4096];
+    int fd;
+    int n;
+    int pfxlen;
+
+    fd = get_error_fd();
+    pfxlen = 0;
+    n = 0;
+    if (prefix)
+        pfxlen = (int)strlen(prefix);
+    if (msg)
+    {
+        n = vsnprintf(buf + pfxlen,
+                      (size_t)((sizeof(buf) > (size_t)pfxlen) ? sizeof(buf) - (size_t)pfxlen : 0),
+                      msg, ap);
+        if (n < 0)
+            n = 0;
+    }
+    if (pfxlen > 0)
+        memcpy(buf, prefix, (size_t)pfxlen);
+    /* append newline if space allows */
+    if ((size_t)(pfxlen + n) < sizeof(buf) - 1)
+    {
+        buf[pfxlen + n] = '\n';
+        n = pfxlen + n + 1;
+    }
+    else
+        n = (int)sizeof(buf);
+    (void)write(fd, buf, (size_t)n);
+}
+
+/*
+** Prefix: "sh: <lineno>: "
+*/
+static void exvwarning_simple(const char *msg, va_list ap)
+{
+    char pfx[64];
+    int lino;
+
+    lino = get_error_state()->errlinno;
+    (void)snprintf(pfx, sizeof(pfx), "sh: %d: ", lino);
+    write_fd_formatted(pfx, msg, ap);
+}
+
+/*
+** Print error message then invoke configured non-returning handler.
+*/
+static void exverror(int cond, const char *msg, va_list ap)
+{
+    /* Print a warning like the original implementation */
+    exvwarning_simple(msg, ap);
+
+    /* Try to flush internal output buffers instead of using fsync() */
+    flush_all();
+
+    /* Invoke the installed exception handler */
+    if (get_error_state()->handler == NULL)
+        abort();
+
+    get_error_state()->exception = cond;
+    /* handler is expected not to return; if it returns, abort to avoid
+       continuing in an inconsistent state. */
+    get_error_state()->handler(cond);
+    abort();
+    /* NOTREACHED */
+}
+
+/*
+** Public wrappers
+*/
+void sh_error(const char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+    exverror(EXERROR, msg, ap);
+    va_end(ap);
+}
+
+void exerror(int cond, const char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+    exverror(cond, msg, ap);
+    va_end(ap);
+}
+
+void sh_warnx(const char *fmt, ...)
+{
+    va_list ap;
+
+    va_start(ap, fmt);
+    exvwarning_simple(fmt, ap);
+    va_end(ap);
+}
+
+void onint(void)
+{
+    get_error_state()->intpending = 0;
+    exraise(EXINT);
+}
+
+void exraise(int e)
+{
+    if (get_error_state()->handler == NULL)
+        abort();
+    error_int_off();
+    get_error_state()->exception = e;
+    get_error_state()->handler(e);
+    abort();
+}
+
+/*
+** errmsg mirrors original behaviour for ENOENT/ENOTDIR special cases.
+*/
+const char *errmsg(int e, int action)
 {
     if (e != ENOENT && e != ENOTDIR)
-        return str_error(e);
+        return (strerror(e));
     if (action & E_OPEN)
         return ("No such file");
-    else if(action & E_CREAT)
+    if (action & E_CREAT)
         return ("Directory nonexistent");
-    else
-        return ("not found");
+    return ("not found");
+}
+
+/*
+** Compatibility helpers that only print a warning (no non-local exit).
+*/
+void ft_error(const char *fmt, ...)
+{
+    va_list ap;
+
+    va_start(ap, fmt);
+    exvwarning_simple(fmt, ap);
+    va_end(ap);
+}
+
+void ft_warn(const char *fmt, ...)
+{
+    va_list ap;
+
+    va_start(ap, fmt);
+    exvwarning_simple(fmt, ap);
+    va_end(ap);
 }

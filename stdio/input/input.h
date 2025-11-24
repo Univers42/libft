@@ -3,14 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:16 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/21 15:05:10 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/23 23:04:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
-# define INPUT_H
+#define INPUT_H
+
+#include <fcntl.h>
+#include <stdbool.h>
+#include <stdio.h> /* defines BUFSIZ */
+#include <stdlib.h>
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
+#include <limits.h>
+/* Ensure a reasonable maximum for multibyte characters used by the input code */
+#ifndef PUNGETC_MAX
+#ifdef MB_LEN_MAX
+#define PUNGETC_MAX (MB_LEN_MAX > 16 ? MB_LEN_MAX : 16)
+#else
+#define PUNGETC_MAX 16
+#endif
+#endif
+
+/* end-of-file and end-of-alias markers used by the input subsystem */
+#ifndef PEOF
+#define PEOF (-1)
+#endif
+
+#ifndef PEOA
+#define PEOA (PEOF - 1)
+#endif
+
+typedef unsigned int tcflag_t;
+typedef struct termios t_termios;
+/**
+ *
+ * #define NCCS 32
+struct termios
+  {
+//    tcflag_t c_iflag;		/* input mode flags */
+//    tcflag_t c_oflag;		/* output mode flags */
+//    tcflag_t c_cflag;		/* control mode flags */
+//    tcflag_t c_lflag;		/* local mode flags */
+//    cc_t c_line;			/* line discipline */
+//    cc_t c_cc[NCCS];		/* control characters */
+//    speed_t c_ispeed;		/* input speed */
+//    speed_t c_ospeed;		/* output speed */
+// #define _HAVE_STRUCT_TERMIOS_C_ISPEED 1
+// #define _HAVE_STRUCT_TERMIOS_C_OSPEED 1
+//  };
+// */
+
+enum e_
+{
+	INPUT_PUSH_FILE = 1,
+	INPUT_NOFILE_OK = 2
+};
+
+typedef struct s_alias
+{
+	struct s_alias *next;
+	char *name;
+	char *val;
+	int flag;
+} t_alias;
+typedef struct s_block_str
+{
+	struct s_block_str *prev; // preceeding string on stack
+	char *prev_string;
+	int prevnleft;
+	t_alias *ap;				 // if putsh was associated with an alias
+	char *string;				 // remember the string since it may change
+	struct s_block_str *sp_free; // delay freeing so we can stop nested aliases
+	int unget;					 // number of outstanding calls to pungetc
+} t_block_str;
+
+typedef struct stdin_state
+{
+	tcflag_t canon;
+	off_t seekable;
+	t_termios tios;
+	int pip[2];
+	int pending;
+} t_stdin_state;
+
+/**
+ * The parsefile structure pointed to by the global vairable parsefile contains information
+ * about the current file beign read
+ */
+typedef struct s_parse_file
+{
+	struct s_parse_file *prev; // preceding file on stack
+	int linno;				   // current line
+	int fd;					   // file descriptor (or -1 is string)
+	int nleft;				   // number of chars left in this line
+	int eof;				   // do not read again once we hit EOF
+	char *nextc;			   // next char in buffer
+	char *buf;				   // input buffer
+	t_block_str *strpush;	   // for pushing strings at this level
+	t_block_str basestrpush;   // pushing one si fast
+	t_block_str *sp_free;	   // delay freeing so we can stop nested aliases
+	int lleft;				   // number of chars left in thsi buffer.
+	int unget;				   // number of outstadnign calls to pungetc
+} t_parse_file;
+
+/* New: input-state singleton type that wraps previous globals */
+typedef struct s_input
+{
+	t_parse_file basepf;	   /* top-level parsefile storage */
+	t_parse_file *parsefile;   /* current parsefile pointer */
+	t_stdin_state stdin_state; /* stdin state */
+	int stdin_istty;		   /* -1 unknown, 0/1 */
+} t_input;
+
+/* Singleton accessor: returns pointer to the unique input state instance */
+t_input *get_input(void);
+
+/* Provide external (non-inline) versions of helpers if needed */
+int input_get_lleft(t_parse_file *pf);
+void input_set_lleft(t_parse_file *pf, int len);
 
 #endif

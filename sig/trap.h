@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:37:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/23 18:05:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_glob_sig
 	int sigmodes[BASH_NSIG_TOTAL];
 	volatile int from_return_trap;
 	volatile int sigwinch_received;
+	volatile sig_atomic_t intpending;
 	volatile int sigterm_received;
 	int interrupt_immediately;
 	int terminate_immediately;

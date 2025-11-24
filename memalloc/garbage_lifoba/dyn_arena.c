@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:45:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/06 20:25:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/24 12:56:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arena.h"
+#include "lifoba.h"
 #include <string.h>
 
 static void	init_ctx(t_garena *g)

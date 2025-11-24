@@ -1,51 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   st_all.c                                           :+:      :+:    :+:   */
+/*   helper_stack.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 19:32:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/06 20:44:10 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/06 19:30:35 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/24 12:56:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arena.h"
-#include <string.h>
+#include "lifoba.h"
 
-char	*st_nputs(const char *s, size_t n, char *p)
+char	*stack_block(void)
 {
-	p = make_str_space(n, p);
-	memcpy(p, s, n);
-	return (p + n);
+	return (arena_ctx()->stack_next);
 }
 
-char	*st_puts(const char *s, char *p)
+char	*stack_str_end(void)
 {
-	if (s)
-		return (st_nputs(s, (size_t)strlen(s), p));
-	return (st_nputs(s, 0, p));
+	return (arena_ctx()->sstrend);
 }
 
-char	*st_unputc(char *p)
+size_t	stack_block_size(void)
 {
-	if (p)
-		--p;
-	return (p);
+	return (arena_ctx()->stack_nleft);
 }
 
-char	*st_adjust(ptrdiff_t amount, char *p)
+char	*start_stack_str(void)
 {
-	return (p + amount);
+	return (stack_block());
 }
 
-char	*st_putc(int c, char *p)
+char	*stack_str_nul(char *p)
 {
 	t_garena	*g;
 
 	g = arena_ctx();
 	if (p == g->sstrend)
 		p = grow_stack_str();
-	*p++ = (char)c;
+	*p = '\0';
 	return (p);
 }

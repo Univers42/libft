@@ -1,44 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_stack.c                                     :+:      :+:    :+:   */
+/*   grab.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 19:30:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/06 20:37:55 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/06 19:32:38 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/24 12:56:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arena.h"
+#include "lifoba.h"
 
-char	*stack_block(void)
+void	ungrab_stack_str(void *s)
 {
-	return (arena_ctx()->stack_next);
+	st_unalloc(s);
 }
 
-char	*stack_str_end(void)
+void	grab_stack_str(char *p)
 {
-	return (arena_ctx()->sstrend);
+	char	*base;
+
+	base = stack_block();
+	if (p >= base)
+		(void)st_alloc((size_t)(p - base));
 }
 
-size_t	stack_block_size(void)
+void	grab_stack_block(size_t len)
 {
-	return (arena_ctx()->stack_nleft);
-}
-
-char	*start_stack_str(void)
-{
-	return (stack_block());
-}
-
-char	*stack_str_nul(char *p)
-{
-	t_garena	*g;
-
-	g = arena_ctx();
-	if (p == g->sstrend)
-		p = grow_stack_str();
-	*p = '\0';
-	return (p);
+	(void)st_alloc(len);
 }

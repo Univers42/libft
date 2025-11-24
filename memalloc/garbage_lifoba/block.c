@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:48:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/06 20:07:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/24 12:56:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arena.h"
+#include "lifoba.h"
 #include <string.h>
 
 static char	*expand_top_block(size_t newlen, t_garena *g)

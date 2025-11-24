@@ -7,3 +7,6 @@
 [submodule "memalloc/ft_malloc"]
 	path = memalloc/ft_malloc
 	url = git@github.com:Univers42/ft_malloc.git
+[submodule "memory/memalloc/ft_malloc"]
+	path = memory/memalloc/ft_malloc
+	url = git@github.com:Univers42/ft_malloc.git

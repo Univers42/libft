@@ -19,6 +19,8 @@
     "map.h": "c",
     "ft_ctype.h": "c",
     "ft_stddef.h": "c",
-    "test.h": "c"
+    "test.h": "c",
+    "cstdint": "c",
+    "mman.h": "c"
   }
 }

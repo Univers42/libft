@@ -2,19 +2,18 @@ include ../build/common.mk
 include ../build/debug.mk
 
 # project-specific settings
-CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I./ft_printf/include
+CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I./ft_printf/include \
+	-I./output -I./input -I./format
+
 DEPFLAGS = -MMD -MP
 
 NAME_LIB	= 		stdio
 NAME		= 		$(NAME_LIB).a
-SRCS		=		first_word.c ft_do_op.c ft_log10.c ft_putchar_fd.c \
-					ft_putchar_fd.c ft_putendl_fd.c ft_putstr_fd.c ft_putnbr_base.c \
-					ft_putnbr_fd.c ft_putstr_fd.c
-SRCS		+=  	gnl/get_next_line.c
-SRCS		+=		$(addprefix ft_printf/src/, ft_dprintf.c ft_printf.c \
-					ft_snprintf.c log_print.c parser_hash_flag.c parser_padding.c \
-					parser_parse_format_string.c parser_token.c parser_write_string.c \
-					parser.c string_length.c write_utils.c writer_write_format.c writer.c)
+
+# Gather all .c files in output, input, format, gnl, and ft_printf/src
+SRCS		+=		$(wildcard output/*.c)
+SRCS		+=		$(wildcard input/*.c)
+SRCS		+=		$(wildcard format/*.c)
 
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test
@@ -25,6 +24,8 @@ TEST_BIN	=		test_$(NAME_LIB)
 
 OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DPDC		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
+
+VPATH = .:output:input:format:gnl:ft_printf/src
 
 .PHONY: all clean fclean re test
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stddef.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 23:19:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:29:32 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ typedef enum e_state
 	ST_DEFAULT = 0,
 	ST_INIT = 0,
 	ST_NORMAL = 0,			// Default state
-	ST_FOUND_NL,
-	ST_IN_MEMORY,
+	ST_USE = 1,
+	ST_FOUND_NL = 1,
+	ST_IN_MEMORY = 1,
+	ST_DEAD,
 	ST_INFO_BASE = SEV_INFO,
     ST_MATCH_ANY,
     ST_MATCH_BEG,

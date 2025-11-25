@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 20:40:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 20:41:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:19:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ft_time.h"
+#include "ft_time.h"
 
-void    timer_clear(t_timeval   *tvp)
+void	timer_clear(t_timeval *tvp)
 {
-    tvp->tv_sec = 0;
-    tvp->tv_usec = 0;
+	tvp->tv_sec = 0;
+	tvp->tv_usec = 0;
 }

@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 20:42:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 20:43:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:16:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_time.h"
+#include <signal.h>
 
-void    timespec_to_timeval(t_timeval *tv, const t_timespec *ts)
+void	timespec_to_timeval(t_timeval *tv, const t_timespec *ts)
 {
-    tv->tv_sec = ts->tv_sec;
-    tv->tv_usec = ts->tv_nsec / 1000;
+	tv->tv_sec = ts->tv_sec;
+	tv->tv_usec = ts->tv_nsec / 1000;
 }
-

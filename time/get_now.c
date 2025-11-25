@@ -6,17 +6,16 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 20:36:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 20:37:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:16:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_time.h"
 
-time_t  get_now(void)
+time_t	get_now(void)
 {
-    t_timeval   now;
+	t_timeval	now;
 
-    gettimeofday(&now, 0);
-    return (now.tv_sec);
+	gettimeofday(&now, 0);
+	return (now.tv_sec);
 }
-

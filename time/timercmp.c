@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 20:45:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 20:48:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:19:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,25 @@
 /**
  * two timeva struct with an operator &a, &b, <
  */
-bool	timercmp(const t_timeval *a, const t_timeval *b, const char *cmp)
+bool	ft_timercmp(const t_timeval *a, const t_timeval *b, const char *cmp)
 {
 	if (a->tv_sec == b->tv_sec)
 	{
-		if (ft_strcmp(cmp, "<") == 0) return a->tv_usec < b->tv_usec;
-		if (ft_strcmp(cmp, ">") == 0) return a->tv_usec > b->tv_usec;
-		if (ft_strcmp(cmp, "==") == 0) return a->tv_usec == b->tv_usec;
+		if (ft_strcmp(cmp, "<") == 0)
+			return (a->tv_usec < b->tv_usec);
+		if (ft_strcmp(cmp, ">") == 0)
+			return (a->tv_usec > b->tv_usec);
+		if (ft_strcmp(cmp, "==") == 0)
+			return (a->tv_usec == b->tv_usec);
 	}
 	else
 	{
-		if (ft_strcmp(cmp, "<") == 0) return a->tv_sec < b->tv_sec;
-		if (ft_strcmp(cmp, ">") == 0) return a->tv_sec > b->tv_sec;
-		if (ft_strcmp(cmp, "==") == 0) return a->tv_sec == b->tv_sec;
+		if (ft_strcmp(cmp, "<") == 0)
+			return (a->tv_sec < b->tv_sec);
+		if (ft_strcmp(cmp, ">") == 0)
+			return (a->tv_sec > b->tv_sec);
+		if (ft_strcmp(cmp, "==") == 0)
+			return (a->tv_sec == b->tv_sec);
 	}
 	return (false);
 }

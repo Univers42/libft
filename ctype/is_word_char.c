@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 23:28:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/26 23:40:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:13:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
-int is_word_char(int c)
+int	is_word_char(int c)
 {
 	return (!is_meta_char(c) && c != '\0');
 }

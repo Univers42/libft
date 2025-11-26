@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:02:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:02:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:30:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void set_element_value(t_arr_elem *ae, char *v)
+void	set_element_value(t_arr_elem *ae, char *v)
 {
 	ae->val = v;
 }

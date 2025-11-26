@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:22:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:29:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void set_max_idx(t_arr *a, size_t i)
+void	set_max_idx(t_arr *a, size_t i)
 {
-    a->max_idx = i;
+	a->max_idx = i;
 }

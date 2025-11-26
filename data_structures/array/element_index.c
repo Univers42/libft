@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:14:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:02:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:31:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-size_t element_index(t_arr_elem *ae)
+size_t	element_index(t_arr_elem *ae)
 {
 	return (ae->ind);
 }

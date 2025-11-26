@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:11:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:50:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-bool is_lastref(t_arr *a)
+bool	is_lastref(t_arr *a)
 {
-	return (a->lastref);
+	return (a != NULL && a->lastref != NULL);
 }

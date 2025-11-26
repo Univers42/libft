@@ -6,18 +6,18 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:38:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:53:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-static void choose_start_and_direction(t_arr *a,
-									   size_t i,
-									   t_arr_elem **start,
-									   int *direction)
+static void	choose_start_and_direction(t_arr *a,
+										size_t i,
+										t_arr_elem **start,
+										int *direction)
 {
-	size_t startind;
+	size_t	startind;
 
 	*start = lastref(a);
 	startind = element_index(*start);
@@ -32,9 +32,9 @@ static void choose_start_and_direction(t_arr *a,
 		*direction = -1;
 }
 
-static char *walk_and_find(t_arr *a, size_t i, t_arr_elem *start, int dir)
+static char	*walk_and_find(t_arr *a, size_t i, t_arr_elem *start, int dir)
 {
-	t_arr_elem *ae;
+	t_arr_elem	*ae;
 
 	ae = start;
 	while (ae != a->head)
@@ -49,18 +49,18 @@ static char *walk_and_find(t_arr *a, size_t i, t_arr_elem *start, int dir)
 		else
 			ae = element_back(ae);
 		if (dir == 1 && element_index(ae) > i)
-			break;
+			break ;
 		if (dir == -1 && element_index(ae) < i)
-			break;
+			break ;
 	}
 	return (NULL);
 }
 
-char *array_reference(t_arr *a, size_t i)
+char	*array_reference(t_arr *a, size_t i)
 {
-	t_arr_elem *start;
-	int direction;
-	char *res;
+	t_arr_elem	*start;
+	int			direction;
+	char		*res;
 
 	if (a == NULL || array_empty(a))
 		return (NULL);

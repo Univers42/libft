@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:17:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:02:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:31:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-t_arr_elem *element_back(t_arr_elem *ae)
+t_arr_elem	*element_back(t_arr_elem *ae)
 {
-    return (ae->prev);
+	return (ae->prev);
 }

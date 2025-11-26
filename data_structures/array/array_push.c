@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 13:57:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:50:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void array_push(t_arr *a, char *v)
+void	array_push(t_arr *a, char *v)
 {
 	array_rshift(a, 1, v);
 }

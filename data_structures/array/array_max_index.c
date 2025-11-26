@@ -6,13 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 00:29:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:51:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-size_t array_max_index(t_arr *a)
+size_t	array_max_index(t_arr *a)
 {
-    return (a->max_idx);
+	if (!a)
+		return (0);
+	return (a->max_idx);
 }

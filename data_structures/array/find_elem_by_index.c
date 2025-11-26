@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:35:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:03:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:50:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_arr_elem	*find_elem_by_index(t_arr *a, size_t idx)
 	t_arr_elem	*cur;
 
 	if (!a || array_empty(a))
-		return NULL;
+		return (NULL);
 	cur = element_forw(a->head);
 	while (cur != a->head)
 	{

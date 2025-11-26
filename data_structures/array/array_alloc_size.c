@@ -6,13 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:08:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:03:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:51:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-size_t array_alloc_size(t_arr *a)
+size_t	array_alloc_size(t_arr *a)
 {
-    return (a->alloc_size);
+	if (!a)
+		return (0);
+	return (a->alloc_size);
 }

@@ -6,19 +6,19 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 00:39:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:03:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:50:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-void array_flush(t_arr *a)
+void	array_flush(t_arr *a)
 {
-	register t_arr_elem *r;
-	register t_arr_elem *r1;
+	register t_arr_elem	*r;
+	register t_arr_elem	*r1;
 
 	if (a == 0)
-		return;
+		return ;
 	r = element_forw(a->head);
 	while (r != a->head)
 	{

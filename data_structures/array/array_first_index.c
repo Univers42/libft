@@ -6,13 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 00:26:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:03:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:51:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-size_t array_first_index(t_arr *a)
+size_t	array_first_index(t_arr *a)
 {
+	if (!a)
+		return (0);
 	return (a->first_idx);
 }

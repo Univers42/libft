@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/31 00:18:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:44:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "ft_memory.h"
 # include "ft_debug.h"
 # include "ft_math.h"
+
 typedef struct s_queue_node
 {
 	void				*data;
@@ -76,20 +77,20 @@ void			ft_queue_clear(t_queue *queue);
 // Advanced functions
 void			ft_queue_print_addresses(t_queue *queue);
 
-int		deque_int_init(t_deque_int *ret, int size);
-void	deque_int_push_end(t_deque_int *ret, int item);
-void	deque_int_push_start(t_deque_int *ret, int item);
-int		deque_int_pop_end(t_deque_int *ret);
-int		deque_int_pop_start(t_deque_int *ret);
-int		deque_int_clone(t_deque_int *ret, const t_deque_int proto);
-size_t		deque_int_idx(t_deque_int *ret, size_t idx);
+int				deque_int_init(t_deque_int *ret, int size);
+void			deque_int_push_end(t_deque_int *ret, int item);
+void			deque_int_push_start(t_deque_int *ret, int item);
+int				deque_int_pop_end(t_deque_int *ret);
+int				deque_int_pop_start(t_deque_int *ret);
+int				deque_int_clone(t_deque_int *ret, const t_deque_int proto);
+size_t			deque_int_idx(t_deque_int *ret, size_t idx);
 
-int		deque_char_init(t_deque_char *ret, int size);
-void	deque_char_push_end(t_deque_char *ret, char item);
-void	deque_char_push_start(t_deque_char *ret, char item);
-char	deque_char_pop_end(t_deque_char *ret);
-char	deque_char_pop_start(t_deque_char *ret);
-int		deque_char_clone(t_deque_char *ret, const t_deque_char proto);
-void	deque_char_double_if_needed(t_deque_char *ret);
-char	deque_char_idx(t_deque_char *ret, size_t idx);
+int				deque_char_init(t_deque_char *ret, int size);
+void			deque_char_push_end(t_deque_char *ret, char item);
+void			deque_char_push_start(t_deque_char *ret, char item);
+char			deque_char_pop_end(t_deque_char *ret);
+char			deque_char_pop_start(t_deque_char *ret);
+int				deque_char_clone(t_deque_char *ret, const t_deque_char proto);
+void			deque_char_double_if_needed(t_deque_char *ret);
+char			deque_char_idx(t_deque_char *ret, size_t idx);
 #endif

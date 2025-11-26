@@ -6,18 +6,18 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 23:40:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:40:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DYN_STRING_H
 # define DYN_STRING_H
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include "ft_stdlib.h"
-#include "ft_string.h"
-#include "ft_debug.h"
+# include <stdbool.h>
+# include <stdlib.h>
+# include "ft_stdlib.h"
+# include "ft_string.h"
+# include "ft_debug.h"
 
 typedef struct s_dyn_str
 {

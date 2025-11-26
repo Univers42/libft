@@ -6,13 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:59:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/31 00:08:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:42:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_queue.h"
-
-
 
 char	deque_char_pop_start(t_deque_char *ret)
 {

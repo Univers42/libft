@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:42:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/31 00:22:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define ALGEBRA_H
 
 # include <stdint.h>
-
+# include <sys/types.h>
 // Define M_PI if not already defined
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
@@ -50,4 +50,5 @@ uint8_t		xtr_r(int c);
 uint8_t		xtr_g(int c);
 uint8_t		xtr_b(int c);
 float		ease_in_out(float t);
+ssize_t     ft_smod(ssize_t a, ssize_t b);
 #endif

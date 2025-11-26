@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:31:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 14:31:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:01:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
+#include "mlx_int.h"
 
 /**
  * @brief Destroys a MiniLibX image and frees associated resources.
@@ -25,18 +25,17 @@
  */
 int	mlx_destroy_image(t_xvar *xvar, t_img *img)
 {
-  if (img->type == MLX_TYPE_SHM_PIXMAP ||
-      img->type == MLX_TYPE_SHM)
-    {
-      XShmDetach(xvar->display, &(img->shm));
-      shmdt(img->shm.shmaddr);
-      /* shmctl IPC_RMID already done */
-    }
-  XDestroyImage(img->image);  /* For image & shm-image. Also free img->data */
-  XFreePixmap(xvar->display, img->pix);
-  if (img->gc)
-    XFreeGC(xvar->display, img->gc);
-  free(img);
-  if (xvar->do_flush)
-    XFlush(xvar->display);
+	if (img->type == MLX_TYPE_SHM_PIXMAP
+		|| img->type == MLX_TYPE_SHM)
+	{
+		XShmDetach(xvar->display, &(img->shm));
+		shmdt(img->shm.shmaddr);
+	}
+	XDestroyImage(img->image);
+	XFreePixmap(xvar->display, img->pix);
+	if (img->gc)
+		XFreeGC(xvar->display, img->gc);
+	free(img);
+	if (xvar->do_flush)
+		XFlush(xvar->display);
 }

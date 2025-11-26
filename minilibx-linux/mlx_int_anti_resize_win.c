@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:22:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:22:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:28:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
+#include "mlx_int.h"
 
 /**
  * @brief Prevents a MiniLibX window from being resized.
@@ -25,20 +25,20 @@
  * @param h Desired window height.
  * @return Always returns 0.
  */
-int	mlx_int_anti_resize_win(t_xvar *xvar,Window win,int w,int h)
+int	mlx_int_anti_resize_win(t_xvar *xvar, Window win, int w, int h)
 {
-  XSizeHints    hints;
-  long          toto;
+	XSizeHints	hints;
+	long		toto;
 
-  memset(&hints, 0, sizeof(XSizeHints));
-  toto = 0;
-  XGetWMNormalHints(xvar->display,win,&hints,&toto);
-  hints.width = w;
-  hints.height = h;
-  hints.min_width = w;
-  hints.min_height = h;
-  hints.max_width = w;
-  hints.max_height = h;
-  hints.flags = PPosition | PSize | PMinSize | PMaxSize;
-  XSetWMNormalHints(xvar->display,win,&hints);
+	memset(&hints, 0, sizeof(XSizeHints));
+	toto = 0;
+	XGetWMNormalHints(xvar->display, win, &hints, &toto);
+	hints.width = w;
+	hints.height = h;
+	hints.min_width = w;
+	hints.min_height = h;
+	hints.max_width = w;
+	hints.max_height = h;
+	hints.flags = PPosition | PSize | PMinSize | PMaxSize;
+	XSetWMNormalHints(xvar->display, win, &hints);
 }

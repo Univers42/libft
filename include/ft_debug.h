@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:53:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:18:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/10/30 23:41:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
 void	*ft_print_memory(void *addr, unsigned int size);
 void	*ft_print_array(int *arr, int size, char mode);
 void	print_array(int *arr, int size);
-
+void	ft_assert(int cond);
 #endif

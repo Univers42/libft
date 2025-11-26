@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:22:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:22:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:26:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
-#include	<stdlib.h>
+#include "mlx_int.h"
+#include <stdlib.h>
 
 /**
  * @brief Initializes the MiniLibX library and returns a display context.
@@ -24,32 +24,28 @@
  * @return Pointer to the initialized MiniLibX display context (t_xvar),
  *         or NULL on failure.
  */
-void	*mlx_init()
+void	*mlx_init(void)
 {
 	t_xvar	*xvar;
 
-	if (!(xvar = malloc(sizeof(*xvar))))
-		return ((void*)0);
-	if ((xvar->display = XOpenDisplay("")) == 0)
-	{
-		free(xvar);
-		return ((void*)0);
-	}
+	xvar = malloc(sizeof(*xvar));
+	if (!xvar)
+		return ((void*) 0);
+	xvar->display = XOpenDisplay("");
+	if (xvar->display == 0)
+		return (free(xvar), (void*) 0);
 	xvar->screen = DefaultScreen(xvar->display);
 	xvar->root = DefaultRootWindow(xvar->display);
-	xvar->cmap = DefaultColormap(xvar->display,xvar->screen);
-	xvar->depth = DefaultDepth(xvar->display,xvar->screen);
-	if (mlx_int_get_visual(xvar)==-1)
-	{
-		printf(ERR_NO_TRUECOLOR);
-		exit(1);
-	}
+	xvar->cmap = DefaultColormap(xvar->display, xvar->screen);
+	xvar->depth = DefaultDepth(xvar->display, xvar->screen);
+	if (mlx_int_get_visual(xvar) == -1)
+		(printf(ERR_NO_TRUECOLOR), exit(1));
 	xvar->win_list = 0;
 	xvar->loop_hook = 0;
 	xvar->loop_param = (void *)0;
 	xvar->do_flush = 1;
-	xvar->wm_delete_window = XInternAtom (xvar->display, "WM_DELETE_WINDOW", False);
-	xvar->wm_protocols = XInternAtom (xvar->display, "WM_PROTOCOLS", False);
+	xvar->wm_delete_window = XInternAtom(xvar->display, "WM_DELETE_WINDOW", False);
+	xvar->wm_protocols = XInternAtom(xvar->display, "WM_PROTOCOLS", False);
 	mlx_int_deal_shm(xvar);
 	if (xvar->private_cmap)
 		xvar->cmap = XCreateColormap(xvar->display,xvar->root,
@@ -76,7 +72,7 @@ void	*mlx_init()
  * @param xvar Pointer to the MiniLibX display context.
  * @return Always returns 0.
  */
-int		mlx_int_deal_shm(t_xvar *xvar)
+int	mlx_int_deal_shm(t_xvar *xvar)
 {
 	int		use_pshm;
 	int		bidon;
@@ -90,8 +86,8 @@ int		mlx_int_deal_shm(t_xvar *xvar)
 		xvar->pshm_format = -1;
 	gethostname(buff,32);
 	dpy = getenv(ENV_DISPLAY);
-	if (dpy && strlen(dpy) && *dpy!=':' && strncmp(dpy,buff,strlen(buff)) &&
-			strncmp(dpy,LOCALHOST,strlen(LOCALHOST)) )
+	if (dpy && strlen(dpy) && *dpy!=':' && strncmp(dpy,buff,strlen(buff))
+		&& strncmp(dpy,LOCALHOST,strlen(LOCALHOST)) )
 	{
 		xvar->pshm_format = -1;
 		xvar->use_xshm = 0;
@@ -109,19 +105,37 @@ int		mlx_int_deal_shm(t_xvar *xvar)
  * @param xvar Pointer to the MiniLibX display context.
  * @return Always returns 0.
  */
-int		mlx_int_rgb_conversion(t_xvar *xvar)
+int	mlx_int_rgb_conversion(t_xvar *xvar)
 {
-	bzero(xvar->decrgb,sizeof(int)*6);
-	while (!(xvar->visual->red_mask&1))
-		{ xvar->visual->red_mask >>= 1; xvar->decrgb[0] ++; }
-	while (xvar->visual->red_mask&1)
-		{ xvar->visual->red_mask >>= 1; xvar->decrgb[1] ++; }
-	while (!(xvar->visual->green_mask&1))
-		{ xvar->visual->green_mask >>= 1; xvar->decrgb[2] ++; }
-	while (xvar->visual->green_mask&1)
-		{ xvar->visual->green_mask >>= 1; xvar->decrgb[3] ++; }
-	while (!(xvar->visual->blue_mask&1))
-		{ xvar->visual->blue_mask >>= 1; xvar->decrgb[4] ++; }
-	while (xvar->visual->blue_mask&1)
-		{ xvar->visual->blue_mask >>= 1; xvar->decrgb[5] ++; }
+	bzero(xvar->decrgb, sizeof(int) * 6);
+	while (!(xvar->visual->red_mask & 1))
+	{
+		xvar->visual->red_mask >>= 1;
+		xvar->decrgb[0]++;
+	}
+	while (xvar->visual->red_mask & 1)
+	{
+		xvar->visual->red_mask >>= 1;
+		xvar->decrgb[1]++;
+	}
+	while (!(xvar->visual->green_mask & 1))
+	{
+		xvar->visual->green_mask >>= 1;
+		xvar->decrgb[2]++;
+	}
+	while (xvar->visual->green_mask & 1)
+	{
+		xvar->visual->green_mask >>= 1;
+		xvar->decrgb[3]++;
+	}
+	while (!(xvar->visual->blue_mask & 1))
+	{
+		xvar->visual->blue_mask >>= 1;
+		xvar->decrgb[4]++;
+	}
+	while (xvar->visual->blue_mask & 1)
+	{
+		xvar->visual->blue_mask >>= 1;
+		xvar->decrgb[5]++;
+	}
 }

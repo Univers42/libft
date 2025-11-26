@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:16:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:05:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@
 # ifndef DEFAULT_WHITE
 #  define DEFAULT_WHITE 0xFFFFFF
 # endif
+
+typedef struct s_subctx
+{
+	size_t templen;
+	size_t tempsize;
+	size_t i;
+	size_t patlen;
+	char *temp;
+	size_t repn;
+	size_t remn;
+} t_subctx;
 
 t_size	ft_strlen(const char *s);
 t_size	ft_strlcpy(char *dst, const char *src, t_size dsize);
@@ -57,4 +68,5 @@ int		extract_hex(t_addr *ptr, t_addr result);
 void	advance_ptr(t_addr *ptr, char delimiter);
 int		parse_sign(t_addr *ptr);
 int		parse_int(t_addr *ptr);
+char	*sstrdup(const char *ptr);
 #endif

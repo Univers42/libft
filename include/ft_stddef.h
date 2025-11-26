@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stddef.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:16:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:29:32 by syzygy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,53 @@ typedef uint64_t t_time;
 
 typedef enum s_severity
 {
-	SEV_INFO = 100,
+	SEV_INFO = 150,
 	SEV_WARNING = 200,
 	SEV_ERROR = 300
 } t_severity;
 
 typedef enum e_state
 {
-	ST_FILE_NOT_FOUND = -1,
+	ST_FILE_NOT_FOUND = -2,
+	ST_FILE_ERR_FATAL_MEMORY,
 	ST_OK = 0,
 	ST_DONE = 0,
+	ST_DEFAULT = 0,
 	ST_INIT = 0,
-	ST_FOUND_NL,
+	ST_NORMAL = 0,			// Default state
+	ST_USE = 1,
+	ST_FOUND_NL = 1,
+	ST_IN_MEMORY = 1,
+	ST_DEAD,
 	ST_INFO_BASE = SEV_INFO,
-	ST_WHITESPACE,
+    ST_MATCH_ANY,
+    ST_MATCH_BEG,
+    ST_MATCH_END,
+    ST_MATCH_GLOBREP,
+    ST_MATCH_QUOTED,
+    ST_MATCH_LITERAL,
+    ST_MATCH_ASSIGNRHS,
+    ST_MATCH_VARSUB,
+    ST_MATCH_CMDSUB,
+    ST_MATCH_ARITH,
+    ST_MATCH_PATHNAME,
+    ST_MATCH_WORDBOUND,
+    ST_MATCH_EXTGLOB,
+    ST_MATCH_ERRBASE,
+    ST_MATCH_EXPREP,
+    ST_MATCH_ESCAPED,
+    ST_BIN_FILE,
+	ST_IN_SQUOTE,			// Inside single quotes
+	ST_IN_DQUOTE,			// Inside double quotes
+	ST_IN_BQUOTE,			// Inside backticks
+	ST_IN_SUBSHELL,			// Inside $()
+	ST_IN_ARITH,			// Inside $(())
+	ST_IN_PARAM,			// Inside ${}
+	ST_HEREDOC,				// Reading heredoc content
+	ST_IN_COMMENT,			// Reading comment
+	ST_IN_WORD,
+	ST_ESCAPE_NEXT,			// next char is escaped
+	ST_WHITESPACE,			// Reading whitespace
 	ST_SIGN,
 	ST_BASE_PREFIX,
 	ST_DIGITS,
@@ -73,6 +106,22 @@ typedef enum e_state
 	ST_WARNING_BASE = SEV_WARNING,
 	ST_OVERFLOW,
 	ST_ERR_BASE = SEV_ERROR,
+    ST_EXECUTION_FAILURE,
+    ST_EX_BADUSAGE,
+    ST_EX_MISCERROR,
+    ST_RETRYFAIL,
+    ST_WEXPCOMBSUB,
+    ST_EX_NOEXEC,
+    ST_EX_NOINPUT,
+    ST_EX_NOTFOUND,
+    ST_EX_ERRBASE,
+    ST_EX_BADSYNTAX,
+    ST_EX_USAGE,
+    ST_EX_REDIRFAIL,
+    ST_EX_BADASSIGN,
+    ST_EXPRFAIL,
+    ST_EX_DISKFALLBACK,
+    ST_EX_UTILERROR,
 	ST_ERR_ALLOC,
 	ST_ERR_FATAL
 } t_state;

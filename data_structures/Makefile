@@ -21,6 +21,12 @@ SRCS		+=		$(addprefix queue/, queue_clear.c queue_create.c queue_dequeue.c queue
 SRCS		+=		$(addprefix vector/, vector_add_back.c vector_binary_search.c vector_capacity.c vector_clear.c \
 					vector_create.c vector_destroy.c vector_get.c vector_insert.c vector_pop_back.c \
 					vector_print.c vector_remove.c vector_reserve.c vector_resize.c vector_set.c vector_size.c)
+SRCS		+=		$(addprefix array/, array_create.c           array_empty.c        array_num_elements.c   array_to_string.c           element_value.c       set_element_value.c \
+add_after.c           array_create_element.c   array_first_index.c  array_pop.c            array_rshift.c               array_to_string_internal.c  find_elem_by_index.c  set_first_index.c						\
+add_before.c                   array_flush.c        array_push.c           array_shift.c                array_unshift_element.c     invalidate_lastref.c  set_lastref.c						 array_from_argv.c    array_quote.c          array_shift_element.c        array_value_replace.c       is_lastref.c          set_max_index.c						\
+array_alloc_size.c    array_dispose.c          array_head.c       array_slice.c                element_back.c              lastref.c             set_num_elements.c					\
+array_copy.c          array_dispose_element.c  array_insert.c       array_reference.c      array_to_argv.c              element_forw.c              lastref_start.c       unset_lastref.c						\
+array_copy_element.c  array_element_replace.c  array_max_index.c    array_remove.c         array_to_assign.c            element_index.c   )
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test
 

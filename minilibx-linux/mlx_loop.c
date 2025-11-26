@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:41:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:41:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:47:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
+#include "mlx_int.h"
 
-extern int	(*(mlx_int_param_event[]))();
+extern	int(*(mlx_int_param_event[]))(void);
 
 /**
  * @brief Returns the number of active MiniLibX windows.

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   assert_char.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 17:43:55 by syzygy            #+#    #+#             */
-/*   Updated: 2025/10/25 17:45:02 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/25 17:13:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
-int assert_char(int in, int expect)
+int	assert_char(int in, int expect)
 {
-    return (in == expect);
+	return (in == expect);
 }

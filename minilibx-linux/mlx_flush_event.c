@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:34:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 14:34:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:07:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
+#include "mlx_int.h"
 
 /**
  * @brief Flushes all pending X11 events from the MiniLibX display queue.
@@ -23,10 +23,10 @@
  */
 int	mlx_flush_event(t_xvar *xvar)
 {
-  XEvent	ev;
+	XEvent	ev;
 
-  while (XPending(xvar->display))
-  {
-     XNextEvent(xvar->display,&ev);
-  }
+	while (XPending(xvar->display))
+	{
+		XNextEvent(xvar->display, &ev);
+	}
 }

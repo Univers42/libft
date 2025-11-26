@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:21:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:22:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:28:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@
  */
 int	mlx_int_do_nothing(void *param)
 {
-  
+	return (0);
 }

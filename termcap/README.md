@@ -30,7 +30,61 @@ Shells are interactive programs that must work on many different terminal types,
 - Command-line editing (moving the cursor left/right, clearing lines)
 - Displaying prompts with colors or special effects
 - Implementing features like reverse search, history navigation, or screen redraws
+## Core terminal behaviors we want to recreate
+### Cursor movement
+When the user edits a command, our shell has to move the cursor left/right, jump to the start/end, etc.
+termcapt provided escape sequences like:
+- move cursor left
+- move cursor right
+- move cursor to a given row/col
+- save/restore cursor position
 
+### Clearing parts of the screen
+Interactive mode in shell need to clean up the screen elegantly:
+- Clear entier screen 
+- Clear from cursor to end of line
+- Clear from cursor to end of screen
+
+Used for things like:
+- redrawing the prompt
+- implementing `Ctrl + L`
+- updating completions menus
+
+### Terminal size detection
+our shell mst know the terminal width to wrap line correctly
+termcap has entries for number of columns/rows.
+
+### Key sequence decoding
+old terminal like the one of ash or dash sent weird escapes sequences.
+Modern shells still decode sequences for:
+- left arrow
+- Right arrow
+- up arrow (history)
+- down arrow
+- Home/end/delete
+- ctrl-key combos
+
+termcap is just a way to map sequences that are unreadable to value that behaves of somes way..
+### Bold/color mode togglses
+if we want a nice modern shell:
+- enter bold mode
+- exit bold mode
+- enter color mode
+- reset all attributes
+
+Termcap stored theses as capabilities like `md`(bold) and `me`(reset)
+### Line editing awarenes
+Not exactly a capability, but termcap-style care:
+
+don’t break the screen when line wraps
+
+redraw the prompt + current line cleanly
+
+handle resizing
+
+handle multi-line input smoothly
+
+This is basically what readline does internally.
 ## How Does Termcap Work?
 
 - The **termcap database** is a text file (traditionally `/etc/termcap`) containing entries for many terminal types.

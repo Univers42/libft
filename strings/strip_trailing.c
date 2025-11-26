@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:50:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 16:53:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:23:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * newlines. if newlines only is non-zero, only trainlinng newline
  * are removed. STRING should be terminated with a zero
  */
-void    strip_trailing(char *string, int len, bool nl_only)
+void	strip_trailing(char *string, int len, bool nl_only)
 {
 	while (len >= 0)
 	{

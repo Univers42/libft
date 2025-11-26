@@ -6,29 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/11 00:50:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 00:20:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
 
-static int get_baud_speed(void)
-{
-	t_tglob *g;
-	int i;
+int	get_baud_speed(void);
 
-	g = access_glob();
-	i = g->ospeed;
-	if (i == 0)
-		return (g->tputs_baud_rate);
-	if (i > 0 && i < 19)
-		return (g->speeds[i]);
-	return (0);
-}
-
-static int parse_pad(char **s, int nlines)
+static int	parse_pad(char **s, int nlines)
 {
-	int p;
+	int	p;
 
 	p = 0;
 	while (**s >= '0' && **s <= '9')
@@ -49,13 +37,13 @@ static int parse_pad(char **s, int nlines)
 	return (p);
 }
 
-static void out_str(char *s, int (*fn)(int))
+static void	out_str(char *s, int (*fn)(int))
 {
 	while (*s)
 		fn(*s++);
 }
 
-static int finish_pad(int p, int speed)
+static int	finish_pad(int p, int speed)
 {
 	p *= speed;
 	p += 500;
@@ -70,20 +58,20 @@ static int finish_pad(int p, int speed)
 	return (p);
 }
 
-static void out_pad(int p, int (*fn)(int))
+static void	out_pad(int p, int (*fn)(int))
 {
-	t_tglob *g;
+	t_tglob	*g;
 
 	g = access_glob();
 	while (p-- > 0)
 		fn(g->pc);
 }
 
-int tputs(const char *str, int nlines, int (*outfn)(int))
+int	tputs(const char *str, int nlines, int (*outfn)(int))
 {
-	int speed;
-	int padcount;
-	char *work;
+	int		speed;
+	int		padcount;
+	char	*work;
 
 	if (!str)
 		return (-1);

@@ -6,16 +6,16 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/11 00:50:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/25 23:29:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
 
-int tgetflag(const char *cap)
+int	tgetflag(const char *cap)
 {
-	t_tglob *g;
-	char *ptr;
+	t_tglob	*g;
+	char	*ptr;
 
 	g = access_glob();
 	if (!g->term_entry || !cap)

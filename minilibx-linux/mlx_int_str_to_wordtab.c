@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:26:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:27:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:40:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
+#include "mlx_int.h"
 
 /**
  * @brief Finds the first occurrence of a substring within a string.
@@ -23,28 +23,28 @@
  * @param len The maximum number of characters to search.
  * @return The position of the first occurrence, or -1 if not found.
  */
-int	mlx_int_str_str(char *str,char *find,int len)
+int	mlx_int_str_str(char *str, char *find, int len)
 {
-  int	len_f;
-  int	pos;
-  char	*s;
-  char	*f;
+	int		len_f;
+	int		pos;
+	char	*s;
+	char	*f;
 
-  len_f = strlen(find);
-  if (len_f>len)
-    return (-1);
-  pos = 0;
-  while (*(str+len_f-1))
-    {
-      s = str;
-      f = find;
-      while (*(f++) == *(s++))
-        if (!*f)
-          return (pos);
-      str ++;
-      pos ++;
-    }
-  return (-1);
+	len_f = strlen(find);
+	if (len_f > len)
+		return (-1);
+	pos = 0;
+	while (*(str + len_f - 1))
+	{
+		s = str;
+		f = find;
+		while (*(f++) == *(s++))
+			if (! *f)
+				return (pos);
+		str++;
+		pos++;
+	}
+	return (-1);
 }
 
 /**
@@ -61,33 +61,33 @@ int	mlx_int_str_str(char *str,char *find,int len)
  */
 int	mlx_int_str_str_cote(char *str,char *find,int len)
 {
-  int	len_f;
-  int	pos;
-  char	*s;
-  char	*f;
-  int	cote;
+	int		len_f;
+	int		pos;
+	char	*s;
+	char	*f;
+	int		cote;
 
-  len_f = strlen(find);
-  if (len_f>len)
-    return (-1);
-  cote = 0;
-  pos = 0;
-  while (*(str+len_f-1))
-    {
-      if (*str=='"')
-	cote = 1-cote;
-      if (!cote)
+	len_f = strlen(find);
+	if (len_f > len)
+		return (-1);
+	cote = 0;
+	pos = 0;
+	while (*(str + len_f - 1))
 	{
-	  s = str;
-	  f = find;
-	  while (*(f++) == *(s++))
-	    if (!*f)
-	      return (pos);
+		if (*str == '"')
+			cote = 1 - cote;
+		if (!cote)
+		{
+			s = str;
+			f = find;
+			while (*(f++) == *(s++))
+				if (!*f)
+					return (pos);
+		}
+		str++;
+		pos++;
 	}
-      str ++;
-      pos ++;
-    }
-  return (-1);
+	return (-1);
 }
 
 /**
@@ -102,42 +102,43 @@ int	mlx_int_str_str_cote(char *str,char *find,int len)
  */
 char	**mlx_int_str_to_wordtab(char *str)
 {
-  char	**tab;
-  int	pos;
-  int	nb_word;
-  int	len;
+	char	**tab;
+	int		pos;
+	int		nb_word;
+	int		len;
 
-  len = strlen(str);
-  nb_word = 0;
-  pos = 0;
-  while (pos<len)
-  {
-    while (*(str+pos)==' ' || *(str+pos)=='\t')
-      pos ++;
-    if (*(str+pos))
-      nb_word ++;
-    while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='\t')
-      pos ++;
-  }
-  if (!(tab = malloc((1+nb_word)*sizeof(*tab))))
-    return ((char **)0);
-  nb_word = 0;
-  pos = 0;
-  while (pos<len)
-    {
-      while (*(str+pos)==' ' || *(str+pos)=='\t')
+	len = strlen(str);
+	nb_word = 0;
+	pos = 0;
+	while (pos<len)
 	{
-	  *(str+pos) = 0;
-	  pos ++;
+		while (*(str + pos) == ' ' || *(str + pos) == '\t')
+			pos++;
+		if (*(str + pos))
+			nb_word++;
+		while (*(str + pos) && *(str + pos)!=' ' && *(str + pos) != '\t')
+			pos++;
 	}
-      if (*(str+pos))
+	tab = malloc((1 + nb_word) * sizeof(*tab));
+	if (!tab)
+		return ((char **) 0);
+	nb_word = 0;
+	pos = 0;
+	while (pos < len)
 	{
-	  tab[nb_word] = str+pos;
-	  nb_word ++;
+		while (*(str + pos) == ' ' || *(str + pos) == '\t')
+		{
+			*(str + pos) = 0;
+			pos++;
+		}
+		if (*(str + pos))
+		{
+			tab[nb_word] = str + pos;
+			nb_word++;
+		}
+		while (*(str + pos) && *(str + pos) != ' ' && *(str + pos) != '\t')
+			pos++;
 	}
-      while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='\t')
-	pos ++;
-    }
-  tab[nb_word] = 0;
-  return (tab);
+	tab[nb_word] = 0;
+	return (tab);
 }

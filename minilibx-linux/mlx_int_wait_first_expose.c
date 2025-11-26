@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:27:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 15:28:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:42:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
-
+#include "mlx_int.h"
 
 /**
  * @brief Waits for the first expose event on a MiniLibX window.
@@ -23,10 +22,10 @@
  * @param win The X11 window to wait for an expose event.
  * @return Always returns 0.
  */
-int	mlx_int_wait_first_expose(t_xvar *xvar,Window win)
+int	mlx_int_wait_first_expose(t_xvar *xvar, Window win)
 {
-  XEvent	ev;
+	XEvent	ev;
 
-  XWindowEvent(xvar->display,win,ExposureMask,&ev);
-  XPutBackEvent(xvar->display,&ev);
+	XWindowEvent(xvar->display, win, ExposureMask, &ev);
+	XPutBackEvent(xvar->display, &ev);
 }

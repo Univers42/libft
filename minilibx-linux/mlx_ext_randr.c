@@ -6,123 +6,148 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:33:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/31 14:33:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:41:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mlx_int.h"
-
-#include	<unistd.h>
+#include "mlx_int.h"
+#include <unistd.h>
+#include <stdio.h>
 #include <X11/extensions/Xrandr.h>
 
-/* global for independant extension */
-
-RRMode	saved_mode = 0;
-
-/**
- * @file mlx_ext_randr.c
- * @brief Provides fullscreen mode switching for MiniLibX windows using XRandR.
- *
- * This file contains functions to toggle fullscreen mode for a MiniLibX window
- * by interacting with the XRandR extension. It selects the best available screen
- * mode for fullscreen, saves the previous mode, and restores it when exiting fullscreen.
- *
- * The main function, mlx_ext_fullscreen, changes the window's display mode and
- * manages keyboard and pointer grabs as needed.
- *
- * @param xvar Pointer to the MiniLibX display context.
- * @param win Pointer to the window to be toggled.
- * @param fullscreen Non-zero to enable fullscreen, zero to restore previous mode.
- * @return Always returns 0.
- */
-int			mlx_ext_fullscreen(t_xvar *xvar, t_win_list *win, int fullscreen)
+static RRMode *saved_mode_singleton(void)
 {
-  XWindowAttributes	watt;
-  int			i;
-  int			j;
-  XRRScreenResources	*res;
-  XRROutputInfo		*o_info;
-  XRRCrtcInfo		*crtc;
-  RRMode		mode_candidate;
-  int			idx_output;
-  int			idx_candidate;
+  static RRMode mode = 0;
+  return (&mode);
+}
+
+static RROutput find_connected_output(Display *display, XRRScreenResources *res,
+                                      XRROutputInfo **out_info)
+{
+  int i;
+
+  *out_info = NULL;
+  i = res->noutput;
+  while (i--)
+  {
+    *out_info = XRRGetOutputInfo(display, res, res->outputs[i]);
+    if ((*out_info)->connection == RR_Connected)
+      return (res->outputs[i]);
+    XRRFreeOutputInfo(*out_info);
+  }
+  return (0);
+}
+
+/* internal context grouping parameters for the helper */
+typedef struct s_randr_ctx
+{
+  t_xvar *xvar;
+  t_win_list *win;
+  XRRScreenResources *res;
+  XRROutputInfo *o_info;
+  XID output_xid;
+  int fullscreen;
+  int watt_w;
+  int watt_h;
+} t_randr_ctx;
+
+static int select_best_mode(t_randr_ctx *ctx)
+{
+  int i;
+  int j;
+  int best = -1;
+
+  i = ctx->o_info->nmode;
+  while (i--)
+  {
+    j = ctx->res->nmode;
+    while (j--)
+    {
+      if (ctx->res->modes[j].id == ctx->o_info->modes[i])
+        if (ctx->res->modes[j].width >= ctx->watt_w && ctx->res->modes[j].height >= ctx->watt_h &&
+            (best == -1 || ctx->res->modes[best].width > ctx->res->modes[j].width ||
+             ctx->res->modes[best].height > ctx->res->modes[j].height))
+          best = j;
+    }
+  }
+  return best;
+}
+
+static int apply_mode(t_randr_ctx *ctx, int best)
+{
+  RRMode mode_candidate;
+  RRMode *saved_mode = saved_mode_singleton();
+
+  if (best < 0)
+    return (-1);
+  mode_candidate = ctx->o_info->modes[best];
+  if (!ctx->fullscreen && *saved_mode == -1)
+    mode_candidate = ctx->o_info->modes[0];
+  if (!ctx->fullscreen)
+    mode_candidate = *saved_mode;
+  {
+    XRRCrtcInfo *crtc = XRRGetCrtcInfo(ctx->xvar->display, ctx->res, ctx->o_info->crtc);
+    *saved_mode = crtc->mode;
+    XRRSetCrtcConfig(ctx->xvar->display, ctx->res, ctx->o_info->crtc, CurrentTime, 0, 0, mode_candidate,
+                     crtc->rotation, &ctx->output_xid, 1);
+    if (ctx->fullscreen)
+      printf("found mode : %d x %d\n Status %d\n", ctx->res->modes[best].width, ctx->res->modes[best].height, 0);
+    else
+      printf("back previous mode\n");
+    XMoveWindow(ctx->xvar->display, ctx->win->window, 0, 0);
+    XMapRaised(ctx->xvar->display, ctx->win->window);
+    if (ctx->fullscreen)
+      XGrabKeyboard(ctx->xvar->display, ctx->win->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
+    else
+    {
+      XUngrabPointer(ctx->xvar->display, CurrentTime);
+      XUngrabKeyboard(ctx->xvar->display, CurrentTime);
+    }
+    XSync(ctx->xvar->display, False);
+    sleep(1);
+    XRRFreeCrtcInfo(crtc);
+  }
+  return (0);
+}
+
+static int prepare_and_apply_mode(t_randr_ctx *ctx)
+{
+  int best;
+
+  best = select_best_mode(ctx);
+  if (best < 0)
+    return (-1);
+  return apply_mode(ctx, best);
+}
+
+int mlx_ext_fullscreen(t_xvar *xvar, t_win_list *win, int fullscreen)
+{
+  XWindowAttributes watt;
+  XRRScreenResources *res;
+  XRROutputInfo *o_info;
+  XID output_xid;
 
   if (!XGetWindowAttributes(xvar->display, win->window, &watt))
     return (0);
-
   res = XRRGetScreenResources(xvar->display, xvar->root);
-  o_info = NULL;
-  idx_output = -1;
-  i = res->noutput;
-  while (i--)
-    {
-      o_info = XRRGetOutputInfo(xvar->display, res, res->outputs[i]);
-      if (o_info->connection == RR_Connected)
-	{
-	  idx_output = i;
-	  i = 0;
-	}
-      else
-	XRRFreeOutputInfo(o_info);
-    }
-  if (!o_info)
-    {
-      XRRFreeScreenResources(res);
-      return (0);
-    }
-  
-  idx_candidate = -1;
-  i = o_info->nmode;
-  while (i--)
-    {
-      j = res->nmode;
-      while (j--)
-	if (res->modes[j].id == o_info->modes[i])
-	  if (res->modes[j].width >= watt.width && res->modes[j].height >= watt.height &&
-	      (idx_candidate == -1 || res->modes[idx_candidate].width > res->modes[j].width ||
-	       res->modes[idx_candidate].height > res->modes[j].height) )
-	    idx_candidate = i;
-    }
-  if (idx_candidate < 0)
+  if (!res)
+    return (0);
+  output_xid = find_connected_output(xvar->display, res, &o_info);
+  if (!output_xid)
+  {
+    XRRFreeScreenResources(res);
+    return (0);
+  }
+  {
+    t_randr_ctx ctx = {xvar, win, res, o_info, output_xid, fullscreen, watt.width, watt.height};
+    if (prepare_and_apply_mode(&ctx) < 0)
     {
       XRRFreeOutputInfo(o_info);
       XRRFreeScreenResources(res);
       return (0);
     }
-  if (!fullscreen && saved_mode == -1)
-    idx_candidate = 0; /* if no clue, uses first mode, usually part of npreferred */
-  mode_candidate = o_info->modes[idx_candidate];
-  if (!fullscreen)
-    mode_candidate = saved_mode;
-
-  crtc = XRRGetCrtcInfo(xvar->display, res, o_info->crtc);
-  saved_mode = crtc->mode;
-
-  i = XRRSetCrtcConfig(xvar->display, res, o_info->crtc, CurrentTime, 0, 0, mode_candidate,
-		       crtc->rotation, &res->outputs[idx_output], 1);
-  if (fullscreen)
-    printf("found mode : %d x %d\n Status %d\n", res->modes[idx_candidate].width, res->modes[idx_candidate].height, i);
-  else
-    printf("back previous mode\n");
-  
-  XMoveWindow(xvar->display, win->window, 0, 0);
-  XMapRaised(xvar->display, win->window);
-
-  if (fullscreen)
-    {
-      //      XGrabPointer(xvar->display, win->window, True, 0, GrabModeAsync, GrabModeAsync, win->window, 0L, CurrentTime);
-      XGrabKeyboard(xvar->display, win->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
-    }
-  else
-    {
-      XUngrabPointer(xvar->display, CurrentTime);
-      XUngrabKeyboard(xvar->display, CurrentTime);
-    }
-
-  XSync(xvar->display, False);
-  sleep(1);
-
-  XRRFreeCrtcInfo(crtc);
+  }
   XRRFreeOutputInfo(o_info);
   XRRFreeScreenResources(res);
+  return (0);
 }

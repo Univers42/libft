@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tgetstr.c                                          :+:      :+:    :+:   */
+/*   tparam_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 00:50:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:33:02 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/26 00:07:40 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/26 00:10:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
 
-char	*tgetstr(const char *cap, char **area)
+void	pf_handle_d(t_tparam_ctx *ctx, int tem)
 {
-	t_tglob	*g;
-	char	*ptr;
+	ctx->args[0] -= 2 * (tem % 16);
+}
 
-	g = access_glob();
-	if (!g->term_entry || !cap)
-		return (NULL);
-	ptr = find_capability(g->term_entry, (char *)cap);
-	if (!ptr || (ptr[-1] != '=' && ptr[-1] != '~'))
-		return (NULL);
-	return (tgetst1(ptr, area));
+void	pf_handle_c(t_tparam_ctx *ctx, int tem)
+{
+	if (tem >= 96)
+		append_char(&ctx->op, (char)(tem / 96));
+	append_char(&ctx->op, (char)(tem + *ctx->fmt));
+	ctx->fmt++;
+	ctx->args++;
+}
+
+void	pf_handle_unknown(t_tparam_ctx *ctx, int c)
+{
+	append_char(&ctx->op, '%');
+	append_char(&ctx->op, (char)c);
 }

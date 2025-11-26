@@ -2,28 +2,19 @@ NAME = libtermcap.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I.
 AR = ar rcs
+OBJDIR = obj
 
-SRCS = tgetent.c \
-       tgetst1.c \
-       tgetnum.c \
-       tgetstr.c \
-       tgetflag.c \
-       helpers.c \
-       gobble_line.c \
-       tputs.c \
-       tprint.c \
-       tparam.c \
-       tgoto.c \
-       xmalloc.c
+SRCS = $(wildcard *.c) $(wildcard rl/*.c)
+OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 
-OBJS = $(SRCS:.c=.o)
-
-all: $(NAME)
+# Default: build the test binary (will build the library first if needed)
+all: test
 
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 
-%.o: %.c termcap.h
+$(OBJDIR)/%.o: %.c termcap.h
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -31,10 +22,17 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -rf $(OBJDIR)
 
 re: fclean all
 
+# Build test binary; depends on library so it will be built if missing
 test: $(NAME)
-	$(CC) $(CFLAGS) test_termcap.c -L. -ltermcap -o test_termcap
+	mkdir -p bin
+	$(CC) $(CFLAGS) tests/test_termcap.c -L. -ltermcap -o bin/test
 
-.PHONY: all clean fclean re test
+shelltest: $(NAME)
+	mkdir -p bin
+	$(CC) $(CFLAGS) tests/test_shell.c -L. -ltermcap -o bin/test_shell
+
+.PHONY: all clean fclean re test shelltest

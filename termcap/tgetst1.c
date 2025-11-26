@@ -6,45 +6,35 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/11 00:50:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 00:21:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
 
-static int handle_backslash_escape(char **p)
+int	handle_octal(char **p, int c);
+int	handle_esctab(int c);
+
+static int	handle_backslash_escape(char **p)
 {
-	int c;
-	int size;
-	int c1;
-	t_tglob *g;
+	int	c;
 
 	c = **p;
 	(*p)++;
 	if (c >= '0' && c <= '7')
 	{
 		c -= '0';
-		size = 0;
-		while (++size < 3 && (c1 = **p) >= '0' && c1 <= '7')
-		{
-			c = c * 8 + (c1 - '0');
-			(*p)++;
-		}
+		c = handle_octal(p, c);
 		return (c);
 	}
 	if (c >= 0100 && c < 0200)
-	{
-		g = access_glob();
-		c1 = g->esctab[(c & ~040) - 0100];
-		if (c1 != ' ')
-			return (c1);
-	}
+		return (handle_esctab(c));
 	return (c);
 }
 
-static int process_escape_char(char **p)
+static int	process_escape_char(char **p)
 {
-	int c;
+	int	c;
 
 	c = **p;
 	(*p)++;
@@ -61,37 +51,46 @@ static int process_escape_char(char **p)
 	return (c);
 }
 
-static int compute_size(char *ptr)
+static int	compute_size(char *ptr)
 {
-	char *p;
-	int c;
+	char	*p;
+	int		c;
 
 	p = ptr;
-	while ((c = *p++) && c != ':' && c != '\n')
-		;
+	while (1)
+	{
+		c = *p++;
+		if (c == '\0' || c == ':' || c == '\n')
+			break ;
+	}
 	return (p - ptr + 1);
 }
 
-static char *copy_value(char *ptr, char *ret, char **area)
+static char	*copy_value(char *ptr, char *ret, char **area)
 {
-	char *p;
-	char *r;
-	int c;
+	char	*p;
+	char	*r;
+	int		c;
 
 	p = ptr;
 	r = ret;
-	while ((c = *p) && c != ':' && c != '\n')
+	while (1)
+	{
+		c = *p;
+		if (c == '\0' || c == ':' || c == '\n')
+			break ;
 		*r++ = process_escape_char(&p);
+	}
 	*r = '\0';
 	if (area)
 		*area = r + 1;
 	return (ret);
 }
 
-char *tgetst1(char *ptr, char **area)
+char	*tgetst1(char *ptr, char **area)
 {
-	char *ret;
-	int size;
+	char	*ret;
+	int		size;
 
 	if (!ptr)
 		return (NULL);

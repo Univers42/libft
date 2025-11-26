@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:33:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 15:41:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:43:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,41 +73,50 @@ static int select_best_mode(t_randr_ctx *ctx)
   return best;
 }
 
+static int perform_apply_crtc(t_randr_ctx *ctx, RRMode mode_candidate, int best)
+{
+  RRMode *saved_mode = saved_mode_singleton();
+  XRRCrtcInfo *crtc;
+
+  crtc = XRRGetCrtcInfo(ctx->xvar->display, ctx->res, ctx->o_info->crtc);
+  if (!crtc)
+    return (-1);
+  *saved_mode = crtc->mode;
+  XRRSetCrtcConfig(ctx->xvar->display, ctx->res, ctx->o_info->crtc, CurrentTime, 0, 0,
+                  mode_candidate, crtc->rotation, &ctx->output_xid, 1);
+  if (ctx->fullscreen)
+    printf("found mode : %d x %d\n Status %d\n", ctx->res->modes[best].width, ctx->res->modes[best].height, 0);
+  else
+    printf("back previous mode\n");
+  XMoveWindow(ctx->xvar->display, ctx->win->window, 0, 0);
+  XMapRaised(ctx->xvar->display, ctx->win->window);
+  if (ctx->fullscreen)
+    XGrabKeyboard(ctx->xvar->display, ctx->win->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
+  else
+  {
+    XUngrabPointer(ctx->xvar->display, CurrentTime);
+    XUngrabKeyboard(ctx->xvar->display, CurrentTime);
+  }
+  XSync(ctx->xvar->display, False);
+  sleep(1);
+  XRRFreeCrtcInfo(crtc);
+  return (0);
+}
+
 static int apply_mode(t_randr_ctx *ctx, int best)
 {
   RRMode mode_candidate;
-  RRMode *saved_mode = saved_mode_singleton();
+  RRMode *saved_mode;
 
   if (best < 0)
     return (-1);
   mode_candidate = ctx->o_info->modes[best];
+  saved_mode = saved_mode_singleton();
   if (!ctx->fullscreen && *saved_mode == -1)
     mode_candidate = ctx->o_info->modes[0];
   if (!ctx->fullscreen)
     mode_candidate = *saved_mode;
-  {
-    XRRCrtcInfo *crtc = XRRGetCrtcInfo(ctx->xvar->display, ctx->res, ctx->o_info->crtc);
-    *saved_mode = crtc->mode;
-    XRRSetCrtcConfig(ctx->xvar->display, ctx->res, ctx->o_info->crtc, CurrentTime, 0, 0, mode_candidate,
-                     crtc->rotation, &ctx->output_xid, 1);
-    if (ctx->fullscreen)
-      printf("found mode : %d x %d\n Status %d\n", ctx->res->modes[best].width, ctx->res->modes[best].height, 0);
-    else
-      printf("back previous mode\n");
-    XMoveWindow(ctx->xvar->display, ctx->win->window, 0, 0);
-    XMapRaised(ctx->xvar->display, ctx->win->window);
-    if (ctx->fullscreen)
-      XGrabKeyboard(ctx->xvar->display, ctx->win->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
-    else
-    {
-      XUngrabPointer(ctx->xvar->display, CurrentTime);
-      XUngrabKeyboard(ctx->xvar->display, CurrentTime);
-    }
-    XSync(ctx->xvar->display, False);
-    sleep(1);
-    XRRFreeCrtcInfo(crtc);
-  }
-  return (0);
+  return (perform_apply_crtc(ctx, mode_candidate, best));
 }
 
 static int prepare_and_apply_mode(t_randr_ctx *ctx)
@@ -117,7 +126,7 @@ static int prepare_and_apply_mode(t_randr_ctx *ctx)
   best = select_best_mode(ctx);
   if (best < 0)
     return (-1);
-  return apply_mode(ctx, best);
+  return (apply_mode(ctx, best));
 }
 
 int mlx_ext_fullscreen(t_xvar *xvar, t_win_list *win, int fullscreen)

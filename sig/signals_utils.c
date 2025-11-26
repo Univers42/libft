@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:20:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:22:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:53:37 by alcacere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trap.h"
-
 
 int	signal_is_special(int sig)
 {

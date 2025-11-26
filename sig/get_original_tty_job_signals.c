@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_original_tty_job_signals.c                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alcacere <alcacere@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/26 19:26:05 by alcacere          #+#    #+#             */
+/*   Updated: 2025/11/26 19:26:51 by alcacere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "trap.h"
 
-void get_original_tty_job_signals(void)
+void	get_original_tty_job_signals(void)
 {
-    /* No-op placeholder: platform-specific in real shells. */
 }

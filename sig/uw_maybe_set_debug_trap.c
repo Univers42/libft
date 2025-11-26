@@ -2,10 +2,13 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   uw_maybe_set_debug_trap.c                          :+:      :+:    :+:   */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alcacere <alcacere@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/26 19:57:02 by alcacere          #+#    #+#             */
+/*   Updated: 2025/11/26 19:57:16 by alcacere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "trap.h"
 
 /* Separate function to call when functions and sourced files want to restore
@@ -15,7 +18,7 @@
 	 SIG_TRAPPED will be set and we don't bother restoring the original
 	 trap string.
 	 This is used by both functions and the source builtin. */
-void uw_maybe_set_debug_trap(void *command)
+void	uw_maybe_set_debug_trap(void *command)
 {
 	trap_if_untrapped(DEBUG_TRAP, command);
 }

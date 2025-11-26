@@ -6,16 +6,16 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 05:47:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:33:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:52:17 by alcacere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trap.h"
 
-t_sig_handler set_signal_handler(int sig, t_sig_handler handler)
+t_sig_handler	set_signal_handler(int sig, t_sig_handler handler)
 {
-	struct sigaction act;
-	struct sigaction old;
+	struct sigaction	act;
+	struct sigaction	old;
 
 	act.sa_handler = handler;
 	sigemptyset(&act.sa_mask);
@@ -25,10 +25,9 @@ t_sig_handler set_signal_handler(int sig, t_sig_handler handler)
 	return (old.sa_handler);
 }
 
-/* Build a POSIX sigset_t from our bitmask (t_sigset) */
-static void build_sigset_from_mask(t_sigset mask, sigset_t *dst)
+static void	build_sigset_from_mask(t_sigset mask, sigset_t *dst)
 {
-	int sig;
+	int	sig;
 
 	sigemptyset(dst);
 	sig = 1;
@@ -40,11 +39,10 @@ static void build_sigset_from_mask(t_sigset mask, sigset_t *dst)
 	}
 }
 
-/* Convert a POSIX sigset_t to our bitmask (t_sigset) */
-static void compute_oldmask(const sigset_t *oset, t_sigset *oldset)
+static void	compute_oldmask(const sigset_t *oset, t_sigset *oldset)
 {
-	int sig;
-	t_sigset omask;
+	int			sig;
+	t_sigset	omask;
 
 	omask = 0;
 	sig = 1;
@@ -57,11 +55,11 @@ static void compute_oldmask(const sigset_t *oset, t_sigset *oldset)
 	*oldset = omask;
 }
 
-int ft_sigprocmask(int operation, t_sigset *newset, t_sigset *oldset)
+int	ft_sigprocmask(int operation, t_sigset *newset, t_sigset *oldset)
 {
-	sigset_t nset;
-	sigset_t oset;
-	sigset_t *nptr;
+	sigset_t	nset;
+	sigset_t	oset;
+	sigset_t	*nptr;
 
 	nptr = NULL;
 	if (newset)
@@ -76,10 +74,10 @@ int ft_sigprocmask(int operation, t_sigset *newset, t_sigset *oldset)
 	return (0);
 }
 
-int ft_sigsuspend(const t_sigset *set)
+int	ft_sigsuspend(const t_sigset *set)
 {
-	sigset_t rset;
-	t_sigset mask;
+	sigset_t	rset;
+	t_sigset	mask;
 
 	mask = 0;
 	if (set)

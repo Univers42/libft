@@ -6,10 +6,9 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:27:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:28:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/26 19:57:55 by alcacere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "trap.h"
 
 void	reinit_trap(int sig)
@@ -37,7 +36,7 @@ void	reset_signal(int sig)
 /* Reset trapped signals to their original values, but don't free the
 	 trap strings.  Called by the command substitution code and other places
 	 that create a "subshell environment". */
-void reset_signal_handlers(void)
+void	reset_signal_handlers(void)
 {
 	reset_or_restore_signal_handlers(reset_signal);
 }

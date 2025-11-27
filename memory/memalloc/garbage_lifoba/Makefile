@@ -6,11 +6,11 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:32:02 by                   #+#    #+#              #
-#    Updated: 2025/11/06 20:53:40 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/11/27 15:54:01 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME        := libmemalloc.a
+NAME        := libgarbcollector.a
 TEST_BIN    := test_memalloc
 TEST_TYPES  := test_types
 
@@ -50,13 +50,13 @@ $(OBJDIR):
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(OBJDIR)/%.o: %.c arena.h
+$(OBJDIR)/%.o: %.c lifoba.h
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
-$(OBJDIR)/main.o: main.c arena.h
+$(OBJDIR)/main.o: main.c lifoba.h
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
-$(OBJDIR)/test_types.o: test_types.c arena.h
+$(OBJDIR)/test_types.o: test_types.c lifoba.h
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 $(TEST_BIN): $(NAME) $(TEST_OBJS)

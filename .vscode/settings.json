@@ -21,6 +21,7 @@
     "ft_stddef.h": "c",
     "test.h": "c",
     "cstdint": "c",
-    "mman.h": "c"
+    "mman.h": "c",
+    "termcap.h": "c"
   }
 }

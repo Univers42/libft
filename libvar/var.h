@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 17:02:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:18:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 /*
  * Hash table size
  */
-# define DEFPATHVAR "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define DEFPATHVAR "PATH=/usr/local/sbin:/usr/local/bin:\
+					/usr/sbin:/usr/bin:/sbin:/bin"
 # define DEFIFSVAR "IFS= \t\n"
 # define DEFOPTINDVAR "OPTIND=1"
 /*
@@ -117,8 +118,8 @@ typedef struct s_meta
 
 char			**stackstrend(void);
 char			**growstackstr(void);
-char			**grabstackstr(char **);
-void			STARTSTACKSTR(char **);
+//char			**grabstackstr(char **);
+//void			STARTSTACKSTR(char **);
 # endif
 
 /**
@@ -143,7 +144,7 @@ t_var			*setvar(const char *name, const char *val, int flags);
  * @param flags Flags to be OR'ed with the variable's flags.
  * @return The integer value that was set.
  */
-intmax_t	setvarint(const char *name, intmax_t val, int flags);
+intmax_t		setvarint(const char *name, intmax_t val, int flags);
 
 /**
  * @brief Sets a variable from a "name=value" string.
@@ -151,14 +152,14 @@ intmax_t	setvarint(const char *name, intmax_t val, int flags);
  * @param flags Flags to be OR'ed with the variable's flags.
  * @return A pointer to the variable structure.
  */
-t_var		*setvareq(char *s, int flags);
+t_var			*setvareq(char *s, int flags);
 
 /**
  * @brief Looks up the value of a variable.
  * @param name The name of the variable.
  * @return The value of the variable as a string, or NULL if not set.
  */
-char		*lookupvar(const char *name);
+char			*lookupvar(const char *name);
 
 /**
  * @brief Looks up the value of a variable and converts it to an integer.
@@ -287,8 +288,8 @@ int				var_vpcmp(const void *a, const void *b);
  * TEST UTILITY: Do not use in production.
  * Resets the singleton state for unit testing.
  */
-void				libvar_reset_state(void);
+void			libvar_reset_state(void);
 
-intmax_t			ft_atomax(const char *s, int base);
+intmax_t		ft_atomax(const char *s, int base);
 
 #endif

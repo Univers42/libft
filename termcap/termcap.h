@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:54 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:55:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:20:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include <termios.h>
+#include <stdio.h>
 
 typedef struct s_buffer
 {

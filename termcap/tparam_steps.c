@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:06:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:30:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:15:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
 
 /* step helpers to keep process_format under 25 lines */
-int pf_step1(t_tparam_ctx *ctx, int c, int tem)
+int	pf_step1(t_tparam_ctx *ctx, int c, int tem)
 {
 	if (c == 'd' || c == '2' || c == '3')
 		return (pf_handle_numeric(ctx, c, tem), 1);
@@ -30,7 +30,7 @@ int pf_step1(t_tparam_ctx *ctx, int c, int tem)
 	return (0);
 }
 
-int pf_step2(t_tparam_ctx *ctx, int c)
+int	pf_step2(t_tparam_ctx *ctx, int c)
 {
 	if (c == 'r')
 		return (op_swap(&ctx->args[0], &ctx->args[1]), 1);
@@ -49,7 +49,7 @@ int pf_step2(t_tparam_ctx *ctx, int c)
 	return (0);
 }
 
-int pf_step3(t_tparam_ctx *ctx, int c, int tem)
+int	pf_step3(t_tparam_ctx *ctx, int c, int tem)
 {
 	if (c == 'a')
 		return (op_arith(&ctx->args[0], &ctx->fmt, ctx->args), 1);

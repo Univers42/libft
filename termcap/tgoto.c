@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:24:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:15:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
  * Public API: tgoto(cm, hpos, vpos) like classic termcap.
  * We pass (row=vpos, col=hpos) to tparam via an int args[].
  */
-char *tgoto(const char *cm, int hpos, int vpos)
+char	*tgoto(const char *cm, int hpos, int vpos)
 {
-	static char buf[128];
-	int args[4];
+	static char	buf[128];
+	int			args[4];
 
 	if (!cm)
 		return (NULL);
@@ -28,5 +28,5 @@ char *tgoto(const char *cm, int hpos, int vpos)
 	args[1] = hpos;
 	args[2] = 0;
 	args[3] = 0;
-	return (tparam(cm, buf, (int)sizeof(buf), args));
+	return (tparam(cm, buf, (int) sizeof(buf), args));
 }

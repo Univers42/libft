@@ -9,11 +9,7 @@ DEPFLAGS = -MMD -MP
 
 NAME_LIB	= 		string
 NAME		= 		$(NAME_LIB).a		
-SRCS		=  		ft_atol.c ft_countwords.c ft_split.c ft_strchr.c ft_strclen.c ft_strlen.c \
-					ft_strcmp.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c \
-					ft_strlcpy.c ft_strmapi.c ft_strncmp.c ft_strncpy.c ft_strndup.c \
-					ft_strnjoin.c ft_strnstr.c ft_strtok.c ft_substr.c ft_strtrim.c \
-					ft_substr.c ft_super_trim.c helper_super_trim.c
+SRCS		=  		$(wildcard *.c)
 
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test

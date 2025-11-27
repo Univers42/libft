@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:50:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 17:23:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:00:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_ctype.h"
 
 /**
  * Remove all trailing whitespaces from STRING. This includes

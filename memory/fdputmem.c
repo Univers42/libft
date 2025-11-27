@@ -6,13 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 15:57:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 15:57:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:38:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <unistd.h>
+#include "ft_string.h"
 
 void	ft_fdputmem(int fd, char *s, int n)
 {

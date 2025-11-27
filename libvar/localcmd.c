@@ -1,11 +1,21 @@
-#include "libvar.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   localcmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 16:10:01 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/27 16:47:58 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-extern void sh_error(const char *, ...); // Add this line
+#include "var.h"
 
-int localcmd(int argc, char **argv)
+int	localcmd(int argc, char **argv)
 {
-	struct s_var_state *state;
-	int i;
+	t_var_state	*state;
+	int			i;
 
 	state = get_var_state();
 	if (!state->localvar_stack)

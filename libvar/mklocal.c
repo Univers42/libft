@@ -1,23 +1,23 @@
-#include "libvar.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mklocal.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 16:09:55 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/27 16:52:05 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "var.h"
 #include <string.h>
 
-// If not already declared in headers:
-extern void *ckmalloc(size_t);
-#ifndef NOPTS
-#define NOPTS 64 // or whatever the correct value is for your shell
-#endif
-#ifndef INTOFF
-#define INTOFF /* nothing or your shell's macro */
-#endif
-#ifndef INTON
-#define INTON /* nothing or your shell's macro */
-#endif
-
-static struct s_localvar *handle_special_opt(void)
+static struct s_localvar	*handle_special_opt(void)
 {
-	struct s_var_state *state;
-	struct s_localvar *lvp;
-	char *p;
+	struct s_var_state	*state;
+	struct s_localvar	*lvp;
+	char				*p;
 
 	state = get_var_state();
 	lvp = ckmalloc(sizeof(struct s_localvar));
@@ -27,36 +27,36 @@ static struct s_localvar *handle_special_opt(void)
 	return (lvp);
 }
 
-static void setup_new_local(struct s_localvar *lvp, char *name, int flags)
+static void	setup_new_local(struct s_localvar *lvp, char *name, int flags)
 {
-	char *eq;
+	char	*eq;
 
 	eq = strchr(name, '=');
 	if (eq)
-		lvp->vp = setvareq(name, VSTRFIXED | flags);
+		lvp->vp = setvareq(name, VSTR_FIXED | flags);
 	else
-		lvp->vp = setvar(name, NULL, VSTRFIXED | flags);
+		lvp->vp = setvar(name, NULL, VSTR_FIXED | flags);
 	lvp->flags = VUNSET;
 }
 
-static void setup_existing_local(struct s_localvar *lvp, struct s_var *vp,
-								 char *name, int flags)
+static void	setup_existing_local(t_localvar *lvp, t_var *vp,
+								char *name, int flags)
 {
-	char *eq;
+	char	*eq;
 
 	eq = strchr(name, '=');
 	lvp->text = vp->text;
 	lvp->flags = vp->flags;
-	vp->flags |= VSTRFIXED | VTEXTFIXED;
+	vp->flags |= VSTR_FIXED | VTEXT_FIXED;
 	if (eq)
 		setvareq(name, flags);
 	lvp->vp = vp;
 }
 
-static struct s_localvar *handle_var_opt(char *name, int flags)
+static struct s_localvar	*handle_var_opt(char *name, int flags)
 {
-	struct s_localvar *lvp;
-	struct s_var *vp;
+	struct s_localvar	*lvp;
+	struct s_var		*vp;
 
 	lvp = ckmalloc(sizeof(struct s_localvar));
 	vp = *var_find(var_hash(name), name);
@@ -67,18 +67,18 @@ static struct s_localvar *handle_var_opt(char *name, int flags)
 	return (lvp);
 }
 
-void mklocal(char *name, int flags)
+void	mklocal(char *name, int flags)
 {
-	struct s_var_state *state;
-	struct s_localvar *lvp;
+	struct s_var_state	*state;
+	struct s_localvar	*lvp;
 
 	state = get_var_state();
-	INTOFF;
+	intoff();
 	if (name[0] == '-' && name[1] == '\0')
 		lvp = handle_special_opt();
 	else
 		lvp = handle_var_opt(name, flags);
 	lvp->next = state->localvar_stack->lv;
 	state->localvar_stack->lv = lvp;
-	INTON;
+	inton();
 }

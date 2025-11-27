@@ -1,41 +1,33 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* pushlocalvars.c                                    :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: <tu_login>                             <+       +#+        +:+     */
-/* Kk;k;                                           +#+#+#+#+#+   +#+           */
-/* Created: 2024/01/01 00:00:00 by <tu_login>          #+#    #+#             */
-/* Updated: 2024/01/01 00:00:00 by <tu_login>         ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushlocalvar.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 16:09:43 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/27 16:41:44 by dlesieur         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
-#include "libvar.h"
+#include "var.h"
 
-#ifndef INTOFF
-#define INTOFF /* nothing or your shell's macro */
-#endif
-#ifndef INTON
-#define INTON /* nothing or your shell's macro */
-#endif
-extern void *ckmalloc(size_t);
-
-t_localvar_list *pushlocalvars(int push)
+t_localvar_list	*pushlocalvars(int push)
 {
-	t_localvar_list *ll;
-	t_localvar_list *top;
-	t_var_state *state;
+	t_localvar_list	*ll;
+	t_localvar_list	*top;
+	t_var_state		*state;
 
 	state = get_var_state();
 	top = state->localvar_stack;
 	if (push)
 	{
-		INTOFF;
+		intoff();
 		ll = ckmalloc(sizeof(*ll));
 		ll->lv = NULL;
 		ll->next = top;
 		state->localvar_stack = ll;
-		INTON;
+		inton();
 	}
 	return (top);
 }

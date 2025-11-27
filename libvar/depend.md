@@ -54,3 +54,33 @@ Dentro de nuestra propia librería, las funciones ahora dependen unas de otras d
 * **`var_vpcmp`**: Depende de `libvar_varcmp`.
 * **`exportcmd`**: Depende de `setvar`, `var_hash`, `var_find` y `showvars`.
 
+extern void ckfree(void *ptr);
+extern void *ckmalloc(size_t size);
+extern char *savestr(const char *s);
+extern void sh_error(const char *, ...);
+extern char *strchrnul(const char *s, int c);
+extern char *end_of_name(const char *s);
+extern char *ft_strchrnul(const char *s, int c);
+extern size_t ft_strlen(const char *s);
+extern void *ckmalloc(size_t size);
+extern void *ft_memcpy(void *dst, const void *src, size_t n);
+// External dependencies
+extern const char	*spcstr;
+extern const char	*nullstr;
+extern char			*strchrnul(const char *s, int c);
+extern const char	*single_quote(const char *s);
+extern void			out1fmt(const char *fmt, ...);
+extern void			ft_qsort(void *base, int nmemb, int size,
+						int (*compar)(const void *, const void *));
+extern void *ft_memcpy(void *dst, const void *src, size_t n);
+extern void ckfree(void *ptr);
+extern void optschanged(void);
+extern char *strchrnul(const char *s, int c);
+// Forward declaration for pointer usage
+struct s_var_state;
+
+// External stack string helpers (provided by shell/libft)
+extern char	**stackstrend(void);
+extern char	**growstackstr(void);
+extern char	**grabstackstr(char **);
+extern void	STARTSTACKSTR(char **);

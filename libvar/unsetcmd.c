@@ -1,12 +1,21 @@
-#include "libvar.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unsetcmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 16:33:22 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/27 16:34:48 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "var.h"
 #include <string.h>
 
-// Add external declaration for unsetfunc
-extern void unsetfunc(const char *name);
-
-static int parse_unset_options(int argc, char **argv, int *flag_out)
+static int	parse_unset_options(int argc, char **argv, int *flag_out)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	*flag_out = 0;
@@ -19,18 +28,18 @@ static int parse_unset_options(int argc, char **argv, int *flag_out)
 		else if (strcmp(argv[i], "--") == 0)
 		{
 			i++;
-			break;
+			break ;
 		}
 		else
-			break;
+			break ;
 		i++;
 	}
 	return (i);
 }
 
-static void process_unset_args(int argc, char **argv, int start_index, int flag)
+static void	process_unset_args(int argc, char **argv, int start_index, int flag)
 {
-	int i;
+	int	i;
 
 	i = start_index;
 	while (i < argc)
@@ -41,7 +50,7 @@ static void process_unset_args(int argc, char **argv, int start_index, int flag)
 			if (flag == 'v')
 			{
 				i++;
-				continue;
+				continue ;
 			}
 		}
 		if (flag != 'v')
@@ -50,10 +59,10 @@ static void process_unset_args(int argc, char **argv, int start_index, int flag)
 	}
 }
 
-int unsetcmd(int argc, char **argv)
+int	unsetcmd(int argc, char **argv)
 {
-	int flag;
-	int i;
+	int	flag;
+	int	i;
 
 	i = parse_unset_options(argc, argv, &flag);
 	process_unset_args(argc, argv, i, flag);

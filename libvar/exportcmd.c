@@ -1,5 +1,16 @@
-#include "libvar.h"
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exportcmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 16:10:14 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/27 16:49:03 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "var.h"
 
 static void	process_export_arg(char *arg, int flag)
 {
@@ -51,14 +62,12 @@ int	exportcmd(int argc, char **argv)
 	int	i;
 
 	if (argv[0][0] == 'r')
-		flag = VREADONLY;
+		flag = VREAD_ONLY;
 	else
 		flag = VEXPORT;
 	i = parse_export_options(argc, argv, &show_p);
 	if (show_p || i == argc)
-	{
 		showvars(argv[0], flag, 0);
-	}
 	else
 	{
 		while (i < argc)

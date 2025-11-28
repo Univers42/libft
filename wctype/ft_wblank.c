@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:34:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 01:38:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 02:06:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_wctype.h"
 
-int ft_iswblank(wint_t wc)
+int	ft_iswblank(wint_t wc)
 {
 	return (wc == L' ' || wc == L'\t');
 }

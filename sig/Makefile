@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/08 06:45:29 by dlesieur          #+#    #+#              #
-#    Updated: 2025/11/10 19:24:17 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/11/28 02:05:15 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,17 @@ CC              := cc
 CFLAGS          := -Wall -Wextra -Werror -Wshadow -I.
 DEPFLAGS        := -MMD -MP
 
-NAME_LIB        := sig
+# --- Pretty color output ---
+COLOR_RESET := \033[0m
+COLOR_CC    := \033[1;34m   # bold blue
+COLOR_LD    := \033[1;32m   # bold green
+COLOR_AR    := \033[1;35m   # bold magenta
+COLOR_INFO  := \033[1;33m   # bold yellow
+
+VERBOSE ?= 0
+# If you want raw verbose commands, run: make VERBOSE=1
+
+NAME_LIB        := libsig
 LIB_FILE        := $(NAME_LIB).a
 
 OBJ_DIR         := obj
@@ -68,17 +78,31 @@ PROGRAM_BINS := \
 READLINE_LIBS := -lreadline -lncurses
 
 # Default
-all: $(LIB_FILE) demo
+all: $(LIB_FILE)
+
+# Test target (build demo programs on demand)
+test: demo
+	@echo "Built test -> demo programs are in $(BIN_DIR)"
 
 # Archive
 $(LIB_FILE): $(OBJ_LIB)
+ifeq ($(VERBOSE),1)
 	@echo "[AR] $@"
 	@ar rcs $@ $(OBJ_LIB)
+else
+	@printf "%b\n" "$(COLOR_AR)[AR] $@$(COLOR_RESET)"
+	@ar rcs $@ $(OBJ_LIB)
+endif
 
 # Root objects
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+else
+	@printf "%b\n" "$(COLOR_CC)[CC] $< -> $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+endif
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -86,32 +110,77 @@ $(OBJ_DIR):
 # Program objects
 $(OBJ_DIR)/$(PROGRAMS_DIR)/%.o: $(PROGRAMS_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(DEPFLAGS) -I. -c $< -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -I. -c $< -o $@
+else
+	@printf "%b\n" "$(COLOR_CC)[CC] $< -> $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -I. -c $< -o $@
+endif
 
 # Link programs
 $(PROG_BIN_demo_main): $(LIB_FILE) $(PROG_OBJ_demo_main) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_main) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_main) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_main) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_posix): $(LIB_FILE) $(PROG_OBJ_demo_posix) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_posix) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_posix) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_posix) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_sigaction): $(LIB_FILE) $(PROG_OBJ_demo_sigaction) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_sigaction) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_sigaction) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_sigaction) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_kill): $(LIB_FILE) $(PROG_OBJ_demo_kill) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_kill) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_kill) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_kill) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_leak): $(LIB_FILE) $(PROG_OBJ_demo_leak) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_leak) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_leak) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_leak) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_zombie): $(LIB_FILE) $(PROG_OBJ_demo_zombie) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_zombie) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_zombie) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_zombie) $(LIB_FILE) -o $@
+endif
 
 $(PROG_BIN_demo_shell): $(LIB_FILE) $(PROG_OBJ_demo_shell) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_shell) $(LIB_FILE) $(READLINE_LIBS) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_shell) $(LIB_FILE) $(READLINE_LIBS) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_shell) $(LIB_FILE) $(READLINE_LIBS) -o $@
+endif
 
 $(PROG_BIN_demo_signals): $(LIB_FILE) $(PROG_OBJ_demo_signals) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_signals) $(LIB_FILE) -o $@
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_signals) $(LIB_FILE) -o $@
+else
+	@printf "%b\n" "$(COLOR_LD)[LD] $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -I. $(PROG_OBJ_demo_signals) $(LIB_FILE) -o $@
+endif
 
 $(BIN_DIR):
 	@mkdir -p $(BIN_DIR)
@@ -152,5 +221,6 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re demo demo_main demo_posix demo_sigaction demo_kill demo_leak demo_zombie demo_shell demo_signals
+.PHONY: test
 
 -include $(DEP_LIB)

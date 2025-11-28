@@ -35,9 +35,9 @@ LIBS		=		memory.a string.a
 
 .PHONY: all clean fclean re test bins deps
 
-all: $(DPDC) $(NAME)
+all: $(NAME)
 
-$(NAME): $(DPDC) $(OBJS)
+$(NAME): $(OBJS)
 	$(call print_status,$(MAGENTA),ARCHIVE,Creating $(NAME)...)
 	@$(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
 	$(call print_status,$(GREEN),DONE,Library $(NAME) successfully created!)
@@ -81,7 +81,6 @@ deps: $(DEP_DIR)
 		echo "Building dependency $$repo"; \
 		$(MAKE) -C $$repo || exit 1; \
 		echo "Collecting archives from $$repo"; \
-		# POSIX-safe copy of all .a files from dependency repo into DEP_DIR
 		find "$$repo" -type f -name '*.a' -exec cp -f {} "$(DEP_DIR)/" \; || exit 1; \
 	done
 

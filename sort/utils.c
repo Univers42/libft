@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_sort.h"
+#include "qsort.h"
 
 int	get_min(int *arr, int size)
 {
@@ -54,4 +55,17 @@ void	handle_duplicates(int *arr, int *pos, int item)
 		return ;
 	while (*pos < 10000 && item == arr[*pos])
 		(*pos)++;
+}
+
+/* swap two elements at indices ai and bi using metas->tmp */
+void	swap_elems(t_intern *metas, size_t ai, size_t bi)
+{
+	char	*a;
+	char	*b;
+
+	a = metas->basep + ai * metas->size;
+	b = metas->basep + bi * metas->size;
+	ft_memcpy(metas->tmp, a, metas->size);
+	ft_memcpy(a, b, metas->size);
+	ft_memcpy(b, metas->tmp, metas->size);
 }

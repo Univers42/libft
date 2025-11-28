@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 16:34:37 by dlesieur          #+#    #+#              */
-/*   Updated: 2025/11/07 16:43:52 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 01:44:40 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 01:44:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_wctype.h"
 
-int ft_iswalpha(wint_t wc)
+int	ft_iswalpha(wint_t wc)
 {
 	return ((wc >= L'A' && wc <= L'Z') || (wc >= L'a' && wc <= L'z'));
 }

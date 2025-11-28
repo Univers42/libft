@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:34:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 01:32:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 01:44:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_wctype.h"
 
-int ft_iswcntrl(wint_t wc)
+int	ft_iswcntrl(wint_t wc)
 {
 	return (wc <= 0x1F || wc == 0x7F);
 }

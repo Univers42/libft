@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 19:55:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:57:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:58:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*stnputs(const char *s, size_t n, char *p)
 	return (p);
 }
 
-char	*strputs(const char *s, char *p)
+char	*stputs(const char *s, char *p)
 {
 	return (stnputs(s, ft_strlen(s), p));
 }

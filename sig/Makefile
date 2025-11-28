@@ -31,9 +31,11 @@ OBJ_DIR         := obj
 BIN_DIR         := bin
 PROGRAMS_DIR    := programs
 
-# Root sources (library) = all .c in this directory (exclude programs/)
-SRCS_LIB        := $(wildcard *.c)
-OBJ_LIB         := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS_LIB))
+# Root sources (library) = all .c and .bak in this directory (exclude programs/)
+# We turn filenames into base-names and build obj/<base>.o so .bak is treated like .c.
+SRCS_LIB        := $(wildcard *.c) $(wildcard *.bak)
+SRCS_BASENAME   := $(basename $(notdir $(SRCS_LIB)))
+OBJ_LIB         := $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(SRCS_BASENAME)))
 DEP_LIB         := $(OBJ_LIB:.o=.d)
 
 # Programs (each has one source for now)
@@ -102,6 +104,16 @@ ifeq ($(VERBOSE),1)
 else
 	@printf "%b\n" "$(COLOR_CC)[CC] $< -> $@$(COLOR_RESET)"
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+endif
+
+# Also accept .bak files as C sources (force C language)
+$(OBJ_DIR)/%.o: %.bak | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
+ifeq ($(VERBOSE),1)
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -x c -c $< -o $@
+else
+	@printf "%b\n" "$(COLOR_CC)[CC] $< -> $@$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -x c -c $< -o $@
 endif
 
 $(OBJ_DIR):

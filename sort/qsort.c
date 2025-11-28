@@ -1,0 +1,151 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   qsort.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 21:40:18 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 00:00:00 by assistant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "qsort.h"
+
+/* swap two elements at indices ai and bi using metas->tmp */
+static void swap_elems(t_intern *metas, size_t ai, size_t bi)
+{
+	char *a;
+	char *b;
+
+	a = metas->basep + ai * metas->size;
+	b = metas->basep + bi * metas->size;
+	ft_memcpy(metas->tmp, a, metas->size);
+	ft_memcpy(a, b, metas->size);
+	ft_memcpy(b, metas->tmp, metas->size);
+}
+
+/* partition the range [low, high] using metas and return pivot index */
+size_t partition(t_intern *metas)
+{
+	void *pv;
+	size_t i;
+	size_t j;
+	int cmp;
+
+	pv = malloc(metas->size);
+	if (!pv)
+		return (metas->low); /* on malloc fail, treat as empty partition */
+	ft_memcpy(pv, metas->basep + metas->high * metas->size, metas->size);
+	i = metas->low;
+	j = metas->low;
+	while (j < metas->high)
+	{
+		cmp = metas->compar(metas->basep + j * metas->size, pv);
+		if (cmp < 0)
+		{
+			swap_elems(metas, i, j);
+			i++;
+		}
+		j++;
+	}
+	swap_elems(metas, i, metas->high);
+	free(pv);
+	return (i);
+}
+
+#ifdef QSORT_RECURSIVE
+
+/* public ft_qsort: recursive version (uses qsort_rec) */
+void ft_qsort(void *base, size_t nmemb, size_t size,
+			  int (*compar)(const void *, const void *))
+{
+	t_intern metas;
+
+	if (nmemb < 2 || size == 0)
+		return;
+	metas.basep = (char *)base;
+	metas.low = 0;
+	metas.high = nmemb - 1;
+	metas.size = size;
+	metas.compar = compar;
+	metas.tmp = malloc(size);
+	if (!metas.tmp)
+		return;
+	qsort_rec(&metas);
+	free(metas.tmp);
+}
+#else
+
+/* allocate stack: try dynamic allocation, fallback to static buffer */
+static t_intern *alloc_stack(size_t nmemb, size_t *cap)
+{
+	t_intern *stack;
+	size_t want;
+	static t_intern small_stack[64];
+
+	want = 1;
+	if (nmemb > 1)
+		want = nmemb;
+	stack = malloc(want * sizeof(*stack));
+	if (stack)
+	{
+		*cap = want;
+		return (stack);
+	}
+	/* fallback */
+	*cap = 64;
+	return (small_stack);
+}
+
+/* pop one entry and process it (partition + push children) */
+static void process_top(t_intern *stack, size_t *sp, size_t cap)
+{
+	t_intern cur;
+	size_t p;
+	t_pushctx ctx;
+
+	if (*sp == 0)
+		return;
+	(*sp)--;
+	cur = stack[*sp];
+	if (cur.low >= cur.high)
+		return;
+	p = partition(&cur);
+	ctx.stack = stack;
+	ctx.sp = sp;
+	ctx.cap = cap;
+	ctx.cur = &cur;
+	ctx.p = p;
+	push_children(&ctx);
+}
+
+/* iterative, stack-based ft_qsort to limit recursion depth; uses helpers */
+void ft_qsort(void *base, size_t nmemb, size_t size,
+			  int (*compar)(const void *, const void *))
+{
+	t_intern metas;
+	t_intern *stack;
+	size_t cap;
+	size_t sp;
+
+	if (nmemb < 2 || size == 0)
+		return;
+	metas.basep = (char *)base;
+	metas.low = 0;
+	metas.high = nmemb - 1;
+	metas.size = size;
+	metas.compar = compar;
+	metas.tmp = malloc(size);
+	if (!metas.tmp)
+		return;
+	stack = alloc_stack(nmemb, &cap);
+	stack[0] = metas;
+	sp = 1;
+	while (sp > 0)
+		process_top(stack, &sp, cap);
+	if (cap != 64)
+		free(stack);
+	free(metas.tmp);
+}
+#endif

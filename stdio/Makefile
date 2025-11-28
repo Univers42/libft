@@ -7,7 +7,7 @@ CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I./ft_printf/include \
 
 DEPFLAGS = -MMD -MP
 
-NAME_LIB	= 		stdio
+NAME_LIB	= 		libstdio
 NAME		= 		$(NAME_LIB).a
 
 # Gather all .c files in output, input, format, gnl, and ft_printf/src

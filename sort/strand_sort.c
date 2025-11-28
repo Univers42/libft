@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:02:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 20:04:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:49:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 #include <stdint.h>
+#include "ft_memory.h"
 
 static void	merge_helper(int *result, int *a, int a_size, int *counters)
 {
@@ -70,10 +71,10 @@ static void	process_strand(int **result, int *result_size, int *strand,
 
 	b_data = malloc((strand_size + 1) * sizeof(int));
 	b_data[0] = strand_size;
-	memcpy(&b_data[1], strand, strand_size * sizeof(int));
+	ft_memcpy(&b_data[1], strand, strand_size * sizeof(int));
 	merged = malloc((*result_size + strand_size) * sizeof(int));
 	merge_arrays(merged, *result, *result_size, b_data);
-	memcpy(*result, merged, (*result_size + strand_size) * sizeof(int));
+	ft_memcpy(*result, merged, (*result_size + strand_size) * sizeof(int));
 	*result_size += strand_size;
 	free(b_data);
 	free(merged);
@@ -97,7 +98,7 @@ void	strand_sort(int *arr, int size)
 		process_strand(&result, &result_size, strand, strand_size);
 		free(strand);
 	}
-	memcpy(arr, result, size * sizeof(int));
+	ft_memcpy(arr, result, size * sizeof(int));
 	free(result);
 	free(used);
 }

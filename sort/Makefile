@@ -7,37 +7,44 @@ include ../build/debug.mk
 CFLAGS += -std=c99 -pedantic -Wshadow -I../include
 DEPFLAGS = -MMD -MP
 
-NAME_LIB	= 		sort
+NAME_LIB	= 		libsort
 NAME		= 		$(NAME_LIB).a
-SRCS		=		3-way-merge_sort.c          chunk_sort_helpers.c   heap_sort.c       pancake_sort.c     tim_sort.c \
-					3-way-merge_sort_helpers.c  coktail_shaker_sort.c  hybrid.c          pigeonhole_sort.c  tree.c \
-                	comb_sort.c            hybrid2.c         radix_sort.c       tree_sort.c 	\
-	                counting_sort.c        insertion_sort.c  selection_sort.c   utils.c \
-					bitonic_sort.c              cycle_sort.c           intro_sort.c      shell_sort.c       utils2.c \
-					bubble_sort.c               ft_quick_sort.c        ksort.c           sleep_sort.c \
-					cartesian_sort.c            gnome_sort.c           merge_sort.c      stooge_sort.c \
-					chunk_process.c             greedy_helpers.c       mini_push_swap.c  strand_sort.c \
-					chunk_sort.c                greedy_sort.c          odd_even_sort.c   tag_sort.c
+SRCS		=		$(wildcard *.c)
 
 OBJ_DIR		=		obj
-TEST_DIR	=		unit_test
+TEST_DIR	=		tests
 
-TEST_SRCS	=		$(TEST_DIR)/test.c
-TEST_OBJS	=		$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
-TEST_BIN	=		test_$(NAME_LIB)
+# discover all test sources and map them to bin/<name>
+TEST_SRCS	=		$(wildcard $(TEST_DIR)/*.c)
+BIN_DIR		=		bin
+TEST_BINS	=		$(patsubst $(TEST_DIR)/%.c,$(BIN_DIR)/%,$(TEST_SRCS))
+
+# ----------------- dependency support -----------------
+# list dependency repositories (directories) that contain their own Makefile
+DEP_REPOS	=		../memory
+# list the library names produced by those repos (basename of repo)
+DEP_LIBS	=		$(patsubst %/,%,$(notdir $(DEP_REPOS)))
+DEP_DIR		=		dependency
+DEP_LIB_A	=		$(addprefix $(DEP_DIR)/,$(addsuffix .a,$(DEP_LIBS)))
+# -------------------------------------------------------
 
 OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DPDC		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
 
-.PHONY: all clean fclean re test
+LIBS		=		memory.a string.a
 
-all: $(NAME)
+.PHONY: all clean fclean re test bins deps
 
-$(NAME): $(OBJS)
+all: $(DPDC) $(NAME)
+
+$(NAME): $(DPDC) $(OBJS)
 	$(call print_status,$(MAGENTA),ARCHIVE,Creating $(NAME)...)
 	@$(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
 	$(call print_status,$(GREEN),DONE,Library $(NAME) successfully created!)
 
+$(LIBS):
+	find ../ -name "$<" ## if we found them we don't run their Make otherwise we compile the libs
+	$(MAKE) $<
 $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 	@$(call create_dirs)
 	@mkdir -p $(dir $@)
@@ -50,26 +57,49 @@ $(OBJ_DIR):
 $(OBJ_DIR)/$(TEST_DIR):
 	@mkdir -p $(OBJ_DIR)/$(TEST_DIR)
 
-# Build test object
-$(OBJ_DIR)/$(TEST_DIR)/%.o : $(TEST_DIR)/%.c | $(OBJ_DIR)/$(TEST_DIR)
-	@$(call create_dirs)
-	@mkdir -p $(dir $@)
-	@$(call print_status,$(CYAN),COMPILE,Compiling $< -> $@)
-	@$(CC) $(CFLAGS) -I. -c $< -o $@
+# Build each test program into bin/<name>
+# Each test source is compiled and linked against the static library $(NAME)
+# and any dependency libraries present in $(DEP_DIR)
+$(BIN_DIR)/%: $(TEST_DIR)/%.c $(NAME) deps
+	@mkdir -p $(BIN_DIR)
+	@$(call print_status,$(CYAN),COMPILE,Compiling test $< -> $@)
+	@$(CC) $(CFLAGS) -I. $< $(NAME) $(DEP_LIB_A) -o $@
 
-# Test target
-test: $(NAME) $(TEST_OBJS)
-	$(call print_status,$(BLUE),TEST,Building test runner...)
-	@$(CC) $(CFLAGS) $(TEST_OBJS) $(OBJS) -o $(TEST_BIN)
-	$(call print_status,$(GREEN),TEST,Test binary ready: ./$(TEST_BIN))
-	@echo "Run ./$(TEST_BIN) to execute tests."
+# Test target builds all test binaries (ensures deps are prepared)
+test: $(NAME) bins
+	@$(call print_status,$(BLUE),TEST,All test binaries ready in $(BIN_DIR)/)
+	@echo "Run $(BIN_DIR)/* to execute tests."
+
+# alias rule to build all bins
+bins: $(TEST_BINS)
+
+# ------------------- dependency rules -------------------
+# Build dependencies and copy produced .a files into dependency/
+deps: $(DEP_DIR)
+	@set -e; \
+	for repo in $(DEP_REPOS); do \
+		echo "Building dependency $$repo"; \
+		$(MAKE) -C $$repo || exit 1; \
+		echo "Collecting archives from $$repo"; \
+		# POSIX-safe copy of all .a files from dependency repo into DEP_DIR
+		find "$$repo" -type f -name '*.a' -exec cp -f {} "$(DEP_DIR)/" \; || exit 1; \
+	done
+
+$(DEP_DIR):
+	@mkdir -p $(DEP_DIR)
+# -------------------------------------------------------
+
+# convenience: build a single test by name:
+# make bin/yourtest  (requires tests/yourtest.c to exist)
 
 clean:
 	$(call clean_objects)
+	@$(call print_status,$(YELLOW),CLEAN,Removing test binaries and dependencies...)
+	@rm -rf $(BIN_DIR) $(DEP_DIR)
 
 fclean: clean
-	$(call print_status,$(RED),CLEAN,Removing archive and test binary...)
-	@$(RM) $(NAME) $(TEST_BIN)
+	$(call print_status,$(RED),CLEAN,Removing archive...)
+	@$(RM) $(NAME)
 
 re: fclean all
 

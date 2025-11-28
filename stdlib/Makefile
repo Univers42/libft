@@ -5,7 +5,7 @@ include ../build/debug.mk
 CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I./ft_printf/include
 DEPFLAGS = -MMD -MP
 
-NAME_LIB	= 		stdlib
+NAME_LIB	= 		libstd
 NAME		= 		$(NAME_LIB).a
 SRCS		=		ft_atoi_base.c ft_atoi.c ft_calloc.c ft_dbl_free.c ft_itoa.c \
 					ft_realloc.c ft_utoa.c ft_xtoa.c randoms.c seeds.c skip_spaces.c \

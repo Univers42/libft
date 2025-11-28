@@ -3,7 +3,7 @@
 CC			= 		cc
 CFLAGS		= 		-Wall -Wextra -Werror -pedantic -Wshadow -std=c99 -I../include -I./ft_printf/include
 DEPFLAGS	= 		-MMD -MP
-NAME_LIB	= 		time
+NAME_LIB	= 		libtime
 NAME		= 		$(NAME_LIB).a		
 SRCS		=  		ft_time.c ft_usleep.c
 

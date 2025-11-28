@@ -7,7 +7,7 @@ include ../build/debug.mk
 CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
 DEPFLAGS = -MMD -MP
 
-NAME_LIB	= 		string
+NAME_LIB	= 		libstring
 NAME		= 		$(NAME_LIB).a		
 SRCS		=  		$(wildcard *.c)
 

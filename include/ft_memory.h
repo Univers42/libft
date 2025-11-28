@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:53:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 20:01:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	*safe_malloc(t_mem_tracker *tracker, size_t size);
 void	init_tracker(t_mem_tracker *tracker);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
-void	ft_swap(void *a, void *b, t_size size);
+void	ft_swap(void *a, void *b, size_t size);
 void	ft_reverse_string(char *str);
-void	ft_bzero(void *s, t_size n);
-void	*ft_memset(void *ptr, int value, t_size num);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memset(void *ptr, int value, size_t num);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_memchr(const void *s, int c, t_size n);
-int		ft_memcmp(const void *s1, const void *s2, t_size n);
+void	*ft_memchr(const void *s, int c, size_t n);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_print_memory(void *addr, unsigned int size);
 void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
 void	ft_print_ascii(unsigned char *p, unsigned int size);

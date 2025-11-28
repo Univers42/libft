@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stub2.c                                            :+:      :+:    :+:   */
+/*   ft_stdlib_stub2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 23:02:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:29:57 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/10/05 18:45:11 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 14:56:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "conv.h"
+#include "strto.h"
 
 unsigned int	ft_strto_uint(const char *nptr, char **endptr, int base)
 {

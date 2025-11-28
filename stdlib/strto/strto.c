@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conv.c                                             :+:      :+:    :+:   */
+/*   strto.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 23:01:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 16:02:55 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 14:55:30 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 14:56:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "conv.h"
+#include "strto.h"
 
 // Finalize conversion and apply type constraints
 static int64_t	finalize_negative_conversion(t_conv_ctx *ctx)
@@ -22,7 +22,7 @@ static int64_t	finalize_negative_conversion(t_conv_ctx *ctx)
 		errno = ERANGE;
 		return (ctx->type_info.min_val);
 	}
-	result = (-(int64_t)ctx->uval);
+	result = -(int64_t)ctx->uval;
 	return (result);
 }
 
@@ -63,24 +63,12 @@ static int64_t	finalize_conversion(t_conv_ctx *ctx)
 	return (result);
 }
 
-const t_type_info	*get_type_info(t_type type)
-{
-	size_t					count;
-	const type_info_entry	*table = get_type_info_table(&count);
-	size_t					i;
-
-	i = -1;
-	while (++i < count)
-		if (table[i].type == type)
-			return ((const t_type_info *)&table[i]);
-	return (NULL);
-}
-
 // UNIFIED CONVERSION FUNCTION - Handles all integer types
-int64_t	ft_strto(const char *nptr, char **endptr, int base, t_type type)
+int64_t	ft_strto(const char *nptr, char **endptr, int base, t_int_type type)
 {
-	t_conv_ctx	ctx;
-	t_fn_state	fn;
+	t_conv_ctx			ctx;
+	const t_fn_state	*table = conv_state_table();
+	t_fn_state			fn;
 
 	if (base < 0 || base == 1 || base > 36)
 	{
@@ -89,12 +77,13 @@ int64_t	ft_strto(const char *nptr, char **endptr, int base, t_type type)
 			*endptr = (char *)nptr;
 		return (0);
 	}
-	init_conv_ctx(&ctx, nptr, endptr, base, type);
-	if (ctx.state == ST_INIT)
-		ctx.state = ST_WHITESPACE;
-	while (ctx.state != ST_DONE && ctx.state != ST_ERR_BASE)
+	ctx.endptr = endptr;
+	init_conv_ctx(&ctx, nptr, base, type);
+	if (ctx.state == STATE_INIT)
+		ctx.state = STATE_WHITESPACE;
+	while (ctx.state != STATE_DONE && ctx.state != STATE_ERROR)
 	{
-		fn = lookup_state_fn(ctx.state);
+		fn = table[ctx.state];
 		if (!fn)
 			break ;
 		fn(&ctx);

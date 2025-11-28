@@ -10,12 +10,7 @@ NAME		= 		$(NAME_LIB).a
 SRCS		=		ft_atoi_base.c ft_atoi.c ft_calloc.c ft_dbl_free.c ft_itoa.c \
 					ft_realloc.c ft_utoa.c ft_xtoa.c randoms.c seeds.c skip_spaces.c \
 					utils_rand.c
-SRCS		+=  	$(addprefix slab/, slab_alloc.c slab_destroy.c slab_free.c \
-					slab_helpers.c slab_stats.c slab.c)
-SRCS		+=  	$(addprefix pool/, pool_helpers.c pool_stats.c pool.c)
-SRCS 		+=      $(addprefix arena/, arena.c)
-SRCS		+=		$(addprefix strto/, conv.c helpers.c state_conv.c \
-					stub1.c stub2.c stub3.c stub4.c)
+SRCS		+=		$(wildcard strto/*.c)
 
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test

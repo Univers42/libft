@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   state_conv.c                                       :+:      :+:    :+:   */
+/*   states_conv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 23:03:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:29:51 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/10/05 19:03:28 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 14:56:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "conv.h"
+#include "strto.h"
 
 // State: Skip whitespace
 void	state_whitespace(t_conv_ctx *ctx)
 {
 	while (isspace((unsigned char)*ctx->ptr))
 		ctx->ptr++;
-	ctx->state = ST_SIGN;
+	ctx->state = STATE_SIGN;
 }
 
 // State: Parse sign
@@ -30,7 +30,7 @@ void	state_sign(t_conv_ctx *ctx)
 	}
 	else if (*ctx->ptr == '+')
 		ctx->ptr++;
-	ctx->state = ST_BASE_PREFIX;
+	ctx->state = STATE_BASE_PREFIX;
 }
 
 // State: Parse base prefix
@@ -60,7 +60,7 @@ void	state_base_prefix(t_conv_ctx *ctx)
 				|| *(ctx->ptr + 1) == 'X'))
 			ctx->ptr += 2;
 	}
-	ctx->state = ST_DIGITS;
+	ctx->state = STATE_DIGITS;
 }
 
 // State: Parse digits with overflow detection
@@ -75,14 +75,14 @@ void	state_digits(t_conv_ctx *ctx)
 			break ;
 		if (ctx->uval > (UINT64_MAX - digit) / ctx->base)
 		{
-			ctx->state = ST_OVERFLOW;
+			ctx->state = STATE_OVERFLOW;
 			return ;
 		}
 		ctx->uval = ctx->uval * ctx->base + digit;
 		ctx->ptr++;
 		ctx->any_digit = true;
 	}
-	ctx->state = ST_DONE;
+	ctx->state = STATE_DONE;
 }
 
 // State: Handle overflow
@@ -93,5 +93,5 @@ void	state_overflow(t_conv_ctx *ctx)
 	while (char_to_digit(*ctx->ptr, ctx->base) != -1)
 		ctx->ptr++;
 	ctx->any_digit = true;
-	ctx->state = ST_DONE;
+	ctx->state = STATE_DONE;
 }

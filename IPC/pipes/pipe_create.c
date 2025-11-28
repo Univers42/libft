@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   any_signals_trapped.c                              :+:      :+:    :+:   */
+/*   pipe_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 00:51:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 14:52:53 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 03:30:26 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 03:59:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "trap.h"
+#include "pipe.h"
+#include "lifoba.h"
 
-int	any_signals_trapped(void)
+t_pipe_fds	*pipe_create(void)
 {
-	register int	i;
+	int			fds[2];
+	t_pipe_fds	*p;
 
-	i = 0;
-	while (++i < BASH_NSIG)
-		if ((get_g_sig()->sigmodes[i] & SIG_TRAPPED)
-			&& (get_g_sig()->sigmodes[i] & SIG_IGNORED) == 0)
-			return (i);
-	return (-1);
+	if (pipe(fds) < 0)
+		return (NULL);
+	p = (t_pipe_fds *) st_alloc(sizeof(t_pipe_fds));
+	if (!p)
+		return (NULL);
+	p->r = fds[0];
+	p->w = fds[1];
+	return (p);
 }

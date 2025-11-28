@@ -23,6 +23,7 @@
     "cstdint": "c",
     "mman.h": "c",
     "termcap.h": "c",
-    "qsort.h": "c"
+    "qsort.h": "c",
+    "pipe.h": "c"
   }
 }

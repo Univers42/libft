@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_structures.h                                  :+:      :+:    :+:   */
+/*   any_signals_trapped.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 19:59:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 02:59:33 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/08 00:51:46 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 03:16:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_STRUCTURES_H
-# define DATA_STRUCTURES_H
+#include "trap.h"
 
-# include "../data_structures/lists/ft_list.h"
-# include "../data_structures/doubly_linked_list/ft_doubly_list.h"
-# include "../data_structures/circular_linked_list/ft_circular_list.h"
-# include "../data_structures/queue/ft_queue.h"
-# include "../data_structures/vector/ft_vector.h"
+int	any_signals_trapped(void)
+{
+	register int	i;
 
-#endif
+	i = 0;
+	while (++i < BASH_NSIG)
+		if ((get_g_sig()->sigmodes[i] & SIG_TRAPPED)
+			&& (get_g_sig()->sigmodes[i] & SIG_IGNORED) == 0)
+			return (i);
+	return (-1);
+}

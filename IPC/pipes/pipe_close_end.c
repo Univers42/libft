@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_structures.h                                  :+:      :+:    :+:   */
+/*   pipe_close_end.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 19:59:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 02:59:33 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 03:34:39 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 03:55:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_STRUCTURES_H
-# define DATA_STRUCTURES_H
+#include "pipe.h"
+#include "lifoba.h"
 
-# include "../data_structures/lists/ft_list.h"
-# include "../data_structures/doubly_linked_list/ft_doubly_list.h"
-# include "../data_structures/circular_linked_list/ft_circular_list.h"
-# include "../data_structures/queue/ft_queue.h"
-# include "../data_structures/vector/ft_vector.h"
-
-#endif
+void	pipe_close_end(t_pipe_fds *p, int end)
+{
+	if (!p)
+		return ;
+	if (end == 0 && p->r >= 0)
+	{
+		close(p->r);
+		p->r = -1;
+	}
+	else if (end == 1 && p->w >= 0)
+	{
+		close(p->w);
+		p->w = -1;
+	}
+}

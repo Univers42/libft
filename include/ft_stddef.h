@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stddef.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 14:29:32 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/28 19:17:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ typedef uint64_t t_time;
 #define ERROR 1
 #define OK 0
 
+/***************************
+ * WRAPPED MESSAGES SHORTCUT
+ ***************************/
+
+# define NULLSTR ""
+# define SPC_STR " "
+# define SNL_FMT "%s\n"
+# define ILL_NUM "Illegal number: %s"
+# define HOME_STR "HOME"
+# define DOT_DIR "."
+
+/**************************
+ * ENUMS
+ **************************/
 typedef enum s_severity
 {
 	SEV_INFO = 150,

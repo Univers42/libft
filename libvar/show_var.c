@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:33:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:19:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ static void	print_var_list(char **ep, char **epend, const char *prefix)
 	const char	*q;
 
 	if (*prefix)
-		sep = spcstr;
+		sep = SPC_STR;
 	else
 		sep = prefix;
 	while (ep < epend)
 	{
 		p = strchrnul(*ep, '=');
-		q = nullstr;
+		q = NULLSTR;
 		if (*p)
 			q = single_quote(++p);
 		out1fmt("%s%s%.*s%s\n", prefix, sep, (int)(p - *ep), *ep, q);

@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:42:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:12:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
+#include "ft_stdlib.h"
 
 int		varcmp(const char *p, const char *q)
 {
@@ -41,7 +42,6 @@ int		var_vpcmp(const void *a, const void *b)
 	return (varcmp(*(const char **)a, *(const char **)b));
 }
 
-
 t_var	**var_find(struct s_var **vpp, const char *name)
 {
 	while (*vpp)
@@ -53,12 +53,25 @@ t_var	**var_find(struct s_var **vpp, const char *name)
 	return (vpp);
 }
 
-//TODO: Change this function by our personal strto in stdlib/strto.h
+t_var	**find_var(const char *name)
+{
+	t_var	**vpp;
+
+	vpp = hashvar(name);
+	while (*vpp)
+	{
+		if (varcmp((*vpp)->text, name) == 0)
+			break ;
+		vpp = &(*vpp)->next;
+	}
+	return (vpp);
+}
+
 intmax_t	ft_atomax(const char *s, int base)
 {
 	char	*endptr;
 
-	return (strtoimax(s, &endptr, base));
+	return ((intmax_t)ft_strto64(s, &endptr, base));
 }
 
 void	unwindlocalvars(t_localvar_list *stop)

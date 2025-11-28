@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:31:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:19:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <stddef.h>
 # include <inttypes.h>
 # include <string.h>
-
+# include "configs.h"
+# include "ft_stddef.h"
 /*
  * Option list size (must be defined before struct s_var_state uses it)
  */
@@ -30,6 +31,16 @@
 /*
  * Hash table size
  */
+/* if defined, use the writable canonical empty string from mystring.c */
+#ifdef MUTABLE_DEPENDANCE
+extern char nullstr[1];   /* declared in mystring.c */
+#define NULLSTR (nullstr)  /* expands to a char* */
+#else
+/* default: use a string literal (read-only) */
+#define NULLSTR ("")
+#endif
+
+
 # define DEFPATHVAR "PATH=/usr/local/sbin:/usr/local/bin:\
 					/usr/sbin:/usr/bin:/sbin:/bin"
 # define DEFIFSVAR "IFS= \t\n"
@@ -102,6 +113,7 @@ typedef struct s_var_state
 	char					linenovar[16];
 	struct s_var			*vlineno_ptr;
 	char					oplist[NOPTS];
+	int						lineno;
 }	t_var_state;
 
 typedef struct s_meta
@@ -133,5 +145,6 @@ int				add_term_histsize(t_var_state *state, int i);
 int				init_varinit_pt2(t_var_state *state, int i);
 t_var			make_ps1(void);
 t_var			make_ps2(void);
+t_var			**find_var(const char *name);
 
 #endif

@@ -6,29 +6,51 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 17:46:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:09:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
 
-char		*lookup_var(const char *name)
-{
-	t_var	*v;
+#ifdef WITH_LINENO
 
-	v = *find_var(name);
-	if (v && !(v->flags & VUNSET))
+static void	write_idx(t_var *v)
+{
+    t_var_state *st;
+
+	st = get_var_state();
+    if (st && v == st->vlineno_ptr && v->text == st->linenovar)
+        fmtstr(st->linenovar + 7, sizeof(st->linenovar) - 7, "%d", st->lineno);
 }
 
-intmax_t	lookup_var_int(const char *name)
-{
-	char	*value;
+#else
 
-	value = lookupvar(name);
-	if (value == NULL)
-		return (ft_atomax("", 0));
-	return (ft_atomax(value, 0));
+static void	write_idx(struct var *v)
+{
+    (void)v;
+}
+
+#endif
+
+char	*lookupvar(const char *name)
+{
+    t_var	*v;
+
+    v = *find_var(name);
+    if (v && !(v->flags & VUNSET))
+	{
+        write_idx(v);
+        return (strchrnul(v->text, '=') + 1);
+    }
+    return (NULL);
+}
+
+intmax_t lookup_var_int(const char *name)
+{
+    if (lookupvar(name))
+        return (NULLSTR);
+    return (0);
 }
 
 t_var	**var_hash(const char *p)

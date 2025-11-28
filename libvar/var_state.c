@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:11:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:37:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:43:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,21 @@ static void init_varinit_array(t_var_state *state);
 
 t_var_state *get_var_state(void)
 {
-	static t_var_state state;
-	static int is_initialized;
+    static t_var_state state;
+    static int is_initialized = 0;
 
-	is_initialized = 0;
-	if (!is_initialized)
-	{
-		state.defpathvar = DEFPATHVAR;
-		state.defifsvar = DEFIFSVAR;
-		state.defoptindvar = DEFOPTINDVAR;
-		ft_memcpy(state.linenovar, "LINENO=", 7);
-		state.linenovar[7] = '\0';
-		init_varinit_array(&state);
-		ft_memset(state.oplist, 0, NOPTS);
-		is_initialized = 1;
-	}
-	return (&state);
+    if (!is_initialized)
+    {
+        state.defpathvar = DEFPATHVAR;
+        state.defifsvar = DEFIFSVAR;
+        state.defoptindvar = DEFOPTINDVAR;
+        ft_memcpy(state.linenovar, "LINENO=", 7);
+        state.linenovar[7] = '\0';
+        init_varinit_array(&state);
+        ft_memset(state.oplist, 0, NOPTS);
+        is_initialized = 1;
+    }
+    return (&state);
 }
 
 /****************************

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:36:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:44:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static t_var	*build_and_set(t_meta *key, t_meta *val, int flags);
 // Main public API
 intmax_t	setvarint(const char *name, intmax_t val, int flags)
 {
-	char	buf[INTMAX_BUFSIZE];
+    char	buf[INTMAX_BUFSIZE];
 
-	ft_fmtstr(buf, INTMAX_BUFSIZE, "%", PRIdMAX, val);
-	setvar(name, buf, flags);
-	return (val);
+    ft_fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
+    setvar(name, buf, flags);
+    return (val);
 }
 
 t_var	*setvar(const char *name, const char *val, int flags)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 20:45:32 by alcacere         ###   ########.fr       */
+/*   Updated: 2025/11/28 01:58:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,11 +208,11 @@ t_glob_sig			*get_g_sig(void);
 void				block_signal(int sig, t_sigset *set, t_sigset *oset);
 void				unblock_signal(const t_sigset *oset);
 
-struct s_termg	*get_g_term(void)
-{
-	static struct s_termg	g_term = {0};
+// struct s_termg	*get_g_term(void)
+// {
+// 	static struct s_termg	g_term = {0};
 
-	return (&g_term);
-}
+// 	return (&g_term);
+// }
 
 #endif

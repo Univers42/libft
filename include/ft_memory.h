@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:19:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:53:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
 void	ft_print_ascii(unsigned char *p, unsigned int size);
 void	*ft_memmove(void *dst, const void *src, size_t n);
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
+void	*xmalloc(size_t nbytes);
+void	*xrealloc(void *p, size_t old, size_t new);
+void	xfree(void *ptr);
+void	*check_null(void *p);
+void	out_of_space(void);
 #endif

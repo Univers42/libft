@@ -7,7 +7,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "test.hpp"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/types.h>
@@ -92,7 +92,10 @@ static char **split_argv(const char *line)
     }
     argv = (char **)calloc(argc + 1, sizeof(char *));
     if (!argv)
-        return (free(copy), NULL);
+    {
+        free(copy);
+        return (char **)NULL;
+    }
     /* Tokenize */
     i = 0;
     size_t a = 0;
@@ -108,7 +111,7 @@ static char **split_argv(const char *line)
             p++;
     }
     argv[a] = NULL;
-    return (argv); 
+    return (argv);
 }
 
 /* Minimal execvpe: search PATH and execve */

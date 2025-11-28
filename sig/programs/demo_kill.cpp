@@ -6,7 +6,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "test.hpp"
 
 static void child_ignore_term(int enable)
 {

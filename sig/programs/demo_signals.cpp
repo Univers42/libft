@@ -1,4 +1,4 @@
-#include "test.h"
+#include "test.hpp"
 
 static int parse_sig(const char *s)
 {

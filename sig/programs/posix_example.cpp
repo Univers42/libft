@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   posix_example.c                                    :+:      :+:    :+:   */
+/*   posix_example.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:55:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:51:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 02:21:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "test.h"
+#include "test.hpp"
 
 /* Colors */
 static volatile int g_signal_count = 0;
 static volatile int g_suspend_ready = 0;
-
 
 static void example_handler(int sig)
 {

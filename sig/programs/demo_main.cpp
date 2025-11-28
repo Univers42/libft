@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   demo_main.c                                        :+:      :+:    :+:   */
+/*   demo_main.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 09:20:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 14:32:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 02:26:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ static int starts_with(const char *s, const char *p)
 
 static int spawn_child(const char *label)
 {
-	t_child *new_children = realloc(g_children, sizeof(t_child) * (g_child_count + 1));
+	t_child *new_children = (t_child *)realloc(g_children, sizeof(t_child) * (g_child_count + 1));
 	if (!new_children)
 		return -1;
 	g_children = new_children;

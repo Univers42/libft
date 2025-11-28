@@ -6,7 +6,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "test.hpp"
 
 static void sa_ignore_sigchld(void)
 {

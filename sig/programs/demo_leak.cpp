@@ -7,7 +7,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "test.hpp"
 
 static volatile sig_atomic_t g_stop = 0;
 static void *g_buf = NULL;

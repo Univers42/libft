@@ -7,7 +7,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "test.hpp"
 
 static volatile int g_count = 0;
 

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:37:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:42:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		var_vpcmp(const void *a, const void *b)
 {
 	return (varcmp(*(const char **)a, *(const char **)b));
 }
+
 
 t_var	**var_find(struct s_var **vpp, const char *name)
 {

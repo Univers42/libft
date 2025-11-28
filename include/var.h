@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:31:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:50:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,12 @@ t_var			**var_hash(const char *p);
  * @brief (Was static) Finds a variable in a hash bucket.
  * @param vpp Pointer to the hash bucket (from var_hash).
  * @param name The name of the variable to find.
- * @return A pointer to the variable's slot in the list.
+ * @return &vartab[index]
+ * @note the loop wals the linked list of struct var object
+ * in that bucket, comparing names.
+ * @note the idea behind this var_find is that if it fidns a match
+ * it returns a pointer to that struct var pointer; otherwise
+ * it returns the pointer where a new entry would be inserted
  */
 t_var			**var_find(t_var **vpp, const char *name);
 

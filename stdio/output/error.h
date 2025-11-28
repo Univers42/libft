@@ -3,6 +3,7 @@
 
 #include <signal.h>
 #include <stdarg.h>
+#include <stddef.h>
 
 /* Operation types for errmsg */
 #define E_OPEN 01
@@ -16,11 +17,9 @@
 #define EXEXIT 4
 
 /*
-** Error subsystem state (no file-scope globals).
-** err_fd is the file descriptor used for error output.
-*/
-typedef struct s_error_state
-{
+ * Error subsystem state (single structure, no file-scope globals here).
+ */
+typedef struct s_error_state {
     void (*handler)(int);
     int exception;
     int suppressint;
@@ -29,7 +28,7 @@ typedef struct s_error_state
     int err_fd;
 } t_error_state;
 
-/* singleton accessor */
+/* singleton accessor (must be implemented in a .c file) */
 t_error_state *get_error_state(void);
 
 /* error output fd accessors (use fds, not FILE*) */
@@ -39,27 +38,75 @@ void set_error_fd(int fd);
 /* install exception handler callback */
 void set_exception_handler(void (*handler)(int));
 
-/* interrupt helpers (replace dash macros) */
-void error_int_off(void);
-void error_int_on(void);
-void error_force_inton(void);
-int error_saveint(void);
-void error_restoreint(int v);
-void error_clear_pending_int(void);
-int error_int_pending(void);
-
 /* main error API (dash-compatible names) */
 void exraise(int e) __attribute__((__noreturn__));
 void onint(void) __attribute__((__noreturn__));
-void sh_error(const char *fmt, ...)
-    __attribute__((__noreturn__));
-void exerror(int cond, const char *fmt, ...)
-    __attribute__((__noreturn__));
+void sh_error(const char *fmt, ...) __attribute__((__noreturn__));
+void exerror(int cond, const char *fmt, ...) __attribute__((__noreturn__));
 const char *errmsg(int e, int action);
 void sh_warnx(const char *fmt, ...);
 
-/* Backwards compatibility lightweight names */
+/* Backwards-compatible lightweight names */
 void ft_error(const char *fmt, ...);
 void ft_warn(const char *fmt, ...);
 
-#endif
+/* Memory barrier (inline to keep same effect as macro) */
+static inline void barrier(void)
+{
+    __asm__ __volatile__ ("" : : : "memory");
+}
+
+/* Interrupt helpers (inline functions replacing macros).
+   These call get_error_state() to access the global state. */
+
+static inline void error_int_off(void)
+{
+    t_error_state *st = get_error_state();
+    st->suppressint++;
+    barrier();
+}
+
+static inline void error_int_on(void)
+{
+    t_error_state *st = get_error_state();
+    barrier();
+    if (--st->suppressint == 0 && st->intpending)
+        onint();
+}
+
+static inline void error_force_inton(void)
+{
+    t_error_state *st = get_error_state();
+    barrier();
+    st->suppressint = 0;
+    if (st->intpending)
+        onint();
+}
+
+static inline int error_saveint(void)
+{
+    t_error_state *st = get_error_state();
+    return st->suppressint;
+}
+
+static inline void error_restoreint(int v)
+{
+    t_error_state *st = get_error_state();
+    barrier();
+    if ((st->suppressint = v) == 0 && st->intpending)
+        onint();
+}
+
+static inline void error_clear_pending_int(void)
+{
+    t_error_state *st = get_error_state();
+    st->intpending = 0;
+}
+
+static inline int error_int_pending(void)
+{
+    t_error_state *st = get_error_state();
+    return (int)st->intpending;
+}
+
+#endif /* ERROR_H */

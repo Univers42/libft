@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_name_char.c                                     :+:      :+:    :+:   */
+/*   strchrnul.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 23:29:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:02:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 17:53:41 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 17:56:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ctype.h"
+#include "ft_string.h"
 
-int	is_name_char(int c)
+char	*ft_strchrnul(const char *s, int c)
 {
-	return (ft_isalpha((unsigned char) c) || c == '_');
-}
+	char	*p;
 
-int	is_in_name(int c)
-{
-	return (c == '_' || ft_isalnum((unsigned char)c));
+	p = ft_strchr(s, c);
+	if (!p)
+		p = (char *)s + ft_strlen(s);
+	return (p);
 }

@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_name_char.c                                     :+:      :+:    :+:   */
+/*   end_of_name.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 23:29:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:02:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 17:58:32 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 18:01:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "ft_ctype.h"
 
-int	is_name_char(int c)
+char	*end_of_name(const char *name)
 {
-	return (ft_isalpha((unsigned char) c) || c == '_');
-}
+	char	*p;
 
-int	is_in_name(int c)
-{
-	return (c == '_' || ft_isalnum((unsigned char)c));
+	p = (char *)name;
+	if (!is_name_char(*p))
+		return (p);
+	while (*++p)
+		if (! is_in_name(*p))
+			break ;
+	return (p);
 }

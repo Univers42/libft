@@ -6,14 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:36:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 17:46:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
 
-intmax_t	lookupvarint(const char *name)
+char		*lookup_var(const char *name)
+{
+	t_var	*v;
+
+	v = *find_var(name);
+	if (v && !(v->flags & VUNSET))
+}
+
+intmax_t	lookup_var_int(const char *name)
 {
 	char	*value;
 
@@ -37,5 +45,3 @@ t_var	**var_hash(const char *p)
 	}
 	return (&state->vartab[hashval % VTABSIZE]);
 }
-
-//TODO: lookupvar is not existing

@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_name_char.c                                     :+:      :+:    :+:   */
+/*   ft_strpcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 23:29:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:02:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 17:56:43 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 17:57:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ctype.h"
+#include "ft_string.h"
+#include "ft_memory.h"
 
-int	is_name_char(int c)
+char	*strpcpy(char *dst, const char *src)
 {
-	return (ft_isalpha((unsigned char) c) || c == '_');
-}
+	size_t	len;
 
-int	is_in_name(int c)
-{
-	return (c == '_' || ft_isalnum((unsigned char)c));
+	len = ft_strlen(src);
+	dst[len] = 0;
+	return (ft_memcpy(dst, src, len));
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/06 15:05:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 17:58:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ int		extract_hex(t_addr *ptr, t_addr result);
 void	advance_ptr(t_addr *ptr, char delimiter);
 int		parse_sign(t_addr *ptr);
 int		parse_int(t_addr *ptr);
-char	*sstrdup(const char *ptr);
+char	*ft_strchrnul(const char *s, int c);
+char	*strpcpy(char *dst, const char *src);
+
 #endif

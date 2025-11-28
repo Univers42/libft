@@ -24,6 +24,7 @@
     "mman.h": "c",
     "termcap.h": "c",
     "qsort.h": "c",
-    "pipe.h": "c"
+    "pipe.h": "c",
+    "private_var.h": "c"
   }
 }

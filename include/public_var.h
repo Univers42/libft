@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setvarint.c                                        :+:      :+:    :+:   */
+/*   public_var.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:06:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 16:41:56 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 15:07:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
+#ifndef PUBLIC_VAR_H
+# define PUBLIC_VAR_H
 
-#define INTMAX_BUFSIZE 25
-
-extern void	ft_fmtstr(char *buf, int size, const char *fmt, ...);
-
-intmax_t	setvarint(const char *name, intmax_t val, int flags)
-{
-	char	buf[INTMAX_BUFSIZE];
-
-	ft_fmtstr(buf, INTMAX_BUFSIZE, "%", PRIdMAX, val);
-	setvar(name, buf, flags);
-	return (val);
-}
+#endif

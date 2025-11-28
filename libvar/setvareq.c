@@ -6,15 +6,39 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 16:38:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:47:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
+#include "private_var.h"
 
-static struct s_var	*create_new_var(struct s_var **vpp, char *s, int flags)
+static t_var	*create_new_var(t_var **vpp, char *s, int flags);
+static int		handle_update_unset(t_var **vpp, char *s, int flags);
+static int		check_var_permissions(t_var *vp, char *s, int flags);
+static t_var	*update_existing_var(t_var **vpp, char *s, int flags);
+
+t_var	*setvareq(char *s, int flags)
 {
-	struct s_var	*vp;
+	t_var			*vp;
+	t_var			**vpp;
+	int				aflag;	//?Seems to be a global variable because it had extern
+
+	flags |= (VEXPORT & (((unsigned)(1 - aflag)) - 1));
+	vpp = var_hash(s);
+	vpp = var_find(vpp, s);
+	vp = *vpp;
+	intoff();
+	if (vp)
+		vp = update_existing_var(vpp, s, flags);
+	else
+		vp = create_new_var(vpp, s, flags);
+	inton();
+	return (vp);
+}
+
+static t_var	*create_new_var(t_var **vpp, char *s, int flags)
+{
+	t_var	*vp;
 
 	if (flags & VNO_SET)
 		return (NULL);
@@ -29,16 +53,16 @@ static struct s_var	*create_new_var(struct s_var **vpp, char *s, int flags)
 	vp->func = NULL;
 	*vpp = vp;
 	if (!(flags & (VTEXT_FIXED | VSTACK | VNO_SAVE)))
-		s = savestr(s);
+		s = savestr(s);		//TODO
 	vp->text = s;
 	vp->flags = flags;
 	return (vp);
 }
 
-static int	handle_update_unset(struct s_var **vpp, char *s, int flags)
+static int	handle_update_unset(t_var **vpp, char *s, int flags)
 {
-	struct s_var	*vp;
-	int				total_flags;
+	t_var	*vp;
+	int		total_flags;
 
 	vp = *vpp;
 	total_flags = (flags & (VEXPORT | VREAD_ONLY | VSTR_FIXED
@@ -54,7 +78,7 @@ static int	handle_update_unset(struct s_var **vpp, char *s, int flags)
 	return (0);
 }
 
-static int	check_var_permissions(struct s_var *vp, char *s, int flags)
+static int	check_var_permissions(t_var *vp, char *s, int flags)
 {
 	const char	*n;
 
@@ -71,9 +95,9 @@ static int	check_var_permissions(struct s_var *vp, char *s, int flags)
 	return (0);
 }
 
-static struct s_var	*update_existing_var(struct s_var **vpp, char *s, int flags)
+static t_var	*update_existing_var(t_var **vpp, char *s, int flags)
 {
-	struct s_var	*vp;
+	t_var	*vp;
 
 	vp = *vpp;
 	if (check_var_permissions(vp, s, flags))
@@ -89,24 +113,5 @@ static struct s_var	*update_existing_var(struct s_var **vpp, char *s, int flags)
 		s = savestr(s);
 	vp->text = s;
 	vp->flags = flags;
-	return (vp);
-}
-
-struct s_var	*setvareq(char *s, int flags)
-{
-	struct s_var	*vp;
-	struct s_var	**vpp;
-	extern int		aflag;
-
-	flags |= (VEXPORT & (((unsigned)(1 - aflag)) - 1));
-	vpp = var_hash(s);
-	vpp = var_find(vpp, s);
-	vp = *vpp;
-	intoff();
-	if (vp)
-		vp = update_existing_var(vpp, s, flags);
-	else
-		vp = create_new_var(vpp, s, flags);
-	inton();
 	return (vp);
 }

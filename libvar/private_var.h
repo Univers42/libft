@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var.h                                              :+:      :+:    :+:   */
+/*   private_var.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 17:18:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:21:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,5 +291,21 @@ int				var_vpcmp(const void *a, const void *b);
 void			libvar_reset_state(void);
 
 intmax_t		ft_atomax(const char *s, int base);
+
+t_var			make_atty(void);
+int				add_atty(t_var_state *state, int i);
+t_var			make_ifs(const char *ifs);
+t_var			make_mail(void);
+t_var			make_mailpath(void);
+t_var			make_path(const char *path);
+t_var			make_optind(const char *optind, int (*reset)(void));
+t_var			make_lineno(const char *lineno);
+t_var			make_term(void);
+t_var			make_histsize(void);
+t_var			make_ps4(void);
+int				add_term_histsize(t_var_state *state, int i);
+int				init_varinit_pt2(t_var_state *state, int i);
+t_var			make_ps1(void);
+t_var			make_ps2(void);
 
 #endif

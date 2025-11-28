@@ -1,0 +1,6 @@
+"ft_string.h" ft_strcmp ft_strchr *str_chr_nul
+"lifoba.h" grow_stack_str ckfree ckmalloc
+"stdio" sh_error fmtstr(char *buf, int size, const char *fmt, ...) (WRONG but )
+"signal" inton intoff
+
+*: To create

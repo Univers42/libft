@@ -6,12 +6,50 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 16:51:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:43:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
+#include "private_var.h"
 
+// Public API
+void	poplocalvars(void)
+{
+	t_localvar_list	*ll;
+	t_var_state		*state;
+	t_localvar		*lvp_list;
+
+	state = get_var_state();
+	intoff();
+	ll = state->localvar_stack;
+	state->localvar_stack = ll->next;
+	lvp_list = ll->lv;
+	ckfree(ll);
+	process_local_var_list(lvp_list, state);
+	inton();
+}
+
+t_localvar_list	*pushlocalvars(int push)
+{
+	t_localvar_list	*ll;
+	t_localvar_list	*top;
+	t_var_state		*state;
+
+	state = get_var_state();
+	top = state->localvar_stack;
+	if (push)
+	{
+		intoff();
+		ll = ckmalloc(sizeof(*ll));
+		ll->lv = NULL;
+		ll->next = top;
+		state->localvar_stack = ll;
+		inton();
+	}
+	return (top);
+}
+
+// PRIVATE HELPERS
 static void	restore_opt_var(t_localvar *lvp, t_var_state *state)
 {
 	ft_memcpy(state->optlist, lvp->text, NOPTS);
@@ -57,20 +95,4 @@ static void	process_local_var_list(t_localvar *lvp_list,
 		ckfree(current);
 		current = next;
 	}
-}
-
-void	poplocalvars(void)
-{
-	t_localvar_list	*ll;
-	t_var_state		*state;
-	t_localvar		*lvp_list;
-
-	state = get_var_state();
-	intoff();
-	ll = state->localvar_stack;
-	state->localvar_stack = ll->next;
-	lvp_list = ll->lv;
-	ckfree(ll);
-	process_local_var_list(lvp_list, state);
-	inton();
 }

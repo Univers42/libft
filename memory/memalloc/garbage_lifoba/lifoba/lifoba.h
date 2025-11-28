@@ -6,10 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/24 12:56:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:17:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * TODO:
+ * - start_stack_str(ep); list_vars.c
+ * - stack_str_end(); list_vars.c
+ */
 /* libmemalloc — LIFO (stack) arena allocator
  *
  * Purpose

@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pushlocalvar.c                                     :+:      :+:    :+:   */
+/*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:09:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 16:41:44 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 15:33:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
+#include "private_var.h"
 
-t_localvar_list	*pushlocalvars(int push)
+intmax_t	lookupvarint(const char *name)
 {
-	t_localvar_list	*ll;
-	t_localvar_list	*top;
+	char	*value;
+
+	value = lookupvar(name);
+	if (value == NULL)
+		return (ft_atomax("", 0));
+	return (ft_atomax(value, 0));
+}
+
+t_var	**var_hash(const char *p)
+{
+	unsigned int	hashval;
 	t_var_state		*state;
 
 	state = get_var_state();
-	top = state->localvar_stack;
-	if (push)
+	hashval = ((unsigned char)*p) << 4;
+	while (*p && *p != '=')
 	{
-		intoff();
-		ll = ckmalloc(sizeof(*ll));
-		ll->lv = NULL;
-		ll->next = top;
-		state->localvar_stack = ll;
-		inton();
+		hashval += (unsigned char)*p;
+		p++;
 	}
-	return (top);
+	return (&state->vartab[hashval % VTABSIZE]);
 }

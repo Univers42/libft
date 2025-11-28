@@ -1,18 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unsetcmd.c                                         :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:33:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 16:34:48 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/27 16:06:18 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/28 15:49:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
+#include "private_var.h"
 #include <string.h>
 
+static int	parse_unset_options(int argc, char **argv, int *flag_out);
+static void	process_unset_args(int argc, char **argv,
+				int start_index, int flag);
+
+//PUBLIC function
+
+int	unsetcmd(int argc, char **argv)
+{
+	int	flag;
+	int	i;
+
+	i = parse_unset_options(argc, argv, &flag);
+	process_unset_args(argc, argv, i, flag);
+	return (0);
+}
+
+void	unsetvar(const char *s)
+{
+	setvar(s, 0, 0);
+}
+
+//PRIVATE
 static int	parse_unset_options(int argc, char **argv, int *flag_out)
 {
 	int	i;
@@ -21,11 +43,11 @@ static int	parse_unset_options(int argc, char **argv, int *flag_out)
 	*flag_out = 0;
 	while (i < argc && argv[i][0] == '-')
 	{
-		if (strcmp(argv[i], "-v") == 0)
+		if (ft_strcmp(argv[i], "-v") == 0)
 			*flag_out = 'v';
-		else if (strcmp(argv[i], "-f") == 0)
+		else if (ft_strcmp(argv[i], "-f") == 0)
 			*flag_out = 'f';
-		else if (strcmp(argv[i], "--") == 0)
+		else if (ft_strcmp(argv[i], "--") == 0)
 		{
 			i++;
 			break ;
@@ -57,14 +79,4 @@ static void	process_unset_args(int argc, char **argv, int start_index, int flag)
 			unsetfunc(argv[i]);
 		i++;
 	}
-}
-
-int	unsetcmd(int argc, char **argv)
-{
-	int	flag;
-	int	i;
-
-	i = parse_unset_options(argc, argv, &flag);
-	process_unset_args(argc, argv, i, flag);
-	return (0);
 }

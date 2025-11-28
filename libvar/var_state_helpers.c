@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:10:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 t_var make_atty(void)
 {

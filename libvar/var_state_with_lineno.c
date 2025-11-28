@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:05:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:18:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 #ifdef WITH_LINENO
 

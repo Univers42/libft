@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:47:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:36:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 static t_var	*create_new_var(t_var **vpp, char *s, int flags);
 static int		handle_update_unset(t_var **vpp, char *s, int flags);

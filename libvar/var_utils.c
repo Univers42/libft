@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:34:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 int		varcmp(const char *p, const char *q)
 {

@@ -2,5 +2,5 @@
 "lifoba.h" grow_stack_str ckfree ckmalloc
 "stdio" sh_error fmtstr(char *buf, int size, const char *fmt, ...) (WRONG but )
 "signal" inton intoff
-
+*lookupvar
 *: To create

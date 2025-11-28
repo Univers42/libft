@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:06:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:15:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 #ifdef SMALL
 

@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:45:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:36:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 #define INTMAX_BUFSIZE 25
 

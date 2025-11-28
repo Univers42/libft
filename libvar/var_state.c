@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:11:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:19:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 /****************************
  *		FORWARD PRIVATE

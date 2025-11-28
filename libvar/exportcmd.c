@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:42:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:33:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "private_var.h"
+# include "var.h"
 
 //Forward declartions
 static void	process_export_arg(char *arg, int flag);

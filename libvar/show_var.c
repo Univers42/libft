@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:40:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:33:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 static char	**process_var_bucket(struct s_var *vp, char **ep,
 									int mask, int on);

@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:11:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 
 t_var make_ps4(void)
 {

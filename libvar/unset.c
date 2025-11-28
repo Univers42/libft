@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:49:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:37:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
+#include "var.h"
 #include <string.h>
 
 static int	parse_unset_options(int argc, char **argv, int *flag_out);

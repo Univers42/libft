@@ -6,32 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 15:44:23 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 20:33:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:10:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 //#include "TDD/test.h"
-/**
- * Locates the first occurrence of
- * the substring `needle` in the string `haystack`, 
- * within the first `n` characters.
- * 
- * @param haystack The string in which to search for the substring `needle`.
- * @param needle The substring to search for in `haystack`.
- * @param n The maximum number of characters to search in `haystack`.
- * @return 
- * A pointer to the beginning of the first 
- * occurrence of `needle` in `haystack`, 
- * or NULL if `needle` is not found within the first `n` characters.
- * 
- * @note 
- * If `needle` is an empty string, the function returns `haystack`.
- * The search is case-sensitive,
- * and the function stops searching after `n` characters, 
- * ensuring that it doesn't search past the
- * specified length.
- */
+
 char	*ft_strnstr(const char *haystack, const char *needle, t_size n)
 {
 	const char	*sub_haystack;

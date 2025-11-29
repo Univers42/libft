@@ -6,25 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:36:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/08 12:36:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 00:39:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 
-static char	*ft_skip_delimiters(char *str, const char *delim)
-{
-	while (*str && ft_strchr(delim, *str))
-		str++;
-	return (str);
-}
-
-static char	*ft_find_delimiter(char *str, const char *delim)
-{
-	while (*str && !ft_strchr(delim, *str))
-		str++;
-	return (str);
-}
+static char	*ft_skip_delimiters(char *str, const char *delim);
+static char	*ft_find_delimiter(char *str, const char *delim);
 
 char	*ft_strtok(char *str, const char *delim)
 {
@@ -49,4 +38,18 @@ char	*ft_strtok(char *str, const char *delim)
 		last_token = token_end + 1;
 	}
 	return (token_start);
+}
+
+static char	*ft_skip_delimiters(char *str, const char *delim)
+{
+	while (*str && ft_strchr(delim, *str))
+		str++;
+	return (str);
+}
+
+static char	*ft_find_delimiter(char *str, const char *delim)
+{
+	while (*str && !ft_strchr(delim, *str))
+		str++;
+	return (str);
 }

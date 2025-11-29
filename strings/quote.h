@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strchrnul.c                                        :+:      :+:    :+:   */
+/*   quote.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 17:53:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 00:39:11 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/29 20:15:52 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/30 00:39:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#ifndef QUOTE_H
+# define QUOTE_H
 
-char	*ft_strchrnul(const char *s, int c)
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+
+typedef struct s_q_ctx
 {
 	char	*p;
+	char	*q;
+	size_t	len;
+}	t_sq_ctx;
 
-	p = ft_strchr(s, c);
-	if (!p)
-		p = (char *)s + ft_strlen(s);
-	return (p);
-}
+#endif

@@ -6,34 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 12:31:28 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 20:32:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:01:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 //#include "TDD/test.h"
-/**
- * Appends the string `src` to the end of 
- * the string `dst`, ensuring that the total length
- * of the resulting string does not exceed 
- * `dsize`. The function returns the total length
- * of the string it tried to create 
- * (i.e., the length of `src` + the length of `dst`).
- * 
- * @param dst The destination string to which `src` will be appended.
- * @param src The source string to append to `dst`.
- * @param dsize The size of the destination buffer `dst`.
- * @return 
- * The total length of the string that 
- * would have been created if `dsize` was large enough.
- * 
- * @note 
- * The function appends at most `dsize - 1` 
- * characters from `src` to `dst` and ensures that
- * `dst` is null-terminated. If `dsize` is less than
- * or equal to the length of `dst`, no characters
- * are appended, and the function returns the length of `src` + `dsize`.
- */
+
 t_size	ft_strlcat(char *dst, const char *src, t_size dsize)
 {
 	t_size	dest_len;
@@ -52,6 +31,7 @@ t_size	ft_strlcat(char *dst, const char *src, t_size dsize)
 	*d = '\0';
 	return (dest_len + src_len);
 }
+
 //int main(void) {
 //    char dst[] = "Hello, ";
 //    char src[] = "World!";

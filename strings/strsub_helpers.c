@@ -6,12 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:53:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:03:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:23:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_stdlib.h"
+#include "strsub.h"
 
 int	append_rep(t_subctx *ctx, const char *rep);
 int	append_rest(t_subctx *ctx, const char *string, size_t idx);

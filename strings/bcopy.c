@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:52:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 20:57:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 00:44:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,41 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "ft_string.h"
+
+static void	forward_byte_copy(const unsigned char *s,
+				unsigned char *d, size_t n);
+static void	forward_word_copy(const unsigned char **ps,
+				unsigned char **pd, size_t *pn);
+static void	backward_word_copy(const unsigned char **ps,
+				unsigned char **pd, size_t *pn);
+static void	backward_byte_copy(const unsigned char *s,
+				unsigned char *d, size_t n);
+
+void	bcopy(const void *src, void *dst, size_t n)
+{
+	const unsigned char	*s;
+	unsigned char		*d;
+	uintptr_t			s_align;
+
+	if (n == 0 || src == dst)
+		return ;
+	s = (const unsigned char *)src;
+	d = (unsigned char *)dst;
+	if (d < s)
+	{
+		s_align = (uintptr_t)s | (uintptr_t)d;
+		if ((s_align & (sizeof(size_t) - 1)) == 0 && n >= sizeof(size_t))
+			forward_word_copy(&s, &d, &n);
+		forward_byte_copy(s, d, n);
+	}
+	else
+	{
+		s_align = (uintptr_t)s | (uintptr_t)d;
+		if ((s_align & (sizeof(size_t) - 1)) == 0 && n >= sizeof(size_t))
+			backward_word_copy(&s, &d, &n);
+		backward_byte_copy(s, d, n);
+	}
+}
 
 /*
  * Copy n bytes forward, byte-wise.
@@ -102,35 +137,4 @@ static void	backward_word_copy(const unsigned char **ps,
 	*pn = *pn % sizeof(size_t);
 	*ps = (const unsigned char *)sw;
 	*pd = (unsigned char *)dw;
-}
-
-/*
- * Copy n bytes from src to dst. Handles overlapping regions and
- * attempts word-sized copies when alignment allows.
- * Signature follows the traditional bcopy(src, dst, n).
- */
-void	bcopy(const void *src, void *dst, size_t n)
-{
-	const unsigned char	*s;
-	unsigned char		*d;
-	uintptr_t			s_align;
-
-	if (n == 0 || src == dst)
-		return ;
-	s = (const unsigned char *)src;
-	d = (unsigned char *)dst;
-	if (d < s)
-	{
-		s_align = (uintptr_t)s | (uintptr_t)d;
-		if ((s_align & (sizeof(size_t) - 1)) == 0 && n >= sizeof(size_t))
-			forward_word_copy(&s, &d, &n);
-		forward_byte_copy(s, d, n);
-	}
-	else
-	{
-		s_align = (uintptr_t)s | (uintptr_t)d;
-		if ((s_align & (sizeof(size_t) - 1)) == 0 && n >= sizeof(size_t))
-			backward_word_copy(&s, &d, &n);
-		backward_byte_copy(s, d, n);
-	}
 }

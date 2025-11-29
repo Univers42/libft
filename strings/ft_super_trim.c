@@ -6,36 +6,38 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 22:38:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:15:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:29:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_stddef.h"
-#include "ft_ctype.h"
+#include "trim.h"
+
+static int	should_skip(char c, int flags);
+static int	parse_sign(t_addr *ptr);
+static int	parse_int(t_addr *ptr);
+
+void	ft_super_trim(t_addr *ptr, int flags)
+{
+	while (*(char *)*ptr && (should_skip(*(char *)*ptr, flags) & ST_OK))
+		*ptr = (char *)*ptr + 1;
+}
 
 static int	should_skip(char c, int flags)
 {
 	if ((flags & TRIM_SPACES)
 		&& (c == ' ' || c == '\t' || c == '\n' || c == '\r'))
-		return (1);
+		return (ST_OK);
 	if ((flags & TRIM_NUMS) && (c >= '0' && c <= '9'))
-		return (1);
+		return (ST_OK);
 	if ((flags & TRIM_RADIX)
 		&& ((c >= '0' && c <= '9')
 			|| (c >= 'a' && c <= 'f')
 			|| (c >= 'A' && c <= 'F')))
-		return (1);
-	return (0);
+		return (ST_OK);
+	return (ST_ERR_BASE);
 }
 
-void	ft_super_trim(t_addr *ptr, int flags)
-{
-	while (*(char *)*ptr && should_skip(*(char *)*ptr, flags))
-		*ptr = (char *)*ptr + 1;
-}
-
-int	parse_sign(t_addr *ptr)
+static int	parse_sign(t_addr *ptr)
 {
 	int	sign;
 
@@ -50,7 +52,7 @@ int	parse_sign(t_addr *ptr)
 	return (sign);
 }
 
-int	parse_int(t_addr *ptr)
+static int	parse_int(t_addr *ptr)
 {
 	int	val;
 

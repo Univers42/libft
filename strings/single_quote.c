@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 18:51:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 00:41:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 00:52:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ char	*single_quote(const char *s)
 {
 	t_sq_ctx	sq;
 
+	sq.p = stack_block();
 	while (*s)
 	{
 		sq.len = ft_strchrnul(s, '\'') - s;
 		choose_quote(s, &sq, '\'');
+		s += sq.len;
 		sq.len = ft_strspn(s, "'");
 		if (!sq.len)
 			break ;
 		choose_quote(s, &sq, '"');
+		s += sq.len;
 	}
 	*sq.p++ = '\0';
 	return (stack_block());
@@ -35,11 +38,14 @@ char	*single_quote(const char *s)
 
 static void	choose_quote(const char *s, t_sq_ctx *sq, const char quote)
 {
-	sq->q = make_str_space(sq->len + 3, sq->p);
-	sq->p = make_str_space(sq->len + 3, sq->p);
+	char	*start;
+
+	start = make_str_space(sq->len + 3, sq->p);
+	sq->p = start;
+	sq->q = start;
 	*sq->q++ = quote;
-	sq->q = ft_strncpy(sq->q, s, sq->len);
+	ft_memcpy(sq->q, s, sq->len);
+	sq->q += sq->len;
 	*sq->q++ = quote;
-	s += sq->len;
-	sq->p += sq->q - sq->p;
+	sq->p = sq->q;
 }

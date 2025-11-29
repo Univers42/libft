@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exportcmd.c                                        :+:      :+:    :+:   */
+/*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:33:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:35:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	parse_export_options(int argc, char **argv, int *show_p);
 
 //Public API
 
-int	exportcmd(int argc, char **argv)
+int	export_cmd(int argc, char **argv)
 {
 	int	flag;
 	int	show_p;
@@ -31,7 +31,7 @@ int	exportcmd(int argc, char **argv)
 		flag = VEXPORT;
 	i = parse_export_options(argc, argv, &show_p);
 	if (show_p || i == argc)
-		showvars(argv[0], flag, 0);
+		show_vars(argv[0], flag, 0);
 	else
 	{
 		while (i < argc)
@@ -43,7 +43,7 @@ int	exportcmd(int argc, char **argv)
 	return (0);
 }
 
-int	localcmd(int argc, char **argv)
+int	local_cmd(int argc, char **argv)
 {
 	t_var_state	*state;
 	int			i;
@@ -71,7 +71,7 @@ static void	process_export_arg(char *arg, int flag)
 	if (p != NULL)
 	{
 		p++;
-		setvar(arg, p, flag);
+		set_var(arg, p, flag);
 	}
 	else
 	{
@@ -79,7 +79,7 @@ static void	process_export_arg(char *arg, int flag)
 		if (vp)
 			vp->flags |= flag;
 		else
-			setvar(arg, NULL, flag);
+			set_var(arg, NULL, flag);
 	}
 }
 

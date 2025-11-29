@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:19:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 15:41:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,7 @@ typedef struct s_meta
  * Resets the singleton state for unit testing.
  */
 void			libvar_reset_state(void);
-
 intmax_t		ft_atomax(const char *s, int base);
-
 t_var			make_atty(void);
 int				add_atty(t_var_state *state, int i);
 t_var			make_ifs(const char *ifs);
@@ -147,4 +145,15 @@ t_var			make_ps1(void);
 t_var			make_ps2(void);
 t_var			**find_var(const char *name);
 
+/********************
+ * * Accessors
+ ********************/
+
+/**
+ * @brief Gets the singleton instance of the variable state.
+ * @return A pointer to the unique t_var_state struct.
+ */
+t_var_state		*get_var_state(void);
+t_localvar_list	*get_localvar_stack(void);
+char			*get_optlist(void);
 #endif

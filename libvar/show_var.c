@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:19:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:38:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ char	**list_vars(int on, int off, char ***end)
 		ep = process_var_bucket(*vpp, ep, mask, on);
 		vpp++;
 	}
-	if (ep == stackstrend())
-		ep = growstackstr();
+	if (ep == stack_str_end())
+		ep = grow_stack_str();
 	if (end)
 		*end = ep;
 	*ep++ = NULL;
-	return (grabstackstr(ep));
+	return (grab_stack_str(ep));
 }
 
 int	show_vars(const char *prefix, int on, int off)
@@ -51,7 +51,7 @@ int	show_vars(const char *prefix, int on, int off)
 	char	**epend;
 	int		count;
 
-	ep = listvars(on, off, &epend);
+	ep = list_vars(on, off, &epend);
 	count = epend - ep;
 	ft_qsort(ep, count, sizeof(char *), var_vpcmp);
 	print_var_list(ep, epend, prefix);
@@ -68,8 +68,8 @@ static char	**process_var_bucket(struct s_var *vp, char **ep,
 	{
 		if ((vp->flags & mask) == on)
 		{
-			if (ep == stackstrend())
-				ep = growstackstr();
+			if (ep == stack_str_end())
+				ep = grow_stack_str();
 			*ep++ = (char *)vp->text;
 		}
 		vp = vp->next;
@@ -89,7 +89,7 @@ static void	print_var_list(char **ep, char **epend, const char *prefix)
 		sep = prefix;
 	while (ep < epend)
 	{
-		p = strchrnul(*ep, '=');
+		p = ft_strchrnul(*ep, '=');
 		q = NULLSTR;
 		if (*p)
 			q = single_quote(++p);

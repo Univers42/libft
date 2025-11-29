@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:36:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:36:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "var.h"
 
 // Public API
-void	poplocalvars(void)
+void	pop_local_vars(void)
 {
 	t_localvar_list	*ll;
 	t_var_state		*state;
@@ -25,12 +25,12 @@ void	poplocalvars(void)
 	ll = state->localvar_stack;
 	state->localvar_stack = ll->next;
 	lvp_list = ll->lv;
-	ckfree(ll);
+	xfree(ll);
 	process_local_var_list(lvp_list, state);
 	inton();
 }
 
-t_localvar_list	*pushlocalvars(int push)
+t_localvar_list	*push_local_vars(int push)
 {
 	t_localvar_list	*ll;
 	t_localvar_list	*top;
@@ -41,7 +41,7 @@ t_localvar_list	*pushlocalvars(int push)
 	if (push)
 	{
 		intoff();
-		ll = ckmalloc(sizeof(*ll));
+		ll = xmalloc(sizeof(*ll));
 		ll->lv = NULL;
 		ll->next = top;
 		state->localvar_stack = ll;
@@ -54,8 +54,8 @@ t_localvar_list	*pushlocalvars(int push)
 static void	restore_opt_var(t_localvar *lvp, t_var_state *state)
 {
 	ft_memcpy(state->optlist, lvp->text, NOPTS);
-	ckfree((void *)lvp->text);
-	optschanged();
+	xfree((void *)lvp->text);
+	optschanged();		// !function to create
 }
 
 static void	restore_regular_var(struct s_localvar *lvp)
@@ -66,14 +66,14 @@ static void	restore_regular_var(struct s_localvar *lvp)
 	if (lvp->flags == VUNSET)
 	{
 		vp->flags &= ~(VSTR_FIXED | VREAD_ONLY);
-		unsetvar(vp->text);
+		unset_var(vp->text);
 	}
 	else
 	{
 		if (vp->func)
-			(*vp->func)(strchrnul(lvp->text, '=') + 1);
+			(*vp->func)(ft_strchrnul(lvp->text, '=') + 1);
 		if ((vp->flags & (VTEXT_FIXED | VSTACK)) == 0)
-			ckfree((void *)vp->text);
+			xfree((void *)vp->text);
 		vp->flags = lvp->flags;
 		vp->text = lvp->text;
 	}
@@ -93,7 +93,7 @@ static void	process_local_var_list(t_localvar *lvp_list,
 			restore_opt_var(current, state);
 		else
 			restore_regular_var(current);
-		ckfree(current);
+		xfree(current);
 		current = next;
 	}
 }

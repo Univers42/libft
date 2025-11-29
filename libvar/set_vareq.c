@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setvareq.c                                         :+:      :+:    :+:   */
+/*   set_vareq.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:36:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:40:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
+#include "ft_string.h"
+#include "ft_stdlib.h"
 
 static t_var	*create_new_var(t_var **vpp, char *s, int flags);
 static int		handle_update_unset(t_var **vpp, char *s, int flags);
@@ -46,15 +48,15 @@ static t_var	*create_new_var(t_var **vpp, char *s, int flags)
 	if ((flags & (VEXPORT | VREAD_ONLY | VSTR_FIXED | VUNSET)) == VUNSET)
 	{
 		if ((flags & (VTEXT_FIXED | VSTACK | VNO_SAVE)) == VNO_SAVE)
-			ckfree(s);
+			xfree(s);
 		return (NULL);
 	}
-	vp = ckmalloc(sizeof(*vp));
+	vp = xmalloc(sizeof(*vp));
 	vp->next = *vpp;
 	vp->func = NULL;
 	*vpp = vp;
 	if (!(flags & (VTEXT_FIXED | VSTACK | VNO_SAVE)))
-		s = savestr(s);		//TODO
+		s = save_str(s);
 	vp->text = s;
 	vp->flags = flags;
 	return (vp);
@@ -71,9 +73,9 @@ static int	handle_update_unset(t_var **vpp, char *s, int flags)
 	if (total_flags == VUNSET)
 	{
 		*vpp = vp->next;
-		ckfree(vp);
+		xfree(vp);
 		if ((flags & (VTEXT_FIXED | VSTACK | VNO_SAVE)) == VNO_SAVE)
-			ckfree(s);
+			xfree(s);
 		return (1);
 	}
 	return (0);
@@ -86,9 +88,9 @@ static int	check_var_permissions(t_var *vp, char *s, int flags)
 	if (vp->flags & VREAD_ONLY)
 	{
 		if (flags & VNO_SAVE)
-			ckfree(s);
+			xfree(s);
 		n = vp->text;
-		sh_error("%.*s: is read only", (int)(strchrnul(n, '=') - n), n);
+		sh_error("%.*s: is read only", (int)(ft_strchrnul(n, '=') - (int)n), n);
 		return (1);
 	}
 	if (flags & VNO_SET)
@@ -104,14 +106,14 @@ static t_var	*update_existing_var(t_var **vpp, char *s, int flags)
 	if (check_var_permissions(vp, s, flags))
 		return (vp);
 	if (vp->func && (flags & VNO_FUNC) == 0)
-		(*vp->func)(strchrnul(s, '=') + 1);
+		(*vp->func)(ft_strchrnul(s, '=') + 1);
 	if ((vp->flags & (VTEXT_FIXED | VSTACK)) == 0)
-		ckfree((void *)vp->text);
+		xfree((void *)vp->text);
 	if (handle_update_unset(vpp, s, flags))
 		return (NULL);
 	flags |= vp->flags & ~(VTEXT_FIXED | VSTACK | VNO_SAVE | VUNSET);
 	if (!(flags & (VTEXT_FIXED | VSTACK | VNO_SAVE)))
-		s = savestr(s);
+		s = save_str(s);
 	vp->text = s;
 	vp->flags = flags;
 	return (vp);

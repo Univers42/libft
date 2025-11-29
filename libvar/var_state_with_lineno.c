@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:05:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:37:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:45:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "var.h"
 
 #ifdef WITH_LINENO
+
+static void getoptsreset(void)
+{
+	return ;
+}
 
 int init_varinit_pt2(t_var_state *state, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:12:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:39:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "var.h"
 #include "ft_stdlib.h"
 
-int		varcmp(const char *p, const char *q)
+int		var_cmp(const char *p, const char *q)
 {
 	int	c;
 	int	d;
@@ -74,11 +74,11 @@ intmax_t	ft_atomax(const char *s, int base)
 	return ((intmax_t)ft_strto64(s, &endptr, base));
 }
 
-void	unwindlocalvars(t_localvar_list *stop)
+void	unwind_local_vars(t_localvar_list *stop)
 {
 	t_var_state	*state;
 
 	state = get_var_state();
 	while (state->localvar_stack != stop)
-		poplocalvars();
+		pop_local_vars();
 }

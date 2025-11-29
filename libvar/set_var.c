@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setvar.c                                           :+:      :+:    :+:   */
+/*   set_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:44:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:33:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ intmax_t	setvarint(const char *name, intmax_t val, int flags)
     char	buf[INTMAX_BUFSIZE];
 
     ft_fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
-    setvar(name, buf, flags);
+    set_var(name, buf, flags);
     return (val);
 }
 
-t_var	*setvar(const char *name, const char *val, int flags)
+t_var	*set_var(const char *name, const char *val, int flags)
 {
 	t_meta	key;
 	t_meta	value;
@@ -63,7 +63,7 @@ static t_var	*build_and_set(t_meta *key, t_meta *val, int flags)
 	char	*p;
 	t_var	*vp;
 
-	name_eq = ckmalloc(key->len + val->len + 2);
+	name_eq = xmalloc(key->len + val->len + 2);
 	p = ft_memcpy(name_eq, key->name, key->len);
 	if (val)
 	{
@@ -71,6 +71,6 @@ static t_var	*build_and_set(t_meta *key, t_meta *val, int flags)
 		p = ft_memcpy(p, val, val->len);
 	}
 	*p = '\0';
-	vp = setvareq(name_eq, flags | VNO_SAVE);
+	vp = set_vareq(name_eq, flags | VNO_SAVE);
 	return (vp);
 }

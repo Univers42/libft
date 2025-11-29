@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:37:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:42:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	process_unset_args(int argc, char **argv,
 
 //PUBLIC function
 
-int	unsetcmd(int argc, char **argv)
+int	unset_cmd(int argc, char **argv)
 {
 	int	flag;
 	int	i;
@@ -30,9 +30,9 @@ int	unsetcmd(int argc, char **argv)
 	return (0);
 }
 
-void	unsetvar(const char *s)
+void	unset_var(const char *s)
 {
-	setvar(s, 0, 0);
+	set_var(s, 0, 0);
 }
 
 //PRIVATE
@@ -69,7 +69,7 @@ static void	process_unset_args(int argc, char **argv, int start_index, int flag)
 	{
 		if (flag != 'f')
 		{
-			unsetvar(argv[i]);
+			unset_var(argv[i]);
 			if (flag == 'v')
 			{
 				i++;
@@ -77,7 +77,7 @@ static void	process_unset_args(int argc, char **argv, int start_index, int flag)
 			}
 		}
 		if (flag != 'v')
-			unsetfunc(argv[i]);
+			unset_func(argv[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:09:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:41:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	write_idx(struct var *v)
 
 #endif
 
-char	*lookupvar(const char *name)
+char	*lookup_var(const char *name)
 {
     t_var	*v;
 
@@ -41,14 +41,14 @@ char	*lookupvar(const char *name)
     if (v && !(v->flags & VUNSET))
 	{
         write_idx(v);
-        return (strchrnul(v->text, '=') + 1);
+        return (ft_strchrnul(v->text, '=') + 1);
     }
     return (NULL);
 }
 
 intmax_t lookup_var_int(const char *name)
 {
-    if (lookupvar(name))
+    if (looku_pvar(name))
         return (NULLSTR);
     return (0);
 }

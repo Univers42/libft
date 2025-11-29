@@ -4,3 +4,18 @@
 [x] "signal" inton intoff
 *lookupvar
 *: To create
+
+- []    export_cmd.c
+- []    hash.c
+- []    mklocal
+- []    private_var
+- []    push_pop_local_var
+- []    set_var
+- []    set_vareq
+- []    show_var
+- []    unset
+- []    var_state_atty
+- []    var_state_helpers
+- [x]    var_state_helpers2
+- [x]    var_state
+- [x]   var_utils

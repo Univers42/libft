@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:10:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 14:01:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 14:06:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ft_ctype.h"
 #include <limits.h>
 #include "trim.h"
-
 
 int	cumul_value(t_addr *ptr, t_addr target)
 {

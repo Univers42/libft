@@ -1,7 +1,7 @@
 # If you change SRCS, always run 'make fclean' before 'make' or 'make test'
 
-include ../build/common.mk
-include ../build/debug.mk
+include ../mk/common.mk
+include ../mk/debug.mk
 
 # project-specific settings
 CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include

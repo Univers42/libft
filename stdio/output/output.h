@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 03:22:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 14:40:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,29 @@ typedef struct s_out_ctx
     t_out *out2;
 } t_out_ctx;
 
+typedef struct s_file
+{
+	int fd;
+	int flags;
+	char *io_read_ptr;
+	char *io_read_end;
+	char *io_read_base;
+	char *io_write_base;
+	char *io_write_ptr;
+	char *io_write_end;
+	char *io_buf_base;
+	char *io_buf_end;
+	char *io_save_base;
+	char *io_bak;
+	char *save_end;
+	struct s_file *chain;
+	int flags2;
+	unsigned short cur_column;
+	signed char vable_offset;
+	char short_buf[1];
+	void *lock;
+} t_file;
+
 static inline t_out_ctx *get_outs(void)
 {
     static t_out_ctx ctx;
@@ -108,5 +131,15 @@ void ft_putstr_fd(char *s, int fd);
 void flushout(t_out *dst);
 void flush_all(void);
 int ft_write(int fd, const void *p, size_t n);
+void trputs(const char *s);
+void tracev(const char *fmt, va_list va);
+void trace(const char *fmt, ...);
+void trputc(int c);
+void indent(int amount, char *pfx, int fd);
+void set_debug(int newval);
+void set_trace_fd(int newfd);
+int *debug_ptr(void);
+int get_trace_fd(void);
+int *tracefd_ptr(void);
 
 #endif

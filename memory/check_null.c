@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 19:52:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:53:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 15:24:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <stdio.h>
+#include "ft_stdio.h"
 
 void out_of_space(void)
 {
 	//sh_error("Out of space");
-	dprintf(STDERR_FILENO, "Out of space");
+	ft_dprintf(STDERR_FILENO, "Out of space");
 	exit(ENOMEM);
 }
 

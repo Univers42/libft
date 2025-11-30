@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 18:09:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 02:37:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 14:40:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,7 @@
 #include <unistd.h>
 #include <sys/types.h> /* for ssize_t */
 
-typedef struct s_file
-{
-	int fd;
-	int flags;
-	char *io_read_ptr;
-	char *io_read_end;
-	char *io_read_base;
-	char *io_write_base;
-	char *io_write_ptr;
-	char *io_write_end;
-	char *io_buf_base;
-	char *io_buf_end;
-	char *io_save_base;
-	char *io_bak;
-	char *save_end;
-	struct s_file *chain;
-	int flags2;
-	unsigned short cur_column;
-	signed char vable_offset;
-	char short_buf[1];
-	void *lock;
-} t_file;
+
 
 /*
 ** Singleton storage accessors (no file-scope globals).
@@ -46,7 +25,7 @@ typedef struct s_file
 ** get_/set_ wrappers are provided to use these values.
 */
 
-static int *tracefd_ptr(void)
+int *tracefd_ptr(void)
 {
 	static int fd_storage = 2;
 	return (&fd_storage);
@@ -63,7 +42,7 @@ void set_trace_fd(int newfd)
 		*tracefd_ptr() = newfd;
 }
 
-static int *debug_ptr(void)
+int *debug_ptr(void)
 {
 	static int dbg = 0;
 	return (&dbg);

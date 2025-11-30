@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 03:30:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 14:36:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
-#include "output.h"
+#include "../output/output.h"
 #include <stdlib.h>
 
 int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap)

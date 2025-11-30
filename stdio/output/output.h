@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   output.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/23 17:03:51 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/30 03:22:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OUTPUT_H
-# define OUTPUT_H
+#define OUTPUT_H
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "ft_memory.h"
+#include "error.h"
+
 /**
  * OUTPUT_ERR
 
@@ -53,21 +56,57 @@ Short summary: these macros/inline functions are small wrappers to route single 
 
  */
 #define OUTPUT_ERR 01
-
+#define OUTBUFSIZE 1024
 typedef struct s_out
 {
-	char	*nextc;
-	char	*end;
-	char	*buf;
-	size_t	buf_size;
-	int		fd;
-	int		flags;
-}	t_out;
+    char *nextc;
+    char *end;
+    char *buf;
+    size_t buf_size;
+    int fd;
+    int flags;
+} t_out;
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_base(int nbr, char *radix);
-void	ft_putnbr_fd(int nb, int fd);
-void	ft_putstr_fd(char *s, int fd);
+typedef struct s_out_ctx
+{
+    t_out output;
+    t_out prev_err_out;
+    t_out errout;
+    t_out memout;
+    t_out *out1;
+    t_out *out2;
+} t_out_ctx;
 
-# endif
+static inline t_out_ctx *get_outs(void)
+{
+    static t_out_ctx ctx;
+    static int inited = 0;
+
+    if (inited)
+        return (&ctx);
+    ctx.output.buf_size = OUTBUFSIZE;
+    ctx.output.fd = STDOUT_FILENO;
+    ctx.prev_err_out.buf_size = OUTBUFSIZE;
+    ctx.prev_err_out.fd = STDERR_FILENO;
+    ctx.errout.buf_size = OUTBUFSIZE;
+    ctx.errout.fd = STDERR_FILENO;
+    ctx.memout.buf_size = OUTBUFSIZE;
+    ctx.memout.fd = STDOUT_FILENO;
+    ctx.out1 = &ctx.output;
+    ctx.out2 = &ctx.errout;
+    inited = 1;
+    return (&ctx);
+}
+
+void ft_putchar_fd(char c, int fd);
+void ft_putendl_fd(char *s, int fd);
+void ft_putnbr_base(int nbr, char *radix);
+void ft_putnbr_fd(int nb, int fd);
+void ft_putstr_fd(char *s, int fd);
+
+/* flush helpers used by error/format modules */
+void flushout(t_out *dst);
+void flush_all(void);
+int ft_write(int fd, const void *p, size_t n);
+
+#endif

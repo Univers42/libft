@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stprintf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:22:26 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/21 15:24:37 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/30 01:43:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int log_print(t_log *state, const char *file, const char *format, ...)
 		return (-1);
 	if (state->state == ST_WARNING_BASE || state->state == ST_ERR_BASE)
 		ret += ft_dprintf(state->fd, "[%s] %s -> ",
-						  log_state_str(state->state), file);
+					log_state_str(state->state), file);
 	else if (state->state == ST_INFO_BASE || state->state == ST_OK)
 		ret += ft_dprintf(state->fd, "[%s] ", log_state_str(state->state));
 	else

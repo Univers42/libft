@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:00:20 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/24 00:16:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:48:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,27 @@
 ** popfile - pop current parsefile and restore previous one.
 */
 
-void popfile(void)
+void	pop_file(void)
 {
-	t_input			*in;
 	t_parse_file	*pf;
+	t_parse_file	*parse_file;
 
+	parse_file = get_input()->parsefile;
+	pf = get_input()->parsefile;
 	intoff();
-	in = get_input();
-	pf = pf->prev;
+	parse_file = pf->prev;
 	pf->prev = NULL;
-	if (pf == in->basepf)
+	if (pf == &get_input()->basepf)
 		inton();
 	if (pf->fd >= 0)
 		close(pf->fd);
-	ckfree(pf->buf);
-	if (pf->spfree)
-		free_strings(pf->sp_free);
+	xfree(pf->buf);
+	if (parse_file->sp_free)
+		free_strings(parse_file->sp_free);
 	while (pf->strpush)
 	{
 		pop_string();
-		free_strings(pf->sp_free);
+		free_strings(parse_file->sp_free);
 	}
-	ckfree(pf);
+	xfree(pf);
 }

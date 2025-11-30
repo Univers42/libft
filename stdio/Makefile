@@ -10,10 +10,10 @@ DEPFLAGS = -MMD -MP
 NAME_LIB	= 		libstdio
 NAME		= 		$(NAME_LIB).a
 
-# Gather all .c files in output, input, format, gnl, and ft_printf/src
+# Gather all .c files in output and format (input sources intentionally excluded for now)
 SRCS		+=		$(wildcard output/*.c)
-SRCS		+=		$(wildcard input/*.c)
 SRCS		+=		$(wildcard format/*.c)
+SRCS		+=		$(wildcard input/*.c)
 
 OBJ_DIR		=		obj
 TEST_DIR	=		unit_test
@@ -25,7 +25,7 @@ TEST_BIN	=		test_$(NAME_LIB)
 OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DPDC		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
 
-VPATH = .:output:input:format:gnl:ft_printf/src
+VPATH = .:output:format:gnl:ft_printf/src
 
 .PHONY: all clean fclean re test
 

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:09:49 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/23 18:42:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:21:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,47 +47,6 @@ void set_exception_handler(void (*handler)(int))
     get_error_state()->handler = handler;
 }
 
-void error_int_off(void)
-{
-    get_error_state()->suppressint++;
-    (void)__sync_synchronize;
-}
-
-void error_int_on(void)
-{
-    if (--get_error_state()->suppressint == 0 && get_error_state()->intpending)
-        onint();
-}
-
-void error_force_inton(void)
-{
-    get_error_state()->suppressint = 0;
-    if (get_error_state()->intpending)
-        onint();
-}
-
-int error_saveint(void)
-{
-    return (get_error_state()->suppressint);
-}
-
-void error_restoreint(int v)
-{
-    get_error_state()->suppressint = v;
-    if (get_error_state()->suppressint == 0 && get_error_state()->intpending)
-        onint();
-}
-
-void error_clear_pending_int(void)
-{
-    get_error_state()->intpending = 0;
-}
-
-int error_int_pending(void)
-{
-    return (get_error_state()->intpending != 0);
-}
-
 /*
 ** Write formatted message to configured fd without using FILE*.
 */
@@ -98,6 +57,7 @@ static void write_fd_formatted(const char *prefix, const char *msg,
     int fd;
     int n;
     int pfxlen;
+    int len;
 
     fd = get_error_fd();
     pfxlen = 0;
@@ -122,7 +82,8 @@ static void write_fd_formatted(const char *prefix, const char *msg,
     }
     else
         n = (int)sizeof(buf);
-    (void)write(fd, buf, (size_t)n);
+    len = write(fd, buf, (size_t)n);
+    (void)len;
 }
 
 /*
@@ -171,6 +132,7 @@ void sh_error(const char *msg, ...)
     va_start(ap, msg);
     exverror(EXERROR, msg, ap);
     va_end(ap);
+    abort(); /* defensive: ensure noreturn semantics even if exverror returns */
 }
 
 void exerror(int cond, const char *msg, ...)
@@ -180,6 +142,7 @@ void exerror(int cond, const char *msg, ...)
     va_start(ap, msg);
     exverror(cond, msg, ap);
     va_end(ap);
+    abort(); /* defensive: ensure noreturn semantics even if exverror returns */
 }
 
 void sh_warnx(const char *fmt, ...)
@@ -201,7 +164,7 @@ void exraise(int e)
 {
     if (get_error_state()->handler == NULL)
         abort();
-    error_int_off();
+    intoff();
     get_error_state()->exception = e;
     get_error_state()->handler(e);
     abort();

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 17:42:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 01:30:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ extern void		ft_fmtstr(char *buf, int size, const char *fmt, ...);
 static t_var	*build_and_set(t_meta *key, t_meta *val, int flags);
 
 // Main public API
-intmax_t	setvarint(const char *name, intmax_t val, int flags)
+intmax_t	set_varint(const char *name, intmax_t val, int flags)
 {
-    char	buf[INTMAX_BUFSIZE];
+	char	buf[INTMAX_BUFSIZE];
 
-    ft_fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
-    set_var(name, buf, flags);
-    return (val);
+	ft_fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
+	set_var(name, buf, flags);
+	return (val);
 }
 
 t_var	*set_var(const char *name, const char *val, int flags)
@@ -67,12 +67,16 @@ static t_var	*build_and_set(t_meta *key, t_meta *val, int flags)
 		name_eq = xmalloc((size_t)key->len + val->len + 2);
 	else
 		name_eq = xmalloc((size_t)key->len + 1);
-	p = ft_memcpy(name_eq, key->name, key->len);
+	ft_memcpy(name_eq, key->name, key->len);
+	p = name_eq + key->len;
 	if (val->name)
 	{
 		*p++ = '=';
 		if (val->len)
-			p = ft_memcpy(p, val->name, val->len);
+		{
+			ft_memcpy(p, val->name, val->len);
+			p += val->len;
+		}
 	}
 	*p = '\0';
 	vp = set_vareq(name_eq, flags | VNO_SAVE);

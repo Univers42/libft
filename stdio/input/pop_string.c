@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:00:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:56:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,24 @@
 
 void popstring(void)
 {
-    t_input *in;
-    t_block_str *sp;
+    t_input         *in;
+    t_block_str     *sp;
+    t_parse_file    *pf;
 
     in = get_input();
+    pf = get_input()->parsefile;
     sp = in->parsefile->strpush;
     if (!sp)
         return;
-    if (sp->ap && in->parsefile->nextc > sp->string)
+    if (sp->ap && pf->nextc > sp->string)
     {
-        if (in->parsefile->nextc[-1] == ' ' || in->parsefile->nextc[-1] == '\t')
-        {
-            /* no-op: compatibility */
-        }
-        if (sp->string != sp->ap)
-            ; /* leave freeing to caller or spfree semantics */
+        if (sp->string != sp->ap->name)
+            xfree(sp->string);
     }
-    in->parsefile->nextc = sp->prev_string;
-    in->parsefile->nleft = sp->prevnleft;
-    in->parsefile->unget = sp->unget;
-    in->parsefile->strpush = sp->prev;
+    pf->nextc = sp->prev_string;
+    pf->nleft = sp->prevnleft;
+    pf->unget = sp->unget;
+    pf->strpush = sp->prev;
+    inton();
     free(sp);
 }

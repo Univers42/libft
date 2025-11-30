@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:01:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:57:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@
 void pushstring(char *s, void *ap)
 {
     t_input *in;
+    t_parse_file    *pf;
     t_block_str *sp;
     size_t len;
 
     (void)ap;
     in = get_input();
-    len = strlen(s);
-    sp = (t_block_str *)malloc(sizeof(t_block_str));
+    pf = get_input()->parsefile;
+    len = ft_strlen(s);
+    sp = (t_block_str *)xmalloc(sizeof(t_block_str));
     sp->prev = in->parsefile->strpush;
     sp->prev_string = in->parsefile->nextc;
     sp->prevnleft = in->parsefile->nleft;
@@ -36,8 +38,8 @@ void pushstring(char *s, void *ap)
     sp->string = s;
     sp->sp_free = NULL;
     sp->unget = 0;
-    in->parsefile->strpush = sp;
-    in->parsefile->nextc = s;
-    in->parsefile->nleft = (int)len;
-    in->parsefile->unget = 0;
+    pf->strpush = sp;
+    pf->nextc = s;
+    pf->nleft = (int)len;
+    pf->unget = 0;
 }

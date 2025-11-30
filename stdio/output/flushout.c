@@ -6,36 +6,44 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:53:20 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/23 18:38:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 02:34:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "output.h"
+#include <stddef.h>
 
-void    flush_all(void)
+void flush_all(void)
 {
-    flushout(&output);
-    if (flusherr)
-        flushout(&errout);
+    t_out_ctx *ctx = get_outs();
+
+    if (!ctx)
+        return;
+    /* flush primary output and error outputs */
+    flushout(&ctx->output);
+    flushout(&ctx->errout);
+    /* also flush previous error buffer and memory buffer if present */
+    flushout(&ctx->prev_err_out);
+    flushout(&ctx->memout);
 }
 
 /**
- * The function writes the contents directly from the
- * internal buffer(dst->buf) to the underlying file descriptor
- * resetting nextc before the write is fine becase ft_write reads from
- * dst->buf and uses the separately computed len; resetting nextc only
- * affects futur buffering logic, not the bytes already in memory.
- * SUMMARY: floushout sends the pending buffer bytes to the FD
- * marks the buffer empty immediately, and reports errors via flags
- * ft_write handles the low-level robustness
+ * Write pending bytes from dst->buf to dst->fd, reset buffer pointers.
+ * Safe-guards: return early if dst or its buffer isn't initialized or nothing to write.
  */
-void    flushout(t_out *dst)
+void flushout(t_out *dst)
 {
-    const size_t  len = dst->nextc - dst->buf;
+    size_t len;
 
-    if (!len || dst->fd < 0)
-        return ;
+    if (dst == NULL || dst->buf == NULL || dst->nextc == NULL)
+        return;
+    if (dst->nextc <= dst->buf || dst->fd < 0)
+        return;
+    len = (size_t)(dst->nextc - dst->buf);
+    if (len == 0)
+        return;
+    /* reset nextc before write (caller logic relies on this) */
     dst->nextc = dst->buf;
-    if ((ft_write(dst->fd, dst->buf, len)))
+    if (ft_write(dst->fd, dst->buf, len) != 0)
         dst->flags |= OUTPUT_ERR;
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:34:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 01:26:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ typedef struct s_meta			t_meta;
 /*********************
  * PUBLIC APIS
  *********************/
-
- char			**stackstrend(void);
-char			**growstackstr(void);
-//char			**grabstackstr(char **);
-//void			STARTSTACKSTR(char **);
 
 /**
  * @brief Sets or unsets a variable.

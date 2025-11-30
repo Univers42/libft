@@ -59,14 +59,14 @@ static inline void barrier(void)
 /* Interrupt helpers (inline functions replacing macros).
    These call get_error_state() to access the global state. */
 
-static inline void error_int_off(void)
+static inline void intoff(void)
 {
     t_error_state *st = get_error_state();
     st->suppressint++;
     barrier();
 }
 
-static inline void error_int_on(void)
+static inline void inton(void)
 {
     t_error_state *st = get_error_state();
     barrier();

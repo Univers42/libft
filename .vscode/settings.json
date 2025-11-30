@@ -29,6 +29,9 @@
     "ft_sort.h": "c",
     "array": "c",
     "string_view": "c",
-    "initializer_list": "c"
+    "initializer_list": "c",
+    "format.h": "c",
+    "output.h": "c",
+    "stdlib.h": "c"
   }
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 01:22:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 02:33:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 # include "ft_stddef.h"
-# include "bitmap.h"
+# include "../strings/bitmap.h"
 
 /* Trim flags */
 
@@ -323,7 +323,7 @@ void	bcopy(const void *src, void *dst, size_t n);
  *   The function does not modify the input string.
  *
  * @example
- *   /* input: "foo=bar" => returns pointer to '=' (end of "foo") *\/
+ *   input: "foo=bar" => returns pointer to '=' (end of "foo")
  *   char *end = end_of_name("foo=bar");
  */
 char	*end_of_name(const char *name);

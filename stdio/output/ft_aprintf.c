@@ -44,21 +44,16 @@ int	ft_aprintf(char **dst, const char *format, ...)
 			free(buf);
 			return (ret);
 		}
-		/* If formatted length fits strictly within the buffer data capacity
-		   (i.e. wrote fewer than cap-1 bytes), accept it. If ret == cap-1
-		   we assume truncation and grow the buffer. */
 		if ((size_t)ret < cap - 1)
 		{
 			*dst = buf;
 			return (ret);
 		}
-		/* grow and retry */
 		free(buf);
 		if (cap > (SIZE_MAX / 2))
 			cap = SIZE_MAX;
 		else
 			cap *= 2;
-		/* if cap reached SIZE_MAX and still not enough, fail to avoid infinite loop */
 		if (cap == SIZE_MAX && (size_t)ret >= cap - 1)
 			return (-1);
 	}

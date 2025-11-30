@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser_write_string.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 15:50:18 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/11/30 03:14:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
 #include "ft_string.h"
 #include <string.h>
+
 void	parser_write_string(t_parser *p)
 {
 	const char	*str;

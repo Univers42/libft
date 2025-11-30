@@ -6,13 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 20:48:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 17:17:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:34:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_time.h"
 
-bool	timerisset(const t_timeval *tvp)
+bool	ft_timerisset(const t_timeval *tvp)
 {
 	return (tvp->tv_sec != 0 || tvp->tv_usec != 0);
 }

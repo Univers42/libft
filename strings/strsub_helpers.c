@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:53:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 20:23:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 14:02:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "strsub.h"
+#include "ft_memory.h"
 
 int	append_rep(t_subctx *ctx, const char *rep);
 int	append_rest(t_subctx *ctx, const char *string, size_t idx);
@@ -26,9 +27,7 @@ char	*ensure_capacity(t_subctx *c, size_t need)
 		n = 16;
 	while (n < need)
 		n *= 2;
-	c->temp = ft_realloc(c->temp, c->tempsize, n);
-	if (!c->temp)
-		return (NULL);
+	c->temp = xrealloc(c->temp, c->tempsize, n);
 	c->tempsize = n;
 	return (c->temp);
 }

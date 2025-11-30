@@ -6,15 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 22:38:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 20:29:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 13:57:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trim.h"
 
-static int	should_skip(char c, int flags);
-static int	parse_sign(t_addr *ptr);
-static int	parse_int(t_addr *ptr);
+int	should_skip(char c, int flags);
 
 void	ft_super_trim(t_addr *ptr, int flags)
 {
@@ -22,7 +20,7 @@ void	ft_super_trim(t_addr *ptr, int flags)
 		*ptr = (char *)*ptr + 1;
 }
 
-static int	should_skip(char c, int flags)
+int	should_skip(char c, int flags)
 {
 	if ((flags & TRIM_SPACES)
 		&& (c == ' ' || c == '\t' || c == '\n' || c == '\r'))
@@ -37,7 +35,7 @@ static int	should_skip(char c, int flags)
 	return (ST_ERR_BASE);
 }
 
-static int	parse_sign(t_addr *ptr)
+int	parse_sign(t_addr *ptr)
 {
 	int	sign;
 
@@ -52,7 +50,7 @@ static int	parse_sign(t_addr *ptr)
 	return (sign);
 }
 
-static int	parse_int(t_addr *ptr)
+int	parse_int(t_addr *ptr)
 {
 	int	val;
 

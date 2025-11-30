@@ -11,6 +11,10 @@ STRINGS_LIB := ../strings/string.a
 NAME_LIB	=	memory
 NAME		=	$(NAME_LIB).a
 SRCS		=	$(filter-out test_%.c,$(wildcard *.c))
+SRCS		+=	$(wildcard memalloc/garbage_collector/lifoba/*.c)
+SRCS		+=	$(wildcard memalloc/garbage_collector/arena/*.c)
+SRCS		+=	$(wildcard memalloc/garbage_collector/pool/*.c)
+SRCS		+=	$(wildcard memalloc/garbage_collctor/slab/*.c)
 
 OBJ_DIR		=	obj
 TEST_DIR	=	tests
@@ -41,12 +45,14 @@ $(NAME): $(OBJS)
 
 # compile regular objects
 $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(call create_dirs)
 	@$(call print_status,$(CYAN),COMPILE,Compiling $< -> $@)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 # compile test objects (ensure dependency symlink and library exist first)
 $(OBJ_DIR)/$(TEST_DIR)/%.o : $(TEST_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/$(TEST_DIR) $(DEP_LINK) $(NAME)
+	@mkdir -p $(dir $@)
 	@$(call create_dirs)
 	@$(call print_status,$(CYAN),COMPILE,Compiling $< -> $@)
 	@$(CC) $(CFLAGS) $(DEPFLAGS) -DTEST_SPLIT_CPY -I. -c $< -o $@

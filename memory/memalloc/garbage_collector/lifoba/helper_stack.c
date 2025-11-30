@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garb_aren.h                                        :+:      :+:    :+:   */
+/*   helper_stack.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 01:58:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 02:10:45 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/06 19:30:35 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/29 18:27:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GARB_AREN_H
-# define GARB_AREN_H
+#include "lifoba.h"
 
-# include <stddef.h>
-# include <stdlib.h>
-
-typedef struct s_arena_block
+char	*stack_block(void)
 {
-	struct s_arena_block	*next;
-	size_t					size;
-	char					data[];
-}							t_arena_block;
+	return (arena_ctx()->stack_next);
+}
 
-typedef struct s_arena
+char	*stack_str_end(void)
 {
-	t_arena_block	*blocks;
-	size_t			total_allocated;
-}					t_arena;
+	return (arena_ctx()->sstrend);
+}
 
-void	arena_init(t_arena *arena);
-void	*arena_alloc(t_arena *arena, size_t size);
-void	arena_destroy(t_arena *arena);
+size_t	stack_block_size(void)
+{
+	return (arena_ctx()->stack_nleft);
+}
 
-#endif
+void start_stack_str(void *p)
+{
+	*(char **)p = stack_block();
+}
+
+char	*stack_str_nul(char *p)
+{
+	t_garena	*g;
+
+	g = arena_ctx();
+	if (p == g->sstrend)
+		p = grow_stack_str();
+	*p = '\0';
+	return (p);
+}

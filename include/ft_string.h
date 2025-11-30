@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 18:12:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 20:31:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <stddef.h>
 #include "ft_stddef.h"
-#include "../strings/bitmap.h"
+#include "../string/bitmap.h"
 
 /* Trim flags */
 

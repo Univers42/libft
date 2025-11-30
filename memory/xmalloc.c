@@ -27,7 +27,7 @@ void *xrealloc(void *p, size_t old, size_t newsize)
     void *nptr;
     size_t copy;
 
-    if (new == 0)
+    if (newsize == 0)
         return (xfree(p), NULL);
     nptr = xmalloc(newsize);
     if (nptr && p && old)

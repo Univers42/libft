@@ -12,3 +12,6 @@
 .vscode/*
 .vscode/
 minishell
+.DS_Store
+.env
+bin/

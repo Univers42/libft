@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:00:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/22 19:43:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:01:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pixel.h"
-#include "algebra.h"
+#include "../../algebra/algebra.h"
 
 // Interpolate between two points
 void	lerp_point(t_point *result, const t_point *a, const t_point *b, float t)

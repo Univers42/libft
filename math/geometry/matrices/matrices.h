@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:05:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:02:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 # include <math.h>
-# include "pixel.h"
+# include "../draw/pixel.h"
 
 // 4x4 Matrix and 4D Vector for general 3D transformations
 typedef struct s_mat4

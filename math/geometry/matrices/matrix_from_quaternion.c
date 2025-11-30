@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matric_from_quaternon.c                            :+:      :+:    :+:   */
+/*   matrix_from_quaternion.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:05:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:02:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrices.h"
-#include "pixel.h"
+#include "../draw/pixel.h"
 
 /*
 ** Convert quaternion (x,y,z,w) in t_fpoint4 to 3x3 rotation (rest identity).

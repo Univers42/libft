@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:52:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:01:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:02:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef QUATERNION_H
 # define QUATERNION_H
 # include <math.h>
-# include "pixel.h"
-# include "matrices.h"
+# include "../draw/pixel.h"
+# include "../matrices/matrices.h"
 
 # define TRACKBALLSIZE 0.5f
 # define RENORMCOUNT 97

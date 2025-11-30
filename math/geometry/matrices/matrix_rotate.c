@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:16:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:02:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrices.h"
-#include "pixel.h"
+#include "../draw/pixel.h"
 #include <math.h>
 
 /* Normalize axis into v[0..2]; return 0 if zero vector */

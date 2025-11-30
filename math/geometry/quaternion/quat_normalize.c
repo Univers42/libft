@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 14:57:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:03:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "quaternion.h"
-#include "algebra.h"
+#include "../../algebra/algebra.h"
 
 /*
  * Quaternions always obey:  a^2 + b^2 + c^2 + d^2 = 1.0

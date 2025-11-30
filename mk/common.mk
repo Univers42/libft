@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 19:53:01 by                   #+#    #+#              #
-#    Updated: 2025/11/30 21:10:00 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/01 00:14:11 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,15 @@ DEP_SEARCH_DEPTH	?= 6
 # New: directories (relative to SRCDIR) to exclude from recursive source search.
 # Example in a module Makefile: DIR_EXCLUDE := input tests/old
 DIR_EXCLUDE			?=
+
+# New: ensure default exclusion of "input" and "tests" directories unless a module explicitly included them
+# This prevents test/ or input/ trees from being picked up by the recursive find used to populate SRCS.
+ifeq ($(findstring input,$(DIR_EXCLUDE)),)
+	DIR_EXCLUDE := input $(DIR_EXCLUDE)
+endif
+ifeq ($(findstring tests,$(DIR_EXCLUDE)),)
+	DIR_EXCLUDE := tests $(DIR_EXCLUDE)
+endif
 
 # Build a snippet to pass to `find` which prunes excluded directories.
 # Note: modules should set SRCDIR before including common.mk so $(SRCDIR) is available.

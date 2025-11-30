@@ -1,38 +1,27 @@
-NAME = libtermcap.a
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I.
-AR = ar rcs
-OBJDIR = obj
+# project-specific settings (variables kept overrideable)
+CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
+DEPFLAGS ?= -MMD -MP
+NAME_LIB	= 		libtermcap
+NAME		= 		$(NAME_LIB).a
+LIB_DEPS		?= ctype memory std stdio 
+# Provide short-name(s) for this library so common.mk can register them
+PROVIDES	?= string stdio
+SRCDIR := .
+# find all .c files recursively, strip leading ./ if present
+SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -type f -name '*.c')))
+OBJ_DIR		?=		obj
+# map src/foo/bar.c -> obj/foo/bar.o
+OBJS		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+# corresponding dependency files next to objs
+DPDC		:=	$(OBJS:.o=.d)
+TEST_DIR	=		unit_test
+TEST_SRCS	=	$(TEST_DIR)/test.c
+TEST_OBJS	=	$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
+TEST_BIN	=		test_$(NAME_LIB)
 
-SRCS = $(wildcard *.c) $(wildcard rl/*.c)
-OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+# Ensure dependency files are included if present (keep after DPDC definition)
+-include $(DPDC)
 
-# Default: build the test binary (will build the library first if needed)
-all: test
-
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
-
-$(OBJDIR)/%.o: %.c termcap.h
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-	rm -f $(OBJS)
-
-fclean: clean
-	rm -f $(NAME)
-	rm -rf $(OBJDIR)
-
-re: fclean all
-
-# Build test binary; depends on library so it will be built if missing
-test: $(NAME)
-	mkdir -p bin
-	$(CC) $(CFLAGS) tests/test_termcap.c -L. -ltermcap -o bin/test
-
-shelltest: $(NAME)
-	mkdir -p bin
-	$(CC) $(CFLAGS) tests/test_shell.c -L. -ltermcap -o bin/test_shell
-
-.PHONY: all clean fclean re test shelltest
+# Now include common rules (after we defined SRCS/OBJS/DPDC so common.mk
+# works with the correct lists). 
+include ../mk/common.mk

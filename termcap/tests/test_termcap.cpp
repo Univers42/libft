@@ -1,16 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_termcap.c                                     :+:      :+:    :+:   */
+/*   test_termcap.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:27:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:29:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include <unistd.h> // for write used in C++ test helper
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    /* Minimal termcap API surface used by the test file.
+       Provide the t_tglob layout (so test can access term_entry/used_fallback)
+       and prototypes for the functions referenced by the tests. */
+    typedef struct s_tglob
+    {
+        char pc;
+        short ospeed;
+        int *speeds;
+        char *up;
+        char *bc;
+        int tputs_baud_rate;
+        char *esctab;
+        char *term_entry;
+        int used_fallback;
+    } t_tglob;
+
+    t_tglob *access_glob(void);
+    char *find_capability(char *bp, char *cap);
+    int tc_atoi(const char *s);
+    char *tgetstr(const char *cap, char **area);
+    int tgetnum(const char *cap);
+    int tgetflag(const char *cap);
+    int tgetent(char *bp, const char *name);
+    int termcap_used_fallback(void);
+    char *tgoto(const char *cm, int hpos, int vpos);
+    int tputs(const char *str, int nlines, int (*outfn)(int));
+
+#ifdef __cplusplus
+}
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

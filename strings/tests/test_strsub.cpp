@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_strsub.c                                      :+:      :+:    :+:   */
+/*   test_strsub.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:43:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 20:44:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 18:16:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+/* Ensure C linkage for C library when included from C++ tests */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 #include "ft_string.h"
+#ifdef __cplusplus
+}
+#endif
 
 static void run_case(const char *name,
                      const char *s,
@@ -24,7 +33,7 @@ static void run_case(const char *name,
                      const char *expected)
 {
     char *res;
-    char *status;
+    const char *status;
     int ok;
 
     res = strsub(s, pat, rep, glob);

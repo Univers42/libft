@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 16:57:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:04:13 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/30 19:58:32 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/30 19:58:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ char	*substring(const char *string, size_t start, size_t end)
 	if (!result)
 		return ((char *) NULL);
 	ft_strncpy(result, string + start, len);
+	result[len] = '\0';
 	return (result);
 }

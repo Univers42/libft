@@ -5,19 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 17:00:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 00:39:08 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/30 19:58:48 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/30 19:59:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "strsub.h"
 
 char	*strsub(const char *string, const char *pat,
-					const char *rep, bool glob)
+			const char *rep, bool glob)
 {
 	t_subctx	ctx;
 	int			res;
 
+	ctx = (t_subctx){0};
 	ctx.patlen = ft_strlen(pat);
 	while (string[ctx.i])
 	{

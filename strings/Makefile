@@ -1,73 +1,47 @@
-# If you change SRCS, always run 'make fclean' before 'make' or 'make test'
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/30 19:48:02 by                   #+#    #+#              #
+#    Updated: 2025/11/30 19:48:25 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-include ../mk/common.mk
-include ../mk/debug.mk
-
-# project-specific settings
+# project-specific settings (variables kept overrideable)
 CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
-DEPFLAGS = -MMD -MP
+DEPFLAGS ?= -MMD -MP
 
 NAME_LIB	= 		libstring
-NAME		= 		$(NAME_LIB).a		
-SRCS		=  		$(wildcard *.c)
+NAME		= 		$(NAME_LIB).a
 
-OBJ_DIR		=		obj
+LIB_DEPS		:= ctype memory std stdio 
+
+# Provide short-name(s) for this library so common.mk can register them
+PROVIDES	?=		string
+
+SRCDIR := .
+# find all .c files recursively, strip leading ./ if present
+SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -type f -name '*.c')))
+
+OBJ_DIR		?=		obj
+
+# map src/foo/bar.c -> obj/foo/bar.o
+OBJS		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+# corresponding dependency files next to objs
+DPDC		:=	$(OBJS:.o=.d)
+
 TEST_DIR	=		unit_test
 
-TEST_SRCS	=		$(TEST_DIR)/test.c
-TEST_OBJS	=		$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
+TEST_SRCS	=	$(TEST_DIR)/test.c
+TEST_OBJS	=	$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
 TEST_BIN	=		test_$(NAME_LIB)
 
-OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
-DPDC		=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
-
-# Path to the test framework static library (adjust if needed)
-TEST_FRAMEWORK_DIR = ../testing
-TEST_FRAMEWORK_LIB = $(TEST_FRAMEWORK_DIR)/libtest_framework.a
-LIBFT = ../libft.a
-
-.PHONY: all clean fclean re test
-
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	$(call print_status,$(MAGENTA),ARCHIVE,Creating $(NAME)...)
-	@$(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
-	$(call print_status,$(GREEN),DONE,Library $(NAME) successfully created!)
-
-$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
-	@$(call create_dirs)
-	@mkdir -p $(dir $@)
-	@$(call print_status,$(CYAN),COMPILE,Compiling $< -> $@)
-	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
-
-$(OBJ_DIR):
-	@$(call create_dirs)
-
-$(OBJ_DIR)/$(TEST_DIR):
-	@mkdir -p $(OBJ_DIR)/$(TEST_DIR)
-
-# Build test object
-$(OBJ_DIR)/$(TEST_DIR)/%.o : $(TEST_DIR)/%.c | $(OBJ_DIR)/$(TEST_DIR)
-	@$(call create_dirs)
-	@mkdir -p $(dir $@)
-	@$(call print_status,$(CYAN),COMPILE,Compiling $< -> $@)
-	@$(CC) $(CFLAGS) -I. -c $< -o $@
-
-# Test target
-test: $(NAME) $(TEST_OBJS) $(TEST_FRAMEWORK_LIB) $(LIBFT)
-	$(call print_status,$(BLUE),TEST,Building test runner...)
-	@$(CC) $(CFLAGS) $(TEST_OBJS) $(OBJS) $(TEST_FRAMEWORK_LIB) $(LIBFT) -o $(TEST_BIN)
-	$(call print_status,$(GREEN),TEST,Test binary ready: ./$(TEST_BIN))
-	@echo "Run ./$(TEST_BIN) to execute tests."
-
-clean:
-	$(call clean_objects)
-
-fclean: clean
-	$(call print_status,$(RED),CLEAN,Removing archive and test binary...)
-	@$(RM) $(NAME) $(TEST_BIN)
-
-re: fclean all
-
+# Ensure dependency files are included if present (keep after DPDC definition)
 -include $(DPDC)
+
+# Now include common rules (after we defined SRCS/OBJS/DPDC so common.mk
+# works with the correct lists). 
+include ../mk/common.mk

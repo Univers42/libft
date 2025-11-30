@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 10:04:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 19:59:30 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/30 19:57:18 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/30 19:58:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,41 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-/**
- * Compares up to `n` characters of the strings `s1` and `s2`.
- * @param s1 The first string to compare.
- * @param s2 The second string to compare.
- * @param n The maximum number of characters to compare.
- * @return 
- * An integer less than, equal to, or greater than zero,
- * depending on whether `s1` is lexicographically
- * less than, equal to, or greater than `s2`.
- * If the strings are equal up to the `n` characters,
- * the function returns 0.
- * @note
- * The comparison is done character by character up to `n` 
- * characters or until a null terminator is encountered.
- * If `n` is greater than the length of either string,
- * the comparison is limited to the actual length of the strings.
- */
-// Implémentation de ft_strncmp (pour l'exemple)
-//int	ft_strncmp(const char *s1, const char *s2, t_size n)
-//{
-//	while (n--)
-//	{
-//		if (*s1 != *s2)
-//			return (*(unsigned char *)s1 - *(unsigned char *)s2);
-//		if (*s1 == '\0')
-//			return (0);
-//		s1++;
-//		s2++;
-//	}
-//	return (0);
-//}
-
+/* Fixed: robust, well-defined ft_strncmp */
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	while (n-- && *s1 && *s2 && (unsigned char)*s1 == (unsigned char)*s2)
+	size_t			i;
+	unsigned char	c1;
+	unsigned char	c2;
+
+	if (n == 0)
+		return (0);
+	i = 0;
+	while (i < n)
 	{
+		c1 = (unsigned char)s1[i];
+		c2 = (unsigned char)s2[i];
+		if (c1 != c2 || c1 == '\0' || c2 == '\0')
+			return (c1 - c2);
+		++i;
+	}
+	return (0);
+}
+
+int	ft_strcasecmp(const char *s1, const char *s2)
+{
+	unsigned char	c1;
+	unsigned char	c2;
+
+	while (*s1 && *s2)
+	{
+		c1 = (unsigned char)ft_tolower((unsigned char)*s1);
+		c2 = (unsigned char)ft_tolower((unsigned char)*s2);
+		if (c1 != c2)
+			return (c1 - c2);
 		s1++;
 		s2++;
 	}
-	if (n == 0)
-		return (0);
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	return ((unsigned char)ft_tolower((unsigned char)*s1)
+		- (unsigned char)ft_tolower((unsigned char)*s2));
 }

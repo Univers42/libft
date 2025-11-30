@@ -241,13 +241,28 @@ ensure_lib_deps:
 				continue; \
 			fi; \
 			dir=$$(find "$(BUILD_ROOT)" -maxdepth $(DEP_SEARCH_DEPTH) -type d -name "$$dep" -print -quit); \
-			if [ -n "$$dir" ]; then \
-				$(call print_status,$(CYAN),DEPS,Building dependency $$dep in $$dir...); \
-				$(MAKE) -C "$$dir" all || { $(call print_status,$(RED),DEPS,Failed to build $$dep in $$dir); exit 1; }; \
-			else \
+			if [ -z "$$dir" ]; then \
 				$(call print_status,$(RED),DEPS,Dependency $$dep not found under $(BUILD_ROOT)); \
 				exit 1; \
 			fi; \
+			$(call print_status,$(CYAN),DEPS,Building dependency $$dep in $$dir...); \
+			# ensure BUILD_DIR exists for marker files (no leading @ inside shell block) \
+			mkdir -p "$(BUILD_DIR)"; \
+			marker="$(BUILD_DIR)/.building-$$dep"; \
+			# detect recursive build: if marker exists, skip to avoid cycle \
+			if [ -f "$$marker" ]; then \
+				$(call print_status,$(YELLOW),DEPS,Detected recursive build of $$dep - skipping (marker: $$marker)); \
+				continue; \
+			fi; \
+			# create marker so nested invocations can detect recursion \
+			touch "$$marker"; \
+			# run child make; ensure marker removed on failure or success \
+			if ! ($(MAKE) -C "$$dir" all); then \
+				rm -f "$$marker"; \
+				$(call print_status,$(RED),DEPS,Failed to build $$dep in $$dir); \
+				exit 1; \
+			fi; \
+			rm -f "$$marker"; \
 		done; \
 	fi
 

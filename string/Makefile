@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 19:48:02 by                   #+#    #+#              #
-#    Updated: 2025/11/30 19:48:25 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/01 00:24:34 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME		= 		$(NAME_LIB).a
 LIB_DEPS		:= ctype memory std stdio 
 
 # Provide short-name(s) for this library so common.mk can register them
-PROVIDES	?=		string
+PROVIDES	?= string stdio
 
 SRCDIR := .
 # find all .c files recursively, strip leading ./ if present

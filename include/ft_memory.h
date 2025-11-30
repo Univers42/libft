@@ -6,45 +6,45 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:42:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 20:03:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MEMORY_H
-# define FT_MEMORY_H
-# include "ft_stddef.h"
-# include <stdlib.h>
-# include <stdbool.h>
-# include "../memory/memalloc/garbage_collector/lifoba/lifoba.h"
+#define FT_MEMORY_H
+#include "ft_stddef.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "../memory/memalloc/garbage_collector/lifoba/lifoba.h"
 
 typedef struct s_mem_tracker
 {
-	void		**ptrs;
-	int			count;
-	int			capacity;
-}				t_mem_tracker;
+	void **ptrs;
+	int count;
+	int capacity;
+} t_mem_tracker;
 
-void	cleanup_all(t_mem_tracker *tracker);
-void	*safe_malloc(t_mem_tracker *tracker, size_t size);
-void	init_tracker(t_mem_tracker *tracker);
-int		ft_tolower(int c);
-int		ft_toupper(int c);
-void	ft_swap(void *a, void *b, size_t size);
-void	ft_reverse_string(char *str);
-void	ft_bzero(void *s, size_t n);
-void	*ft_memset(void *ptr, int value, size_t num);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_memchr(const void *s, int c, size_t n);
-int		ft_memcmp(const void *s1, const void *s2, size_t n);
-void	*ft_print_memory(void *addr, unsigned int size);
-void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
-void	ft_print_ascii(unsigned char *p, unsigned int size);
-void	*ft_memmove(void *dst, const void *src, size_t n);
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
-void	*xmalloc(size_t nbytes);
-void	*xrealloc(void *p, size_t old, size_t new);
-void	xfree(void *ptr);
-void	*check_null(void *p);
-void	out_of_space(void);
-void	*ternary(bool cond, void *true_val, void *false_val);
+void cleanup_all(t_mem_tracker *tracker);
+void *safe_malloc(t_mem_tracker *tracker, size_t size);
+void init_tracker(t_mem_tracker *tracker);
+int ft_tolower(int c);
+int ft_toupper(int c);
+void ft_swap(void *a, void *b, size_t size);
+void ft_reverse_string(char *str);
+void ft_bzero(void *s, size_t n);
+void *ft_memset(void *ptr, int value, size_t num);
+void *ft_memcpy(void *dest, const void *src, size_t n);
+void *ft_memchr(const void *s, int c, size_t n);
+int ft_memcmp(const void *s1, const void *s2, size_t n);
+void *ft_print_memory(void *addr, unsigned int size);
+void ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
+void ft_print_ascii(unsigned char *p, unsigned int size);
+void *ft_memmove(void *dst, const void *src, size_t n);
+void *ft_memccpy(void *dst, const void *src, int c, size_t n);
+void *xmalloc(size_t nbytes);
+void *xrealloc(void *p, size_t old, size_t newsize);
+void xfree(void *ptr);
+void *check_null(void *p);
+void out_of_space(void);
+void *ternary(bool cond, void *true_val, void *false_val);
 #endif

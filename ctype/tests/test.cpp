@@ -1,24 +1,142 @@
-#include "test.h"
-#include <ctype.h>
-#include <stdlib.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstdarg>
+#include <cstring>
+#include <cstddef>
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-/* use shared t_fn_pair from ../include/test.h */
+/* include C prototypes for the functions under test */
+#include "ft_ctype.h"
+#include <ctype.h>
+
+#ifdef __cplusplus
+}
+#endif
+
+/* Minimal portable test harness types and helpers (match previous expectations) */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+	typedef enum
+	{
+		TYPE_BOOL = 0,
+		TYPE_INT = 1
+	} e_type;
+
+	typedef int (*int_fn_t)(int);
+
+	/* simple wrapper union to mimic original layout used by tests */
+	typedef union
+	{
+		int_fn_t int_fn;
+		/* other fn types could be added if needed */
+	} t_fn_group;
+
+	typedef struct
+	{
+		const char *name;
+		t_fn_group std_fn;
+		t_fn_group ft_fn;
+		int param_count;
+		e_type type;
+	} t_fn_pair;
+
+	typedef struct s_suite
+	{
+		size_t tests;
+		size_t fails;
+	} s_suite, t_suite;
+
+	/* helper that test code expected (ft_snprintf) */
+	int ft_snprintf(char *dst, size_t cap, const char *fmt, ...)
+	{
+		va_list ap;
+		int r;
+		va_start(ap, fmt);
+		r = vsnprintf(dst, cap, fmt, ap);
+		va_end(ap);
+		return r;
+	}
+
+	/* minimal suite management */
+	t_suite *suite_create(const char *name)
+	{
+		(void)name;
+		t_suite *s = (t_suite *)malloc(sizeof(t_suite));
+		if (!s)
+			return NULL;
+		s->tests = 0;
+		s->fails = 0;
+		return s;
+	}
+
+	void suite_print_summary(const t_suite *s)
+	{
+		printf("SUMMARY: %zu tests, %zu failures\n", s ? s->tests : 0, s ? s->fails : 0);
+	}
+
+	void suite_destroy(t_suite *s)
+	{
+		if (!s)
+			return;
+		free(s);
+	}
+
+	/* run_var_test: compare two values (ints) and update suite state */
+	void run_var_test(t_suite *suite, const char *name,
+					  const void *ft_val, const void *std_val,
+					  e_type type, size_t bytes)
+	{
+		(void)bytes;
+		int mismatch = 0;
+		if (type == TYPE_BOOL)
+		{
+			int a = !!*(const int *)ft_val;
+			int b = !!*(const int *)std_val;
+			mismatch = (a != b);
+		}
+		else /* TYPE_INT */
+		{
+			int a = *(const int *)ft_val;
+			int b = *(const int *)std_val;
+			mismatch = (a != b);
+		}
+		suite->tests++;
+		if (mismatch)
+		{
+			suite->fails++;
+			printf("FAILED: %s (expected %d, got %d)\n",
+				   name,
+				   *(const int *)std_val,
+				   *(const int *)ft_val);
+		}
+	}
+
+#ifdef __cplusplus
+}
+#endif
+
+/* Original test logic (uses ctype functions declared in ft_ctype.h) */
 static t_fn_pair *ctype_pairs(size_t *count)
 {
 	static t_fn_pair pairs[] = {
-		{"isdigit", .std_fn.int_fn = isdigit, .ft_fn.int_fn = ft_isdigit, .param_count = 1, .type = TYPE_BOOL},
-		{"isalnum", .std_fn.int_fn = isalnum, .ft_fn.int_fn = ft_isalnum, .param_count = 1, .type = TYPE_BOOL},
-		{"isalpha", .std_fn.int_fn = isalpha, .ft_fn.int_fn = ft_isalpha, .param_count = 1, .type = TYPE_BOOL},
-		{"isblank", .std_fn.int_fn = isblank, .ft_fn.int_fn = ft_isblank, .param_count = 1, .type = TYPE_BOOL},
-		{"isgraph", .std_fn.int_fn = isgraph, .ft_fn.int_fn = ft_isgraph, .param_count = 1, .type = TYPE_BOOL},
-		{"islower", .std_fn.int_fn = islower, .ft_fn.int_fn = ft_islower, .param_count = 1, .type = TYPE_BOOL},
-		{"isupper", .std_fn.int_fn = isupper, .ft_fn.int_fn = ft_isupper, .param_count = 1, .type = TYPE_BOOL},
-		{"isprint", .std_fn.int_fn = isprint, .ft_fn.int_fn = ft_isprint, .param_count = 1, .type = TYPE_BOOL},
-		{"isspace", .std_fn.int_fn = isspace, .ft_fn.int_fn = ft_isspace, .param_count = 1, .type = TYPE_BOOL},
-		{"isxdigit", .std_fn.int_fn = isxdigit, .ft_fn.int_fn = ft_isxdigit, .param_count = 1, .type = TYPE_BOOL},
-		{"tolower", .std_fn.int_fn = tolower, .ft_fn.int_fn = ft_tolower, .param_count = 1, .type = TYPE_INT},
-		{"toupper", .std_fn.int_fn = toupper, .ft_fn.int_fn = ft_toupper, .param_count = 1, .type = TYPE_INT},
+		{"isdigit", {.int_fn = isdigit}, {.int_fn = ft_isdigit}, 1, TYPE_BOOL},
+		{"isalnum", {.int_fn = isalnum}, {.int_fn = ft_isalnum}, 1, TYPE_BOOL},
+		{"isalpha", {.int_fn = isalpha}, {.int_fn = ft_isalpha}, 1, TYPE_BOOL},
+		{"isblank", {.int_fn = isblank}, {.int_fn = ft_isblank}, 1, TYPE_BOOL},
+		{"isgraph", {.int_fn = isgraph}, {.int_fn = ft_isgraph}, 1, TYPE_BOOL},
+		{"islower", {.int_fn = islower}, {.int_fn = ft_islower}, 1, TYPE_BOOL},
+		{"isupper", {.int_fn = isupper}, {.int_fn = ft_isupper}, 1, TYPE_BOOL},
+		{"isprint", {.int_fn = isprint}, {.int_fn = ft_isprint}, 1, TYPE_BOOL},
+		{"isspace", {.int_fn = isspace}, {.int_fn = ft_isspace}, 1, TYPE_BOOL},
+		{"isxdigit", {.int_fn = isxdigit}, {.int_fn = ft_isxdigit}, 1, TYPE_BOOL},
+		{"tolower", {.int_fn = tolower}, {.int_fn = ft_tolower}, 1, TYPE_INT},
+		{"toupper", {.int_fn = toupper}, {.int_fn = ft_toupper}, 1, TYPE_INT},
 	};
 	if (count)
 		*count = sizeof(pairs) / sizeof(*pairs);
@@ -73,5 +191,8 @@ int main(void)
 	suite = suite_create("ctype");
 	test_ctype_cmp(suite);
 	suite_print_summary(suite);
+	/* capture results before freeing to avoid reading freed memory */
+	size_t failures = suite->fails;
 	suite_destroy(suite);
+	return (failures == 0) ? 0 : 1;
 }

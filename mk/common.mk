@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 19:53:01 by                   #+#    #+#              #
-#    Updated: 2025/11/30 19:53:18 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/11/30 21:10:00 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,23 @@ EXTRA_LIB_DEPS_LINKS ?= $(if $(strip $(LIB_DEPS)),-L$(BUILD_DIR) $(addprefix -l,
 DEPS				?=
 # Depth used by `find` can be adjusted if needed
 DEP_SEARCH_DEPTH	?= 6
+
+# New: directories (relative to SRCDIR) to exclude from recursive source search.
+# Example in a module Makefile: DIR_EXCLUDE := input tests/old
+DIR_EXCLUDE			?=
+
+# Build a snippet to pass to `find` which prunes excluded directories.
+# Note: modules should set SRCDIR before including common.mk so $(SRCDIR) is available.
+FIND_EXCLUDE		:= $(foreach d,$(DIR_EXCLUDE), -path $(SRCDIR)/$(d) -prune -o)
+
+# Helper that modules can use to get a list of .c sources while applying excludes.
+# If SRCS is not defined by the module, common.mk will populate it using this.
+FIND_SRCS			:= $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) $(FIND_EXCLUDE) -type f -name '*.c')))
+
+# If the module didn't declare SRCS, derive it using the above find-with-excludes.
+ifeq ($(strip $(SRCS)),)
+	SRCS := $(FIND_SRCS)
+endif
 
 # Debug flags
 DEBUG_FLAGS			= -g3 -DDEBUG
@@ -234,10 +251,14 @@ $(NAME): pre_build ensure_lib_deps $(OBJS)
 	# If the library Makefile declared PROVIDES (space-separated short names),
 	# create/update symlinks in BUILD_DIR: lib<short>.a -> $(NAME)
 	@if [ -n "$(strip $(PROVIDES))" ]; then \
+		src="$(BUILD_DIR)/$(NAME)"; \
 		for p in $(PROVIDES); do \
-			ln -sf "$(BUILD_DIR)/$(NAME)" "$(BUILD_DIR)/lib$$p.a"; \
-			$(call print_status,$(CYAN),PROVIDE,Registered $$p -> $(BUILD_DIR)/$(NAME)); \
+			target="$(BUILD_DIR)/lib$$p.a"; \
+			if [ "$$src" != "$$target" ]; then \
+				ln -sf "$$src" "$$target"; \
+			fi; \
 		done; \
+		$(call print_status,$(CYAN),PROVIDE,Registered $(strip $(PROVIDES)) -> $(BUILD_DIR)/$(NAME)); \
 	fi
 
 # Object compilation rule

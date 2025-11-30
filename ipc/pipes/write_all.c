@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:36:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 03:58:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:04:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-#include "lifoba.h"
+#include "ft_memory.h"
 
 /* write all bytes (handles EINTR), returns n on success, -1 on error */
 ssize_t	write_all(int fd, const void *buf, size_t n)

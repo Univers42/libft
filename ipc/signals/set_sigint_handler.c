@@ -6,31 +6,32 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:53:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 19:14:15 by alcacere         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:18:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trap.h"
 
-void	trap_handler(int sig)
+void trap_handler(int sig)
 {
 	set_trap_state(sig);
 }
 
-void	sigint_sighandler(int sig)
+void sigint_sighandler(int sig)
 {
 	(void)sig;
 }
 
-void	termsig_sighandler(int sig)
+void termsig_sighandler(int sig)
 {
 	(void)sig;
 }
 
-void	*set_sigint_handler(void)
+/* Return type is a signal handler function pointer */
+t_sig_handler set_sigint_handler(void)
 {
 	if (get_g_sig()->sigmodes[SIGINT] & SIG_HARD_IGNORE)
-		return ((void *)SIG_IGN);
+		return (SIG_IGN);
 	else if (get_g_sig()->sigmodes[SIGINT] & SIG_IGNORED)
 		return (set_signal_handler(SIGINT, SIG_IGN));
 	else if (get_g_sig()->sigmodes[SIGINT] & SIG_TRAPPED)

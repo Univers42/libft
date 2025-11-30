@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:30:26 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 03:59:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:03:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-#include "lifoba.h"
+#include "ft_memory.h"
 
 t_pipe_fds	*pipe_create(void)
 {

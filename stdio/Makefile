@@ -12,16 +12,11 @@ LIB_DEPS	?=	memory
 PROVIDES	?=	stdio
 
 SRCDIR := .
-# collect all .c files under the stdio tree
-SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -type f -name '*.c')))
+# Exclude subdirectories from recursive source search (relative to SRCDIR)
+DIR_EXCLUDE := input
 
 OBJ_DIR		?=	obj
 
-OBJS		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
-DPDC		:=	$(OBJS:.o=.d)
-
-# include dependency files if present
--include $(DPDC)
-
-# include common rules after variables so common.mk uses our SRCS/OBJS/DPDC
+# let common.mk compute SRCS/OBJS/DPDC after it processes SRCDIR and DIR_EXCLUDE
+# (use Makefile-style comment; C-style /* ... */ breaks make)
 include ../mk/common.mk

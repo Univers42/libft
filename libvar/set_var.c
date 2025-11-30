@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:33:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:42:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_var	*set_var(const char *name, const char *val, int flags)
 
 	key.name = name;
 	value.name = val;
-	q = end_of_name(key.name);	//TODO
+	q = end_of_name(key.name);
 	p = ft_strchrnul(q, '=');
 	key.len = p - key.name;
 	if (!key.len || p != q)
@@ -51,7 +51,7 @@ t_var	*set_var(const char *name, const char *val, int flags)
 	else
 		value.len = ft_strlen(value.name);
 	intoff();
-	vp = build_and_set(name, val, flags);
+	vp = build_and_set(&key, &value, flags);
 	inton();
 	return (vp);
 }
@@ -63,12 +63,16 @@ static t_var	*build_and_set(t_meta *key, t_meta *val, int flags)
 	char	*p;
 	t_var	*vp;
 
-	name_eq = xmalloc(key->len + val->len + 2);
+	if (val->name)
+		name_eq = xmalloc((size_t)key->len + val->len + 2);
+	else
+		name_eq = xmalloc((size_t)key->len + 1);
 	p = ft_memcpy(name_eq, key->name, key->len);
-	if (val)
+	if (val->name)
 	{
 		*p++ = '=';
-		p = ft_memcpy(p, val, val->len);
+		if (val->len)
+			p = ft_memcpy(p, val->name, val->len);
 	}
 	*p = '\0';
 	vp = set_vareq(name_eq, flags | VNO_SAVE);

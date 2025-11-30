@@ -6,6 +6,11 @@
 
 The primary goal of this library is to provide the full functionality of the original module while being **100% compliant with the 42 School Norminette (C89)**.
 
+The shell has two kinds of mutable state we always need to manage: variables (name=value entries like IFS,PATH,PS1), and shell options/flags (the bits we see in $-,e.g.,-a,-x-,-v).
+
+This lib will treat one logic the more general and let the shell itself handle its part to save/restore, export, and notify about changes in a uniform way.
+
+
 -----
 
 ## Core Principles & Features

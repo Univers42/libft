@@ -25,6 +25,10 @@
     "termcap.h": "c",
     "qsort.h": "c",
     "pipe.h": "c",
-    "private_var.h": "c"
+    "private_var.h": "c",
+    "ft_sort.h": "c",
+    "array": "c",
+    "string_view": "c",
+    "initializer_list": "c"
   }
 }

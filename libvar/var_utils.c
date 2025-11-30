@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 13:39:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:12:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,15 @@ void	unwind_local_vars(t_localvar_list *stop)
 	state = get_var_state();
 	while (state->localvar_stack != stop)
 		pop_local_vars();
+}
+
+char	*var_null(const char *s)
+{
+	const char	*p = ft_strchr(s, '=');
+	static const char	nullstr[] = "";
+	
+	if (p)
+		return ((char*)p + 1);
+	else
+		return ((char*)nullstr);
 }

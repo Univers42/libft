@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:11:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:43:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 16:08:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_var_state *get_var_state(void)
         ft_memcpy(state.linenovar, "LINENO=", 7);
         state.linenovar[7] = '\0';
         init_varinit_array(&state);
-        ft_memset(state.oplist, 0, NOPTS);
+        //ft_memset(state.oplist, 0, NOPTS);
         is_initialized = 1;
     }
     return (&state);

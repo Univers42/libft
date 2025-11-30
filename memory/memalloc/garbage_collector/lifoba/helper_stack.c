@@ -1,29 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   accessors.c                                        :+:      :+:    :+:   */
+/*   helper_stack.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 15:37:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:21:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/06 19:30:35 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/29 18:27:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
-#include "private_var.h"
+#include "lifoba.h"
 
-
-char	*get_optlist(void)
+char	*stack_block(void)
 {
-	static char	optlist[NOPTS] = {0};
-
-	return (optlist);
+	return (arena_ctx()->stack_next);
 }
 
-t_localvar_list	*get_localvar_stack(void)
+char	*stack_str_end(void)
 {
-	static t_localvar_list	localvar_stack = {0};
+	return (arena_ctx()->sstrend);
+}
 
-	return (&localvar_stack);
+size_t	stack_block_size(void)
+{
+	return (arena_ctx()->stack_nleft);
+}
+
+void start_stack_str(void *p)
+{
+	*(char **)p = stack_block();
+}
+
+char	*stack_str_nul(char *p)
+{
+	t_garena	*g;
+
+	g = arena_ctx();
+	if (p == g->sstrend)
+		p = grow_stack_str();
+	*p = '\0';
+	return (p);
 }

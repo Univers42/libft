@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:37:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 19:17:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:41:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef uint64_t t_time;
 #define FAILURE 1
 #define ERROR 1
 #define OK 0
-
+# define BYTE 8
 /***************************
  * WRAPPED MESSAGES SHORTCUT
  ***************************/

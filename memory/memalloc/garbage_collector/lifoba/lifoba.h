@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 15:17:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:50:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ size_t		stack_block_size(void);
  *
  * @return Pointer to the first byte where string building should start.
  */
-char		*start_stack_str(void);
+void		start_stack_str(void *p);
 
 /**
  * @brief  Write a terminating NUL at the current string pointer.
@@ -383,7 +383,7 @@ void		ungrab_stack_str(void *s);
  *
  * @param  p Pointer to the insertion position to commit (one past last used).
  */
-void		grab_stack_str(char *p);
+char		**grab_stack_str(char *p);
 
 /* Generic helpers */
 /**
@@ -471,5 +471,7 @@ void		arena_free(void *p);
  * @return Chosen payload length in bytes.
  */
 size_t		compute_new_len(size_t min, t_garena *g);
+
+char		*stack_str_end(void);
 
 #endif

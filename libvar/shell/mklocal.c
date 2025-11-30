@@ -6,13 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 15:44:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 15:55:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include <string.h>
-#include "ft_memory.h"
 
 static char		*snapshot_opt(t_localvar *lvp, t_var *vp);
 static void		*update_save_previous_state(t_localvar *lvp, t_var *vp,

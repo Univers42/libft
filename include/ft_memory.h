@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 20:01:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:42:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FT_MEMORY_H
 # include "ft_stddef.h"
 # include <stdlib.h>
+# include <stdbool.h>
+# include "../memory/memalloc/garbage_collector/lifoba/lifoba.h"
 
 typedef struct s_mem_tracker
 {
@@ -44,4 +46,5 @@ void	*xrealloc(void *p, size_t old, size_t new);
 void	xfree(void *ptr);
 void	*check_null(void *p);
 void	out_of_space(void);
+void	*ternary(bool cond, void *true_val, void *false_val);
 #endif

@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   accessors.c                                        :+:      :+:    :+:   */
+/*   restore_opt_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 15:37:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:21:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/11/29 17:26:30 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/11/29 17:26:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "var.h"
-#include "private_var.h"
+#include "../private_var.h"
 
-
-char	*get_optlist(void)
+static void	restore_opt_var(t_localvar *lvp, t_var_state *state)
 {
-	static char	optlist[NOPTS] = {0};
-
-	return (optlist);
-}
-
-t_localvar_list	*get_localvar_stack(void)
-{
-	static t_localvar_list	localvar_stack = {0};
-
-	return (&localvar_stack);
+	ft_memcpy(state->optlist, lvp->text, NOPTS);
+	xfree((void *)lvp->text);
+	optschanged();		// !function to create
 }

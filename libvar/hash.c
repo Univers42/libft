@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:41:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 16:20:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,27 @@ t_var	**var_hash(const char *p)
 		p++;
 	}
 	return (&state->vartab[hashval % VTABSIZE]);
+}
+
+unsigned int hash_name(const char *p, unsigned int tabsize)
+{
+    unsigned int h;
+
+    if (tabsize == 0)
+        return (0);
+    h = ((unsigned char)*p) << 4;
+    while (*p && *p != '=')
+    {
+        h += (unsigned char)*p;
+        p++;
+    }
+    return (h % tabsize);
+}
+
+t_var   **var_hash(const char *p)
+{
+    t_var_state *state;
+
+    state = get_var_state();
+    return (&state->vartab[hash_name(p, VTABSIZE)]);
 }

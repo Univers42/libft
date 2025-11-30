@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsearch.c                                          :+:      :+:    :+:   */
+/*   ft_bsearch.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 00:55:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 01:20:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 01:23:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_sort.h"
 #include <stddef.h>
 
-void	*bsearch(const void *key, const t_bsearch_ctx *ctx,
+void	*ft_bsearch(const void *key, const t_bsearch_ctx *ctx,
 			int (*cmp)(const void *, const void *))
 {
 	const unsigned char	*b = (const unsigned char *)ctx->base;
@@ -55,7 +55,7 @@ const char *const	*find_string(const char *s,
 	void			*res;
 
 	bsearch_ctx_init(&ctx, array, nmemb, sizeof(const char *));
-	res = bsearch(&s, &ctx, pstrcmp);
+	res = ft_bsearch(&s, &ctx, pstrcmp);
 	return ((const char *const *)res);
 }
 

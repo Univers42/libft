@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 15:41:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:41:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@
 # include <inttypes.h>
 # include <string.h>
 # include "configs.h"
-# include "ft_stddef.h"
-/*
- * Option list size (must be defined before struct s_var_state uses it)
- */
-# ifndef NOPTS
-#  define NOPTS 64
-# endif
+# include "ft_stdio.h"
+# include "ft_string.h"
+# include "ft_memory.h"
 
 /*
  * Hash table size
@@ -82,6 +78,7 @@ typedef struct s_localvar
 	t_var				*vp;
 	int					flags;
 	const char			*text;
+	void				(*restore)(t_localvar *lvp, t_var_state *state);
 }	t_localvar;
 
 /**
@@ -122,6 +119,38 @@ typedef struct s_meta
 	size_t		len;
 }	t_meta;
 
+typedef struct s_opt
+{
+	const char	opt_letters[NOPTS];
+	char		opt_list[NOPTS];
+	int			opt_ind;
+	int			opt_off;
+	int			nparam;
+}	t_opt;
+
+enum e_opt_flag
+{
+	EFLAG,
+	FFLAG,
+	IFLAG,
+	IFLAG,
+	MFLAG,
+	NFLAG,
+	SFLAG,
+	XFLAG,
+	VFLAG,
+	VFLAG,
+	EFLAG,
+	CFLAG,
+	AFLAG,
+	BFLAG,
+	UFLAG,
+	NOLOF,
+	PIPEFAIL,
+	DEBUG,
+	NOPTS
+};
+
 /*
  * TEST UTILITY: Do not use in production.
  * Resets the singleton state for unit testing.
@@ -144,7 +173,7 @@ int				init_varinit_pt2(t_var_state *state, int i);
 t_var			make_ps1(void);
 t_var			make_ps2(void);
 t_var			**find_var(const char *name);
-
+char			*var_null(const char *s);
 /********************
  * * Accessors
  ********************/

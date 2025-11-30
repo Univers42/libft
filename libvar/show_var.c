@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:38:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:47:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**list_vars(int on, int off, char ***end)
 
 	state = get_var_state();
 	ep = NULL;
-	STARTSTACKSTR(ep);
+	start_stack_str(ep);
 	vpp = state->vartab;
 	mask = on | off;
 	while (vpp < state->vartab + VTABSIZE)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 00:55:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 01:11:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 01:20:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 #include "ft_sort.h"
 #include <stddef.h>
 
-static inline void	bsearch_ctx_init(t_bsearch_ctx *ctx,
-						const void *base, size_t nmemb, size_t size);
-
-void	*bsearch_ctx(const void *key, const t_bsearch_ctx *ctx,
+void	*bsearch(const void *key, const t_bsearch_ctx *ctx,
 			int (*cmp)(const void *, const void *))
 {
 	const unsigned char	*b = (const unsigned char *)ctx->base;
@@ -28,7 +25,7 @@ void	*bsearch_ctx(const void *key, const t_bsearch_ctx *ctx,
 	int					diff;
 
 	nmemb = ctx->nmemb;
-	while (ctx->nmemb)
+	while (nmemb)
 	{
 		mididx = nmemb >> 1;
 		midobj = b + mididx * ctx->size;
@@ -46,7 +43,23 @@ void	*bsearch_ctx(const void *key, const t_bsearch_ctx *ctx,
 	return (NULL);
 }
 
-static inline void	bsearch_ctx_init(t_bsearch_ctx *ctx,
+int	pstrcmp(const void *a, const void *b)
+{
+	return (ft_strcmp(*(const char *const *)a, *(const char *const *)b));
+}
+
+const char *const	*find_string(const char *s,
+						const char *const *array, size_t nmemb)
+{
+	t_bsearch_ctx	ctx;
+	void			*res;
+
+	bsearch_ctx_init(&ctx, array, nmemb, sizeof(const char *));
+	res = bsearch(&s, &ctx, pstrcmp);
+	return ((const char *const *)res);
+}
+
+void	bsearch_ctx_init(t_bsearch_ctx *ctx,
 				const void *base, size_t nmemb, size_t size)
 {
 	ctx->base = base;

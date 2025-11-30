@@ -6,11 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:02:28 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 20:32:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/11/30 00:54:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
+#include "ft_memory.h"
+
 //#include "TDD/test.h"
 /**
  * Creates a new string by duplicating the string `s`.
@@ -40,6 +42,13 @@ char	*ft_strdup(const char *s)
 	return (cpy);
 }
 
+char	*ft_sstrdup(const char *p)
+{
+	size_t	len;
+
+	len = ft_strlen(p) + 1;
+	return (ft_memcpy(st_alloc(len), p, len));
+}
 //int main(void)
 //{
 //	char *str = ft_strdup("hello, world!");

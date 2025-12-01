@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 00:49:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 14:17:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *lookup_var(const char *name)
     return (NULL);
 }
 
-intmax_t lookup_var_int(const char *name)
+intmax_t lookup_varint(const char *name)
 {
     char *s;
 

@@ -115,3 +115,65 @@ void rl_history_free(void)
     g_capacity = 0;
     g_index = -1;
 }
+
+/*
+ * Adapter to provide the legacy `history` symbol used by var code.
+ * Signature: history(void *hist, int *he, void *unused, int histsize)
+ *
+ * Behaviour:
+ *  - If histsize <= 0: do nothing.
+ *  - If histsize < current count: drop oldest entries to fit the new size.
+ *  - If histsize != current capacity: attempt to realloc the backing array.
+ *  - Keeps g_index within bounds.
+ *
+ * This is intentionally conservative: it trims oldest entries and preserves
+ * newer entries, and never crashes on allocation failure.
+ */
+void history(void *hist_arg, int *he, void *unused, int histsize)
+{
+    int i, remove, keep;
+    char **tmp;
+
+    (void)hist_arg;
+    (void)he;
+    (void)unused;
+
+    if (histsize <= 0)
+        return;
+
+    /* ensure history storage exists */
+    rl_history_init();
+
+    /* If new size is smaller than current count, drop oldest entries */
+    if (histsize < g_count)
+    {
+        remove = g_count - histsize;
+        /* free oldest 'remove' entries */
+        for (i = 0; i < remove; ++i)
+            free(g_hist[i]);
+        /* shift remaining entries toward start */
+        keep = g_count - remove;
+        for (i = 0; i < keep; ++i)
+            g_hist[i] = g_hist[i + remove];
+        g_count = keep;
+        /* adjust index if necessary */
+        if (g_index > g_count)
+            g_index = g_count;
+    }
+
+    /* If capacity needs change, attempt to realloc backing array */
+    if (histsize != g_capacity)
+    {
+        tmp = (char **)realloc(g_hist, sizeof(char *) * (size_t)histsize);
+        if (tmp)
+        {
+            g_hist = tmp;
+            g_capacity = histsize;
+        }
+        /* if realloc failed, keep old capacity to remain safe */
+    }
+
+    /* Ensure index is valid (one past last entry allowed) */
+    if (g_index > g_count)
+        g_index = g_count;
+}

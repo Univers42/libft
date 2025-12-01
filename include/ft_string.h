@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 20:31:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 14:18:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,4 +352,6 @@ void bsearch_ctx_init(t_bsearch_ctx *ctx,
                       const void *base, size_t nmemb, size_t size);
 
 char *ft_sstrdup(const char *p);
+char	*prefix(const char *string, const char *pfx);
+
 #endif

@@ -1,6 +1,6 @@
 CFLAGS		+= -std=c99 -pedantic -Wshadow -I../include -I../ctype -I./ft_printf/include
 DEPFLAGS	?= -MMD -MP
-NAME_LIB	=		libctype
+NAME_LIB	=		libsort
 NAME		=		$(NAME_LIB).a
 LIB_DEPS	?=
 PROVIDES	?=	ctype

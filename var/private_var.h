@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:48:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:30:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,14 @@
 #include <stddef.h>
 #include <inttypes.h>
 #include <stdlib.h>
+
+/* avoid including ft_stdio.h here when compiling as C++ (these headers
+   contain C-only constructs that are not C++-friendly). Include them
+   only for C builds. */
+#ifndef __cplusplus
 #include "ft_stdio.h"
 #include "ft_sort.h"
+#endif
 
 /* If the public headers did not define reasonable sizes, provide safe defaults.
    Use guards so we don't clobber upstream definitions. */
@@ -208,5 +214,9 @@ void unset_func(const char *name);
 t_var_state *get_var_state(void);
 t_localvar_list *get_localvar_stack(void);
 char *get_optlist(void);
+intmax_t set_varint(const char *name, intmax_t val, int flags);
+
+/* New: teardown API to free all libvar-managed allocations */
+void libvar_destroy(void);
 
 #endif

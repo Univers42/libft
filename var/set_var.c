@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 01:30:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:01:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 //Forward declarations
 //TODO: 
-extern void		ft_fmtstr(char *buf, int size, const char *fmt, ...);
 static t_var	*build_and_set(t_meta *key, t_meta *val, int flags);
 
 // Main public API
@@ -25,7 +24,7 @@ intmax_t	set_varint(const char *name, intmax_t val, int flags)
 {
 	char	buf[INTMAX_BUFSIZE];
 
-	ft_fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
+	fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
 	set_var(name, buf, flags);
 	return (val);
 }

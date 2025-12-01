@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:11:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 16:08:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:10:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,24 @@ t_var_state *get_var_state(void)
 
     if (!is_initialized)
     {
+        /* Zero/initialize fields that may otherwise contain indeterminate
+           data when the struct is not fully explicitly initialized. */
+        ft_memcpy(state.linenovar, "LINENO=", 7);
+        state.linenovar[7] = '\0';
+
+        /* Ensure option arrays and oplist/oplist are zeroed so reads such
+           as get_optlist()[AFLAG] are defined. */
+        ft_memset(state.optlist, 0, NOPTS);
+        ft_memset(state.oplist, 0, NOPTS);
+
+        state.localvar_stack = NULL;
+        state.vlineno_ptr = NULL;
+        state.lineno = 0;
+
         state.defpathvar = DEFPATHVAR;
         state.defifsvar = DEFIFSVAR;
         state.defoptindvar = DEFOPTINDVAR;
-        ft_memcpy(state.linenovar, "LINENO=", 7);
-        state.linenovar[7] = '\0';
         init_varinit_array(&state);
-        //ft_memset(state.oplist, 0, NOPTS);
         is_initialized = 1;
     }
     return (&state);
@@ -47,27 +58,27 @@ t_var_state *get_var_state(void)
 
 static void init_varinit_array(t_var_state *state)
 {
-	int i;
+    int i;
 
-	i = 0;
-	state->vlineno_ptr = NULL;
-	i = add_atty(state, i);
-	state->varinit[i++] = make_ifs(state->defifsvar);
-	state->varinit[i++] = make_mail();
-	state->varinit[i++] = make_mailpath();
-	state->varinit[i++] = make_path(state->defpathvar);
-	i = init_varinit_pt2(state, i);
-	state->varinit_size = i;
+    i = 0;
+    state->vlineno_ptr = NULL;
+    i = add_atty(state, i);
+    state->varinit[i++] = make_ifs(state->defifsvar);
+    state->varinit[i++] = make_mail();
+    state->varinit[i++] = make_mailpath();
+    state->varinit[i++] = make_path(state->defpathvar);
+    i = init_varinit_pt2(state, i);
+    state->varinit_size = i;
 }
 
 // --- Local static helpers for this file only ---
 
-t_var	make_ps1(void)
+t_var make_ps1(void)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS1=$ ", 0};
+    return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS1=$ ", 0};
 }
 
-t_var	make_ps2(void)
+t_var make_ps2(void)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS2=> ", 0};
+    return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS2=> ", 0};
 }

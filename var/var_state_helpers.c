@@ -6,14 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:44:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 14:18:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
-
-extern int prefix(const char *s, const char *p); /* forward decl to avoid implicit decl */
 
 /* Use forward declarations (incomplete types) so we can reference these names
    in pointer fields before we provide the full definitions later in this file. */

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:23:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:55:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:06:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void rl_history_free(void);
 /* history search helpers added for Ctrl+R support */
 int rl_history_find_prev(const char *pat, int from_index);
 const char *rl_history_get(int idx);
+void history(void *hist_arg, int *he, void *unused, int histsize);
 
 #endif

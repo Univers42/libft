@@ -3,7 +3,7 @@ CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/in
 DEPFLAGS ?= -MMD -MP
 NAME_LIB	= 		libvar
 NAME		= 		$(NAME_LIB).a
-LIB_DEPS		?= ctype memory std stdio 
+LIB_DEPS		?= readline sort std string ctype memory std stdio
 # Provide short-name(s) for this library so common.mk can register them
 PROVIDES	?= string stdio
 SRCDIR := .

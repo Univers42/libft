@@ -6,16 +6,40 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:36:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:25:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
 
-static char **process_var_bucket(struct s_var *vp, char **ep,
-								 int mask, int on);
 static void print_var_list(char **ep, char **epend, const char *prefix);
+
+/* Replace stack-string helpers with simple counters/fillers */
+static size_t count_var_bucket(struct s_var *vp, int mask, int on)
+{
+	size_t n;
+
+	n = 0;
+	while (vp)
+	{
+		if ((vp->flags & mask) == on)
+			n++;
+		vp = vp->next;
+	}
+	return (n);
+}
+
+static char **fill_var_bucket(struct s_var *vp, char **ep, int mask, int on)
+{
+	while (vp)
+	{
+		if ((vp->flags & mask) == on)
+			*ep++ = (char *)vp->text;
+		vp = vp->next;
+	}
+	return (ep);
+}
 
 /**
  * API public functions
@@ -24,29 +48,40 @@ char **list_vars(int on, int off, char ***end)
 {
 	t_var_state *state;
 	t_var **vpp;
-	char **ep;
+	size_t total;
+	char **arr;
+	char **it;
 	int mask;
 
 	state = get_var_state();
-	ep = NULL;
-	start_stack_str(ep);
-	vpp = state->vartab;
 	mask = on | off;
+
+	/* First pass: count */
+	total = 0;
+	vpp = state->vartab;
 	while (vpp < state->vartab + VTABSIZE)
 	{
-		ep = process_var_bucket(*vpp, ep, mask, on);
+		total += count_var_bucket(*vpp, mask, on);
 		vpp++;
 	}
-	if ((const void *)ep == (const void *)stack_str_end())
+
+	/* Allocate result (+1 for NULL sentinel) */
+	arr = xmalloc((total + 1) * sizeof(char *));
+	if (!arr)
+		return (NULL);
+
+	/* Second pass: fill */
+	it = arr;
+	vpp = state->vartab;
+	while (vpp < state->vartab + VTABSIZE)
 	{
-		/* ep may be a char** while stack_str_end() returns char* (or vice-versa)
-		   so compare as void* to avoid incompatible pointer-type warnings. */
-		return (grab_stack_str((char *)ep));
+		it = fill_var_bucket(*vpp, it, mask, on);
+		vpp++;
 	}
+	*it = NULL;
 	if (end)
-		*end = ep;
-	*ep++ = NULL;
-	return (grab_stack_str((char *)ep));
+		*end = arr + total;
+	return (arr);
 }
 
 int show_vars(const char *prefix, int on, int off)
@@ -56,38 +91,14 @@ int show_vars(const char *prefix, int on, int off)
 	int count;
 
 	ep = list_vars(on, off, &epend);
-	count = epend - ep;
+	if (!ep)
+		return (0);
+	count = (int)(epend - ep);
 	ft_qsort(ep, count, sizeof(char *), var_vpcmp);
 	print_var_list(ep, epend, prefix);
+	/* Avoid leak: list_vars returns heap memory */
+	xfree(ep);
 	return (0);
-}
-
-/**
- * PRIVATE HELPERS
- */
-static char **process_var_bucket(struct s_var *vp, char **ep,
-								 int mask, int on)
-{
-	while (vp)
-	{
-		if ((vp->flags & mask) == on)
-		{
-			if ((const void *)ep == (const void *)stack_str_end())
-			{
-				/* use explicit cast when calling grab_stack_str */
-				char **items;
-
-				items = grab_stack_str((char *)ep);
-				/* switch to heap-backed array returned by grab_stack_str */
-				ep = items;
-			}
-			else
-				ep = grow_stack_str();
-			*ep++ = (char *)vp->text;
-		}
-		vp = vp->next;
-	}
-	return (ep);
 }
 
 static void print_var_list(char **ep, char **epend, const char *prefix)

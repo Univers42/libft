@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:24:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 14:29:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,34 @@ int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap)
 // #endif
 // }
 
-void exverror(int cond, const char *msg, va_list ap)
-{
-	if (msg)
-	{
-		va_list aq;
-		TRACE(("exverror(%d, \"", cond));
-		va_copy(aq, ap);
-		TRACEV((msg, aq));
-		va_end(aq);
-		TRACE(("\")pix=%d\n", getpid()));
-	}
-	else
-	{
-		TRACE(("exverror(%d, NULL) pid=%d\n", cond, getpid()));
-	}
-	/* if (msg) exvwarning(msg, ap); */
-	flush_all();
-	exraise(cond);
-}
+// void exverror(int cond, const char *msg, va_list ap)
+// {
+// 	if (msg)
+// 	{
+// 		va_list aq;
+// 		TRACE(("exverror(%d, \"", cond));
+// 		va_copy(aq, ap);
+// 		TRACEV((msg, aq));
+// 		va_end(aq);
+// 		TRACE(("\")pix=%d\n", getpid()));
+// 	}
+// 	else
+// 	{
+// 		TRACE(("exverror(%d, NULL) pid=%d\n", cond, getpid()));
+// 	}
+// 	/* if (msg) exvwarning(msg, ap); */
+// 	flush_all();
+// 	exraise(cond);
+// }
 
-void sh_error(const char *msg, ...)
-{
-	va_list ap;
-	t_state_fd *log = get_state_fd();
+// void sh_error(const char *msg, ...)
+// {
+// 	va_list ap;
+// 	t_state_fd *log = get_state_fd();
 
-	log->exit_status = 2;
-	va_start(ap, msg);
-	exverror(EXERROR, msg, ap);
-	va_end(ap);
-	abort();
-}
+// 	log->exit_status = 2;
+// 	va_start(ap, msg);
+// 	exverror(EXERROR, msg, ap);
+// 	va_end(ap);
+// 	abort();
+// }

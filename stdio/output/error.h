@@ -109,4 +109,15 @@ static inline int error_int_pending(void)
     return (int)st->intpending;
 }
 
+void sh_error(const char *msg, ...);
+void exerror(int cond, const char *msg, ...);
+void sh_warnx(const char *fmt, ...);
+void onint(void);
+void exraise(int e);
+void ft_error(const char *fmt, ...);
+void ft_warn(const char *fmt, ...);
+void set_exception_handler(void (*handler)(int));
+void set_error_fd(int fd);
+int get_error_fd(void);
+
 #endif /* ERROR_H */

@@ -1,75 +1,27 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/11/28 01:07:51 by dlesieur          #+#    #+#              #
-#    Updated: 2025/11/28 01:41:47 by dlesieur         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# project-specific settings (variables kept overrideable)
+CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
+DEPFLAGS ?= -MMD -MP
+NAME_LIB	= 		libwctype
+NAME		= 		$(NAME_LIB).a
+LIB_DEPS		?= ctype memory std stdio 
+# Provide short-name(s) for this library so common.mk can register them
+PROVIDES	?= string stdio
+SRCDIR := .
+# find all .c files recursively, strip leading ./ if present
+SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -type f -name '*.c')))
+OBJ_DIR		?=		obj
+# map src/foo/bar.c -> obj/foo/bar.o
+OBJS		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+# corresponding dependency files next to objs
+DPDC		:=	$(OBJS:.o=.d)
+TEST_DIR	=		unit_test
+TEST_SRCS	=	$(TEST_DIR)/test.c
+TEST_OBJS	=	$(addprefix $(OBJ_DIR)/, $(TEST_SRCS:%.c=%.o))
+TEST_BIN	=		test_$(NAME_LIB)
 
-NAME			:=	libwctype.a
-SRCS			:=	$(wildcard *.c)
-OBJS			:=	$(SRCS:.c=.o)
-LIB_LISTS		:=	string memory
-DIRS_LIST		:=	dependencies obj bin tests
+# Ensure dependency files are included if present (keep after DPDC definition)
+-include $(DPDC)
 
-# Derive directory variables from DIRS_LIST
-DEP_DIR			:=	$(word 1, $(DIRS_LIST))
-OBJ_DIR			:=	$(word 2, $(DIRS_LIST))
-BIN_DIR			:=	$(word 3, $(DIRS_LIST))
-TEST_DIR		:=	$(word 4, $(DIRS_LIST))
-
-CC				:= 	cc
-CFLAGS			:= 	-Wall -Wextra -Werror
-LDFLAGS			:= 	-I/include -I.
-LIBFLAGS		:= 	$(foreach lib, $(LIB_LISTS), -L../$(lib) -l$(lib))
-RM				:= 	rm -rf
-AR				:= 	ar rcs
-
-#compile the lib
-all: $(DEP_DIR) $(OBJ_DIR) $(BIN_DIR) $(TEST_DIR) $(NAME)
-
-$(DEP_DIR) $(OBJ_DIR) $(BIN_DIR) $(TEST_DIR):
-	mkdir -p $@
-
-# Generate object files and hold them into obj/
-$(OBJ_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Generate the libwctype.a
-$(NAME): $(addprefix $(OBJ_DIR)/, $(OBJS))  # Fixed: Depend on objects in OBJ_DIR
-	$(AR) $@ $^
-
-# Removed invalid $(LIBFLAGS) target; add build deps for libs if needed
-# $(foreach lib, $(LIB_LISTS), $(MAKE) -C ../$(lib) all)  # Uncomment and adjust if you want to build libs here
-
-# Clean all objects
-clean:
-	$(RM) $(OBJ_DIR)
-
-# Clean all mkgen and lib
-fclean: clean
-	$(RM) $(NAME) $(DIRS_LIST)
-    
-test: all
-	mkdir -p $(BIN_DIR)
-	for file in $(TEST_DIR)/*.c; do \
-		base=$$(basename $$file .c); \
-		libs=""; \
-		for lib in $(LIB_LISTS); do \
-			if [ -f ../$$lib/lib$$lib.a ]; then \
-				libs="$$libs ../$$lib/lib$$lib.a"; \
-			else \
-				printf "warning: dependency ../%s/lib%s.a not found, skipping\n" "$$lib" "$$lib" 1>&2; \
-			fi; \
-		done; \
-		printf "Linking %s with: %s %s\n" "$$base" "$(NAME)" "$$libs"; \
-		$(CC) $(CFLAGS) $$file $(NAME) $$libs -o $(BIN_DIR)/$$base; \
-	done
-
-re: fclean all
-
-.PHONY: all clean fclean re $(DEP_DIR) $(OBJ_DIR) $(BIN_DIR)
+# Now include common rules (after we defined SRCS/OBJS/DPDC so common.mk
+# works with the correct lists). 
+include ../mk/common.mk

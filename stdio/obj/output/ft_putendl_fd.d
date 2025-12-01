@@ -14,10 +14,10 @@ obj/output/ft_putendl_fd.o: output/ft_putendl_fd.c ../include/libft.h \
  ../include/../math/geometry/./draw/pixel.h \
  ../include/../ds/vector/ft_vector.h \
  ../include/../ds/vector/../dyn_string/dyn_string.h \
- ../include/ft_stdlib.h ../include/ft_string.h ../include/ft_math.h \
- ../include/ft_stdlib.h ../include/ft_stdio.h \
- ../include/../stdio/output/output.h ../include/../stdio/output/error.h \
- ../include/../stdio/input/input.h \
+ ../include/ft_stdlib.h ../include/../std/strto/strto.h \
+ ../include/ft_string.h ../include/ft_math.h ../include/ft_stdlib.h \
+ ../include/ft_stdio.h ../include/../stdio/output/output.h \
+ ../include/../stdio/output/error.h ../include/../stdio/input/input.h \
  ../include/../stdio/input/get_next_line.h ../include/ft_stdio.h \
  ../include/../stdio/input/lseek.h ../include/../stdio/input/tee.h \
  ../include/../stdio/format/format.h \
@@ -46,6 +46,7 @@ obj/output/ft_putendl_fd.o: output/ft_putendl_fd.c ../include/libft.h \
 ../include/../ds/vector/ft_vector.h:
 ../include/../ds/vector/../dyn_string/dyn_string.h:
 ../include/ft_stdlib.h:
+../include/../std/strto/strto.h:
 ../include/ft_string.h:
 ../include/ft_math.h:
 ../include/ft_stdlib.h:

@@ -41,10 +41,10 @@ t_var make_ps4(void)
 
 /* Change: accept a void-returning reset callback (matches private_var.h).
    Store it into t_var.func with an explicit cast to the expected type. */
-t_var make_optind(const char *optind, void (*reset)(void))
+t_var make_optind(const char *optind, void (*resetfn)(void))
 {
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind,
-				   (void (*)(const char *))reset};
+				   (void (*)(const char *))resetfn};
 }
 
 t_var make_lineno(const char *lineno)

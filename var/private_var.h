@@ -184,7 +184,7 @@ t_var make_mail(void);
 t_var make_mailpath(void);
 t_var make_path(const char *path);
 /* change: reset callback returns void (matches var_state helpers) */
-t_var make_optind(const char *optind, void (*reset)(void));
+t_var make_optind(const char *optind, void (*resetfn)(void));
 t_var make_lineno(const char *lineno);
 t_var make_term(void);
 t_var make_histsize(void);

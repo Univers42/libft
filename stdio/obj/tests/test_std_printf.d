@@ -1,19 +1,21 @@
 obj/tests/test_std_printf.o: tests/test_std_printf.c \
  ../include/ft_stdlib.h ../include/ft_memory.h ../include/ft_stddef.h \
  ../include/../memory/memalloc/garbage_collector/lifoba/lifoba.h \
+ ../include/../std/strto/strto.h ../include/ft_stddef.h \
  ../include/ft_memory.h ../include/ft_stdio.h \
  ../include/../stdio/output/output.h ../include/../stdio/output/error.h \
  ../include/../stdio/input/input.h \
  ../include/../stdio/input/get_next_line.h ../include/ft_string.h \
- ../include/../string/bitmap.h ../include/ft_stddef.h \
- ../include/../stdio/input/lseek.h ../include/../stdio/input/tee.h \
- ../include/../stdio/format/format.h \
+ ../include/../string/bitmap.h ../include/../stdio/input/lseek.h \
+ ../include/../stdio/input/tee.h ../include/../stdio/format/format.h \
  ../include/../stdio/format/../../memory/memalloc/garbage_collector/lifoba/lifoba.h \
  ../include/../stdio/format/../output/output.h
 ../include/ft_stdlib.h:
 ../include/ft_memory.h:
 ../include/ft_stddef.h:
 ../include/../memory/memalloc/garbage_collector/lifoba/lifoba.h:
+../include/../std/strto/strto.h:
+../include/ft_stddef.h:
 ../include/ft_memory.h:
 ../include/ft_stdio.h:
 ../include/../stdio/output/output.h:
@@ -22,7 +24,6 @@ obj/tests/test_std_printf.o: tests/test_std_printf.c \
 ../include/../stdio/input/get_next_line.h:
 ../include/ft_string.h:
 ../include/../string/bitmap.h:
-../include/ft_stddef.h:
 ../include/../stdio/input/lseek.h:
 ../include/../stdio/input/tee.h:
 ../include/../stdio/format/format.h:

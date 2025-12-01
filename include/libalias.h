@@ -6,32 +6,37 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:34:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:34:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 02:20:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBALIAS_H
-# define LIBALIAS_H
+#define LIBALIAS_H
 
-# include "libft.h"
+#include "libft.h"
 
-# define ALIAS_TAB_SIZE 127
+#define ALIAS_TAB_SIZE 127
 
-# define ALIAS_INUSE	1
-# define ALIAS_DEAD		2
+#define ALIAS_INUSE 1
+#define ALIAS_DEAD 2
+
+/* The struct t_alias is defined in the project's stdio input header.
+   Remove the duplicate definition here and include the central header to
+   avoid redefinition/conflicting typedef errors. */
 
 typedef struct s_alias
 {
-	struct s_alias	*next;
-	char			*name;
-	char			*val;
-	int				flag;
-}					t_alias;
+	struct s_alias *next;
+	char *name;
+	char *val;
+	int flag;
+} t_alias;
+
 
 typedef struct s_alias_state
 {
-	t_alias			*atab[ALIAS_TAB_SIZE];
-}					t_alias_state;
+	t_alias *atab[ALIAS_TAB_SIZE];
+} t_alias_state;
 
 /* Singleton State */
 
@@ -39,41 +44,41 @@ typedef struct s_alias_state
  * @brief Retrieves the singleton instance of the alias state.
  * @return A pointer to the unique static t_alias_state structure.
  */
-t_alias_state		*get_alias_state(void);
+t_alias_state *get_alias_state(void);
 
 /* API Core */
 
 /**
- * @brief Locates the slot (pointer to pointer) for a 
+ * @brief Locates the slot (pointer to pointer) for a
  * given alias name in the hash table.
- * Computes the hash of the name and traverses the 
+ * Computes the hash of the name and traverses the
  * bucket to find where the alias resides
  * or where it should be inserted.
  * @param name The alias name to hash and locate.
- * @return A pointer to the `t_alias *` holding 
+ * @return A pointer to the `t_alias *` holding
  * the node (or the NULL terminator).
  */
-t_alias				**alias_find_slot(const char *name);
+t_alias **alias_find_slot(const char *name);
 
 /**
  * @brief Searches for an alias structure by name.
  * @param name The name of the alias to find.
- * @param check If set to 1, aliases marked as 
+ * @param check If set to 1, aliases marked as
  * ALIAS_INUSE are ignored (returns NULL)
  * to prevent infinite recursion during alias expansion.
  * @return A pointer to the found t_alias node, or NULL if not found.
  */
-t_alias				*alias_lookup(const char *name, int check);
+t_alias *alias_lookup(const char *name, int check);
 
 /**
  * @brief Creates a new alias or updates an existing one.
- * If the alias exists, its value is updated 
+ * If the alias exists, its value is updated
  * (unless it's currently in use).
  * If it doesn't exist, a new node is allocated and added to the table.
  * @param name The name of the alias.
  * @param val The value (command string) assigned to the alias.
  */
-void				alias_set(const char *name, const char *val);
+void alias_set(const char *name, const char *val);
 
 /**
  * @brief Removes a specific alias by name.
@@ -81,34 +86,34 @@ void				alias_set(const char *name, const char *val);
  * @return 0 if the alias was successfully
  * removed, 1 if it was not found.
  */
-int					alias_unset(const char *name);
+int alias_unset(const char *name);
 
 /**
- * @brief Removes all aliases from 
+ * @brief Removes all aliases from
  * the hash table (equivalent to `unalias -a`).
  * Iterates through the entire table and frees every node.
  */
-void				alias_remove_all(void);
+void alias_remove_all(void);
 
 /**
  * @brief Frees an alias node's memory.
  * Handles the ALIAS_INUSE flag: if the alias
  * is currently executing, it is marked
- * as ALIAS_DEAD instead of being freed 
+ * as ALIAS_DEAD instead of being freed
  * immediately to avoid use-after-free.
  * @param ap Pointer to the alias node to free.
- * @return A pointer to the next node in 
+ * @return A pointer to the next node in
  * the list (ap->next), allowing seamless list traversal.
  */
-t_alias				*alias_free(t_alias *ap);
+t_alias *alias_free(t_alias *ap);
 
 /**
- * @brief Prints an alias definition to standard 
+ * @brief Prints an alias definition to standard
  * output in the format `name='value'`.
  * The value is properly quoted using single quotes.
  * @param ap Pointer to the alias node to print.
  */
-void				alias_print(const t_alias *ap);
+void alias_print(const t_alias *ap);
 
 /* Builtins */
 
@@ -121,7 +126,7 @@ void				alias_print(const t_alias *ap);
  * @param argv Argument vector.
  * @return Exit status (0 on success, >0 on error).
  */
-int					alias_cmd(int argc, char **argv);
+int alias_cmd(int argc, char **argv);
 
 /**
  * @brief Implementation of the `unalias` builtin command.
@@ -130,7 +135,7 @@ int					alias_cmd(int argc, char **argv);
  * @param argv Argument vector.
  * @return Exit status (0 on success, >0 on error).
  */
-int					unalias_cmd(int argc, char **argv);
+int unalias_cmd(int argc, char **argv);
 
 /* Auxiliares */
 
@@ -141,6 +146,6 @@ int					unalias_cmd(int argc, char **argv);
  * @return A new allocated string enclosed in single quotes
  * with internal quotes escaped.
  */
-char				*alias_str_quote(const char *s);
+char *alias_str_quote(const char *s);
 
 #endif

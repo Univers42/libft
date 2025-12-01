@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:16 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/01 00:53:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 02:22:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,18 @@ enum e_
 	INPUT_NOFILE_OK = 2
 };
 
-typedef struct s_alias
-{
-	struct s_alias *next;
-	char *name;
-	char *val;
-	int flag;
-} t_alias;
+/* Forward-declare the alias struct (NO typedef) to avoid typedef conflicts.
+   input.h only stores pointers to the alias node, so an incomplete
+   struct declaration is sufficient here. The full typedef/definition
+   remains in include/libalias.h. */
+struct s_alias;
+
 typedef struct s_block_str
 {
 	struct s_block_str *prev; // preceeding string on stack
 	char *prev_string;
 	int prevnleft;
-	t_alias *ap;				 // if putsh was associated with an alias
+	struct s_alias *ap;			 // if putsh was associated with an alias (use struct forward-decl)
 	char *string;				 // remember the string since it may change
 	struct s_block_str *sp_free; // delay freeing so we can stop nested aliases
 	int unget;					 // number of outstanding calls to pungetc

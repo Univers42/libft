@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:19:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:09:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	process_chunks(int *normalized_arr, int size, int num_chunks);
 // Greedy sort helpers
 void	initialize_stacks(t_stck *a, t_stck *b, int *arr, int size);
 void	copy_result_back(int *arr, t_stck *a, int size);
+void	ft_qsort(void *base, size_t nmemb, size_t size,
+				int (*compar)(const void *, const void *));
 
 // Cycle sort helpers
 

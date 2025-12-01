@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_descriptor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:10:50 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/21 15:23:40 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int ft_vdprintf(int fd, const char *format, va_list *ap)
 {
 	static t_writer buf_out;
 	int return_value;
-	t_parser parser;
+	t_format_parser parser;
 
 	if (format == NULL || fd < 0)
 		return (-1);
@@ -28,11 +28,11 @@ int ft_vdprintf(int fd, const char *format, va_list *ap)
 /**
  * In pending
  */
-int ft_vlogprintf(t_log *state, const char *format, va_list *ap)
+int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap)
 {
 	static t_writer buf_out;
 	int return_value;
-	t_parser parser;
+	t_format_parser parser;
 
 	if (format == NULL || !state || state->fd < 0)
 		return (-1);

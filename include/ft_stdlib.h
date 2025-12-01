@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:19:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:42:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include "ft_memory.h"
 # include <stdbool.h>
+# include "../std/strto/strto.h"
 
 # ifndef RAND_MAX
 #  define RAND_MAX 32767

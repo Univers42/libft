@@ -6,26 +6,26 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:47:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:36:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
 
-static char	**process_var_bucket(struct s_var *vp, char **ep,
-									int mask, int on);
-static void	print_var_list(char **ep, char **epend, const char *prefix);
+static char **process_var_bucket(struct s_var *vp, char **ep,
+								 int mask, int on);
+static void print_var_list(char **ep, char **epend, const char *prefix);
 
 /**
  * API public functions
  */
-char	**list_vars(int on, int off, char ***end)
+char **list_vars(int on, int off, char ***end)
 {
-	t_var_state	*state;
-	t_var		**vpp;
-	char		**ep;
-	int			mask;
+	t_var_state *state;
+	t_var **vpp;
+	char **ep;
+	int mask;
 
 	state = get_var_state();
 	ep = NULL;
@@ -37,19 +37,23 @@ char	**list_vars(int on, int off, char ***end)
 		ep = process_var_bucket(*vpp, ep, mask, on);
 		vpp++;
 	}
-	if (ep == stack_str_end())
-		ep = grow_stack_str();
+	if ((const void *)ep == (const void *)stack_str_end())
+	{
+		/* ep may be a char** while stack_str_end() returns char* (or vice-versa)
+		   so compare as void* to avoid incompatible pointer-type warnings. */
+		return (grab_stack_str((char *)ep));
+	}
 	if (end)
 		*end = ep;
 	*ep++ = NULL;
-	return (grab_stack_str(ep));
+	return (grab_stack_str((char *)ep));
 }
 
-int	show_vars(const char *prefix, int on, int off)
+int show_vars(const char *prefix, int on, int off)
 {
-	char	**ep;
-	char	**epend;
-	int		count;
+	char **ep;
+	char **epend;
+	int count;
 
 	ep = list_vars(on, off, &epend);
 	count = epend - ep;
@@ -61,14 +65,23 @@ int	show_vars(const char *prefix, int on, int off)
 /**
  * PRIVATE HELPERS
  */
-static char	**process_var_bucket(struct s_var *vp, char **ep,
-									int mask, int on)
+static char **process_var_bucket(struct s_var *vp, char **ep,
+								 int mask, int on)
 {
 	while (vp)
 	{
 		if ((vp->flags & mask) == on)
 		{
-			if (ep == stack_str_end())
+			if ((const void *)ep == (const void *)stack_str_end())
+			{
+				/* use explicit cast when calling grab_stack_str */
+				char **items;
+
+				items = grab_stack_str((char *)ep);
+				/* switch to heap-backed array returned by grab_stack_str */
+				ep = items;
+			}
+			else
 				ep = grow_stack_str();
 			*ep++ = (char *)vp->text;
 		}
@@ -77,11 +90,11 @@ static char	**process_var_bucket(struct s_var *vp, char **ep,
 	return (ep);
 }
 
-static void	print_var_list(char **ep, char **epend, const char *prefix)
+static void print_var_list(char **ep, char **epend, const char *prefix)
 {
-	const char	*sep;
-	const char	*p;
-	const char	*q;
+	const char *sep;
+	const char *p;
+	const char *q;
 
 	if (*prefix)
 		sep = SPC_STR;

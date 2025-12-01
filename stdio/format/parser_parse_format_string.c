@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_parse_format_string.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:47:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 15:49:59 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 #include <ctype.h>
 #include <string.h>
 
-static int	parse_positive_int(const char *str, int *n);
+static int parse_positive_int(const char *str, int *n);
 
 /*
  * If specifier is invalid, returns false and sets specifier on token_meta to -1
  */
-bool	parser_parse_conversion_specifier(t_parser *p)
+bool parser_parse_conversion_specifier(t_format_parser *p)
 {
-	static const char	specifier_list[] = "cspdiuxX%";
-	const char			*found;
-	char				specifier;
+	static const char specifier_list[] = "cspdiuxX%";
+	const char *found;
+	char specifier;
 
 	specifier = -1;
 	found = NULL;
 	if (p->format[p->index] != '\0')
-		found = strchr(specifier_list, p->format[p->index]);	// testing
+		found = strchr(specifier_list, p->format[p->index]); // testing
 	if (found != NULL)
 	{
 		specifier = *found;
@@ -46,9 +46,9 @@ bool	parser_parse_conversion_specifier(t_parser *p)
  * 	FLAG_NOT_SET if not set
  * 	PARAM_ASTERISK if * param
  */
-void	parser_parse_precision(t_parser *p)
+void parser_parse_precision(t_format_parser *p)
 {
-	int	precision;
+	int precision;
 
 	precision = FLAG_NOT_SET;
 	if (p->format[p->index] == '.')
@@ -71,9 +71,9 @@ void	parser_parse_precision(t_parser *p)
  * 	 0 if not set or set to 0 on format
  * 	 PARAM_ASTERISK if * param;
  */
-void	parser_parse_width(t_parser *p)
+void parser_parse_width(t_format_parser *p)
 {
-	int	width;
+	int width;
 
 	width = 0;
 	if (p->format[p->index] == '*')
@@ -86,11 +86,11 @@ void	parser_parse_width(t_parser *p)
 	p->token_meta.width = width;
 }
 
-void	parser_parse_flags(t_parser *p)
+void parser_parse_flags(t_format_parser *p)
 {
-	static const char	flag_list[] = "-+0# ";
-	int					flags;
-	char				*found;
+	static const char flag_list[] = "-+0# ";
+	int flags;
+	char *found;
 
 	flags = 0;
 	found = NULL;
@@ -100,7 +100,7 @@ void	parser_parse_flags(t_parser *p)
 	{
 		flags |= 1 << (found - flag_list);
 		++p->index;
-		found = strchr(flag_list, p->format[p->index]); //testing
+		found = strchr(flag_list, p->format[p->index]); // testing
 	}
 	p->token_meta.flags = flags;
 }
@@ -108,13 +108,13 @@ void	parser_parse_flags(t_parser *p)
 /*
  * Returns the amount of chars consumed.
  */
-static int	parse_positive_int(const char *str, int *n)
+static int parse_positive_int(const char *str, int *n)
 {
-	int	i;
+	int i;
 
 	*n = 0;
 	i = 0;
-	while (str[i] != '\0' && isdigit(str[i])) //testing
+	while (str[i] != '\0' && isdigit(str[i])) // testing
 	{
 		*n *= 10;
 		*n += (str[i] - '0');

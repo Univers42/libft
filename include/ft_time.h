@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:40:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 00:34:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:49:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 /* portable typedefs used across the time module */
 /* t_time is provided by ft_stddef.h (uint64_t). Do not redefine it here. */
-typedef struct timespec   t_timespec;
+typedef struct timespec t_timespec;
 #define CLOCK_TICK 60
 // Fix: Use struct timeval, not just timeval
 typedef struct timeval t_timeval;
@@ -45,6 +45,6 @@ t_time ft_usleep(t_time duration);
 t_time ft_delta_time(t_time first, t_time second);
 t_time cur_time(void);
 t_time elapsed_time(t_time start);
-bool	ft_timerisset(const t_timeval *tvp);
+bool ft_timerisset(const t_timeval *tvp);
 
 #endif

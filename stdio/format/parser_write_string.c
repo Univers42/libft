@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 03:14:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 #include "ft_string.h"
 #include <string.h>
 
-void	parser_write_string(t_parser *p)
+void parser_write_string(t_format_parser *p)
 {
-	const char	*str;
-	size_t		len;
+	const char *str;
+	size_t len;
 
 	p->token_meta.flags &= FLAG_MINUS;
 	str = va_arg(*p->ap, const char *);
-	if (str == NULL && p->token_meta.precision != FLAG_NOT_SET
-		&& p->token_meta.precision < 6)
+	if (str == NULL && p->token_meta.precision != FLAG_NOT_SET && p->token_meta.precision < 6)
 		str = "";
 	else if (str == NULL)
 		str = "(null)";
 	if (p->token_meta.precision == FLAG_NOT_SET)
-		len = strlen(str);		// Just for testing purpose
+		len = strlen(str); // Just for testing purpose
 	else
 		len = strnlen(str, p->token_meta.precision);
 	width_padding(p, len, PAD_LEFT);
@@ -35,9 +34,9 @@ void	parser_write_string(t_parser *p)
 	width_padding(p, len, PAD_RIGHT);
 }
 
-void	parser_write_char(t_parser *p)
+void parser_write_char(t_format_parser *p)
 {
-	unsigned char	c;
+	unsigned char c;
 
 	p->token_meta.flags &= FLAG_MINUS;
 	p->token_meta.precision = FLAG_NOT_SET;

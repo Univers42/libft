@@ -6,12 +6,36 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:43:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:44:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
+
+extern int prefix(const char *s, const char *p); /* forward decl to avoid implicit decl */
+
+/* Use forward declarations (incomplete types) so we can reference these names
+   in pointer fields before we provide the full definitions later in this file. */
+union u_shnode;
+struct s_shnode_list;
+struct s_ftnode;
+
+/* Minimal built-in command descriptor used by the command-table union. */
+typedef struct s_builtincmd
+{
+	const char *name;
+	int (*builtin)(int, char **);
+	unsigned flags;
+} t_builtincmd;
+
+/* Parameter union for command-table entries (matches original layout). */
+typedef union u_param
+{
+	int idx;
+	const t_builtincmd *cmd;
+	struct s_ftnode *fn;
+} t_param;
 
 #define ALIASCMD (builtincmd + 3)
 #define BGCMD (builtincmd + 4)
@@ -48,16 +72,14 @@
 #define UNSETCMD (builtincmd + 37)
 #define WAITCMD (builtincmd + 38)
 
-
 #define NUMBUILTINS 39
 
 #define BUILTIN_SPECIAL 0x1
 #define BUILTIN_REGULAR 0x2
 #define BUILTIN_ASSIGN 0x4
 
-# define CMDTABLESIZE 31
-# define ARB 1
-
+#define CMDTABLESIZE 31
+#define ARB 1
 
 #define NCMD 0
 #define NPIPE 1
@@ -86,198 +108,181 @@
 #define NXHERE 24
 #define NNOT 25
 
-#define CMDUNKNOWN	-1	/* no entry in table for command */
-#define CMDNORMAL	0	/* command is an executable program */
-#define CMDFUNCTION	1	/* command is a shell function */
-#define CMDBUILTIN	2	/* command is a shell builtin */
+#define CMDUNKNOWN -1 /* no entry in table for command */
+#define CMDNORMAL 0	  /* command is an executable program */
+#define CMDFUNCTION 1 /* command is a shell function */
+#define CMDBUILTIN 2  /* command is a shell builtin */
 
 typedef struct s_ncmd
 {
-	int	type;
-	int	lin_no;
-	t_node	*assign;
-	t_node	*args;
-	t_node	*redirect;
-}t_ncmd;
-
+	int type;
+	int lin_no;
+	union u_shnode *assign;
+	union u_shnode *args;
+	union u_shnode *redirect;
+} t_ncmd;
 
 typedef struct s_npipe
 {
-	int	type;
-	int	bg;
-	t_node_list	*cmd_list;
-}t_npipe;
+	int type;
+	int bg;
+	struct s_shnode_list *cmd_list;
+} t_npipe;
 
 typedef struct s_redir
 {
-	int	type;
-	int	lin_no;
-	t_node	*n;
-	t_node	*redirect;
-}	t_nredir;
+	int type;
+	int lin_no;
+	union u_shnode *n;
+	union u_shnode *redirect;
+} t_nredir;
 
 typedef struct s_nbinary
 {
-	int	type;
-	t_node	*ch1;
-	t_node	*ch2;
-}	t_nbinary;
+	int type;
+	union u_shnode *ch1;
+	union u_shnode *ch2;
+} t_nbinary;
 
 typedef struct s_nif
 {
-	int	type;
-	t_node	*test;
-	t_node	*if_part;
-	t_node	*else_part;
-}	t_nif;
+	int type;
+	union u_shnode *test;
+	union u_shnode *if_part;
+	union u_shnode *else_part;
+} t_nif;
 
 typedef struct s_nfor
 {
 	int type;
-	int	line_no;
-	t_node	*args;
-	t_node	*body;
-	char	*var;
-}	t_nfor;
+	int line_no;
+	union u_shnode *args;
+	union u_shnode *body;
+	char *var;
+} t_nfor;
 
 typedef struct s_ncase
 {
-	int	type;
-	int	line_no;
-	t_node	*expr;
-	t_node	*cases;
-}	t_ncase;
+	int type;
+	int line_no;
+	union u_shnode *expr;
+	union u_shnode *cases;
+} t_ncase;
 
 typedef struct s_nclist
 {
-	int	type;
-	t_node	*next;
-	t_node	*pattern;
-	t_node	*body;
-}	t_nclist;
+	int type;
+	union u_shnode *next;
+	union u_shnode *pattern;
+	union u_shnode *body;
+} t_nclist;
 
 typedef struct s_ndefunc
 {
-	int	type;
-	int	lin_no;
-	char	*text;
-	t_node	*body;
-}	t_ndefunc;
+	int type;
+	int lin_no;
+	char *text;
+	union u_shnode *body;
+} t_ndefunc;
 
 typedef struct s_ndefun
 {
-	int			type;
-	t_node		*next;
-	char		*text;
-	t_node		*body;
-}	t_ndefun;
+	int type;
+	union u_shnode *next;
+	char *text;
+	union u_shnode *body;
+} t_ndefun;
 
 typedef struct s_narg
 {
-	int	type;
-	t_node	*next;
-	char	*text;
-	t_node_list	*back_quote;
-}	t_narg;
+	int type;
+	union u_shnode *next;
+	char *text;
+	struct s_shnode_list *back_quote;
+} t_narg;
 
 typedef struct s_nfile
 {
-	int		type;
-	t_node	*next;
-	int		fd;
-	t_node	*fname;
-	char	*expfname;
-}	t_nfile;
+	int type;
+	union u_shnode *next;
+	int fd;
+	union u_shnode *fname;
+	char *expfname;
+} t_nfile;
 
 typedef struct s_ndup
 {
-	int		type;
-	t_node	*next;
-	int		fd;
-	int		dup_fd;
-	t_node	*vname;
-}	t_ndup;
+	int type;
+	union u_shnode *next;
+	int fd;
+	int dup_fd;
+	union u_shnode *vname;
+} t_ndup;
 
 typedef struct s_nhere
 {
-	int		type;
-	t_node	*next;
-	int		fd;
-	t_node	*doc;
-}	t_nhere;
+	int type;
+	union u_shnode *next;
+	int fd;
+	union u_shnode *doc;
+} t_nhere;
 
 typedef struct s_nnot
 {
-	int		type;
-	t_node	*com;
-}	t_nnot;
+	int type;
+	union u_shnode *com;
+} t_nnot;
 
-typedef union u_node
+/* union/primary node type renamed to avoid collision */
+typedef union u_shnode
 {
-	int				type;
-	t_ncmd			ncmd;
-	t_npipe			npipe;
-	t_nredir		nredir;
-	t_nbinary		nbinary;
-	t_nif			nif;
-	t_nfor			nfor;
-	t_ncase			ncase;
-	t_nclist		nclist;
-	t_ndefun		ndefun;
-	t_narg			narg;
-	t_nfile			nfile;
-	t_ndup			ndup;
-	t_nhere			nhere;
-	t_nnot			nnot;
-}	t_node;
+	int type;
+	t_ncmd ncmd;
+	t_npipe npipe;
+	t_nredir nredir;
+	t_nbinary nbinary;
+	t_nif nif;
+	t_nfor nfor;
+	t_ncase ncase;
+	t_nclist nclist;
+	t_ndefun ndefun;
+	t_narg narg;
+	t_nfile nfile;
+	t_ndup ndup;
+	t_nhere nhere;
+	t_nnot nnot;
+} t_shnode;
 
-typedef struct s_node_list
+typedef struct s_shnode_list
 {
-	struct s_node_list	*next;
-	t_node				*n;
-}	t_node_list;
+	struct s_shnode_list *next;
+	t_shnode *n;
+} t_shnode_list;
 
 typedef struct s_ftnode
 {
-	int	count;
-	t_node	n;
-}t_ftnode;
-typedef struct s_builtincmd
-{
-	const char *name;
-	int			(*builtin)(int, char**);
-	unsigned	flags;
-}	t_builtincmd;	
+	int count;
+	t_shnode n;
+} t_ftnode;
 
-typedef union u_param
-{
-	int	idx;
-	const t_builtincmd	*cmd;
-	t_ftnode			*fn;
-}	t_param;
-typedef struct s_cmd_entry
-{
-	int		cmd_type;
-	t_param	param;
-}	t_cmd_entry;
-
+/* fix the tblentry 'next' pointer type so it points to same struct */
 typedef struct s_tblentry
 {
-	struct tblentry	*next;
-	t_param			param;
-	short			cmd_type;
-	char			rehash;
-	char			cmd_name[ARB];
-}	t_tblentry;
+	struct s_tblentry *next;
+	t_param param;
+	short cmd_type;
+	char rehash;
+	char cmd_name[ARB];
+} t_tblentry;
 
 int builtinloc = -1;
-t_tblentry		*cmdtable[CMDTABLESIZE];
+t_tblentry *cmdtable[CMDTABLESIZE];
 
 static void clear_cmd_entry()
 {
-	t_tblentry	**tblp;
-	t_tblentry	**pp;
-	t_tblentry	*cmdp;
+	t_tblentry **tblp;
+	t_tblentry **pp;
+	t_tblentry *cmdp;
 
 	intoff();
 	tblp = cmdtable;
@@ -287,10 +292,7 @@ static void clear_cmd_entry()
 		cmdp = *pp;
 		while (cmdp != NULL)
 		{
-			if (cmdp->cmd_type == CMDNORMAL
-				|| cmdp->cmd_type == CMDBUILTIN
-				&& cmdp->param.cmd->flags & BUILTIN_REGULAR
-				&& builtinloc > 0)
+			if (cmdp->cmd_type == CMDNORMAL || cmdp->cmd_type == CMDBUILTIN && cmdp->param.cmd->flags & BUILTIN_REGULAR && builtinloc > 0)
 			{
 				*pp = cmdp->next;
 				xfree(cmdp);
@@ -305,7 +307,7 @@ static void clear_cmd_entry()
 
 int changed;
 
-void	change_mail(const char *val)
+void change_mail(const char *val)
 {
 	changed++;
 }
@@ -315,11 +317,11 @@ void	change_mail(const char *val)
  * called before PATH is changed. The argument is the new value of pathval()
  * still returns the old value at this point. called with interrupts off.
  */
-static void	change_path(const char *newval)
+static void change_path(const char *newval)
 {
-	const char	*new;
-	int			idx;
-	int			bltin;
+	const char *new;
+	int idx;
+	int bltin;
 
 	new = newval;
 	idx = 0;
@@ -329,11 +331,11 @@ static void	change_path(const char *newval)
 		if (*new == '%' && prefix(new + 1, "builtin"))
 		{
 			bltin = idx;
-			break ;
+			break;
 		}
 		new = ft_strchr(new, ':');
 		if (!new)
-			break ;
+			break;
 		idx++;
 		new++;
 	}
@@ -365,4 +367,3 @@ t_var make_path(const char *path)
 {
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, path, change_path};
 }
-

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 14:36:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:24:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void exverror(int cond, const char *msg, va_list ap)
 void sh_error(const char *msg, ...)
 {
 	va_list ap;
-	t_log *log = get_log();
+	t_state_fd *log = get_state_fd();
 
 	log->exit_status = 2;
 	va_start(ap, msg);

@@ -6,40 +6,50 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 16:20:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:49:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 #include "var.h"
+#include <stdio.h> /* snprintf */
+
+/* Provide fallback if public headers did not define VUNSET */
+#ifndef VUNSET
+#define VUNSET 0x20
+#endif
 
 #ifdef WITH_LINENO
 
-static void	write_idx(t_var *v)
+static void write_idx(t_var *v)
 {
     t_var_state *st;
 
-	st = get_var_state();
+    st = get_var_state();
     if (st && v == st->vlineno_ptr && v->text == st->linenovar)
-        fmtstr(st->linenovar + 7, sizeof(st->linenovar) - 7, "%d", st->lineno);
+    {
+        /* write decimal lineno into the stored LINENO=... buffer suffix */
+        /* reserve space for terminating NUL */
+        snprintf((char *)st->linenovar + 7, sizeof(st->linenovar) - 7, "%d", st->lineno);
+    }
 }
 
 #else
 
-static void	write_idx(struct var *v)
+static void write_idx(t_var *v)
 {
     (void)v;
 }
 
 #endif
 
-char	*lookup_var(const char *name)
+char *lookup_var(const char *name)
 {
-    t_var	*v;
+    t_var *v;
 
     v = *find_var(name);
     if (v && !(v->flags & VUNSET))
-	{
+    {
         write_idx(v);
         return (ft_strchrnul(v->text, '=') + 1);
     }
@@ -48,27 +58,16 @@ char	*lookup_var(const char *name)
 
 intmax_t lookup_var_int(const char *name)
 {
-    if (looku_pvar(name))
-        return (NULLSTR);
-    return (0);
+    char *s;
+
+    s = lookup_var(name);
+    if (!s)
+        return (0);
+    return (ft_atomax(s, 10));
 }
 
-t_var	**var_hash(const char *p)
-{
-	unsigned int	hashval;
-	t_var_state		*state;
-
-	state = get_var_state();
-	hashval = ((unsigned char)*p) << 4;
-	while (*p && *p != '=')
-	{
-		hashval += (unsigned char)*p;
-		p++;
-	}
-	return (&state->vartab[hashval % VTABSIZE]);
-}
-
-unsigned int hash_name(const char *p, unsigned int tabsize)
+/* simple hash helper */
+static unsigned int hash_name(const char *p, unsigned int tabsize)
 {
     unsigned int h;
 
@@ -83,7 +82,8 @@ unsigned int hash_name(const char *p, unsigned int tabsize)
     return (h % tabsize);
 }
 
-t_var   **var_hash(const char *p)
+/* return pointer to bucket for name p */
+t_var **var_hash(const char *p)
 {
     t_var_state *state;
 

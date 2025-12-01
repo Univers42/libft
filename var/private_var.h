@@ -6,183 +6,207 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:41:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:39:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRIVATE_VAR_H
-# define PRIVATE_VAR_H
+#define PRIVATE_VAR_H
 
-/*
- * External headers required for types used in the prototypes.
- */
-# include <stddef.h>
-# include <inttypes.h>
-# include <string.h>
-# include "configs.h"
-# include "ft_stdio.h"
-# include "ft_string.h"
-# include "ft_memory.h"
+/* Private header: do NOT redefine public types/macros.
+   Include the public var.h which provides the canonical typedefs
+   (t_var, t_localvar, t_localvar_list, t_var_state, t_meta, etc.).
+*/
+#include "var.h"
+#include "configs.h"
+/* avoid including ft_stdio.h here (it declares t_log which conflicts
+   with format.h); include only the minimal headers needed by var impl */
+#include "ft_string.h"
+#include "ft_memory.h"
+#include <stddef.h>
+#include <inttypes.h>
+#include <stdlib.h>
+#include "ft_stdio.h"
+#include "ft_sort.h"
 
-/*
- * Hash table size
- */
-/* if defined, use the writable canonical empty string from mystring.c */
-#ifdef MUTABLE_DEPENDANCE
-extern char nullstr[1];   /* declared in mystring.c */
-#define NULLSTR (nullstr)  /* expands to a char* */
-#else
-/* default: use a string literal (read-only) */
-#define NULLSTR ("")
+/* If the public headers did not define reasonable sizes, provide safe defaults.
+   Use guards so we don't clobber upstream definitions. */
+#ifndef VTABSIZE
+#define VTABSIZE 127
 #endif
 
+#ifndef NOPTS
+#define NOPTS 32
+#endif
 
-# define DEFPATHVAR "PATH=/usr/local/sbin:/usr/local/bin:\
-					/usr/sbin:/usr/bin:/sbin:/bin"
-# define DEFIFSVAR "IFS= \t\n"
-# define DEFOPTINDVAR "OPTIND=1"
-/*
- * Variable flags
- */
-enum e_vflag
+/* Provide an internal definition of struct s_var so internal modules can
+   allocate arrays of struct s_var (e.g. varinit[16]). We do NOT create a
+   typedef here (var.h already declares 'typedef struct s_var t_var;'). */
+struct s_var
 {
-	VEXPORT = 0x01,
-	VREAD_ONLY = 0x02,
-	VSTR_FIXED = 0x04,
-	VTEXT_FIXED = 0x08,
-	VSTACK = 0x10,
-	VUNSET = 0x20,
-	VNO_FUNC = 0x40,
-	VNO_SET = 0x80,
-	VNO_SAVE = 0x100,
-	VTABSIZE = 39
+	struct s_var *next;
+	int flags;
+	const char *text;
+	void (*func)(const char *);
 };
 
-/**
- * @brief Represents a single variable in the hash table.
- */
-typedef struct s_var
+/* Minimal metadata structure used by set_var/build helpers.
+   The public header forward-declares 'typedef struct s_meta t_meta;'
+   but the concrete struct layout is private and required by implementation
+   files (set_var.c, etc.). Provide it here (no typedef duplication). */
+struct s_meta
 {
-	struct s_var	*next;
-	int				flags;
-	const char		*text;
-	void			(*func)(const char *);
-}	t_var;
-
-/**
- * @brief Represents a saved variable state for 'local' command.
- */
-typedef struct s_localvar
-{
-	struct s_localvar	*next;
-	t_var				*vp;
-	int					flags;
-	const char			*text;
-	void				(*restore)(t_localvar *lvp, t_var_state *state);
-}	t_localvar;
-
-/**
- * @brief A node in the stack of local variable scopes.
- */
-typedef struct s_localvar_list
-{
-	struct s_localvar_list	*next;
-	t_localvar				*lv;
-}	t_localvar_list;
-
-/**
- * @brief Opaque structure for the singleton state.
- * The full definition is private to 'var_state.c'.
- */
-typedef struct s_var_state	t_var_state;
-
-// Minimal public struct for code that needs vartab access
-typedef struct s_var_state
-{
-	struct s_var			*vartab[VTABSIZE];
-	struct s_localvar_list	*localvar_stack;
-	char					optlist[NOPTS];
-	struct s_var			varinit[16];
-	int						varinit_size;
-	const char				*defpathvar;
-	const char				*defifsvar;
-	const char				*defoptindvar;
-	char					linenovar[16];
-	struct s_var			*vlineno_ptr;
-	char					oplist[NOPTS];
-	int						lineno;
-}	t_var_state;
-
-typedef struct s_meta
-{
-	const char	*name;
-	size_t		len;
-}	t_meta;
-
-typedef struct s_opt
-{
-	const char	opt_letters[NOPTS];
-	char		opt_list[NOPTS];
-	int			opt_ind;
-	int			opt_off;
-	int			nparam;
-}	t_opt;
-
-enum e_opt_flag
-{
-	EFLAG,
-	FFLAG,
-	IFLAG,
-	IFLAG,
-	MFLAG,
-	NFLAG,
-	SFLAG,
-	XFLAG,
-	VFLAG,
-	VFLAG,
-	EFLAG,
-	CFLAG,
-	AFLAG,
-	BFLAG,
-	UFLAG,
-	NOLOF,
-	PIPEFAIL,
-	DEBUG,
-	NOPTS
+	const char *name;
+	size_t len;
 };
 
-/*
- * TEST UTILITY: Do not use in production.
- * Resets the singleton state for unit testing.
- */
-void			libvar_reset_state(void);
-intmax_t		ft_atomax(const char *s, int base);
-t_var			make_atty(void);
-int				add_atty(t_var_state *state, int i);
-t_var			make_ifs(const char *ifs);
-t_var			make_mail(void);
-t_var			make_mailpath(void);
-t_var			make_path(const char *path);
-t_var			make_optind(const char *optind, int (*reset)(void));
-t_var			make_lineno(const char *lineno);
-t_var			make_term(void);
-t_var			make_histsize(void);
-t_var			make_ps4(void);
-int				add_term_histsize(t_var_state *state, int i);
-int				init_varinit_pt2(t_var_state *state, int i);
-t_var			make_ps1(void);
-t_var			make_ps2(void);
-t_var			**find_var(const char *name);
-char			*var_null(const char *s);
-/********************
- * * Accessors
- ********************/
+/* ---- Missing flag macros (guarded) ----
+   Provide reasonable defaults only if not defined by public headers.
+*/
+#ifndef VEXPORT
+#define VEXPORT 0x01
+#endif
+#ifndef VREAD_ONLY
+#define VREAD_ONLY 0x02
+#endif
+#ifndef VSTR_FIXED
+#define VSTR_FIXED 0x04
+#endif
+#ifndef VTEXT_FIXED
+#define VTEXT_FIXED 0x08
+#endif
+#ifndef VSTACK
+#define VSTACK 0x10
+#endif
+#ifndef VUNSET
+#define VUNSET 0x20
+#endif
+#ifndef VNO_FUNC
+#define VNO_FUNC 0x40
+#endif
+#ifndef VNO_SET
+#define VNO_SET 0x80
+#endif
+#ifndef VNO_SAVE
+#define VNO_SAVE 0x100
+#endif
 
-/**
- * @brief Gets the singleton instance of the variable state.
- * @return A pointer to the unique t_var_state struct.
- */
-t_var_state		*get_var_state(void);
-t_localvar_list	*get_localvar_stack(void);
-char			*get_optlist(void);
+/* If code uses option indices such as AFLAG, ensure a guarded definition
+   so translation units referencing get_optlist()[AFLAG] can compile.
+   Adjust the numeric value to match your option-table layout if needed. */
+#ifndef AFLAG
+#define AFLAG 10
+#endif
+
+/* Provide default string macros used during var_state initialization.
+   Allow the build system or other headers to override these by defining
+   them before including this header. */
+#ifndef DEFPATHVAR
+#define DEFPATHVAR "PATH=/bin:/usr/bin"
+#endif
+
+#ifndef DEFIFSVAR
+/* IFS default: space, tab, newline */
+#define DEFIFSVAR "IFS= \t\n"
+#endif
+
+#ifndef DEFOPTINDVAR
+#define DEFOPTINDVAR "OPTIND=1"
+#endif
+
+/* Internal definitions for local-variable structures used by implementation.
+   We declare struct s_localvar / s_localvar_list (no typedef) so .c files can
+   allocate and reference their fields; the public header keeps typedef names
+   (t_localvar, t_localvar_list) and will refer to these structs. */
+struct s_localvar
+{
+	struct s_localvar *next;
+	struct s_var *vp;
+	int flags;
+	const char *text;
+	void (*restore)(struct s_localvar *lvp, struct s_var_state *state);
+};
+
+struct s_localvar_list
+{
+	struct s_localvar_list *next;
+	struct s_localvar *lv;
+};
+
+/* -------------------------------------------------------------------------
+   INTERNAL: define struct s_var_state so internal implementation files
+   may access its fields. Do NOT create a typedef here — var.h already
+   provides "typedef struct s_var_state t_var_state;" and that typedef
+   will name this struct correctly.
+   ------------------------------------------------------------------------- */
+struct s_var_state
+{
+	/* hash table of variables */
+	struct s_var *vartab[VTABSIZE];
+
+	/* stack of local variable scopes */
+	struct s_localvar_list *localvar_stack;
+
+	/* option lists (canonical storage) */
+	char optlist[NOPTS];
+	char oplist[NOPTS];
+
+	/* initial set of variables used during initialization */
+	struct s_var varinit[16];
+	int varinit_size;
+
+	/* defaults for a few special variables (point to static strings) */
+	const char *defpathvar;
+	const char *defifsvar;
+	const char *defoptindvar;
+
+	/* line-number helper (optional) */
+	char linenovar[16];
+	struct s_var *vlineno_ptr;
+	int lineno;
+};
+
+/* ---- Private-only helpers and test utilities ----
+   Expose only additional internal function prototypes needed across
+   the var implementation. Do NOT redefine public structs/macros.
+*/
+
+/* Test utility: reset singleton state for unit tests. */
+void libvar_reset_state(void);
+
+/* Numeric helper */
+intmax_t ft_atomax(const char *s, int base);
+
+/* Factory helpers used by var_state init */
+t_var make_atty(void);
+t_var make_ifs(const char *ifs);
+t_var make_mail(void);
+t_var make_mailpath(void);
+t_var make_path(const char *path);
+/* change: reset callback returns void (matches var_state helpers) */
+t_var make_optind(const char *optind, void (*reset)(void));
+t_var make_lineno(const char *lineno);
+t_var make_term(void);
+t_var make_histsize(void);
+t_var make_ps1(void);
+t_var make_ps2(void);
+t_var make_ps4(void);
+
+/* var_state helpers used during initialization */
+int add_atty(t_var_state *state, int i);
+int add_term_histsize(t_var_state *state, int i);
+int init_varinit_pt2(t_var_state *state, int i);
+
+/* var lookup helpers provided privately */
+t_var **find_var(const char *name);
+char *var_null(const char *s);
+
+/* DECLARE unset_func used by unset.c (stub / shell integration) */
+void unset_func(const char *name);
+
+/* Accessors that are implemented in var/ (kept for internal linkage) */
+t_var_state *get_var_state(void);
+t_localvar_list *get_localvar_stack(void);
+char *get_optlist(void);
+
 #endif

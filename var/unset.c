@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:42:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:36:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,40 @@
 #include "var.h"
 #include <string.h>
 
-static int	parse_unset_options(int argc, char **argv, int *flag_out);
-static void	process_unset_args(int argc, char **argv,
-				int start_index, int flag);
-
-//PUBLIC function
-
-int	unset_cmd(int argc, char **argv)
+/* Minimal placeholder for unset_func — real implementation should remove
+   a shell function definition by name. Kept as a no-op so the library
+   builds; replace with proper function-table handling when available. */
+void unset_func(const char *name)
 {
-	int	flag;
-	int	i;
+	(void)name;
+	/* no-op placeholder */
+}
+
+static int parse_unset_options(int argc, char **argv, int *flag_out);
+static void process_unset_args(int argc, char **argv,
+							   int start_index, int flag);
+
+// PUBLIC function
+
+int unset_cmd(int argc, char **argv)
+{
+	int flag;
+	int i;
 
 	i = parse_unset_options(argc, argv, &flag);
 	process_unset_args(argc, argv, i, flag);
 	return (0);
 }
 
-void	unset_var(const char *s)
+void unset_var(const char *s)
 {
 	set_var(s, 0, 0);
 }
 
-//PRIVATE
-static int	parse_unset_options(int argc, char **argv, int *flag_out)
+// PRIVATE
+static int parse_unset_options(int argc, char **argv, int *flag_out)
 {
-	int	i;
+	int i;
 
 	i = 1;
 	*flag_out = 0;
@@ -51,18 +60,18 @@ static int	parse_unset_options(int argc, char **argv, int *flag_out)
 		else if (ft_strcmp(argv[i], "--") == 0)
 		{
 			i++;
-			break ;
+			break;
 		}
 		else
-			break ;
+			break;
 		i++;
 	}
 	return (i);
 }
 
-static void	process_unset_args(int argc, char **argv, int start_index, int flag)
+static void process_unset_args(int argc, char **argv, int start_index, int flag)
 {
-	int	i;
+	int i;
 
 	i = start_index;
 	while (i < argc)
@@ -73,7 +82,7 @@ static void	process_unset_args(int argc, char **argv, int start_index, int flag)
 			if (flag == 'v')
 			{
 				i++;
-				continue ;
+				continue;
 			}
 		}
 		if (flag != 'v')

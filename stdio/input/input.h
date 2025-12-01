@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:16 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/23 23:04:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:53:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 #include <termios.h>
 #include <unistd.h>
 #include <limits.h>
+#include "get_next_line.h"
+#include "lseek.h"
+#include "tee.h"
+
 /* Ensure a reasonable maximum for multibyte characters used by the input code */
 #ifndef PUNGETC_MAX
 #ifdef MB_LEN_MAX

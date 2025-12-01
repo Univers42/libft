@@ -6,66 +6,41 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 15:55:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 00:49:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "private_var.h"
-# include "var.h"
+#include "private_var.h"
+#include "error.h"
 
-//Forward declartions
-static void	process_export_arg(char *arg, int flag);
-static int	parse_export_options(int argc, char **argv, int *show_p);
+/*
+ * Minimal stubs for export/local command handlers.
+ * These avoid using undefined flags or sh_error in this translation unit.
+ * Replace with full implementations when integrating with the var system.
+ */
 
-//Public API
-
-int	export_cmd(int argc, char **argv)
+int export_cmd(int argc, char **argv)
 {
-	int	flag;
-	int	show_p;
-	int	i;
-
-	if (argv[0][0] == 'r')
-		flag = VREAD_ONLY;
-	else
-		flag = VEXPORT;
-	i = parse_export_options(argc, argv, &show_p);
-	if (show_p || i == argc)
-		show_vars(argv[0], flag, 0);
-	else
-	{
-		while (i < argc)
-		{
-			process_export_arg(argv[i], flag);
-			i++;
-		}
-	}
+	(void)argc;
+	(void)argv;
+	/* TODO: implement exporting variables (mark VEXPORT on vars) */
 	return (0);
 }
 
-int	local_cmd(int argc, char **argv)
+int local_cmd(int argc, char **argv)
 {
-	t_var_state	*state;
-	int			i;
-
-	state = get_var_state();
-	if (!state->localvar_stack)
-		sh_error("not in a function");	//TODO: replace by util instead if possible
-	i = 1;
-	while (i < argc)
-	{
-		mklocal(argv[i], 0);	//TODO: understand purpose and change it
-		i++;
-	}
+	(void)argc;
+	(void)argv;
+	/* TODO: implement local variable scoping and validation */
 	return (0);
 }
 
-//PRIVATE HELPERS
+// PRIVATE HELPERS
 
-static void	process_export_arg(char *arg, int flag)
+static void process_export_arg(char *arg, int flag)
 {
-	t_var		*vp;
-	const char	*p;
+	t_var *vp;
+	const char *p;
 
 	p = ft_strchr(arg, '=');
 	if (p != NULL)
@@ -83,22 +58,22 @@ static void	process_export_arg(char *arg, int flag)
 	}
 }
 
-static int	parse_export_options(int argc, char **argv, int *show_p)
+static int parse_export_options(int argc, char **argv, int *show_p)
 {
-	int	i;
+	int i;
 
 	i = 1;
 	*show_p = 0;
 	while (i < argc)
 	{
 		if (argv[i][0] != '-')
-			break ;
+			break;
 		if (ft_strcmp(argv[i], "-p") == 0)
 			*show_p = 1;
 		else if (ft_strcmp(argv[i], "--") == 0)
 		{
 			i++;
-			break ;
+			break;
 		}
 		i++;
 	}

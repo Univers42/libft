@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:12:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:39:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include "var.h"
 #include "ft_stdlib.h"
 
-int		var_cmp(const char *p, const char *q)
+int var_cmp(const char *p, const char *q)
 {
-	int	c;
-	int	d;
+	int c;
+	int d;
 
 	while (1)
 	{
 		c = *p;
 		d = *q;
 		if (c != d)
-			break ;
+			break;
 		if (!c || c == '=')
-			break ;
+			break;
 		p++;
 		q++;
 	}
@@ -37,59 +37,59 @@ int		var_cmp(const char *p, const char *q)
 	return (c - d);
 }
 
-int		var_vpcmp(const void *a, const void *b)
+int var_vpcmp(const void *a, const void *b)
 {
-	return (varcmp(*(const char **)a, *(const char **)b));
+	return (var_cmp(*(const char **)a, *(const char **)b));
 }
 
-t_var	**var_find(struct s_var **vpp, const char *name)
+t_var **var_find(struct s_var **vpp, const char *name)
 {
 	while (*vpp)
 	{
-		if (varcmp((*vpp)->text, name) == 0)
-			break ;
+		if (var_cmp((*vpp)->text, name) == 0)
+			break;
 		vpp = &(*vpp)->next;
 	}
 	return (vpp);
 }
 
-t_var	**find_var(const char *name)
+t_var **find_var(const char *name)
 {
-	t_var	**vpp;
+	t_var **vpp;
 
-	vpp = hashvar(name);
+	vpp = var_hash(name);
 	while (*vpp)
 	{
-		if (varcmp((*vpp)->text, name) == 0)
-			break ;
+		if (var_cmp((*vpp)->text, name) == 0)
+			break;
 		vpp = &(*vpp)->next;
 	}
 	return (vpp);
 }
 
-intmax_t	ft_atomax(const char *s, int base)
+intmax_t ft_atomax(const char *s, int base)
 {
-	char	*endptr;
+	char *endptr;
 
 	return ((intmax_t)ft_strto64(s, &endptr, base));
 }
 
-void	unwind_local_vars(t_localvar_list *stop)
+void unwind_local_vars(t_localvar_list *stop)
 {
-	t_var_state	*state;
+	t_var_state *state;
 
 	state = get_var_state();
 	while (state->localvar_stack != stop)
 		pop_local_vars();
 }
 
-char	*var_null(const char *s)
+char *var_null(const char *s)
 {
-	const char	*p = ft_strchr(s, '=');
-	static const char	nullstr[] = "";
-	
+	const char *p = ft_strchr(s, '=');
+	static const char nullstr[] = "";
+
 	if (p)
-		return ((char*)p + 1);
+		return ((char *)p + 1);
 	else
-		return ((char*)nullstr);
+		return ((char *)nullstr);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_buffer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:20:48 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/21 15:21:16 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
  * the number of chars actually placed; sets writer error internally.
  * Reserve space for hte trailing NULL by limiting data capacity
  * Finalize with NULL (best-effort)
-*/
-int	ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap)
+ */
+int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap)
 {
-	t_writer	buf_out;
-	t_parser	parser;
-	int			ret;
+	t_writer buf_out;
+	t_format_parser parser;
+	int ret;
 
 	if (!dst && cap != 0)
 		return (-1);
@@ -41,7 +41,7 @@ int	ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap)
    Implemented via vsnprintf with a very large capacity.
    we need to give a huge capacity LONG_MAX
 */
-int	ft_vsprintf(char *dst, const char *format, va_list *ap)
+int ft_vsprintf(char *dst, const char *format, va_list *ap)
 {
 	return (ft_vsnprintf(dst, (size_t)-1, format, ap));
 }

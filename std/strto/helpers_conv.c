@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:06:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 14:56:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:45:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "strto.h"
 
 // Get type information
-const t_type_info	*get_type_info(t_int_type type)
+const t_type_info	*get_type_info(t_type type)
 {
 	const t_type_info	*g_type_info_table = type_info_table();
 
@@ -40,7 +40,7 @@ int	char_to_digit(char c, int base)
 
 // Initialize conversion context
 void	init_conv_ctx(t_conv_ctx *ctx, const char *nptr,
-					int base, t_int_type type)
+					int base, t_type type)
 {
 	ctx->ptr = nptr;
 	ctx->start = nptr;

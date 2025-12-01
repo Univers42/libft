@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parser_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 15:33:55 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
 
-static bool	parser_write_token(t_parser *p);
-static void	parser_filter_token_options(t_parser *p);
-static void	parser_write_percent(t_parser *p);
+/* change prototypes to use the canonical parser type */
+static bool parser_write_token(t_format_parser *p);
+static void parser_filter_token_options(t_format_parser *p);
+static void parser_write_percent(t_format_parser *p);
 
-bool	parser_process_token(t_parser *p)
+bool parser_process_token(t_format_parser *p)
 {
 	parser_parse_flags(p);
 	parser_parse_width(p);
@@ -28,7 +29,7 @@ bool	parser_process_token(t_parser *p)
 	return (true);
 }
 
-static void	parser_filter_token_options(t_parser *p)
+static void parser_filter_token_options(t_format_parser *p)
 {
 	if (p->token_meta.width == PARAM_ASTERISK)
 	{
@@ -53,7 +54,7 @@ static void	parser_filter_token_options(t_parser *p)
 		p->token_meta.flags &= ~FLAG_ZERO;
 }
 
-static bool	parser_write_token(t_parser *p)
+static bool parser_write_token(t_format_parser *p)
 {
 	if (p->token_meta.specifier == 'c')
 		parser_write_char(p);
@@ -78,7 +79,7 @@ static bool	parser_write_token(t_parser *p)
 	return (true);
 }
 
-static void	parser_write_percent(t_parser *p)
+static void parser_write_percent(t_format_parser *p)
 {
 	writer_putchar(p->writer, '%');
 }

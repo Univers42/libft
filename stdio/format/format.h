@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:58:02 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 14:36:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORMAT_H
 #define FORMAT_H
+
 #include "ft_stddef.h"
 #include <stdarg.h>
 #include <stddef.h>
@@ -28,24 +29,23 @@
 #define TRACEV(param)
 #endif
 
-typedef struct s_log
+/* define the struct itself; output.h provides the typedef 't_state_fd' */
+struct s_state_fd
 {
 	int fd;
 	t_state state;
 	int exit_status;
-} t_log;
+};
 
-static inline t_log *get_log()
+static inline t_state_fd *get_state_fd(void)
 {
-	static t_log a = {0};
-
+	static t_state_fd a = {0};
 	return (&a);
 }
 
-/* Add prototypes for the variadic / va_list formatting API so callers
-// see correct declarations and no implicit-declaration warnings occur. */
+/* Variadic / va_list formatting API */
 int ft_vdprintf(int fd, const char *format, va_list *ap);
-int ft_vlogprintf(struct s_log *state, const char *format, va_list *ap);
+int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
 int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
 int ft_vsprintf(char *dst, const char *format, va_list *ap);
 
@@ -54,18 +54,14 @@ int ft_dprintf(int fd, const char *format, ...);
 int ft_printf(const char *format, ...);
 int ft_snprintf(char *dst, size_t cap, const char *format, ...);
 int ft_sprintf(char *dst, const char *format, ...);
-
-/* add asprintf-like allocator */
 int ft_aprintf(char **dst, const char *format, ...);
 
+/* utility */
 size_t hex_len(size_t n);
-
 size_t strnlen(const char *str, size_t n);
-
 size_t uint_len(unsigned int n);
 
-// WRITER
-#include <stddef.h>
+/* WRITER */
 #include <stdbool.h>
 
 #define BUF_SIZE 2048
@@ -100,7 +96,7 @@ bool writer_pad_with(t_writer *w, char c, size_t n);
 void writer_write_hex(t_writer *w, size_t n, size_t len, bool upper);
 void writer_write_uint(t_writer *w, unsigned int n, size_t len);
 
-/* new: initialization helpers and C-string termination for buffer mode */
+/* initialization helpers */
 static inline void writer_init_fd(t_writer *w, int fd)
 {
 	w->mode = WRITER_MODE_FD;
@@ -110,38 +106,7 @@ static inline void writer_init_fd(t_writer *w, int fd)
 	writer_reset(w);
 }
 
-/* Ensure a trailing '\0' if in buffer mode. Returns 0 on success, -1 on error. */
 int writer_terminate_cstr(t_writer *w);
-
-/* --- REMOVED redundant typedef: "typedef struct s_log t_log;" --- */
-
-/* Add prototypes for the variadic / va_list formatting API so callers
-// see correct declarations and no implicit-declaration warnings occur. */
-int ft_vdprintf(int fd, const char *format, va_list *ap);
-int ft_vlogprintf(struct s_log *state, const char *format, va_list *ap);
-int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
-int ft_vsprintf(char *dst, const char *format, va_list *ap);
-
-/* user-facing helpers (variadic) */
-int ft_dprintf(int fd, const char *format, ...);
-int ft_printf(const char *format, ...);
-int ft_snprintf(char *dst, size_t cap, const char *format, ...);
-int ft_sprintf(char *dst, const char *format, ...);
-
-/* add asprintf-like allocator */
-int ft_aprintf(char **dst, const char *format, ...);
-
-size_t hex_len(size_t n);
-
-size_t strnlen(const char *str, size_t n);
-
-size_t uint_len(unsigned int n);
-
-// WRITER
-#include <stddef.h>
-#include <stdbool.h>
-
-#define BUF_SIZE 2048
 
 static inline void writer_init_buf(t_writer *w, char *dst, size_t cap_bytes_for_data)
 {
@@ -153,12 +118,13 @@ static inline void writer_init_buf(t_writer *w, char *dst, size_t cap_bytes_for_
 }
 
 /* Context for logging: file, function */
-typedef struct s_log_ctx
+typedef struct s_state_fd_ctx
 {
 	const char *file;
 	const char *func;
-} t_log_ctx;
+} t_state_fd_ctx;
 
+/* Parser token metadata */
 typedef struct s_token_meta
 {
 	int flags;
@@ -167,28 +133,28 @@ typedef struct s_token_meta
 	char specifier;
 } t_token_meta;
 
-typedef struct s_parser
+/* Rename parser type to avoid collisions in other modules */
+typedef struct s_format_parser
 {
 	size_t index;
 	const char *format;
 	va_list *ap;
 	t_writer *writer;
 	t_token_meta token_meta;
-} t_parser;
+} t_format_parser;
 
+/* Parser API */
 int parser_parse_and_write(
-	t_parser *parser,
+	t_format_parser *parser,
 	const char *format_str,
 	va_list *params,
 	t_writer *buf_out);
 
-// Log print function for user logging (file only)
-int log_print(t_log *state, const char *file, const char *format, ...);
+/* Log print function for user logging (file only) */
+int log_print(t_state_fd *state, const char *file, const char *format, ...);
+t_state_fd_ctx *set_state_fd_ctx(void);
 
-t_log_ctx *set_log_ctx(void);
-
-// PARSER PRIVATE
-
+/* PARSER PRIVATE CONSTANTS */
 #define FLAG_MINUS 1
 #define FLAG_PLUS 2
 #define FLAG_ZERO 4
@@ -207,6 +173,7 @@ typedef enum e_padding_position
 	PAD_RIGHT,
 } t_padding_position;
 
+/* likely/unlikely helpers */
 #if defined(__clang__) || defined(__GNUC__)
 static inline long builtin_expect_long(long x, long expected)
 {
@@ -223,79 +190,41 @@ static inline long builtin_expect_long(long x, long expected)
 static inline int likely(int x) { return (int)builtin_expect_long((long)!!(x), 1); }
 static inline int unlikely(int x) { return (int)builtin_expect_long((long)!!(x), 0); }
 
-bool parser_process_token(t_parser *p);
+/* Parser function prototypes (use the format-specific parser type) */
+bool parser_process_token(t_format_parser *p);
+bool parser_parse_conversion_specifier(t_format_parser *p);
+void parser_parse_precision(t_format_parser *p);
+void parser_parse_width(t_format_parser *p);
+void parser_parse_flags(t_format_parser *p);
+void width_padding(t_format_parser *p, size_t len, t_padding_position pos);
+void zero_precision_padding(t_format_parser *p, size_t len);
+void zero_width_padding(t_format_parser *p, size_t len);
+void parser_write_hex(t_format_parser *p, bool upper);
+void parser_write_uint(t_format_parser *p);
+void parser_write_int(t_format_parser *p);
+void parser_write_pointer_address(t_format_parser *p);
+void parser_write_string(t_format_parser *p);
+void parser_write_char(t_format_parser *p);
+void alt_hex(t_format_parser *p, size_t len, bool upper, unsigned int value);
 
-/*
- * If specifier is invalid, returns false and sets specifier on token_meta to -1
- */
-bool parser_parse_conversion_specifier(t_parser *p);
-
-/*
- * Returns:
- * 	n if width set on format
- * 	FLAG_NOT_SET if not set
- * 	PARAM_ASTERISK if * param
- */
-void parser_parse_precision(t_parser *p);
-
-/*
- * Sets width to:
- * 	+n if width set on format
- * 	 0 if not set or set to 0 on format
- * 	 PARAM_ASTERISK if * param;
- */
-void parser_parse_width(t_parser *p);
-void parser_parse_flags(t_parser *p);
-void width_padding(t_parser *p, size_t len, t_padding_position pos);
-void zero_precision_padding(t_parser *p, size_t len);
-void zero_width_padding(t_parser *p, size_t len);
-void parser_write_hex(t_parser *p, bool upper);
-void parser_write_uint(t_parser *p);
-void parser_write_int(t_parser *p);
-void parser_write_pointer_address(t_parser *p);
-void parser_write_string(t_parser *p);
-void parser_write_char(t_parser *p);
-void alt_hex(t_parser *p, size_t len, bool upper, unsigned int value);
+/* Formatting/allocation helpers */
 int ft_vasprintf(char **strp, size_t size, const char *fmt, va_list ap);
+int ft_asprintf(char **sp, const char *f, ...);
+int xasprintf(char **sp, const char *f, ...);
+int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap);
+
+/* compatibility/delegates used throughout codebase */
 void do_format(t_out *dest, const char *f, va_list ap);
 void outmem(const char *p, size_t len, t_out *dest);
-int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap);
-int ft_vasprintf(char **strp, size_t size, const char *fmt, va_list ap);
-int xasprintf(char **sp, const char *f, ...);
-int ft_asprintf(char **sp, const char *f, ...);
-void exwarning(const char *msg, va_list ap);
-void sh_error(const char *msg, ...);
 void exverror(int cond, const char *msg, va_list ap);
-void do_format(t_out *dest, const char *f, va_list ap);
-int ft_asprintf(char **sp, const char *f, ...);
-int xasprintf(char **sp, const char *f, ...);
-int ft_vasprintf(char **strp, size_t size, const char *fmt, va_list ap);
+void sh_error(const char *msg, ...);
+
 int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
 int ft_vsprintf(char *dst, const char *format, va_list *ap);
 int ft_vdprintf(int fd, const char *format, va_list *ap);
-int ft_vlogprintf(t_log *state, const char *format, va_list *ap);
-void outmem(const char *p, size_t len, t_out *dest);
-void alt_hex(t_parser *p, size_t len, bool upper, unsigned int value);
-void width_padding(t_parser *p, size_t len, t_padding_position pos);
-void zero_precision_padding(t_parser *p, size_t len);
-void zero_width_padding(t_parser *p, size_t len);
-bool parser_parse_conversion_specifier(t_parser *p);
-void parser_parse_precision(t_parser *p);
-void parser_parse_width(t_parser *p);
-void parser_parse_flags(t_parser *p);
-bool parser_process_token(t_parser *p);
-void parser_write_hex(t_parser *p, bool upper);
-void parser_write_uint(t_parser *p);
-void parser_write_int(t_parser *p);
-void parser_write_pointer_address(t_parser *p);
-void parser_write_string(t_parser *p);
-void parser_write_char(t_parser *p);
-int parser_parse_and_write(t_parser *parser, const char *format_str, va_list *params, t_writer *buf_out);
+int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
+
 size_t hex_len(size_t n);
 size_t uint_len(unsigned int n);
 
-int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap);
-void exverror(int cond, const char *msg, va_list ap);
-void sh_error(const char *msg, ...);
-
-#endif
+#endif /* FORMAT_H */

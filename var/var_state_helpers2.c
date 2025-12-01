@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 14:44:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:44:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 #include "var.h"
 
 typedef int t_event;
-void	*hist;
+void *hist;
 
-static void	set_histsize(const char *hs)
+/* Forward-declare history to avoid implicit declaration warnings.
+   Signature matches usage: history(hist, &he, NULL, histsize). */
+extern void history(void *hist, t_event *he, void *unused, int histsize);
+
+static void set_histsize(const char *hs)
 {
-	int		histsize;
-	t_event	he;
+	int histsize;
+	t_event he;
 
 	if (hist != NULL)
 	{
 		histsize = ft_atoi(hs);
-		if (hs == NULL || *hs == '\0'
-			|| histsize < 0)
+		if (hs == NULL || *hs == '\0' || histsize < 0)
 			histsize = 100;
-		history(hist, &he, /*H_SETSIZE*/NULL, histsize);
+		history(hist, &he, /*H_SETSIZE*/ NULL, histsize);
 	}
 }
 
@@ -36,9 +39,12 @@ t_var make_ps4(void)
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS4=+ ", 0};
 }
 
-t_var make_optind(const char *optind, int (*reset)(void))
+/* Change: accept a void-returning reset callback (matches private_var.h).
+   Store it into t_var.func with an explicit cast to the expected type. */
+t_var make_optind(const char *optind, void (*reset)(void))
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind, reset};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind,
+				   (void (*)(const char *))reset};
 }
 
 t_var make_lineno(const char *lineno)
@@ -54,4 +60,3 @@ t_var make_histsize(void)
 {
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED | VUNSET, "HISTSIZE\0", set_histsize};
 }
-

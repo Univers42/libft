@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:07:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 14:57:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:45:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,7 @@
 # include <errno.h>
 # include <inttypes.h>
 # include <string.h>
-
-// Type identifiers for generic conversion
-typedef enum e_int_type
-{
-	TYPE_UCHAR,
-	TYPE_CHAR,
-	TYPE_USHORT,
-	TYPE_SHORT,
-	TYPE_UINT,
-	TYPE_INT,
-	TYPE_ULONG,
-	TYPE_LONG,
-	TYPE_ULLONG,
-	TYPE_LLONG,
-	TYPE_UINT8,
-	TYPE_INT8,
-	TYPE_UINT16,
-	TYPE_INT16,
-	TYPE_UINT32,
-	TYPE_INT32,
-	TYPE_UINT64,
-	TYPE_INT64
-}	t_int_type;
+# include "ft_stddef.h"
 
 // Conversion state machine states
 typedef enum e_conv
@@ -75,14 +53,6 @@ typedef enum e_conv
 # define CONV_STATE_COUNT	8
 # define TYPE_INFO_COUNT	18
 
-// Compact type info table row: rename fields to match ft_stdlib.c
-typedef struct s_type_info
-{
-	unsigned long long	max_val;
-	long long			min_val;
-	bool				is_signed;
-}	t_type_info;
-
 // Conversion context (state machine data)
 typedef struct s_conv_ctx
 {
@@ -90,7 +60,7 @@ typedef struct s_conv_ctx
 	const char		*start;
 	char			**endptr;
 	int				base;
-	t_int_type		type;
+	t_type			type;
 	t_type_info		type_info;
 	uint64_t		uval;
 	bool			negative;
@@ -135,8 +105,8 @@ static inline const t_type_info	*type_info_table(void)
 }
 
 int64_t				ft_strto(const char *nptr, char **endptr, int base,
-									t_int_type type);
-t_int_type			get_type_from_size(size_t size, bool is_unsigned);
+									t_type type);
+t_type			get_type_from_size(size_t size, bool is_unsigned);
 int8_t				ft_strto_i8(const char *nptr, char **endptr, int base);
 uint16_t			ft_strto_u16(const char *nptr, char **endptr, int base);
 int16_t				ft_strto_i16(const char *nptr, char **endptr, int base);
@@ -154,7 +124,7 @@ unsigned short		ft_strto_ushort(const char *nptr, char **endptr, int base);
 short				ft_strto_short(const char *nptr, char **endptr, int base);
 uint64_t			ft_strtoull(const char *nptr, char **endptr, int base);
 int64_t				ft_strtoint(const char *nptr, char **endptr, int base,
-									t_int_type type);
+									t_type type);
 uint64_t			ft_strtou64(const char *nptr, char **endptr, int base);
 int64_t				ft_strto_unsigned(const char *nptr, char **endptr, int base,
 									size_t size);
@@ -172,9 +142,9 @@ void				state_overflow(t_conv_ctx *ctx);
 void				init_conv_ctx(t_conv_ctx *ctx,
 									const char *nptr,
 									int base,
-									t_int_type type);
+									t_type type);
 int					char_to_digit(char c, int base);
-const t_type_info	*get_type_info(t_int_type type);
+const t_type_info	*get_type_info(t_type type);
 
 static inline const t_fn_state	*conv_state_table(void)
 {

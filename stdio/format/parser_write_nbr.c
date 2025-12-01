@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parser_write_nbr.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 15:34:02 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "format.h"
 
-static void	sign_modifier(t_parser *p, int n);
+static void sign_modifier(t_format_parser *p, int n);
 
-void	parser_write_hex(t_parser *p, bool upper)
+void parser_write_hex(t_format_parser *p, bool upper)
 {
-	unsigned int	n;
-	size_t			len;
-	size_t			field_len;
+	unsigned int n;
+	size_t len;
+	size_t field_len;
 
 	p->token_meta.flags &= (FLAG_ZERO | FLAG_MINUS | FLAG_HASH);
 	n = va_arg(*p->ap, unsigned int);
@@ -39,11 +39,11 @@ void	parser_write_hex(t_parser *p, bool upper)
 	width_padding(p, field_len, PAD_RIGHT);
 }
 
-void	parser_write_uint(t_parser *p)
+void parser_write_uint(t_format_parser *p)
 {
-	unsigned int	n;
-	size_t			len;
-	size_t			field_len;
+	unsigned int n;
+	size_t len;
+	size_t field_len;
 
 	p->token_meta.flags &= (FLAG_MINUS | FLAG_ZERO);
 	n = va_arg(*p->ap, unsigned int);
@@ -60,12 +60,12 @@ void	parser_write_uint(t_parser *p)
 	width_padding(p, field_len, PAD_RIGHT);
 }
 
-void	parser_write_int(t_parser *p)
+void parser_write_int(t_format_parser *p)
 {
-	int				n;
-	size_t			len;
-	size_t			field_len;
-	unsigned int	un;
+	int n;
+	size_t len;
+	size_t field_len;
+	unsigned int un;
 
 	n = va_arg(*p->ap, int);
 	if (n == INT_MIN || n >= 0)
@@ -87,10 +87,10 @@ void	parser_write_int(t_parser *p)
 	width_padding(p, field_len, PAD_RIGHT);
 }
 
-void	parser_write_pointer_address(t_parser *p)
+void parser_write_pointer_address(t_format_parser *p)
 {
-	size_t	address;
-	size_t	len;
+	size_t address;
+	size_t len;
 
 	p->token_meta.flags &= FLAG_MINUS;
 	p->token_meta.precision = FLAG_NOT_SET;
@@ -110,7 +110,7 @@ void	parser_write_pointer_address(t_parser *p)
 	width_padding(p, len, PAD_RIGHT);
 }
 
-static void	sign_modifier(t_parser *p, int n)
+static void sign_modifier(t_format_parser *p, int n)
 {
 	if ((p->token_meta.flags & FLAG_SPACE) && n >= 0)
 		writer_putchar(p->writer, ' ');

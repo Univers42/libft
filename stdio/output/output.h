@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 14:40:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:18:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ Short summary: these macros/inline functions are small wrappers to route single 
 
 
  */
+
+ typedef struct s_state_fd t_state_fd;
+ 
 #define OUTPUT_ERR 01
 #define OUTBUFSIZE 1024
 typedef struct s_out
@@ -77,10 +80,10 @@ typedef struct s_out_ctx
     t_out *out2;
 } t_out_ctx;
 
-typedef struct s_file
+typedef struct s_fdio
 {
-	int fd;
-	int flags;
+	int     fd;
+	int     flags;
 	char *io_read_ptr;
 	char *io_read_end;
 	char *io_read_base;
@@ -98,7 +101,7 @@ typedef struct s_file
 	signed char vable_offset;
 	char short_buf[1];
 	void *lock;
-} t_file;
+} t_fdio;
 
 static inline t_out_ctx *get_outs(void)
 {
@@ -141,5 +144,14 @@ void set_trace_fd(int newfd);
 int *debug_ptr(void);
 int get_trace_fd(void);
 int *tracefd_ptr(void);
+void    out1fmt(const char *fmt, ...);
+void outmem(const char *p, size_t len, t_out *dst);
+int log_print(t_state_fd *state, const char *file, const char *format, ...);
+int	ft_sprintf(char *dst, const char *format, ...);
+int	ft_snprintf(char *dst, size_t cap, const char *format, ...);
+int ft_printf(const char *format, ...);
+int ft_dprintf(int fd, const char *format, ...);
+int	ft_aprintf(char **dst, const char *format, ...);
+void flush_all(void);
 
 #endif

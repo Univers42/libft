@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:46:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/21 15:32:31 by syzygy           ###   ########.fr       */
+/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
 #include "ft_memory.h"
 
-static void	parser_initialize(
-		t_parser *parser,
-		const char *format_str,
-		va_list *params,
-		t_writer *buf_out
-) {
+static void parser_initialize(
+	t_format_parser *parser,
+	const char *format_str,
+	va_list *params,
+	t_writer *buf_out)
+{
 	parser->writer = buf_out;
 	parser->index = 0;
 	parser->format = format_str;
@@ -26,13 +26,13 @@ static void	parser_initialize(
 	ft_memset(&parser->token_meta, 0, sizeof(t_token_meta));
 }
 
-int	parser_parse_and_write(
-		t_parser *parser,
-		const char *format_str,
-		va_list *params,
-		t_writer *buf_out
-) {
-	size_t	token_idx;
+int parser_parse_and_write(
+	t_format_parser *parser,
+	const char *format_str,
+	va_list *params,
+	t_writer *buf_out)
+{
+	size_t token_idx;
 
 	parser_initialize(parser, format_str, params, buf_out);
 	writer_reset(parser->writer);

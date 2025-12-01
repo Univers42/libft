@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:55:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 14:56:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:45:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int64_t	finalize_conversion(t_conv_ctx *ctx)
 }
 
 // UNIFIED CONVERSION FUNCTION - Handles all integer types
-int64_t	ft_strto(const char *nptr, char **endptr, int base, t_int_type type)
+int64_t	ft_strto(const char *nptr, char **endptr, int base, t_type type)
 {
 	t_conv_ctx			ctx;
 	const t_fn_state	*table = conv_state_table();

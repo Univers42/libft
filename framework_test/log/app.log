@@ -1,0 +1,24 @@
+[34m[DEBUG] [Main] 21:55:30 [Main] [DEBUG] a debug message[0m
+[32m[INFO] [T1] 21:55:30 [T1] [INFO] worker-1 loop=0[0m
+[33m[WARN] [Main] 21:55:30 [Main] [WARN] watch out![0m
+[32m[INFO] [T2] 21:55:30 [T2] [INFO] worker-2 loop=0[0m
+[32m[INFO] [T1] 21:55:30 [T1] [INFO] worker-1 loop=1[0m
+[32m[INFO] [T2] 21:55:30 [T2] [INFO] worker-2 loop=1[0m
+[32m[INFO] [T1] 21:55:30 [T1] [INFO] worker-1 loop=2[0m
+[32m[INFO] [T2] 21:55:30 [T2] [INFO] worker-2 loop=2[0m
+[32m[INFO] [T1] 21:55:30 [T1] [INFO] worker-1 loop=3[0m
+[32m[INFO] [T2] 21:55:30 [T2] [INFO] worker-2 loop=3[0m
+[32m[INFO] [T1] 21:55:30 [T1] [INFO] worker-1 loop=4[0m
+[32m[INFO] [T2] 21:55:30 [T2] [INFO] worker-2 loop=4[0m
+[34m[DEBUG] [Main] 21:55:32 [Main] [DEBUG] a debug message[0m
+[33m[WARN] [Main] 21:55:32 [Main] [WARN] watch out![0m
+[32m[INFO] [T1] 21:55:32 [T1] [INFO] worker-1 loop=0[0m
+[32m[INFO] [T2] 21:55:32 [T2] [INFO] worker-2 loop=0[0m
+[32m[INFO] [T1] 21:55:32 [T1] [INFO] worker-1 loop=1[0m
+[32m[INFO] [T2] 21:55:32 [T2] [INFO] worker-2 loop=1[0m
+[32m[INFO] [T1] 21:55:32 [T1] [INFO] worker-1 loop=2[0m
+[32m[INFO] [T2] 21:55:32 [T2] [INFO] worker-2 loop=2[0m
+[32m[INFO] [T1] 21:55:32 [T1] [INFO] worker-1 loop=3[0m
+[32m[INFO] [T2] 21:55:32 [T2] [INFO] worker-2 loop=3[0m
+[32m[INFO] [T1] 21:55:32 [T1] [INFO] worker-1 loop=4[0m
+[32m[INFO] [T2] 21:55:32 [T2] [INFO] worker-2 loop=4[0m

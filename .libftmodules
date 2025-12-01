@@ -1,1 +1,1 @@
-SUBDIRS := ctype strings stdio stdlib math memory render sort data_structures debug time
+SUBDIRS := ctype debug ds ipc lex math memory readline render sort std stdio string termcap time var wctype

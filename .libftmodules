@@ -1,1 +1,1 @@
-SUBDIRS := ctype debug ds ipc lex math memory readline render sort std stdio string termcap time var wctype
+SUBDIRS := ctype debug ds ipc lex math memory readline render sort std stdio string termcap time var wctype alias

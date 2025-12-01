@@ -6,17 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:26:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:58:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcap.h"
-#include "rl/readline.h"
+#include "readline.h"
 #include <termios.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+/* If termcap.h on some platforms/builds does not declare these helpers,
+   provide local prototypes to avoid implicit-declaration warnings. */
+void tc_clear_screen(void);
+void tc_move_cursor(int row, int col);
 
 #define RL_BUFSIZE 4096
 #define RL_HISTORY_INIT 64
@@ -102,7 +107,7 @@ static void rl_insert(t_rl *r, char ch)
 {
     if (r->len + 1 >= RL_BUFSIZE)
         return;
-    memmove(r->buf + r->pos + 1, r->buf + r->pos, r->len - r->pos);
+    ft_memmove(r->buf + r->pos + 1, r->buf + r->pos, r->len - r->pos);
     r->buf[r->pos] = ch;
     write(1, r->buf + r->pos, r->len - r->pos + 1);
     r->len++;
@@ -117,7 +122,7 @@ static void rl_backspace(t_rl *r)
     if (r->pos == 0)
         return;
     move_left_n(r->le, 1);
-    memmove(r->buf + r->pos - 1, r->buf + r->pos, r->len - r->pos);
+    ft_memmove(r->buf + r->pos - 1, r->buf + r->pos, r->len - r->pos);
     r->len--;
     r->pos--;
     write(1, r->buf + r->pos, r->len - r->pos);
@@ -137,7 +142,7 @@ static void rl_replace_with_history(t_rl *r, const char *entry)
         tputs(r->ce, 1, out_putc);
     else
         write(1, "\033[K", 3);
-    strncpy(r->buf, entry, RL_BUFSIZE - 1);
+    ft_strncpy(r->buf, entry, RL_BUFSIZE - 1);
     r->len = (int)strlen(r->buf);
     r->pos = r->len;
     if (r->len > 0)
@@ -175,7 +180,7 @@ static int rl_reverse_search(t_rl *r)
 
     /* save original buffer */
     if (r->len > 0)
-        memcpy(orig_buf, r->buf, r->len);
+        ft_memcpy(orig_buf, r->buf, r->len);
     orig_buf[r->len] = '\0';
 
     pat[0] = '\0';
@@ -392,12 +397,17 @@ char *rl_getline(const char *prompt)
     if (r.len > 0)
     {
         r.buf[r.len] = '\0';
-        res = strdup(r.buf);
+        res = xmalloc(r.len + 1);
+        if (res)
+        {
+            ft_memcpy(res, r.buf, r.len);
+            res[r.len] = '\0';
+        }
         rl_history_add(res);
     }
     else
-        res = strdup("");
+        res = ft_strdup("");
     disable_raw(&orig);
-    free(r.buf);
+    xfree(r.buf);
     return (res);
 }

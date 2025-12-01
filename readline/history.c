@@ -21,6 +21,8 @@ void rl_history_init(void)
 void rl_history_add(const char *line)
 {
     char **tmp;
+    char *dup;
+    size_t len;
     if (!line || !*line)
         return;
     rl_history_init();
@@ -32,7 +34,12 @@ void rl_history_add(const char *line)
             return;
         g_hist = tmp;
     }
-    g_hist[g_count++] = strdup(line);
+    len = strlen(line);
+    dup = (char *)malloc(len + 1);
+    if (!dup)
+        return;
+    memcpy(dup, line, len + 1);
+    g_hist[g_count++] = dup;
     g_index = g_count; /* reset index to one past end */
 }
 

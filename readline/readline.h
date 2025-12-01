@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 21:23:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:23:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 01:55:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #define READLINE_H
 
 #include <stddef.h>
+#include "ft_stdlib.h"
+#include "ft_stddef.h"
+#include "ft_memory.h"
+#include "ft_string.h"
+#include "ft_stdio.h"
 
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */

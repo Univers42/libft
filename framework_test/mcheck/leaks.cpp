@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:11:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/02 01:46:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/02 01:51:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <execinfo.h> // for backtrace
 #include <sstream>
 #include <fstream>
-#include <cstring> // for strlen/strcmp
+#include <cstring>		 // for strlen/strcmp
 #include <unordered_map> // added for LogRecorder
 
 namespace memcheck
@@ -201,10 +201,14 @@ namespace memcheck
 			std::lock_guard<std::mutex> lk(m);
 			logs.emplace_back(msg);
 			// simple classification: increment counts for some known tokens and all messages by exact text
-			if (std::string_view(msg).find("LEAKS.KO") != std::string_view::npos) ++counts["LEAKS"];
-			if (std::string_view(msg).find("memcheck: started") != std::string_view::npos) ++counts["started"];
-			if (std::string_view(msg).find("memcheck: stopped") != std::string_view::npos) ++counts["stopped"];
-			if (std::string_view(msg).find("memcheck: report done") != std::string_view::npos) ++counts["report_done"];
+			if (std::string_view(msg).find("LEAKS.KO") != std::string_view::npos)
+				++counts["LEAKS"];
+			if (std::string_view(msg).find("memcheck: started") != std::string_view::npos)
+				++counts["started"];
+			if (std::string_view(msg).find("memcheck: stopped") != std::string_view::npos)
+				++counts["stopped"];
+			if (std::string_view(msg).find("memcheck: report done") != std::string_view::npos)
+				++counts["report_done"];
 			// per-message exact count
 			++counts[std::string(msg)];
 		}
@@ -776,7 +780,8 @@ extern "C"
 	// C API for log access
 	int memcheck_log_count(const char *kind)
 	{
-		if (!kind) return 0;
+		if (!kind)
+			return 0;
 		return memcheck::LogRecorder::countReason(std::string(kind));
 	}
 

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:11:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/02 01:04:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/02 01:51:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ namespace memcheck
 
 // C API for querying recorded logs from C tests or scripts
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 	// return count of notifications containing 'kind' substring
 	int memcheck_log_count(const char *kind);

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdint.h>
 
 #define THREAD_COUNT 4
 #define ALLOCS_PER_THREAD 8

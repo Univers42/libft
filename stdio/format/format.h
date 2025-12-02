@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:58:02 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 18:11:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ struct s_state_fd
 
 static inline t_state_fd *get_state_fd(void)
 {
-	static t_state_fd a = {0};
+	/* initialize all fields explicitly to avoid -Wmissing-field-initializers
+	   and ensure the enum field is correctly typed for C++ compilation */
+	static t_state_fd a = {.fd = 0, .state = (t_state)0, .exit_status = 0};
 	return (&a);
 }
 
@@ -58,7 +60,6 @@ int ft_aprintf(char **dst, const char *format, ...);
 
 /* utility */
 size_t hex_len(size_t n);
-size_t strnlen(const char *str, size_t n);
 size_t uint_len(unsigned int n);
 
 /* WRITER */
@@ -77,7 +78,10 @@ typedef struct s_writer
 	size_t index;
 	unsigned char buf[BUF_SIZE];
 	int error;
+	/* n_written: total characters attempted (what snprintf should return) */
 	int n_written;
+	/* n_copied: number of bytes actually copied/stored into destination */
+	int n_copied;
 	int fd;
 
 	/* buffer mode fields */

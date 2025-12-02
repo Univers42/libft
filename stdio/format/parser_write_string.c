@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:48:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/01 16:03:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void parser_write_string(t_format_parser *p)
 	else if (str == NULL)
 		str = "(null)";
 	if (p->token_meta.precision == FLAG_NOT_SET)
-		len = strlen(str); // Just for testing purpose
+		len = ft_strlen(str); // Just for testing purpose
 	else
-		len = strnlen(str, p->token_meta.precision);
+		len = ft_strnlen(str, p->token_meta.precision);
 	width_padding(p, len, PAD_LEFT);
 	writer_write(p->writer, str, len);
 	width_padding(p, len, PAD_RIGHT);

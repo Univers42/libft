@@ -1,14 +1,12 @@
-obj/format/parser_write_nbr.o: format/parser_write_nbr.c format/format.h \
- ../include/ft_stddef.h \
- format/../../memory/memalloc/garbage_collector/lifoba/lifoba.h \
- ../include/ft_memory.h ../include/ft_stddef.h \
- ../include/../memory/memalloc/garbage_collector/lifoba/lifoba.h \
- format/../output/output.h format/../output/error.h
-format/format.h:
+obj/format/parser_write_nbr.o: format/parser_write_nbr.c \
+ ../include/internals/format.h ../include/ft_stddef.h ../include/lifoba.h \
+ ../include/ft_memory.h ../include/ft_stddef.h ../include/lifoba.h \
+ ../include/internals/output.h ../include/internals/error.h
+../include/internals/format.h:
 ../include/ft_stddef.h:
-format/../../memory/memalloc/garbage_collector/lifoba/lifoba.h:
+../include/lifoba.h:
 ../include/ft_memory.h:
 ../include/ft_stddef.h:
-../include/../memory/memalloc/garbage_collector/lifoba/lifoba.h:
-format/../output/output.h:
-format/../output/error.h:
+../include/lifoba.h:
+../include/internals/output.h:
+../include/internals/error.h:

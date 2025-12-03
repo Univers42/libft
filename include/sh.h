@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:04:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/19 15:22:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:39:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static inline size_t	shell_size()
  * it appears that grabstackstr() will barf such alignments
  * because stalloc() will return a string allocated in a new stackblock
  */
-static inline size_t	shell_align(size_t nbytes)
-{
-	return (nbytes + SHELL_SIZE & ~SHELL_SIZE)
-}
-
+//static inline size_t	shell_align(size_t nbytes)
+//{
+//	return (nbytes + SHELL_SIZE & ~SHELL_SIZE)
+//}
+//
 #endif

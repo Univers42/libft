@@ -1,5 +1,16 @@
-# project-specific settings (variables kept overrideable)
-CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/12/03 23:35:50 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/03 23:35:51 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
 DEPFLAGS ?= -MMD -MP
 NAME_LIB	= 		libwctype
 NAME		= 		$(NAME_LIB).a

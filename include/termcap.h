@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:54 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:28:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:39:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <stdio.h>
+# include "ft_memory.h"
 
 typedef struct s_buffer
 {
@@ -73,8 +74,6 @@ int		tgetflag(const char *cap);
 int		tputs(const char *str, int nlines, int (*outfn)(int));
 char	*tgoto(const char *cm, int hpos, int vpos);
 
-void	*xmalloc(size_t size);
-void	*xrealloc(void *ptr, size_t size);
 int		tc_atoi(const char *s);
 
 /* helper functions */

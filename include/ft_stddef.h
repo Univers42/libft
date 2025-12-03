@@ -25,7 +25,6 @@ typedef char *t_string;
 // maps
 typedef char **t_strings;
 typedef unsigned char t_uint8;
-typedef struct sigaction t_sigaction;
 // used for inter-thread or signal communication
 typedef volatile int t_sig_atomic;
 typedef int *t_array;

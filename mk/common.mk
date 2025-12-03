@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 19:53:01 by                   #+#    #+#              #
-#    Updated: 2025/12/01 00:28:31 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/03 23:36:58 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ include $(MAKEFILE_DIR)symbols.mk
 # ════════════════════════════════════════════════════════════════════════════
 
 CC					?= cc
-CFLAGS				?= -Wall -Wextra -Werror -MMD -g -O -fPIC
+CFLAGS				= -std=c99 -pedantic -Wall -Wextra -Werror -MMD -g3 -O3 -I../include -I/../include/internals
 CFLAGS_SHARED		?= -Wall -Werror -Wextra -Wnewline-eof -shared
-INCLUDE_FLAGS		?= -I/include
+INCLUDE_FLAGS		?= -I../include -I../include/internals
 OUT					?= libft.so
 LDFLAGS				?= -L. -lft -pthread -lm
 AR					?= ar

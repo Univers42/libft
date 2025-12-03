@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:21:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:00:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 int	handle_octal(char **p, int c);
 int	handle_esctab(int c);

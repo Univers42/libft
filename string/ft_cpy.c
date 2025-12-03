@@ -1,16 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_cpy.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 12:33:34 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 20:33:00 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/06/08 12:34:21 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/03 23:54:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
+
+char	*ft_strcpy(char *dest, const char *src)
+{
+	char	*dcopy;
+
+	if (!dest || !src)
+		return (NULL);
+	dcopy = dest;
+	while (*src)
+		*dest++ = *src++;
+	*dest++ = '\0';
+	return (dcopy);
+}
+
+char	*ft_strncpy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	if (!dest || !src)
+		return (dest);
+	i = 0;
+	while (i < n && src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
 //#include "TDD/test.h"
 /**
  * Copies up to `dsize - 1` characters from the 
@@ -50,11 +84,3 @@ t_size	ft_strlcpy(char *dst, const char *src, t_size dsize)
 	}
 	return (ft_strlen(src));
 }
-//int main(void)
-//{
-//	char *ptr_to_be_copied;
-//	char *src = "hello world!";
-//	ft_printf("%ld,\n %ld\n", sizeof(src), ft_strlen(src));
-//	ft_printf("%ld\n",ft_strlcpy(ptr_to_be_copied, src, ft_strlen(src) + 1));
-//	ft_printf("%s\n", ptr_to_be_copied);
-//}

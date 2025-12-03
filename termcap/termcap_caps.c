@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:19:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:58:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -55,10 +55,10 @@ void	tc_clear_screen(void)
 	if (cl)
 	{
 		tputs(cl, 1, (int (*)(int))putchar);
-		write(1, "\033[3J\033[H\033[2J", 11);
+		ft_putstr_fd("\033[3J\033[H\033[2J", STDOUT_FILENO);
 	}
 	else
-		write(1, "\033[H\033[2J\033[3J", 11);
+		ft_putstr_fd("\033[H\033[2J\033[3J", STDOUT_FILENO);
 	fflush(stdout);
 }
 
@@ -71,7 +71,7 @@ void	tc_clear_eol(void)
 	if (ce)
 		tputs(ce, 1, (int (*)(int))putchar);
 	else
-		write(1, "\033[K", 3);
+		ft_putstr_fd("\033[K", STDOUT_FILENO);
 }
 
 /* move cursor to (row,col) 0-based */
@@ -91,7 +91,7 @@ void	tc_move_cursor(int row, int col)
 	else
 	{
 		snprintf(tmp, sizeof(tmp), "\033[%d;%dH", row + 1, col + 1);
-		write(1, tmp, strlen(tmp));
+		ft_putstr_fd(tmp, STDOUT_FILENO);
 	}
 }
 
@@ -104,5 +104,5 @@ void	tc_save_cursor(void)
 	if (sc)
 		tputs(sc, 1, (int (*)(int))putchar);
 	else
-		write(1, "\0337", 2);
+		ft_putstr_fd("\0337", STDOUT_FILENO);
 }

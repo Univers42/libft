@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:19:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:20:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 /* Singleton: one shared instance across all translation units */
 t_tglob	*access_glob(void)

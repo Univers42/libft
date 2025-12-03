@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:49:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:53:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:50:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 /* copy from src to dest pointer, removing backslash-newline continuations */
 static void	copy_strip_backslash(char **dest, char **src)
@@ -36,9 +36,10 @@ static void	copy_strip_backslash(char **dest, char **src)
 static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buffer *buf)
 {
 	char	*tmp;
+	const size_t old_size = ctx->malloc_size;
 
 	ctx->malloc_size = ctx->bp1 - ctx->bp + buf->size;
-	tmp = (char *)xrealloc(ctx->bp, ctx->malloc_size);
+	tmp = (char *)xrealloc(ctx->bp, old_size ,ctx->malloc_size);
 	ctx->bp1 += tmp - ctx->bp;
 	ctx->bp = tmp;
 }

@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:18:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:02:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 void	append_char(char **op, char c)
 {
@@ -34,8 +34,7 @@ char	*grow(char *base, char **op, int *cap)
 	char	*nb;
 
 	used = *op - base;
-	*cap *= 2;
-	nb = (char *)xrealloc(base, *cap);
+	nb = (char *)xrealloc(base, *cap, *cap * 2);
 	*op = nb + used;
 	return (nb);
 }

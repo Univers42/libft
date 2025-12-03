@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:29:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:00:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 int	tgetflag(const char *cap)
 {

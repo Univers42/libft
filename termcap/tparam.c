@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:11:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 /* short delegator: reads the code and dispatches to small steps */
 static void	process_format(t_tparam_ctx *ctx)

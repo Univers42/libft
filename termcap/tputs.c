@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:20:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 int	get_baud_speed(void);
 

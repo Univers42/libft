@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:24:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:49:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 #include <string.h>
 
 static char	*find_nl(char *p)
@@ -22,12 +22,13 @@ static char	*find_nl(char *p)
 
 static void	expand(t_buffer *b, char **ae)
 {
-	char	*tmp;
-	char	*old;
+	char			*tmp;
+	char			*old;
+	const size_t	old_size = b->size;
 
 	old = b->beg;
 	b->size *= 2;
-	tmp = (char *)xrealloc(old, b->size + 1);
+	tmp = (char *)xrealloc(old, old_size, b->size + 1);
 	b->ptr = (b->ptr - old) + tmp;
 	*ae = (*ae - old) + tmp;
 	b->beg = tmp;

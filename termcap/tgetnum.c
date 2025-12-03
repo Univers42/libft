@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:30:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:00:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 int	tc_atoi(const char *s)
 {

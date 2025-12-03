@@ -1,5 +1,4 @@
 # project-specific settings (variables kept overrideable)
-CFLAGS += -std=c99 -pedantic -Wshadow -I../include -I../strings -I./ft_printf/include
 DEPFLAGS ?= -MMD -MP
 NAME_LIB	= 		libtermcap
 NAME		= 		$(NAME_LIB).a

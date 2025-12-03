@@ -37,6 +37,8 @@
     "ft_vector.h": "c",
     "ft_queue.h": "c",
     "ft_math.h": "c",
-    "ft_limits.h": "c"
+    "ft_limits.h": "c",
+    "string.h": "c",
+    "ft_termcap.h": "c"
   }
 }

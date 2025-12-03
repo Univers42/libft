@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:06:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:15:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 /* step helpers to keep process_format under 25 lines */
 int	pf_step1(t_tparam_ctx *ctx, int c, int tem)

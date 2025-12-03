@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:07:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 00:10:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 void	pf_handle_d(t_tparam_ctx *ctx, int tem)
 {

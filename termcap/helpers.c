@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 23:27:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:49:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 char	*find_capability(char *bp, char *cap)
 {

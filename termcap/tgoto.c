@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 21:15:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:01:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcap.h"
+#include "ft_termcap.h"
 
 /*
  * parameter string usually wants row (y) first then column (x).

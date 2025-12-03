@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   termcap.h                                          :+:      :+:    :+:   */
+/*   ft_termcap.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:54 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:39:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:57:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <termios.h>
 # include <stdio.h>
 # include "ft_memory.h"
+# include "ft_string.h"
+# include "ft_stdio.h"
 
 typedef struct s_buffer
 {

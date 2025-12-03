@@ -1,0 +1,10 @@
+TEST(1, print("%s", ""));
+	TEST(2, print(" %s", ""));
+	TEST(3, print("%s ", ""));
+	TEST(4, print(" %s ", ""));
+	TEST(5, print(" %s ", "-"));
+	TEST(6, print(" %s %s ", "", "-"));
+	TEST(7, print(" %s %s ", " - ", ""));
+	TEST(8, print(" %s %s %s %s %s", " - ", "", "4", "", s2));
+	TEST(9, print(" %s %s %s %s %s ", " - ", "", "4", "", "2 "));
+	TEST(10, print(" NULL %s NULL ", NULL));

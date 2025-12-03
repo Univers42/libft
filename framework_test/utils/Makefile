@@ -1,18 +1,35 @@
-CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -I../include -I../include/internal
-SRCS := $(wildcard *.cpp)
-OBJS := $(SRCS:.cpp=.o)
-TARGET := test_string
+CXX := c++
+CXXFLAGS ?= -Wall -Wextra -Werror
+INCLUDES := -I../include -I../include/internal
 
-all: $(TARGET)
+# SRCS is filled by envsubst from string.cpp main.cpp
+SRCS := string.cpp main.cpp
+OBJDIR := obj
+OBJS := $(patsubst %.cpp,$(OBJDIR)/%.o,$(patsubst %.c,$(OBJDIR)/%.o,$(SRCS)))
+NAME := unit_test
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+all: $(NAME)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^
+
+# compile C++ sources into object files under $(OBJDIR)/
+$(OBJDIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+
+# compile C sources into object files under $(OBJDIR)/
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(OBJDIR)
 
-.PHONY: all clean
+fclean:
+	rm -f $(NAME)
+	rm -rf $(OBJDIR)
+
+re: fclean all
+
+.PHONY: all clean fclean re

@@ -33,6 +33,9 @@
     "format.h": "c",
     "output.h": "c",
     "stdlib.h": "c",
-    "ft_printf_test_utils.h": "c"
+    "ft_printf_test_utils.h": "c",
+    "ft_vector.h": "c",
+    "ft_queue.h": "c",
+    "ft_math.h": "c"
   }
 }

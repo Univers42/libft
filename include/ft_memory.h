@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 20:03:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:18:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_stddef.h"
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../memory/memalloc/garbage_collector/lifoba/lifoba.h"
+#include "lifoba.h"
 
 typedef struct s_mem_tracker
 {

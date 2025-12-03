@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_math.h                                          :+:      :+:    :+:   */
+/*   ds.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/04 14:01:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:16:19 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/06/14 19:59:27 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/03 23:23:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MATH_H
-# define FT_MATH_H
+#ifndef DS_H
+# define DS_H
 
-# include "algebra.h"
-# include "geometry.h"
+# include "ft_list.h"
+# include "ft_doubly_list.h"
+# include "ft_circular_list.h"
+# include "ft_queue.h"
+# include "ft_vector.h"
 
 #endif

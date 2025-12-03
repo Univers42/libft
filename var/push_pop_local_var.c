@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:30:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:43:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static void process_local_var_list(t_localvar *lvp_list,
 								   t_var_state *state);
-static void restore_opt_var(t_localvar *lvp, t_var_state *state);
 
 /* New: helper to drain and free a whole localvar_list frame */
 void libvar_free_local_frame(t_localvar_list *ll, t_var_state *state)

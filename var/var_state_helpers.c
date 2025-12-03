@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 14:18:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:46:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ static void clear_cmd_entry()
 		cmdp = *pp;
 		while (cmdp != NULL)
 		{
-			if (cmdp->cmd_type == CMDNORMAL || cmdp->cmd_type == CMDBUILTIN && cmdp->param.cmd->flags & BUILTIN_REGULAR && builtinloc > 0)
+			if (cmdp->cmd_type == CMDNORMAL || (cmdp->cmd_type == CMDBUILTIN && (cmdp->param.cmd->flags & BUILTIN_REGULAR) && builtinloc > 0))
 			{
 				*pp = cmdp->next;
 				xfree(cmdp);
@@ -307,6 +307,7 @@ int changed;
 
 void change_mail(const char *val)
 {
+	(void)val;
 	changed++;
 }
 

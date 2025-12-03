@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:06:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:30:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:46:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void libvar_destroy(void)
 	while (frame)
 	{
 		next_frame = frame->next;
-		libvar_free_local_frame(frame, state);
+		//libvar_free_local_frame(frame, state);
 		frame = next_frame;
 	}
 

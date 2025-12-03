@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:30:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:44:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_var *set_vareq(char *s, int flags)
 	int store_flags;
 
 	/* preserve existing semantics, ensure AFLAG is defined in private_var.h */
-	flags |= (VEXPORT & ((unsigned)(1 - get_optlist()[AFLAG])) - 1);
+	flags |= (VEXPORT & (((unsigned)(1 - get_optlist()[AFLAG])) - 1));
 	vpp = find_var(s);
 	vp = *vpp;
 

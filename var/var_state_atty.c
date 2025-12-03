@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:06:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 16:37:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:44:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 #include "var.h"
 
 #ifdef ATTY
+
 int add_atty(t_var_state *state, int i)
 {
 	state->varinit[i++] = make_atty();
 	return i;
 }
 #else
+
 int add_atty(t_var_state *state, int i)
 {
+	(void)state;
 	return i;
 }
 #endif

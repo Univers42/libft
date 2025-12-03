@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:33:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:33:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:20:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 t_alias	**alias_find_slot(const char *name)
 {

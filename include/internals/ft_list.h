@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 17:44:49 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:41:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:05:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef struct s_list
 {
 	struct s_list	*next;
-	void			*data;
+	void			*content;
 }	t_list;
 
 // Add the prototype for ft_lstnew

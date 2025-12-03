@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:34:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:34:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:21:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 t_alias_state	*get_alias_state(void)
 {

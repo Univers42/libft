@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:33:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:33:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:20:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 static void	remove_bucket_aliases(t_alias **app)
 {

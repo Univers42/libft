@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:33:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:34:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:20:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 int	alias_unset(const char *name)
 {

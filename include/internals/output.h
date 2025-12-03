@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/01 15:01:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:17:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ static inline t_out_ctx *get_outs(void)
     return (&ctx);
 }
 
-void ft_putchar_fd(char c, int fd);
-void ft_putendl_fd(char *s, int fd);
+void ft_putchar_fd(const char c, int fd);
+void ft_putendl_fd(const char *s, int fd);
 void ft_putnbr_base(int nbr, char *radix);
-void ft_putnbr_fd(int nb, int fd);
-void ft_putstr_fd(char *s, int fd);
+void ft_putnbr_fd(const int nb, int fd);
+void ft_putstr_fd(const char *s, int fd);
 
 /* flush helpers used by error/format modules */
 void flushout(t_out *dst);

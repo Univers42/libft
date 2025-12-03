@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:33:54 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:33:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:20:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 static void	update_existing_alias(t_alias *ap, const char *val)
 {

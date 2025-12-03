@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:22:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 19:00:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:04:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_debug.h"
-#include "data_structures.h"
+#include "ds.h"
 #include "ft_stdio.h"
 
 //void print_list(t_ps *)
@@ -50,44 +50,44 @@
 //    ft_printf("\n");
 //}
 //
-void	ft_print_list(t_list *list)
-{
-	t_list	*current;
+// void	ft_print_list(t_list *list)
+// {
+// 	t_list	*current;
 
-	if (!list)
-	{
-		ft_printf("List is NULL\n");
-		return ;
-	}
-	current = list;
-	ft_printf("List: ");
-	while (current)
-	{
-		if (current->content)
-			ft_printf("[%s] -> ", (char *)current->content);
-		else
-			ft_printf("[NULL] -> ");
-		current = current->next;
-	}
-	ft_printf("NULL\n");
-}
+// 	if (!list)
+// 	{
+// 		ft_printf("List is NULL\n");
+// 		return ;
+// 	}
+// 	current = list;
+// 	ft_printf("List: ");
+// 	while (current)
+// 	{
+// 		if (current->content)
+// 			ft_printf("[%s] -> ", (char *)current->content);
+// 		else
+// 			ft_printf("[NULL] -> ");
+// 		current = current->next;
+// 	}
+// 	ft_printf("NULL\n");
+// }
 
-void	ft_print_list_addresses(t_list *list)
-{
-	t_list	*current;
+// void	ft_print_list_addresses(t_list *list)
+// {
+// 	t_list	*current;
 
-	if (!list)
-	{
-		ft_printf("List is NULL\n");
-		return ;
-	}
-	current = list;
-	ft_printf("List addresses: ");
-	while (current)
-	{
-		ft_printf("[%p: %p] -> ", (void *)current,
-			(void *)current->content);
-		current = current->next;
-	}
-	ft_printf("NULL\n");
-}
+// 	if (!list)
+// 	{
+// 		ft_printf("List is NULL\n");
+// 		return ;
+// 	}
+// 	current = list;
+// 	ft_printf("List addresses: ");
+// 	while (current)
+// 	{
+// 		ft_printf("[%p: %p] -> ", (void *)current,
+// 			(void *)current->content);
+// 		current = current->next;
+// 	}
+// 	ft_printf("NULL\n");
+// }

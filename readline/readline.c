@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:58:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:19:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void disable_raw(const struct termios *orig)
 static int out_putc(int c)
 {
     char ch = (char)c;
-    write(1, &ch, 1);
+    ft_putchar_fd(ch, STDOUT_FILENO);
     return (c);
 }
 
@@ -76,7 +76,7 @@ static void move_left_n(char *le, int n)
             tputs(le, 1, out_putc);
     else
         while (n-- > 0)
-            write(1, "\b", 1);
+            ft_putchar_fd('\b', STDOUT_FILENO);
 }
 
 static void move_right_n(char *nd, int n)
@@ -86,7 +86,7 @@ static void move_right_n(char *nd, int n)
             tputs(nd, 1, out_putc);
     else
         while (n-- > 0)
-            write(1, "\033[C", 3);
+            ft_putstr_fd("\033[C", STDOUT_FILENO);
 }
 
 /* initialize rl ctx */
@@ -105,29 +105,34 @@ static void rl_init_ctx(t_rl *r, const char *prompt)
 /* insert printable at cursor */
 static void rl_insert(t_rl *r, char ch)
 {
+    size_t  n;
     if (r->len + 1 >= RL_BUFSIZE)
         return;
     ft_memmove(r->buf + r->pos + 1, r->buf + r->pos, r->len - r->pos);
     r->buf[r->pos] = ch;
-    write(1, r->buf + r->pos, r->len - r->pos + 1);
+    n = write(1, r->buf + r->pos, r->len - r->pos + 1);
     r->len++;
     r->pos++;
     if (r->len > r->pos)
         move_left_n(r->le, r->len - r->pos);
+    (void)n;
 }
 
 /* backspace handling */
 static void rl_backspace(t_rl *r)
 {
+    size_t n;
+
     if (r->pos == 0)
         return;
     move_left_n(r->le, 1);
     ft_memmove(r->buf + r->pos - 1, r->buf + r->pos, r->len - r->pos);
     r->len--;
     r->pos--;
-    write(1, r->buf + r->pos, r->len - r->pos);
-    write(1, " ", 1);
+    n = write(1, r->buf + r->pos, r->len - r->pos);
+    ft_putchar_fd(' ', STDOUT_FILENO);
     move_left_n(r->le, r->len - r->pos + 1);
+    (void)n;
 }
 
 /* replace current buffer with given history entry */
@@ -135,36 +140,36 @@ static void rl_replace_with_history(t_rl *r, const char *entry)
 {
     if (!entry)
         return;
-    write(1, "\r", 1);
+    ft_putchar_fd('\r', STDOUT_FILENO);
     if (r->prompt)
-        write(1, r->prompt, strlen(r->prompt));
+        ft_putstr_fd((const char*)r->prompt, STDOUT_FILENO);
     if (r->ce)
         tputs(r->ce, 1, out_putc);
     else
-        write(1, "\033[K", 3);
+        ft_putstr_fd("\033[K", STDOUT_FILENO);
     ft_strncpy(r->buf, entry, RL_BUFSIZE - 1);
-    r->len = (int)strlen(r->buf);
+    r->len = (int)ft_strlen(r->buf);
     r->pos = r->len;
     if (r->len > 0)
-        write(1, r->buf, r->len);
+        ft_putstr_fd(r->buf, STDOUT_FILENO);
 }
 
 /* display reverse-i-search prompt with pattern and match (match may be NULL) */
 static void rl_display_search(const char *pat, const char *match, const char *prompt)
 {
     /* prompt like: (reverse-i-search)`pat': match */
-    write(1, "\r", 1);
+    ft_putchar_fd('\r', STDOUT_FILENO);
     if (prompt)
-        write(1, prompt, strlen(prompt)); /* keep underlying prompt shown if desired */
+        ft_putstr_fd(prompt, STDOUT_FILENO); /* keep underlying prompt shown if desired */
     /* print small search prompt */
-    write(1, "(reverse-i-search)`", 20);
+    ft_putstr_fd("(reverse-i-search)`", STDOUT_FILENO);
     if (pat && *pat)
-        write(1, pat, strlen(pat));
-    write(1, "': ", 3);
+        ft_putstr_fd(pat, STDOUT_FILENO);
+    ft_putstr_fd("': ", STDOUT_FILENO);
     if (match)
-        write(1, match, strlen(match));
+        ft_putstr_fd(match, STDOUT_FILENO);
     else
-        write(1, "", 1);
+        ft_putstr_fd("", STDOUT_FILENO);
 }
 
 /* reverse incremental search; returns 1 if a match was accepted into r->buf, 0 on cancel */
@@ -270,7 +275,7 @@ char *rl_getline(const char *prompt)
     if (enable_raw(&orig) == -1)
         return (NULL);
     if (r.prompt)
-        write(1, r.prompt, strlen(r.prompt));
+        ft_putstr_fd(r.prompt, STDOUT_FILENO);
     while (1)
     {
         n = read(STDIN_FILENO, &c, 1);
@@ -278,7 +283,7 @@ char *rl_getline(const char *prompt)
             break;
         if (c == '\r' || c == '\n')
         {
-            write(1, "\r\n", 2);
+            ft_putstr_fd("\r\n", STDOUT_FILENO);
             break;
         }
         /* Ctrl-L: clear screen and redraw prompt + line */
@@ -293,16 +298,16 @@ char *rl_getline(const char *prompt)
             if (r.ce)
                 tputs(r.ce, 1, out_putc);
             else
-                write(1, "\033[2K\r", 5); /* erase entire line and return carriage */
+                ft_putstr_fd("\033[2K\r", STDOUT_FILENO); /* erase entire line and return carriage */
 
             /* Reset history navigation state so Up/Down behave from end */
             rl_history_reset_index();
 
             /* Redraw prompt and current buffer exactly once */
             if (r.prompt)
-                write(1, r.prompt, strlen(r.prompt));
+                ft_putstr_fd(r.prompt, STDOUT_FILENO);
             if (r.len > 0)
-                write(1, r.buf, r.len);
+                ft_putstr_fd(r.buf, STDOUT_FILENO);
 
             /* make sure the output is flushed */
             fflush(stdout);
@@ -374,9 +379,9 @@ char *rl_getline(const char *prompt)
                     else
                     {
                         /* clear line */
-                        write(1, "\r", 1);
+                        ft_putchar_fd('\r', STDOUT_FILENO);
                         if (r.prompt)
-                            write(1, r.prompt, strlen(r.prompt));
+                            ft_putstr_fd(r.prompt, STDOUT_FILENO);
                         if (r.ce)
                             tputs(r.ce, 1, out_putc);
                         r.len = r.pos = 0;

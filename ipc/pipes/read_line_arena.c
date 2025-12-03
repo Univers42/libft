@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:03:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:06:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*read_line_arena(int fd)
 	char	*p;
 	int		r;
 
+	base = NULL;
 	start_stack_str(base);
 	p = base;
 	r = read_line_fill(fd, base, &p);

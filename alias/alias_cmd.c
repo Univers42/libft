@@ -6,11 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 01:33:39 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:33:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:20:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libalias.h"
+#include "alias.h"
 
 static int	print_all_aliases(void)
 {

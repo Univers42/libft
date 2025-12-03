@@ -1,0 +1,7 @@
+{
+  "users": [
+    {"id":1, "roles":["admin","dev"]},
+    {"id":2, "roles":[]}
+  ],
+  "meta": {"count":2}
+}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 21:39:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 21:55:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/02 02:29:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <functional>
 #include <unordered_map>
 #include <atomic>
+#include "message.hpp"
 
 // --------------------------- Core logger types (restored) ---------------------------
 enum class LogLevel
@@ -203,29 +204,29 @@ public:
         switch (level)
         {
         case LogLevel::Trace:
-            code = "\033[37m";
-            break; // light gray
+            code = tester::colors::BRIGHT_BLACK; // light gray
+            break;
         case LogLevel::Debug:
-            code = "\033[34m";
-            break; // blue
+            code = tester::colors::BLUE;
+            break;
         case LogLevel::Info:
-            code = "\033[32m";
-            break; // green
+            code = tester::colors::GREEN;
+            break;
         case LogLevel::Warn:
-            code = "\033[33m";
-            break; // yellow
+            code = tester::colors::YELLOW;
+            break;
         case LogLevel::Error:
-            code = "\033[31m";
-            break; // red
+            code = tester::colors::RED;
+            break;
         case LogLevel::Fatal:
-            code = "\033[41m\033[37m";
-            break; // white on red bg
+            code = std::string(tester::colors::BG_RED) + tester::colors::WHITE; // white on red bg
+            break;
         default:
-            code = "\033[0m";
+            code = tester::colors::RESET;
             break;
         }
         std::ostringstream ss;
-        ss << code << "[" << level_to_string(level) << "] " << message << "\033[0m";
+        ss << code << "[" << level_to_string(level) << "] " << message << tester::colors::RESET;
         inner->log(level, ss.str());
     }
 };
@@ -542,8 +543,8 @@ private:
     }
 };
 
-// --------------------------- Demo main ---------------------------
-int main()
+// --------------------------- Demo runner (was main) ---------------------------
+void run_logger_demo()
 {
     ThreadIdManager::ensure_main();
 
@@ -557,13 +558,59 @@ int main()
                       .addAsyncBatch(6, 150)
                       .buildConsole();
 
+    // Demonstrations using tester::Message
+    {
+        // formatted log
+        tester::Message m;
+        m << "server started at port=" << 8080 << " mode=" << "prod";
+        logger->log(LogLevel::Info, m.GetString());
+    }
+
+    {
+        // failure / error message with highlighted portion
+        tester::Message fail;
+        fail << "Failed to allocate buffer of size=" << 4096 << " bytes. "
+             << tester::colors::BRIGHT_RED << "OOM" << tester::colors::RESET;
+        logger->log(LogLevel::Error, fail.GetString());
+    }
+
+    {
+        // debug string with structured values
+        tester::Message dbg;
+        dbg << "dbg: ptr=" << static_cast<void *>(nullptr) << " id=" << 12345;
+        logger->log(LogLevel::Debug, dbg.GetString());
+    }
+
+    {
+        // memory tracking style report
+        tester::Message mem;
+        mem << "mem: used=" << 123456 << " free=" << 654321;
+        logger->log(LogLevel::Info, mem.GetString());
+    }
+
+    {
+        // diff-like output
+        tester::Message diff;
+        diff << tester::colors::GREEN << "+ expected line" << tester::colors::RESET << "\n";
+        diff << tester::colors::RED << "- actual line" << tester::colors::RESET;
+        logger->log(LogLevel::Info, diff.GetString());
+    }
+
+    {
+        // test assertion message
+        tester::Message assertmsg;
+        assertmsg << "assert failed: expected=" << 10 << " got=" << 9;
+        logger->log(LogLevel::Fatal, assertmsg.GetString());
+    }
+
+    // spawn workers as before to show concurrent logs
     auto worker = [&](int id)
     {
         for (int i = 0; i < 5; ++i)
         {
-            std::ostringstream ss;
+            tester::Message ss;
             ss << "worker-" << id << " loop=" << i;
-            logger->log(LogLevel::Info, ss.str());
+            logger->log(LogLevel::Info, ss.GetString());
             std::this_thread::sleep_for(std::chrono::milliseconds(50 + id * 10));
         }
     };
@@ -571,13 +618,55 @@ int main()
     std::thread t1(worker, 1);
     std::thread t2(worker, 2);
 
-    logger->log(LogLevel::Debug, "a debug message");
-    logger->log(LogLevel::Trace, "this trace message won't appear (filtered)");
-    logger->log(LogLevel::Warn, "watch out!");
+    {
+        tester::Message m;
+        m << "a debug message with details: x=" << 42;
+        logger->log(LogLevel::Debug, m.GetString());
+    }
+    {
+        tester::Message t;
+        t << "this trace message is filtered by default";
+        logger->log(LogLevel::Trace, t.GetString());
+    }
+    {
+        tester::Message w;
+        w << "watch out!";
+        logger->log(LogLevel::Warn, w.GetString());
+    }
 
     t1.join();
     t2.join();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    return 0;
 }
+
+// --------------------------- C API wrappers ------------------------------------
+extern "C"
+{
+
+    // Log a simple info-level message from C
+    void c_log_info(const char *msg)
+    {
+        ThreadIdManager::ensure_main();
+        ConsoleLogger console;
+        console.log(LogLevel::Info, std::string(msg ? msg : ""));
+    }
+
+    // Print a Message from C, optionally setting a color prefix (ANSI escape sequence)
+    void c_print_message(const char *msg, const char *color_code)
+    {
+        tester::Message m;
+        if (color_code && color_code[0] != '\0')
+            m.SetColor(color_code);
+        m << (msg ? msg : "");
+        // flush to stdout
+        std::cout << m << std::flush;
+    }
+
+    // Run the C++ logger demo pipeline (threads, file sink, etc.) from C
+    void c_run_logger_demo()
+    {
+        run_logger_demo();
+    }
+
+} // extern "C"

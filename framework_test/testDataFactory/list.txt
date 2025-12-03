@@ -1,0 +1,8 @@
+text_short.txt        : small UTF-8 text (simple ASCII)
+text_long_line.txt    : single very long line (long-line handling)
+unicode.txt           : UTF-8 text with multi-byte characters (emoji, accents, symbols)
+utf16le.txt           : text encoded in UTF-16 LE (BOM included)
+binary_with_nulls.bin : binary file containing embedded NUL bytes
+random.bin            : random bytes from /dev/urandom (non-printable)
+huge_file.bin         : large (1 MiB) file useful for streaming and performance tests
+empty_file.txt        : an empty file (zero length)

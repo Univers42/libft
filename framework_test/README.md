@@ -6,14 +6,6 @@ Purpose
 - colors.hpp: ANSI color/style escape sequences and helpers (256 / truecolor) for terminal output.
 - The Message class now supports coloring its whole output by calling SetColor(...) and will automatically append a RESET when streamed to an ostream.
 
-it becomes the foundation for:
-- formattd lgos
-- failure messages
-- debug strings
-- memory tracking reports
-- diff outputs
-- test assertions
-
 Quick usage
 
 - Include headers:

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assert.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/04 01:44:51 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/04 01:44:52 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TESTING_ASSERT_HPP
 #define TESTING_ASSERT_HPP
 #pragma once
 
 #include <string>
-#include "../log/message.hpp"
+#include "message.hpp"
 
 namespace testing
 {

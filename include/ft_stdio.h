@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:18:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:16:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 #include "ft_stddef.h"
 #include <stddef.h>
-#include "output.h"
-#include "input.h"
-#include "format.h"
+#include "internals/output.h"
+#include "internals/input.h"
+#include "internals/format.h"
 
 typedef int (*t_ops)(int, int);
 

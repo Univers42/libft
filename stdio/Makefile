@@ -1,4 +1,3 @@
-CFLAGS		+= -std=c99 -pedantic -Wshadow -I../include -I./output -I./format -I./input
 DEPFLAGS	?= -MMD -MP
 NAME_LIB	=		libctype
 NAME		=		$(NAME_LIB).a

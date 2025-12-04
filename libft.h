@@ -17,7 +17,7 @@
 # include "ft_string.h"
 # include "ft_memory.h"
 # include "ft_ctype.h"
-# include "data_structures.h"
+# include "ds.h"
 # include "ft_math.h"
 # include "ft_stdlib.h"
 # include "ft_stdio.h"

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 17:52:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:26:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void *deque_pop_start(t_deque *ret);
 void deque_push_end(t_deque *ret, void *item);
 void deque_push_start(t_deque *ret, void *item);
 int deque_clone(t_deque *ret, const t_deque *proto);
+void    deque_clear(t_deque *ret);
 
 #endif

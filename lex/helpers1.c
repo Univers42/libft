@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 17:51:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/02 17:52:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:21:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token make_token(t_scanner *scan, t_token_type type)
 
 	token.type = type;
 	token.start = scan->start;
-	token.length = (int)(scan->current - scan->start);
+	token.len = (int)(scan->current - scan->start);
 	token.line = scan->line;
 	scan->last_token = type; // track last emitted token
 	return (token);
@@ -63,7 +63,7 @@ t_token error_token(t_scanner *scan, const char *mesg)
 
 	token.type = TOKEN_ERR;
 	token.start = mesg;
-	token.length = (int)strlen(mesg);
+	token.len = (int)strlen(mesg);
 	token.line = scan->line;
 	return (token);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 17:54:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/28 16:16:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:21:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_token_type check_key_word(int start, int length, const char *rest, t_token_typ
 
 t_token_type identifier_type(t_scanner *scan)
 {
-	int					length;
-	const t_keyword_entry	*kw;
-	int					i;
+	int length;
+	const t_keyword_entry *kw;
+	int i;
 
 	i = 0;
 	length = (int)(scan->current - scan->start);
@@ -78,11 +78,11 @@ t_token number(t_scanner *scan)
  * This single function is called when the lexer's dispather
  * seed an opening quote
  * 1. it gests the opening quote character that will be the terminator
- * 2. Determine the correct token type for the entire literal. 
+ * 2. Determine the correct token type for the entire literal.
  * 3. Comsume the opening quote (e.g., the '"')
  * 4. Loop to find the end of the string
  * 	handle escaped terminators, but not for single quotes
- * single quotes treat '\' as a literal character. 
+ * single quotes treat '\' as a literal character.
  * This checks for things like '"" or '\'
  * @param scan
  * @return one token represeting the whole quoted string
@@ -92,15 +92,15 @@ t_token number(t_scanner *scan)
  */
 t_token string(t_scanner *scan)
 {
-	char            terminator;
-	t_token_type    tok_type;
-	t_token         token;
+	char terminator;
+	t_token_type tok_type;
+	t_token token;
 
 	terminator = peek(scan);
 	if (terminator == '"')
-		tok_type = TOKEN_DOUBLE_QUOTED_STRING;
+		tok_type = TOKEN_DQUOTE_STRING;
 	else if (terminator == '\'')
-		tok_type = TOKEN_SINGLE_QUOTED_STRING;
+		tok_type = TOKEN_SQUOTE_STRING;
 	else if (terminator == '`')
 		tok_type = TOKEN_BQUOTE;
 	else
@@ -123,8 +123,8 @@ t_token string(t_scanner *scan)
 
 	/* Set token to point to content inside quotes */
 	token.type = tok_type;
-	token.start = scan->start + 1;  /* Skip opening quote */
-	token.length = (int)((scan->current - scan->start) - 2);  /* Exclude both quotes */
+	token.start = scan->start + 1;						  /* Skip opening quote */
+	token.len = (int)((scan->current - scan->start) - 2); /* Exclude both quotes */
 	token.line = scan->line;
 	return (token);
 }

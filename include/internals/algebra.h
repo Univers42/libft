@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 17:18:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:38:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			ft_modulo(int a, int b);
 int			ft_lcm(int x, int y);
 int			ft_tab_mult(int x);
 int			ft_round(double num);
-float		lerp(float a, float b, float t);
+float		ft_lerp(float a, float b, float t);
 float		ft_fmaxf(float a, float b);
 float		ft_fminf(float a, float b);
 uint32_t	lerp_chan(uint32_t a, uint32_t b, float t);

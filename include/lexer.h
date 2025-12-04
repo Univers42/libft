@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:20:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:23:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #define LEXER_H
 
 #include "libft.h"
-
+#include "ds.h"
+#define LEXER_SQUOTE_PROMPT "squote>"
+#define LEXER_DQUOTE_PROMPT "dquote>"
 typedef enum e_category_token
 {
-	CAT_SYS_OP = 0,			   // System Operators (|, &&, ;, etc.)
+	CAT_SYS_OP = 1,			   // System Operators (|, &&, ;, etc.)
 	CAT_ARIT_OP = 100,		   // Arithmetic Operators (+, *, <=, ++, etc.)
 	CAT_REDIR_IO = 200,		   // I/O Redirections (<, >, >>, etc.)
 	CAT_GROUPING = 300,		   // Grouping and Sub-shells ((), {}, etc.)
@@ -37,7 +39,8 @@ typedef enum e_category_token
 
 typedef enum e_token_type
 {
-	/* === 0-99: CAT_SYS_OP - System Operators & Command Separators === */
+	TOKEN_NONE = 0,
+	/* === 1-99: CAT_SYS_OP - System Operators & Command Separators === */
 	TOKEN_OPERATOR = CAT_SYS_OP,
 	TOKEN_PIPE,		 // |    - Pipeline
 	TOKEN_PIPE_PIPE, // ||   - Logical OR (Command)
@@ -150,8 +153,8 @@ typedef enum e_token_type
 	TOKEN_FLAG,	  // -flag / --long-flag (command-line style)
 	TOKEN_NUMBER, // Numeric literal
 	// The following tokens should represent the *content* or *type* if the lexer fully processes them:
-	TOKEN_SINGLE_QUOTED_STRING, // '...' content
-	TOKEN_DOUBLE_QUOTED_STRING, // "..." content
+	TOKEN_SQUOTE_STRING, // '...' content
+	TOKEN_DQUOTE_STRING, // "..." content
 	TOKEN_BQUOTE,
 
 	TOKEN_LISTS = CAT_WORD_LIST,
@@ -231,6 +234,9 @@ typedef enum e_token_type
 	TOKEN_EOF,		  // End of file
 	TOKEN_ERR,		  // Lexer Error
 	TOKEN_COUNT,	  // Total number of token types
+	TOKEN_END,
+	TOKEN_ENVVAR,
+	TOKEN_DQENVVAR,
 	TOKEN_SENTINEL
 } t_token_type;
 
@@ -260,12 +266,21 @@ extern t_map_token tok[];
 // --- 4. The Singleton's Data ---
 // This struct is what the singleton function returns.
 
+typedef struct s_tok
+{
+	bool present;
+	char *start;
+	int len;
+} t_tok;
+
 typedef struct s_token
 {
 	t_token_type type;
+	t_tok full_word;
 	const char *start;
-	int length;
+	int len; // Changed from 'length' to 'len' for consistency
 	int line;
+	bool allocated;
 } t_token;
 
 typedef union u_input_source
@@ -289,6 +304,12 @@ typedef struct s_delim_stack
 	int depth;
 	int capacity;
 } t_delim_stack;
+
+typedef struct op_map_s
+{
+	const char *lexem;
+	t_token_type type;
+} t_op_map;
 
 typedef struct s_reserved_word
 {
@@ -416,4 +437,8 @@ t_token handle_minus(t_scanner *scan);
 t_token handle_sys_op(t_scanner *scan);
 t_token handle_literal(t_scanner *scan);
 t_scanner *init_scanner(const char *source);
+int advance_dquote(char **str);
+int advance_squote(char **str);
+void    advance_bs(char **str);
+
 #endif

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lerp.c                                          :+:      :+:    :+:   */
+/*   ft_offsetof.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 15:33:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:38:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/04 22:38:58 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/04 22:42:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "algebra.h"
+#include "ft_stdlib.h"
 
-float	ft_lerp(float a, float b, float t)
+size_t	ft_offsetof(void *struct_base, void *member_addr)
 {
-	return (a + t * (b - a));
+    return ((char *)member_addr - (char *)struct_base);
 }

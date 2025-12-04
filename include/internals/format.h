@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:58:02 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/03 23:19:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:19:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int ft_vdprintf(int fd, const char *format, va_list *ap);
 int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
 int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
 int ft_vsprintf(char *dst, const char *format, va_list *ap);
+int ft_veprintf(const char *str, va_list *args);
+char *ft_vaseprintf(const char *str, va_list *args);
 
 /* user-facing helpers (variadic) */
 int ft_dprintf(int fd, const char *format, ...);

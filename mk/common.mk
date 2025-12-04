@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 19:53:01 by                   #+#    #+#              #
-#    Updated: 2025/12/04 18:26:37 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/05 00:23:42 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,14 +62,9 @@ LIBNAME				:= $(basename $(notdir $(NAME)))
 LIB_SHORT			:= $(if $(filter lib%,$(LIBNAME)),$(patsubst lib%,%,$(LIBNAME)),$(LIBNAME))
 # link tests against archive located in BUILD_DIR by default
 TEST_FLAGS			?= -L$(BUILD_DIR) -l$(LIB_SHORT)
-
 # default list of available archives (caller can override LIB_LISTS or TEST_LIBS)
-# OLD:
-# LIB_LISTS			?= $(abspath $(wildcard */build/*.a))
-# TEST_LIBS			?= $(LIB_LISTS)
-# NEW: discover all archives directly in the shared BUILD_DIR
-TEST_LIBS           ?= $(abspath $(wildcard $(BUILD_DIR)/*.a))
-
+LIB_LISTS			?= $(abspath $(wildcard */build/*.a))
+TEST_LIBS			?= $(LIB_LISTS)
 # C++ compiler for .cpp tests (overrideable)
 CXX					?= g++
 # C++ flags (use when compiling .cpp tests)
@@ -125,10 +120,11 @@ OBJS		?=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DPDC		?=		$(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.d))
 
 # New: explicit archive paths for current lib and its declared LIB_DEPS.
+# This helps with static linking order: include current lib archive first,
+# then dependency archives explicitly (e.g. .../libstring.a .../libmemory.a .../libstd.a)
 TEST_LIB_ARC        ?= $(BUILD_DIR)/lib$(LIB_SHORT).a
 LIB_DEPS_ARCS       ?= $(if $(strip $(LIB_DEPS)),$(addprefix $(BUILD_DIR)/lib,$(addsuffix .a,$(LIB_DEPS))),)
 # Additional set of archives to include (wildcard/other libs)
-# Override default to all archives in BUILD_DIR so tests always see every lib *.a
 OTHER_LIB_ARCS      ?= $(TEST_LIBS)
 
 # Group all archives so the static linker can resolve circular/transitive refs.
@@ -295,7 +291,7 @@ $(OBJ_DIR)/%.o : %.c
 	@$(call create_dirs)
 	@mkdir -p $(dir $@)
 	@$(call print_status, $(CYAN), COMPILE, Compiling $< -> $@)
-	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(USER_DEFINES) $(DEPFLAGS) -MF $(patsubst %.o,%.d,$@) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(DEPFLAGS) -MF $(patsubst %.o,%.d,$@) -c $< -o $@
 
 # Tests: compile each source in tests/ into $(BIN_DIR)/<name>
 TEST_SRCS := $(sort $(wildcard tests/*.c) $(wildcard tests/*.cpp))
@@ -334,9 +330,9 @@ build_tests: ensure_test_deps
 			ext=$${name##*.}; \
 			$(call print_status,$(CYAN),COMPILE,Compiling $$src -> $$out); \
 			if [ "$$ext" = "cpp" ]; then \
-				$(CXX) $(CXXFLAGS) $(INCLUDES) $(USER_DEFINES) $$src $(TEST_FLAGS) $(LD_GROUP) -o $$out || exit 1; \
+				$(CXX) $(CXXFLAGS) $(INCLUDES) $$src $(TEST_FLAGS) $(LD_GROUP) -o $$out || exit 1; \
 			else \
-				$(CC) $(CFLAGS) $(USER_DEFINES) $$src $(TEST_FLAGS) $(LD_GROUP) -o $$out || exit 1; \
+				$(CC) $(CFLAGS) $$src $(TEST_FLAGS) $(LD_GROUP) -o $$out || exit 1; \
 			fi; \
 		done; \
 	fi

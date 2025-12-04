@@ -1,0 +1,111 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/04 21:49:46 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/04 23:28:10 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lexer.h"
+#include "ds.h"
+#include <stdint.h> /* added for uintptr_t */
+
+char *parse_word(t_deque *tokens, char **str)
+{
+	char *start;
+
+	start = *str;
+	while (**str)
+	{
+		if (**str == '\\')
+			advance_bs(str);
+		else if (!is_spechr(**str) || **str == '$')
+			(*str)++;
+		else if (**str == '\'')
+		{
+			if (advance_squote(str))
+				/* assign char into void* ctx safely, then return prompt */
+				return ((tokens->ctx = (void *)(uintptr_t)'\''), LEXER_SQUOTE_PROMPT);
+		}
+		else if (**str == '"')
+		{
+			if (advance_dquote(str))
+				/* assign char into void* ctx safely, then return prompt */
+				return ((tokens->ctx = (void *)(uintptr_t)'"'), LEXER_DQUOTE_PROMPT);
+		}
+		else
+			break;
+	}
+	deque_push_end(
+		tokens, &(t_token){.start = start, .len = *str - start, .type = TOKEN_WORD});
+	return (0);
+}
+
+void parse_op(t_deque *tokens, char **str)
+{
+	char *start;
+	int op_idx;
+	t_op_map operators[13];
+	t_op_map sample;
+	size_t offset;
+
+	operators[0] = (t_op_map){"|", TOKEN_PIPE};
+	operators[1] = (t_op_map){"<<", TOKEN_REDIR_HEREDOC};
+	operators[2] = (t_op_map){"<<-", TOKEN_REDIR_CLOBBER};
+	operators[3] = (t_op_map){">>", TOKEN_REDIR_APPEND};
+	operators[4] = (t_op_map){"(", TOKEN_RIGHT_PAREN};
+	operators[5] = (t_op_map){")", TOKEN_LEFT_PAREN};
+	operators[6] = (t_op_map){">", TOKEN_REDIR_OUT};
+	operators[7] = (t_op_map){"<", TOKEN_REDIR_IN};
+	operators[8] = (t_op_map){"&&", TOKEN_LOGICAL_AND};
+	operators[9] = (t_op_map){"&", TOKEN_AMPERSAND};
+	operators[10] = (t_op_map){"||", TOKEN_LOGICAL_OR};
+	operators[11] = (t_op_map){";", TOKEN_SEMICOLON};
+	operators[12] = (t_op_map){0, TOKEN_END};
+	start = *str;
+	offset = ft_offsetof(&sample, &sample.lexem);
+	op_idx = max_munch(*str, operators, offset, sizeof(t_op_map));
+	ft_assert(op_idx != -1);
+	*str += ft_strlen(operators[op_idx].lexem);
+	deque_push_end(tokens, &(t_token){
+							   .type = operators[op_idx].type,
+							   .start = start,
+							   .len = *str - start,
+						   });
+}
+
+char *tokenizer(char *str, t_deque *ret)
+{
+	char *prompt;
+
+	prompt = 0;
+	deque_clear(ret);
+	while (str && *str)
+	{
+		if (*str == '\'' || *str == '"' || *str == '$' || !(is_spechr(*str)))
+			prompt = parse_word(ret, &str);
+		else if (*str == '\n')
+		{
+			deque_push_end(ret, &(t_token){
+									.type = TOKEN_NEWLINE,
+									.start = str,
+									.len = 1,
+									.allocated = false});
+			str++;
+		}
+		else if (ft_isspace(*str))
+			str++;
+		else
+			parse_op(ret, &str);
+		if (prompt)
+			break;
+	}
+	deque_push_end(ret, &(t_token){
+							.type = TOKEN_END,
+						});
+	return (prompt);
+}

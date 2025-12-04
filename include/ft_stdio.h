@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 18:16:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:17:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void ft_putnbr_fd(const int n, int fd);
 void ft_putnbr_base(int nbr, char *radix);
 int ft_printf(const char *format, ...);
 int ft_dprintf(int fd, const char *format, ...);
-int ft_printf(const char *format, ...);
+int ft_eprintf(const char *format, ...);
+char *ft_aseprintf(const char *format, ...);
 int ft_snprintf(char *dst, size_t cap, const char *format, ...);
 int ft_sprintf(char *dst, const char *format, ...);
 int log_print(t_state_fd *state, const char *file, const char *format, ...);

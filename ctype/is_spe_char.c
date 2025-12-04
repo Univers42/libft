@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lerp.c                                          :+:      :+:    :+:   */
+/*   is_spe_char.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 15:33:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:38:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/04 21:42:45 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/04 21:44:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "algebra.h"
+#include "ft_string.h"
+#include "ft_ctype.h"
 
-float	ft_lerp(float a, float b, float t)
+bool    is_spechr(int c)
 {
-	return (a + t * (b - a));
+    const char    *spec = ";$'\"<>|&()\n";
+
+    if (ft_strchr(spec, c) || ft_isspace(c))
+        return (true);
+    return (false);
 }

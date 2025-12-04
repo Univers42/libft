@@ -43,8 +43,8 @@ void scan_all_tokens(t_scanner *scan, int debug)
 
 void print_token(const t_token *token)
 {
-	const char	*name = "UNKNOWN";
-	int			i;
+	const char *name = "UNKNOWN";
+	int i;
 
 	i = 0;
 	while (tok[i].rep_name != NULL)
@@ -52,11 +52,10 @@ void print_token(const t_token *token)
 		if (tok[i].token == token->type)
 		{
 			name = tok[i].rep_name;
-			break ;
+			break;
 		}
 		i++;
 	}
-	printf(CYAN_TERM" %-27s "RESET_TERM"|"BLACK_TERM" line %d "RESET_TERM"|"GREEN_TERM BOLD_TERM " %.*s\n"RESET_TERM,
-			name, token->line, token->length, token->start);
+	printf(CYAN_TERM " %-27s " RESET_TERM "|" BLACK_TERM " line %d " RESET_TERM "|" GREEN_TERM BOLD_TERM " %.*s\n" RESET_TERM,
+		   name, token->line, token->len, token->start);
 }
-

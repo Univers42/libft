@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 18:16:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 22:42:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void		ft_srand(unsigned int new_seed, int select);
 int			ft_rand(void);
 t_rng_state	*get_rng_state(void);
 const char	*get_algorithm_name(int type);
+size_t	ft_offsetof(void *struct_base, void *member_addr);
 
 #endif

@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lerp.c                                          :+:      :+:    :+:   */
+/*   ft_eprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 15:33:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:38:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/04 22:50:20 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/04 23:19:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "algebra.h"
+#include "format.h"
 
-float	ft_lerp(float a, float b, float t)
+int ft_eprintf(const char *str, ...)
 {
-	return (a + t * (b - a));
+	va_list args;
+	int ret;
+
+	va_start(args, str);
+	ret = ft_veprintf(str, &args);
+	va_end(args);
+	return (ret);
 }

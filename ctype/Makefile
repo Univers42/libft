@@ -5,15 +5,16 @@ DEPFLAGS ?= -MMD -MP
 NAME_LIB	=		libctype
 NAME		=		$(NAME_LIB).a
 
-# ctype may be independent, adjust if it needs lower-level libs
-LIB_DEPS	?=
+# ctype uses ft_strchr from string module
+LIB_DEPS	?= string
 
 # Provide short-name(s) so common.mk will register libctype.a in BUILD_DIR
 PROVIDES	?=	ctype
 
 SRCDIR := .
-# collect all .c files under the ctype tree
-SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -type f -name '*.c')))
+# collect ONLY .c files directly in ctype/ using -maxdepth 1
+# This prevents descending into math/, render/, etc. subdirectories
+SRCS := $(sort $(patsubst ./%,%,$(shell find $(SRCDIR) -maxdepth 1 -type f -name '*.c')))
 
 OBJ_DIR		?=	obj
 

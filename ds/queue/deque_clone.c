@@ -6,38 +6,25 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:59:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/31 00:16:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:50:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_queue.h"
 
-int	deque_char_clone(t_deque_char *ret, const t_deque_char proto)
+int deque_clone(t_deque *ret, const t_deque *proto)
 {
-	size_t	i;
+	size_t i;
+	void *item;
 
-	if (!deque_char_init(ret, proto.cap))
-		return (0);
+	if (deque_init(ret, proto->cap, proto->elem_size, proto->ctx))
+		return (-1);
 	i = 0;
-	while (i < proto.len)
+	while (i < proto->len)
 	{
-		deque_char_push_end(ret, proto.buff[(proto.start + i) % proto.cap]);
+		item = deque_idx((t_deque *)proto, (int)i);
+		deque_push_end(ret, item);
 		i++;
 	}
-	return (1);
-}
-
-int	deque_int_clone(t_deque_int *ret, const t_deque_int proto)
-{
-	size_t	i;
-
-	if (!deque_int_init(ret, proto.cap))
-		return (0);
-	i = 0;
-	while (i < proto.len)
-	{
-		deque_int_push_end(ret, proto.buff[(proto.start + i) % proto.cap]);
-		i++;
-	}
-	return (1);
+	return (0);
 }

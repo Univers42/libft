@@ -6,29 +6,24 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:59:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:42:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:23:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_queue.h"
+#include "ft_memory.h"
 
-int	deque_char_init(t_deque_char *ret, int size)
+int	deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx)
 {
-	*ret = (t_deque_char){0};
-	ret->buff = malloc(size * sizeof(char));
-	if (ret->buff == 0)
-		return (0);
-	ret->cap = size;
-	return (1);
-}
-
-int	deque_int_init(t_deque_int *ret, int size)
-{
-	*ret = (t_deque_int){0};
-	ret->buff = malloc(size * sizeof(int));
-	if (ret->buff == 0)
-		return (0);
-	ret->cap = size;
-	ret->end = ret->cap - 1;
-	return (1);
+    *ret = (t_deque){0};
+    if (initial_cap == 0 || elem_size == 0)
+        return (1);
+    ret->buf = xmalloc(initial_cap * elem_size);
+    if (ret->buf == NULL)
+        return (1);
+    ret->cap = initial_cap;
+    ret->elem_size = elem_size;
+    ret->cmp = ft_memcmp;
+    ret->ctx = ctx;
+    return (0);
 }

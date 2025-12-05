@@ -70,6 +70,22 @@ typedef uint64_t t_time;
 # define HOME_STR "HOME"
 # define DOT_DIR "."
 
+#define COMMAND_NOT_FOUND 127
+#define EXE_PERM_DENIED 126
+#define EXE_BASE_ERROR 125
+#define CANCELED 130
+#define SYNTAX_ERR 2
+#define AMBIGUOUS_REDIRECT 1
+#define PROMPT "❯ "
+#define HIST_FILE ".minishell_history"
+
+#define ANSI_RED "\033[31m"
+#define ANSI_GREEN "\033[32m"
+#define ANSI_RESET "\033[0m"
+
+#define LEXER_SQUOTE_PROMPT "squote> "
+#define LEXER_DQUOTE_PROMPT "dquote> "
+
 /**************************
  * ENUMS
  **************************/

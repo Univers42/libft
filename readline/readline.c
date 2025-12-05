@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:19:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 22:04:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "ft_string.h"
+#include "ft_stdio.h"
 
 /* If termcap.h on some platforms/builds does not declare these helpers,
    provide local prototypes to avoid implicit-declaration warnings. */

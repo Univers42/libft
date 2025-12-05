@@ -5,20 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 21:23:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:06:24 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 22:06:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef READLINE_H
 #define READLINE_H
 
+#include "ds.h"
+#include "dyn_string.h"
 #include <stddef.h>
-#include "ft_stdlib.h"
-#include "ft_stddef.h"
-#include "ft_memory.h"
-#include "ft_string.h"
-#include "ft_stdio.h"
 
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */
@@ -39,7 +36,7 @@ typedef enum e_rl_key
 } t_rl_key;
 
 /* read one key from fd (blocking). returns either ASCII >=32 or negative special code */
-int rl_read_key(int fd);
+int ft_rl_read_key(int fd);
 
 /* history API */
 void rl_history_init(void);
@@ -53,5 +50,7 @@ void rl_history_free(void);
 int rl_history_find_prev(const char *pat, int from_index);
 const char *rl_history_get(int idx);
 void history(void *hist_arg, int *he, void *unused, int histsize);
+t_dyn_str prompt_more_input(t_vec *stack);
+t_dyn_str prompt_normal(char *last_cmd_st, size_t st);
 
 #endif

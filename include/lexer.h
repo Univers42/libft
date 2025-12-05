@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:23:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 22:01:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 #include "libft.h"
 #include "ds.h"
-#define LEXER_SQUOTE_PROMPT "squote>"
-#define LEXER_DQUOTE_PROMPT "dquote>"
+#include "stddef.h"
+
 typedef enum e_category_token
 {
 	CAT_SYS_OP = 1,			   // System Operators (|, &&, ;, etc.)

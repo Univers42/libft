@@ -1,6 +1,8 @@
 obj/./ipc/pipes/write_all.o: ipc/pipes/write_all.c include/pipe.h \
- include/ft_memory.h include/ft_stddef.h include/lifoba.h
+ include/ft_memory.h include/ft_stddef.h include/lifoba.h \
+ include/ft_memory.h
 include/pipe.h:
 include/ft_memory.h:
 include/ft_stddef.h:
 include/lifoba.h:
+include/ft_memory.h:

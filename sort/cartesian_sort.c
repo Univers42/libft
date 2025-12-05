@@ -6,17 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:13:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/11 10:42:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:31:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
 
-static t_node	*create_node(int value, int index)
+static t_sort_node *create_node(int value, int index)
 {
-	t_node	*node;
+	t_sort_node *node;
 
-	node = malloc(sizeof(t_node));
+	node = malloc(sizeof(t_sort_node));
 	if (!node)
 		return (NULL);
 	node->value = value;
@@ -26,7 +26,7 @@ static t_node	*create_node(int value, int index)
 	return (node);
 }
 
-static t_node	*insert_cartesian(t_node *root, int value, int index)
+static t_sort_node *insert_cartesian(t_sort_node *root, int value, int index)
 {
 	if (!root)
 		return (create_node(value, index));
@@ -45,37 +45,37 @@ static t_node	*insert_cartesian(t_node *root, int value, int index)
 	return (root);
 }
 
-static void	inorder_traversal(t_node *root, int *result, int *idx)
+static void inorder_traversal(t_sort_node *root, int *result, int *idx)
 {
 	if (!root)
-		return ;
+		return;
 	inorder_traversal(root->left, result, idx);
 	result[(*idx)++] = root->value;
 	inorder_traversal(root->right, result, idx);
 }
 
-static void	free_tree(t_node *root)
+static void free_tree(t_sort_node *root)
 {
 	if (!root)
-		return ;
+		return;
 	free_tree(root->left);
 	free_tree(root->right);
 	free(root);
 }
 
-void	cartesian_sort(int *arr, int size)
+void cartesian_sort(int *arr, int size)
 {
-	t_node	*root;
-	int		*result;
-	int		i;
-	int		idx;
+	t_sort_node *root;
+	int *result;
+	int i;
+	int idx;
 
 	if (!arr || size <= 1)
-		return ;
+		return;
 	root = NULL;
 	result = malloc(size * sizeof(int));
 	if (!result)
-		return ;
+		return;
 	i = -1;
 	while (++i < size)
 		root = insert_cartesian(root, arr[i], i);

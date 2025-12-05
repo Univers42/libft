@@ -6,26 +6,25 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:30:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:29:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRIVATE_VAR_H
 #define PRIVATE_VAR_H
 
-/* Private header: do NOT redefine public types/macros.
-   Include the public var.h which provides the canonical typedefs
-   (t_var, t_localvar, t_localvar_list, t_var_state, t_meta, etc.).
-*/
+/* Forward declarations to avoid circular dependencies */
+typedef struct s_hellish t_hellish;
+
+/* Public header provides canonical typedefs */
 #include "var.h"
 #include "configs.h"
-/* avoid including ft_stdio.h here (it declares t_log which conflicts
-   with format.h); include only the minimal headers needed by var impl */
 #include "ft_string.h"
 #include "ft_memory.h"
 #include <stddef.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include "ds.h"
 
 /* avoid including ft_stdio.h here when compiling as C++ (these headers
    contain C-only constructs that are not C++-friendly). Include them
@@ -65,6 +64,13 @@ struct s_meta
 	const char *name;
 	size_t len;
 };
+
+typedef struct s_env
+{
+	bool exported;
+	char *key;
+	char *value;
+} t_env;
 
 /* ---- Missing flag macros (guarded) ----
    Provide reasonable defaults only if not defined by public headers.
@@ -218,5 +224,18 @@ intmax_t set_varint(const char *name, intmax_t val, int flags);
 
 /* New: teardown API to free all libvar-managed allocations */
 void libvar_destroy(void);
+
+/* Environment management functions */
+t_env str_to_env(char *str);
+char **get_envp(t_vec *env);
+void free_env(t_vec *env);
+t_env *env_get(t_vec *env, char *key);
+char *env_get_ifs(t_vec *env);
+char *env_expand(t_hellish *state, char *key);
+int env_set(t_vec *env, t_env new);
+void env_extend(t_vec *edst, t_vec *esrc, bool export);
+t_env *env_nget(t_vec *env, char *key, int len);
+char *env_expand_n(t_hellish *state, char *key, int len);
+t_vec create_vec_env(char **envp);
 
 #endif

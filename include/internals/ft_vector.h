@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 16:52:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:29:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void vec_clear(t_vec *v);
 bool vec_reserve(t_vec *v, size_t capacity);
 bool vec_insert(t_vec *v, size_t index, const void *elem);
 bool vec_remove(t_vec *v, size_t index, void *out_elem);
+void *vec_idx(t_vec *v, size_t idx);
 
 #endif

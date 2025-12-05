@@ -5,33 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 15:37:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:07:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/08/04 14:08:50 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 02:33:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "quaternion.h"
-#include "algebra.h"
+#include <math.h>
 
-/*
- * Quaternions always obey:  a^2 + b^2 + c^2 + d^2 = 1.0
- * If they don't add up to 1.0, dividing by their magnitued will
- * renormalize them.
- *
- * Note: See the following for more information on quaternions:
- *
- * - Shoemake, K., Animating rotation with quaternion curves, Computer
- *   Graphics 19, No 3 (Proc. SIGGRAPH'85), 245-254, 1985.
- * - Pletinckx, D., Quaternion calculus as a basic tool in computer
- *   graphics, The Visual Computer 5, 2-13, 1989.
- */
-void	normalize_quat(float q[4])
+/* normalize a 4-float array in-place */
+static void normalize_quat_arr(float q[4])
 {
-	int		i;
-	float	mag;
+	int i;
+	float mag;
 
-	mag = ft_sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
-	i = -1;
-	while (++i < 4)
+	mag = sqrtf(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
+	if (mag == 0.0f)
+		return;
+	i = 0;
+	while (i < 4)
+	{
 		q[i] /= mag;
+		i++;
+	}
+}
+
+/* Provide the C-style symbol expected elsewhere (float[4]) */
+void normalize_quat(float q[4])
+{
+	normalize_quat_arr(q);
+}
+
+/* Public API expected by headers */
+void quat_normalize(t_quat *q)
+{
+	/* treat the t_quat storage as 4 contiguous floats */
+	normalize_quat_arr((float *)q);
 }

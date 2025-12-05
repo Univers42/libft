@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 19:58:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 19:59:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:16:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	append_rest(t_subctx *ctx, const char *string, size_t idx)
 }
 
 /* append single character ch to buffer */
-int	append_char(t_subctx *ctx, char ch)
+int	append_c(t_subctx *ctx, char ch)
 {
 	if (!ensure_capacity(ctx, ctx->templen + 2))
 		return (-1);

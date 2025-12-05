@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/05 01:28:19 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/05 02:24:58 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -296,6 +296,17 @@ debug:
 	@$(MAKE) re --no-print-directory
 	@$(call log_info,🔍 Debug build completed with AddressSanitizer)
 
+debug-shared: CFLAGS += -g3 -fPIC
+debug-shared: CXXFLAGS += -g3 -fPIC
+debug-shared:
+	@$(call log_warn,🐛 DEBUG SHARED MODE ENABLED)
+	@$(call log_info,Building libft as shared library for better symbol resolution)
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all CFLAGS="$(CFLAGS) -fPIC" --no-print-directory
+	@$(MAKE) libft.so CFLAGS="$(CFLAGS) -fPIC" --no-print-directory
+	@$(MAKE) test TEST_SHARED_LIB=1 --no-print-directory
+	@$(call log_ok,✓ Shared library built and tests linked against it)
+
 # ============================================================================ #
 #                                TEST / MODES                                  #
 # ============================================================================ #
@@ -306,6 +317,9 @@ BIN_DIR := bin
 TEST_SRCS := $(shell find tests -type f -name '*.cpp' 2>/dev/null)
 # Map tests/foo/bar.cpp -> bin/foo/bar
 TEST_BINS := $(patsubst tests/%.cpp,$(BIN_DIR)/%,$(TEST_SRCS))
+
+# Export local symbols when linking test executables (helps dladdr to resolve)
+TEST_RDDYNAMIC ?= -Wl,-rdynamic
 
 mode_42:
 	@$(trans_remove_c)
@@ -324,13 +338,23 @@ test: $(BIN_DIR) $(TEST_BINS)
 $(BIN_DIR):
 	@mkdir -p $(BIN_DIR)
 
-# Rule: build each tests/xxx.cpp into bin/xxx, linked with libft.a (and MiniLibX if enabled)
-$(BIN_DIR)/%: tests/%.cpp $(NAME) | $(BIN_DIR)
+# When TEST_SHARED_LIB=1, link against libft.so instead of libft.a
+TEST_SHARED_LIB ?= 0
+ifeq ($(TEST_SHARED_LIB),1)
+TEST_LIB := libft.so
+TEST_LIB_FLAG := -L. -lft
+else
+TEST_LIB := $(NAME)
+TEST_LIB_FLAG :=
+endif
+
+# Rule: build each tests/xxx.cpp into bin/xxx, linked with libft.a (or libft.so if TEST_SHARED_LIB=1)
+$(BIN_DIR)/%: tests/%.cpp $(TEST_LIB) | $(BIN_DIR)
 	@mkdir -p $(dir $@)
 	@if [ "$(ENABLE_MLX_TESTS)" = "1" ] && [ "$(MLX_ENABLED)" = "1" ]; then \
-		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(NAME) $(LINK_MLX); \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) $(LINK_MLX) -ldl; \
 	else \
-		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(NAME); \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) -ldl; \
 	fi
 
 norminette:
@@ -361,8 +385,10 @@ help:
 	@echo "  clean              : Remove object files"
 	@echo "  fclean             : Remove object files and libraries"
 	@echo "  re                 : Rebuild the library from scratch"
-	@echo "  debug              : Build the library with debug flags and AddressSanitizer"
+	@echo "  debug              : Build with debug flags and AddressSanitizer"
+	@echo "  debug-shared       : Build shared library for tests with full symbol info"
 	@echo "  test               : Compile all tests/*.cpp into bin/, linked with libft.a"
+	@echo "                       (set TEST_SHARED_LIB=1 to link against libft.so)"
 	@echo "                       (set ENABLE_MLX_TESTS=1 to also link MiniLibX when available)"
 	@echo "  norminette         : Run norminette on all .c files (excluding minilibx)"
 	@echo "  mode_lab           : Rename all main.bak files to main.c (for 42 labs)"
@@ -370,5 +396,5 @@ help:
 	@echo "  help               : Show this help message"
 
 .PHONY: both shared all norminette test mode_lab mode_42 \
-         progress_init debug fclean clean re
+         progress_init debug debug-shared fclean clean re
 -include $(DEPS)

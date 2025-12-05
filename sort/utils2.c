@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/06/15 18:14:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:17:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
+#include "ft_math.h"
 
 int	find_min_index(t_stck *stack)
 {
@@ -38,11 +39,4 @@ int	find_min_index(t_stck *stack)
 int	cmp_int(const void *a, const void *b)
 {
 	return (*(int *)a - *(int *)b);
-}
-
-int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
 }

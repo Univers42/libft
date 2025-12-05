@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:47:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/08 02:54:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:14:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,4 @@ char	*save_bash_trapsig(void)
 	if (ret)
 		ret = savestring(ret);
 	return (ret);
-}
-
-void	set_bash_trapsig(int sig)
-{
-	bind_var_to_int("BASH_TRAPSIG", sig, 0);
 }

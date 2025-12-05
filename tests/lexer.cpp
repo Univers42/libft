@@ -18,6 +18,8 @@ extern "C"
     void print_token_summary(t_deque *tokens);
     void deque_destroy(t_deque *ret);
     int deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx);
+    /* Test helper to deliberately trigger ft_assert */
+    void trigger_assert_fail(void);
 }
 
 static const char *CLR_RESET = "\033[0m";
@@ -168,6 +170,12 @@ int main(int argc, char **argv)
 {
     if (argc > 1)
     {
+        if (std::string(argv[1]) == "--assert-fail")
+        {
+            /* Intentionally trigger the project's assertion to verify handler behavior */
+            trigger_assert_fail();
+            return 0; /* normally not reached as assert should abort */
+        }
         // Test mode with command-line argument
         if (std::string(argv[1]) == "--test" || std::string(argv[1]) == "-t")
         {

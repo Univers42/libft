@@ -6,11 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 15:58:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 18:31:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:03:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* Feature test macros - define before any system includes */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 200809L
 #endif
@@ -30,6 +34,8 @@
 #include <execinfo.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dlfcn.h>
+#include <stdio.h>
 
 /* ANSI color codes for pretty output */
 #define RESET "\033[0m"
@@ -43,69 +49,123 @@
 #define CYAN "\033[36m"
 #define WHITE "\033[37m"
 
-/* Minimal local replacement for Dl_info/dladdr */
-typedef struct ft_DlInfo
+/* Wrapper around system dladdr for symbol resolution */
+static int ft_dladdr(void *addr, Dl_info *info)
 {
-	const char *dli_fname;
-	void *dli_fbase;
-	const char *dli_sname;
-	void *dli_saddr;
-} ft_DlInfo;
-
-/* Very conservative stub: we do not attempt to resolve symbols.
- * Returns 0 and leaves fields NULL so callers can fallback.
- */
-static int ft_dladdr(void *addr, ft_DlInfo *info)
-{
-	(void)addr;
 	if (!info)
 		return 0;
-	info->dli_fname = NULL;
-	info->dli_fbase = NULL;
-	info->dli_sname = NULL;
-	info->dli_saddr = NULL;
-	return 0;
+	return (dladdr(addr, info) != 0);
+}
+
+/* Try to resolve addr with addr2line for a given binary path.
+ * Returns 1 on success and stores the human string into out (must be large enough).
+ */
+static int try_addr2line(void *addr, const char *binary, char *out, size_t outlen)
+{
+	char cmd[512];
+	FILE *fp;
+
+	if (!binary || !out)
+		return 0;
+	/* addr2line -f -p prints "func (file:line)". Accept hex pointer form. */
+	snprintf(cmd, sizeof(cmd), "addr2line -f -p -e %s %p 2>/dev/null", binary, addr);
+	fp = popen(cmd, "r");
+	if (!fp)
+		return 0;
+	if (fgets(out, outlen, fp) == NULL)
+	{
+		pclose(fp);
+		return 0;
+	}
+	pclose(fp);
+	/* trim newline */
+	size_t l = strlen(out);
+	if (l && out[l - 1] == '\n')
+		out[l - 1] = '\0';
+	/* filter trivial output */
+	if (strcmp(out, "?? ??:0") == 0 || strcmp(out, "??:0") == 0 || out[0] == '\0')
+		return 0;
+	return 1;
 }
 
 /* Parse a backtrace symbol line and extract useful info */
 static void parse_and_print_frame(int idx, char *symbol, void *addr)
 {
-	char *start;
-	char *end;
-	char *offset_start;
 	char func_name[256];
 	char binary_name[256];
 	char offset[64];
 
-	/* Initialize buffers */
 	func_name[0] = '\0';
 	binary_name[0] = '\0';
 	offset[0] = '\0';
 
-	/* Format: binary(function+offset) [address] or binary(+offset) [address] */
-	/* Extract binary name (before '(') */
-	start = symbol;
-	end = strchr(start, '(');
-	if (end && (end - start) < 255)
+	/* Prefer dladdr-resolved info when available */
 	{
-		strncpy(binary_name, start, end - start);
-		binary_name[end - start] = '\0';
-		start = end + 1;
+		Dl_info info;
+		if (ft_dladdr(addr, &info) && info.dli_sname)
+		{
+			snprintf(func_name, sizeof(func_name), "%s", info.dli_sname ? info.dli_sname : "<unknown>");
+			if (info.dli_fname)
+				snprintf(binary_name, sizeof(binary_name), "%s", info.dli_fname);
+			if (info.dli_saddr)
+				snprintf(offset, sizeof(offset), "%p", info.dli_saddr);
+		}
 	}
 
-	/* Extract function name (between '(' and '+') */
-	end = strchr(start, '+');
-	if (end && (end - start) > 0 && (end - start) < 255)
+	/* If dladdr didn't provide function name, fall back to parsing backtrace_symbols text */
+	if (func_name[0] == '\0' && symbol)
 	{
-		strncpy(func_name, start, end - start);
-		func_name[end - start] = '\0';
-		offset_start = end + 1;
-		/* Extract offset (between '+' and ')') */
-		end = strchr(offset_start, ')');
-		if (end && (end - offset_start) < 63)
+		char *start = symbol;
+		char *end = strchr(start, '(');
+		char *offset_start = NULL;
+
+		if (end && (end - start) < (int)sizeof(binary_name))
 		{
-			strncpy(offset, offset_start, end - offset_start);
-			offset[end - offset_start] = '\0';
+			memcpy(binary_name, start, end - start);
+			binary_name[end - start] = '\0';
+			start = end + 1;
+		}
+		end = strchr(start, '+');
+		if (end && (end - start) > 0 && (end - start) < (int)sizeof(func_name))
+		{
+			memcpy(func_name, start, end - start);
+			func_name[end - start] = '\0';
+			offset_start = end + 1;
+			end = strchr(offset_start, ')');
+			if (end && (end - offset_start) < (int)sizeof(offset))
+			{
+				memcpy(offset, offset_start, end - offset_start);
+				offset[end - offset_start] = '\0';
+			}
+		}
+	}
+
+	/* If still unknown, try addr2line against common binaries */
+	if (func_name[0] == '\0')
+	{
+		char buf[512];
+		/* 1) try executable */
+		if (try_addr2line(addr, "/proc/self/exe", buf, sizeof(buf)))
+		{
+			/* addr2line prints "func (file:line)" - reuse as func_name and binary_name when possible */
+			/* bounded copy of addr2line output into func_name */
+			{
+				size_t blen = strlen(buf);
+				size_t copy_len = blen < sizeof(func_name) ? blen : (sizeof(func_name) - 1);
+				memcpy(func_name, buf, copy_len);
+				func_name[copy_len] = '\0';
+			}
+		}
+		else
+		{
+			/* 2) try local libft.so (common development path) */
+			if (try_addr2line(addr, "./libft.so", buf, sizeof(buf)))
+			{
+				size_t blen = strlen(buf);
+				size_t copy_len = blen < sizeof(func_name) ? blen : (sizeof(func_name) - 1);
+				memcpy(func_name, buf, copy_len);
+				func_name[copy_len] = '\0';
+			}
 		}
 	}
 
@@ -192,7 +252,7 @@ static void xabort(void)
 void ft_assert(int cond)
 {
 	void *caller;
-	ft_DlInfo info;
+	Dl_info info;
 
 	if (cond)
 		return;

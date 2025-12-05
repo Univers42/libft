@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 19:58:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:22:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_print_timeline(char **events, char **times, int count)
 	}
 }
 
-static void	print_graph_row(int *values, int count, t_graph_params params)
+void	print_graph_row(int *values, int count, t_graph_params params)
 {
 	int	i;
 	int	bar_height;
@@ -70,30 +70,6 @@ static void	print_graph_row(int *values, int count, t_graph_params params)
 			ft_printf("%s█%s", GREEN_TERM, RESET_TERM);
 		else
 			ft_printf(" ");
-		i++;
-	}
-	ft_printf("\n");
-}
-
-void	ft_print_graph(int *values, int count, int max_height)
-{
-	t_graph_params	params;
-	int				i;
-
-	params.max_val = 0;
-	i = 0;
-	while (i < count && values[i] > params.max_val)
-		params.max_val = values[i++];
-	params.row = max_height;
-	while (params.row > 0)
-	{
-		print_graph_row(values, count, params);
-		params.row--;
-	}
-	i = 0;
-	while (i < count)
-	{
-		ft_printf("%d", values[i] % 10);
 		i++;
 	}
 	ft_printf("\n");

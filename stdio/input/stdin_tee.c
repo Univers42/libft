@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:01:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:13:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,3 @@ int stdin_tee(void *buf, int nr)
     return (0);
 }
 
-void flush_tee(void *buf, int nr, int pending)
-{
-    t_input *in;
-    ssize_t r;
-
-    (void)nr;
-    in = get_input();
-    (void)in;
-    while (pending > 0)
-    {
-        r = read(0, buf, pending > BUFSIZ ? BUFSIZ : (size_t)pending);
-        if (r <= 0)
-            break;
-        pending -= (int)r;
-    }
-}

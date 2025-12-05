@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 21:49:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 01:44:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:03:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,4 +154,11 @@ char *tokenizer(char *str, t_deque *ret)
 							.type = TOKEN_END,
 						});
 	return (prompt);
+}
+
+/* Test helper: deliberately trigger ft_assert failure for verification */
+void trigger_assert_fail(void)
+{
+	/* Force a failing assertion so the project's assertion handler/routine can be verified */
+	ft_assert(0 && "Deliberate ft_assert failure triggered by trigger_assert_fail");
 }

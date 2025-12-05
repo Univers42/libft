@@ -6,26 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 20:33:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/24 12:56:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:13:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lifoba.h"
 #include <stdio.h>
 #include <string.h>
-
-void	out_of_space(void)
-{
-	fputs("Out of space\n", stderr);
-	abort();
-}
-
-void	*check_null(void *p)
-{
-	if (!p)
-		out_of_space();
-	return (p);
-}
 
 char	*str_save(const char *s)
 {

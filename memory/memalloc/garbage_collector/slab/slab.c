@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 02:19:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:12:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,4 @@ void	slab_add_cache(t_slab_allocator *slab,
 	cache->total_freed = 0;
 	cache->chunks = NULL;
 	slab->cache_count += 1;
-}
-
-t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size)
-{
-	size_t			i;
-	t_slab_cache	*best;
-
-	best = NULL;
-	i = -1;
-	while (++i < slab->cache_count)
-	{
-		if (slab->caches[i].block_size >= size)
-			if (!best || slab->caches[i].block_size < best->block_size)
-				best = &slab->caches[i];
-	}
-	return (best);
 }

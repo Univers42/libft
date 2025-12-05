@@ -6,12 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:00:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 00:44:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include <string.h>
+
+/* forward declaration for preadfd implemented in pread_fd.c */
+int preadfd(void);
 
 /*
 ** preadbuffer - copy leftover lleft into buffer head and fill rest by preadfd.

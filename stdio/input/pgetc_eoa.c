@@ -1,6 +1,9 @@
 /* pgetc_eoa using singleton */
 #include "input.h"
 
+/* forward declaration to avoid implicit-int error */
+int pgetc(void);
+
 int pgetc_eoa(void)
 {
     t_input *in;

@@ -6,11 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:00:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 00:41:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
+
+/* forward declaration to satisfy the compiler (implemented in pread_buffer.c) */
+int preadbuffer(void);
 
 /*
 ** pgetc using singleton

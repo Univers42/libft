@@ -6,11 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 19:24:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:04:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 00:45:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
+
+/* forward declaration for flush_input implemented in flush_input.c */
+void flush_input(void);
 
 /*
 ** reset_input - reset input state using the input singleton (no globals).

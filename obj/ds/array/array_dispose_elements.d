@@ -1,0 +1,3 @@
+obj/./ds/array/array_dispose_elements.o: \
+ ds/array/array_dispose_elements.c include/array.h
+include/array.h:

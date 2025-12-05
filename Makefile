@@ -5,103 +5,360 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/10/22 23:00:39 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/01 02:10:11 by dlesieur         ###   ########.fr        #
+#    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/05 01:08:21 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DEFAULT_SUBDIRS := ctype strings stdio stdlib math memory render sort data_structures debug time
+# ============================================================================ #
+#                               TOOLCHAIN & FLAGS                              #
+# ============================================================================ #
 
-# Config file (optional). If present it may set SUBDIRS.
-CONFIG_FILE ?= .libftmodules
+CC          ?= cc
+AR          ?= ar
+ARFLAGS     ?= rcs
+CFLAGS      ?= -Wall -Wextra -Werror
+CFLAGS_SHARED ?= -shared -fPIC
 
-# Effective SUBDIRS: user can override by:
-#   - editing CONFIG_FILE so it contains "SUBDIRS := a b c"
-#   - passing SUBDIRS on the make command line: make SUBDIRS="stdio math" all
-SUBDIRS ?= $(DEFAULT_SUBDIRS)
--include $(CONFIG_FILE)
+OBJ_DIR     ?= obj
 
-JOBS   ?= $(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 2)
+# Basic ANSI colors (kept simple so LOG macros work)
+RESET       := \033[0m
+BOLD        := \033[1m
+DIM         := \033[2m
+YELLOW      := \033[33m
+MAGENTA     := \033[35m
+BRIGHT_CYAN := \033[96m
+BRIGHT_GREEN:= \033[92m
+BRIGHT_RED  := \033[91m
+BRIGHT_MAGENTA := \033[95m
 
-MAKEFLAGS += --no-print-directory
+# ============================================================================ #
+#                                 MACROS                                       #
+# ============================================================================ #
 
-.DEFAULT_GOAL := all
+# Logging macros for Makefile usage (revamped colorful format)
+LOG_PREFIX ?= configure
+STATE_INFO  = ${BRIGHT_CYAN}INFO${RESET}
+STATE_WARN  = ${YELLOW}WARN${RESET}
+STATE_OK    = ${BRIGHT_GREEN}OK${RESET}
+STATE_NOTE  = ${MAGENTA}NOTE${RESET}
+STATE_ERROR = ${BRIGHT_RED}ERROR${RESET}
+STATE_DEBUG = ${MAGENTA}DEBUG${RESET}
 
-.PHONY: all test_all clean fclean re $(SUBDIRS) modules show-config save-config gen-config help libft.a show-libft check_updated
-
-# helper: list available modules (dirs that contain a Makefile)
-modules:
-	@sh -c 'printf "Available modules (dirs with Makefile):\n"; for d in *; do [ -f "$$d/Makefile" ] && printf "  %s\n" "$$d"; done; exit 0'
-
-# show active configuration
-show-config:
-	@sh -c 'printf "Config file: %s\n" "$(CONFIG_FILE)"; printf "Active SUBDIRS: %s\n" "$(SUBDIRS)"; printf "Default SUBDIRS: %s\n\n" "$(DEFAULT_SUBDIRS)"; printf "To override for a single invocation: make SUBDIRS=\"stdio math\" all\n"; printf "To persist configuration: make save-config\n"'
-
-# save the current SUBDIRS into CONFIG_FILE
-save-config:
-	@sh -c 'printf "Saving current SUBDIRS -> %s\n" "$(CONFIG_FILE)"; printf "SUBDIRS := %s\n" "$(SUBDIRS)" > "$(CONFIG_FILE)"; printf "Wrote %s\n" "$(CONFIG_FILE)"'
-
-# generate config from provided variable SUBDIRS_TO_SAVE
-# usage: make gen-config [SUBDIRS_TO_SAVE="a b c"]
-gen-config:
-	@SUBDIRS_TO_USE="$(SUBDIRS_TO_SAVE)"; \
-	if [ -z "$$SUBDIRS_TO_USE" ]; then SUBDIRS_TO_USE="$(SUBDIRS)"; fi; \
-	printf "SUBDIRS := %s\n" "$$SUBDIRS_TO_USE" > "$(CONFIG_FILE)"; \
-	printf "Wrote %s with SUBDIRS: %s\n" "$(CONFIG_FILE)" "$$SUBDIRS_TO_USE"
-
-# small help
-help:
-	@sh -c 'printf "Usage:\n  make all                # build modules in SUBDIRS (default: all) + libft.a\n  make SUBDIRS=\"stdio math\" all   # build only selected modules + custom libft.a\n  make modules            # list available modules (dirs with Makefile)\n  make show-config        # show current effective configuration\n  make save-config        # persist current SUBDIRS into %s\n  make gen-config SUBDIRS_TO_SAVE=\"a b c\"  # create %s\n  make show-libft         # show object files in libft.a\n  make check_updated      # check if selected modules are up to date\n" "$(CONFIG_FILE)" "$(CONFIG_FILE)"'
-
-# helper: $(call run_in_subdirs, "label", target)
-define run_in_subdirs
-	@for d in $(SUBDIRS); do \
-		if [ -f $$d/Makefile ]; then \
-			printf "==> %s: %s\n" "$(1)" "$$d"; \
-			$(MAKE) -C $$d -j $(JOBS) $(2) || exit $$?; \
-		else \
-			printf "==> Skipping %s (no Makefile)\n" "$$d"; \
-		fi; \
-	done
+# $(call logging,STATE_TOKEN,Message)
+# Produces: configure [STATE] : Message (colorized)
+define logging
+	printf "${BRIGHT_CYAN}${BOLD}%s${RESET} [${BOLD}%b${RESET}] : %b\n" "$(LOG_PREFIX)" "$(1)" "$(2)"
 endef
 
-# Build modules first, then aggregate into libft.a
-all: check_updated $(SUBDIRS) libft.a
+define log_info
+	$(call logging,$(STATE_INFO),$(1))
+endef
 
-$(SUBDIRS):
-	$(MAKE) -C $@ all
+define log_warn
+	$(call logging,$(STATE_WARN),$(1))
+endef
 
-# Create libft.a by collecting .o files from selected modules' obj/ dirs
-libft.a: $(SUBDIRS)
-	@sh -c 'printf "\033[1;35m\033[1m[LIBFT] Creating libft.a from selected modules...\033[0m\n"; objs=$$(find $(SUBDIRS) -name "*.o" 2>/dev/null); if [ -n "$$objs" ]; then if [ -f libft.a ] && [ "$$(find $(SUBDIRS) -name "*.o" -newer libft.a 2>/dev/null | wc -l)" -eq 0 ]; then printf "\033[1;32m\033[1m[LIBFT] libft.a is up to date\033[0m\n"; else $(AR) $(ARFLAGS) libft.a $$objs >/dev/null 2>&1; printf "\033[1;32m\033[1m[LIBFT] libft.a created successfully\033[0m\n"; fi; else printf "\033[1;31m\033[1m[LIBFT] Failed to create libft.a (no objects found)\033[0m\n"; fi'
+define log_ok
+	$(call logging,$(STATE_OK),$(1))
+endef
 
-# Show contents of libft.a (object files)
-show-libft:
-	@sh -c 'if [ -f libft.a ]; then printf "\033[1;36m\033[1m[LIBFT] Contents of libft.a:\033[0m\n"; ar -t libft.a | sort; else printf "\033[1;31m\033[1m[LIBFT] libft.a not found\033[0m\n"; fi'
+define log_note
+	$(call logging,$(STATE_NOTE),$(1))
+endef
+
+define log_error
+	$(call logging,$(STATE_ERROR),$(1))
+endef
+
+define log_debug
+	$(call logging,$(STATE_DEBUG),$(1))
+endef
+
+# ============================================================================ #
+#                                   PROJECT                                    #
+# ============================================================================ #
+
+# Library name
+NAME = libft.a
+MINILIBX_DIR ?= minilibx-linux
+MINILIBX_LIB ?= $(MINILIBX_DIR)/libmlx.a
+MLX_ALT_LIB  ?= $(MINILIBX_DIR)/mlx.a
+MLX_FLAGS    ?=
+
+# Detect availability of MiniLibX (directory + makefile)
+MLX_ENABLED := 1
+ifneq ($(wildcard $(MINILIBX_DIR)),)
+ifneq ($(or $(wildcard $(MINILIBX_DIR)/Makefile),$(wildcard $(MINILIBX_DIR)/makefile)),)
+MLX_ENABLED := 0
+endif
+endif
+
+MAKEFLAGS       = --no-print-directory
+
+# Tag directories that depend on MiniLibX
+MLX_TAG_DIRS    ?= classes/render/window classes/render/inputHandler classes/render/event
+
+# Allow users to force-skip directories externally
+SKIP_DIRS ?=
+ifeq ($(MLX_ENABLED),0)
+SKIP_DIRS += $(MLX_TAG_DIRS)
+endif
+
+# ============================================================================ #
+#                               SOURCES / HEADERS                              #
+# ============================================================================ #
+
+# Root from which we scan for sources (here: current dir, i.e. libft root)
+SRC_ROOT := .
+
+# Raw list of all .c files under SRC_ROOT
+ALL_SRCS_RAW := $(shell find $(SRC_ROOT) -type f -name '*.c')
+
+# Exclude any main.c from the library
+ALL_SRCS      := $(filter-out %/main.c,$(ALL_SRCS_RAW))
+
+# Filter out sources in skipped directories (MiniLibX-dependent, etc.)
+# Convert SKIP_DIRS into path patterns for filter-out
+SKIP_PATTERNS := $(addsuffix /%,$(SKIP_DIRS))
+ALL_SRCS      := $(filter-out $(SKIP_PATTERNS),$(ALL_SRCS))
+
+# Object output with directory structure preserved under OBJ_DIR
+OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(ALL_SRCS))
+
+# Automatic dependency files
+DEPS          := $(OBJS:.o=.d)
+
+# Headers (for include paths)
+GLOBAL_HEADERS := $(shell find $(SRC_ROOT) -type f -name '*.h')
+
+# Include dirs: all dirs containing headers + optional include/ internals/
+HEADER_DIRS    := $(shell find $(SRC_ROOT) -type f -name '*.h' -exec dirname {} \; | sort -u)
+# add project include dirs if present
+ifneq ($(wildcard include),)
+HEADER_DIRS    += include
+endif
+ifneq ($(wildcard include/internals),)
+HEADER_DIRS    += include/internals
+endif
+HEADER_DIRS    += .
+
+INCLUDE_FLAGS  := $(foreach dir,$(HEADER_DIRS),-I$(dir))
+
+# Add INCLUDE_FLAGS and dep flags to CFLAGS
+CFLAGS += $(INCLUDE_FLAGS) -MMD -MP -g3
+
+# Progress/animation settings
+PROGRESS_WIDTH ?= 30
+COUNTER_FILE   := $(OBJ_DIR)/.build_count
+SPIN_FILE      := $(OBJ_DIR)/.spin_state
+TOTAL_OBJS     := $(words $(OBJS))
+
+# ============================================================================ #
+#                                 DEFAULT TARGET                               #
+# ============================================================================ #
+
+ifeq ($(MLX_ENABLED),1)
+all: $(MINILIBX_LIB) $(NAME)
+else
+all: $(NAME)
+endif
+
+both: $(NAME) libft.so
+shared: libft.so
+
+# ============================================================================ #
+#                                   BUILD                                      #
+# ============================================================================ #
+
+# Build MiniLibX only if present; otherwise skip gracefully
+$(MINILIBX_LIB):
+	@$(call log_info,🔧 Building MiniLibX...)
+	@if [ -d "$(MINILIBX_DIR)" ] && { [ -f "$(MINILIBX_DIR)/Makefile" ] || [ -f "$(MINILIBX_DIR)/makefile" ]; }; then \
+		$(MAKE) -C $(MINILIBX_DIR) $(MLX_FLAGS) || true; \
+		if [ ! -f "$(MINILIBX_LIB)" ] && [ -f "$(MLX_ALT_LIB)" ]; then \
+			cp "$(MLX_ALT_LIB)" "$(MINILIBX_LIB)"; \
+			$(call log_warn,[MiniLibX] Fallback: copied mlx.a -> libmlx.a); \
+		fi; \
+	else \
+		$(call log_warn,[MiniLibX] Skipping (not present)); \
+	fi
+
+progress_init:
+	@mkdir -p $(OBJ_DIR)
+	@rm -f $(COUNTER_FILE) $(SPIN_FILE)
+	@echo 0 > $(COUNTER_FILE)
+	@echo 0 > $(SPIN_FILE)
+	@$(call log_info,🚀 Starting build of $(NAME) ($(TOTAL_OBJS) objects))
+
+$(NAME): progress_init $(OBJS)
+	@{ \
+		count=$$( [ -f "$(COUNTER_FILE)" ] && cat "$(COUNTER_FILE)" || echo 0 ); \
+		total=$(TOTAL_OBJS); width=$(PROGRESS_WIDTH); percent=100; done_chars=$$width; bar_done=$$(printf "%0.s#" $$(seq 1 $$done_chars)); \
+		printf "\r$(BRIGHT_CYAN)[✔]$(RESET) $(DIM)building$(RESET) $(YELLOW)%-30s$(RESET) $(BRIGHT_GREEN)[%s] %3d%%$(RESET) (%d/%d)\n" "finalizing" "$$bar_done" "$$percent" "$$total" "$$total"; \
+	}
+	@$(call log_info,📦 Archiving library...)
+	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+	@$(call log_ok,✓ $(NAME) created successfully!)
+
+# Object compilation rule with live spinner and inline progress bar
+$(OBJ_DIR)/%.o: %.c $(GLOBAL_HEADERS)
+	@mkdir -p $(dir $@)
+	@{ \
+		i=0; \
+		spinner() { \
+			i=0; \
+			while :; do \
+				case $$((i % 4)) in \
+					0) sym='|';; 1) sym='/';; 2) sym='-';; 3) sym='\\';; \
+				esac; \
+				printf "\r$(BRIGHT_CYAN)[%s]$(RESET) $(DIM)compiling$(RESET) $(YELLOW)%-30s$(RESET)" "$$sym" "$(notdir $<)"; \
+				i=$$((i + 1)); \
+				sleep 0.1; \
+			done; \
+		}; \
+		spinner & SPIN_PID=$$!; \
+		trap 'kill -9 $$SPIN_PID >/dev/null 2>&1; wait $$SPIN_PID 2>/dev/null; exit 130' INT TERM EXIT; \
+		$(CC) $(CFLAGS) -c $< -o $@; STATUS=$$?; \
+		trap - INT TERM EXIT; \
+		kill -9 $$SPIN_PID >/dev/null 2>&1 || true; \
+		wait $$SPIN_PID 2>/dev/null || true; \
+		count=0; [ -f "$(COUNTER_FILE)" ] && count=$$(cat "$(COUNTER_FILE)"); \
+		count=$$((count + 1)); echo $$count > "$(COUNTER_FILE)"; \
+		total=$(TOTAL_OBJS); [ $$total -eq 0 ] && total=1; \
+		percent=$$((100 * count / total)); \
+		if [ $$percent -gt 100 ]; then percent=100; fi; \
+		if [ $$percent -lt 0 ]; then percent=0; fi; \
+		width=$(PROGRESS_WIDTH); \
+		done_chars=$$((percent * width / 100)); \
+		[ $$done_chars -gt $$width ] && done_chars=$$width; \
+		bar_done=$$(printf "%0.s#" $$(seq 1 $$done_chars)); \
+		bar_pad=$$(printf "%0.s " $$(seq 1 $$((width - done_chars)))); \
+		if [ $$STATUS -eq 0 ]; then \
+			printf "\r$(BRIGHT_CYAN)[✔]$(RESET) $(DIM)building$(RESET) $(YELLOW)%-30s$(RESET) $(BRIGHT_GREEN)[%s%s] %3d%%$(RESET) (%d/%d)" \
+				"$(notdir $<)" "$$bar_done" "$$bar_pad" "$$percent" "$$count" "$$total"; \
+		else \
+			printf "\r$(BRIGHT_RED)[✗]$(RESET) $(YELLOW)%-30s$(RESET) $(BRIGHT_RED)FAILED$(RESET)\n" "$(notdir $<)"; \
+			exit $$STATUS; \
+		fi; \
+	}
+
+# libft.so
+libft.so: $(OBJS)
+	@echo "$(BRIGHT_MAGENTA)🔗 Linking shared library libft.so...$(RESET)"
+	@$(CC) $(CFLAGS_SHARED) -o libft.so $(OBJS)
+	@echo "$(BRIGHT_GREEN)✓ libft.so created successfully!$(RESET)"
+
+# ============================================================================ #
+#                                   UTILS                                      #
+# ============================================================================ #
+
+clean:
+	@$(call log_info,🧹 Cleaning object files...)
+	@if [ -d "$(OBJ_DIR)" ]; then \
+		$(call log_warn,Removing $(OBJ_DIR)/ directory...); \
+		$(RM) -r $(OBJ_DIR); \
+		$(call log_ok,✅ Object files cleaned); \
+	else \
+		$(call log_warn,No object files to clean); \
+	fi
 
 fclean: clean
-	$(call print_status,$(RED),FCLEAN,Removing libft.a and cleaning all modules...)
-	@$(RM) libft.a
-	@for d in $(SUBDIRS); do \
-		if [ -f $$d/Makefile ]; then \
-			$(MAKE) -C $$d fclean >/dev/null 2>&1; \
-		fi; \
-	done
-	$(call print_status,$(GREEN),FCLEAN,All modules cleaned successfully)
+	@$(call log_info,🔥 Deep cleaning...)
+	@if [ -f "$(NAME)" ]; then \
+		$(call log_warn,Removing library $(NAME)...); \
+		$(RM) $(NAME); \
+		$(call log_ok,✅ Library removed); \
+	else \
+		$(call log_warn,No library to remove); \
+	fi
+	@$(call log_info,🔥 Deep cleaning MiniLibX...)
+	@if [ -d "$(MINILIBX_DIR)" ] && { [ -f "$(MINILIBX_DIR)/Makefile" ] || [ -f "$(MINILIBX_DIR)/makefile" ]; }; then \
+		$(MAKE) -C $(MINILIBX_DIR) clean || true; \
+	else \
+		$(call log_warn,Skipping MiniLibX deep clean (not present)); \
+	fi
 
-re:
-	$(MAKE) fclean
-	$(MAKE) all
+re: fclean all
 
-# Check if selected modules are up to date (rebuilds if needed, reports status)
-check_updated:
-	@sh -c 'for d in $(SUBDIRS); do if [ -f "$$d/Makefile" ]; then printf "\033[1;36m\033[1m[CHECK] Checking $$d...\033[0m\n"; if $(MAKE) -C $$d -q all >/dev/null 2>&1; then printf "\033[1;32m\033[1m[CHECK] $$d is up to date\033[0m\n"; else printf "\033[1;33m\033[1m[CHECK] $$d needs rebuild\033[0m\n"; fi; fi; done'
+debug: CFLAGS += -g3 -fsanitize=address
+debug:
+	@$(call log_warn,🐛 DEBUG MODE ENABLED)
+	@$(call log_info,Flags: $(CFLAGS))
+	@$(MAKE) re --no-print-directory
+	@$(call log_info,🔍 Debug build completed with AddressSanitizer)
+
+# ============================================================================ #
+#                                TEST / MODES                                  #
+# ============================================================================ #
+# Build a test executable from a main.c in a subdirectory
+# Usage: make test TEST=window
+TEST ?=
+
+ifeq ($(TEST),)
+TEST_MAIN :=
+else
+TEST_MAIN := $(shell find . -type f -path "*/$(TEST)/main.c" | head -n 1)
+endif
+
+# Extract just the last part of TEST for the executable name
+TEST_EXE_NAME := $(notdir $(TEST))
+# Place test executables in bin/ directory
+BIN_DIR := bin
+TEST_EXE := $(BIN_DIR)/$(TEST_EXE_NAME)
+
+mode_42:
+	@$(trans_remove_c)
+
+mode_lab:
+	@$(trans_add_c)
+
+test: $(TEST_EXE)
 
 norminette:
-	@output="$$(find . \( -path "./minilibx-linux" -o -path "./testing" \) -prune -o -name "*.c" -exec norminette {} + 2>/dev/null)"; \
+	@output="$$(find . -path "./minilibx-linux" -prune -o -name "*.c" -exec norminette {} +)"; \
 	if echo "$$output" | grep -q "Error"; then \
-		echo "$$output" | grep "Error"; \
-		echo "❌ Norminette errors detected!"; \
+	    echo "$$output" | grep "Error"; \
+	    $(call log_error,❌ Norminette errors detected!); \
 	else \
-		echo "✅ All files passed norminette!"; \
+	    $(call log_ok,✅ All files passed norminette!); \
 	fi
+
+# Optional link flags for tests (only when MiniLibX is available)
+ifeq ($(MLX_ENABLED),1)
+LINK_MLX := $(MINILIBX_LIB) -lX11 -lXext -lm
+else
+LINK_MLX :=
+endif
+
+$(TEST_EXE): $(MINILIBX_LIB) $(NAME)
+	@if [ -z "$(TEST_MAIN)" ]; then \
+		echo "No main.c found for test '$(TEST)'"; \
+		exit 1; \
+	fi
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
+
+# ============================================================================ #
+#                                   HELP                                      #
+# ============================================================================ #
+
+help:
+	@$(call log_info,Makefile targets:)
+	@echo "  all (default)      : Build the static library libft.a"
+	@echo "  shared             : Build the shared library libft.so"
+	@echo "  both               : Build both static and shared libraries"
+	@echo "  clean              : Remove object files"
+	@echo "  fclean             : Remove object files and libraries"
+	@echo "  re                 : Rebuild the library from scratch"
+	@echo "  debug              : Build the library with debug flags and AddressSanitizer"
+	@echo "  test TEST=<name>   : Build and run test executable from directory <name>"
+	@echo "  norminette         : Run norminette on all .c files (excluding minilibx)"
+	@echo "  mode_lab           : Rename all main.bak files to main.c (for 42 labs)"
+	@echo "  mode_42            : Rename all main.c files to main.bak (for 42 projects)"
+	@echo "  help               : Show this help message"
+
+.PHONY: both shared all norminette test mode_lab mode_42 $(TEST_EXE) \
+        progress_init debug fclean clean re
+-include $(DEPS)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 22:47:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:03:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 00:44:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void flush_input(void)
 
 	in = get_input();
 	left = in->basepf.nleft + input_get_lleft(&in->basepf);
-	error_int_off();
+	intoff();
 	saved_int = error_saveint();
 	if (in->stdin_state.seekable && left)
 		(void)ft_lseek(0, -left, SEEK_CUR);

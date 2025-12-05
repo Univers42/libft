@@ -1,0 +1,174 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ext_match.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/07 14:49:19 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 00:57:18 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "glob.h"
+#include <stddef.h> /* NULL */
+
+/* Forward declarations / fallbacks for symbols provided elsewhere in the glob code.
+   These minimal declarations prevent implicit-declaration errors while keeping
+   the original matching logic intact. If real signatures differ, adjust these
+   prototypes to match your project's headers. */
+
+#ifndef GMATCH
+/* GMATCH: match a substring s..se against pattern p..pe
+   The fifth parameter is an "ends" pointer in some implementations; allow void*. */
+int GMATCH(char *s, char *se, char *p, char *pe, void *ends, int flags);
+#endif
+
+#ifndef PATSCAN
+/* PATSCAN: scan a pattern region; returns pointer into pattern (or NULL) */
+char *PATSCAN(char *start, char *end, int delim, int flags);
+#endif
+
+#ifndef STRCOMPARE
+/* STRCOMPARE: fallback comparator invoked for malformed patterns */
+int STRCOMPARE(char *p, char *pe, char *s, char *se);
+#endif
+
+/* Provide minimal fallback values so this translation unit compiles
+   independently if the rest of the project hasn't defined them yet. */
+#ifndef FNM_PERIOD
+#define FNM_PERIOD 0x01
+#endif
+#ifndef FNM_DOTDOT
+#define FNM_DOTDOT 0x02
+#endif
+#ifndef FNM_NOMATCH
+#define FNM_NOMATCH 1
+#endif
+
+/* SDOT_OR_DOTDOT used as predicate macro in some implementations; provide a
+   harmless fallback that returns 0 (not dot/dotdot). */
+#ifndef SDOT_OR_DOTDOT
+#define SDOT_OR_DOTDOT(s) (0)
+#endif
+
+/* glob_recursion_depth is incremented here in original; declare if present. */
+extern int glob_recursion_depth;
+
+/* ========================================================================== */
+/*                     Extended glob matching helpers                         */
+/* ========================================================================== */
+
+static int ext_plus_star(char xc, char *s, char *se,
+						 char *p, char *pe, char *prest, int flags)
+{
+	char *psub;
+	char *pnext;
+	char *srest;
+	int m1;
+	int m2;
+	int xflags;
+
+	/* '*': try zero matches first */
+	if (xc == '*' && GMATCH(s, se, prest, pe, NULL, flags) == 0)
+		return (0);
+	for (psub = p + 1;; psub = pnext)
+	{
+		pnext = PATSCAN(psub, pe, '|', flags);
+		for (srest = s; srest <= se; srest++)
+		{
+			m1 = (GMATCH(s, srest, psub, pnext - 1, NULL, flags) == 0);
+			if (m1)
+			{
+				xflags = (srest > s) ? (flags & ~(FNM_PERIOD | FNM_DOTDOT))
+									 : flags;
+				m2 = (GMATCH(srest, se, prest, pe, NULL, xflags) == 0) || (s != srest && GMATCH(srest, se, p - 1, pe, NULL, xflags) == 0);
+			}
+			else
+				m2 = 0;
+			if (m1 && m2)
+				return (0);
+		}
+		if (pnext == prest)
+			break;
+	}
+	return (FNM_NOMATCH);
+}
+
+static int ext_q_at(char xc, char *s, char *se,
+					char *p, char *pe, char *prest, int flags)
+{
+	char *psub;
+	char *pnext;
+	char *srest;
+	int xflags;
+
+	/* '?' can match zero occurrences */
+	if (xc == '?' && GMATCH(s, se, prest, pe, NULL, flags) == 0)
+		return (0);
+	for (psub = p + 1;; psub = pnext)
+	{
+		pnext = PATSCAN(psub, pe, '|', flags);
+		srest = (prest == pe) ? se : s;
+		for (; srest <= se; srest++)
+		{
+			xflags = (srest > s) ? (flags & ~(FNM_PERIOD | FNM_DOTDOT)) : flags;
+			if (GMATCH(s, srest, psub, pnext - 1, NULL, flags) == 0 &&
+				GMATCH(srest, se, prest, pe, NULL, xflags) == 0)
+				return (0);
+		}
+		if (pnext == prest)
+			break;
+	}
+	return (FNM_NOMATCH);
+}
+
+static int ext_bang(char *s, char *se, char *p, char *pe, char *prest, int flags)
+{
+	char *psub;
+	char *pnext;
+	char *srest;
+	int m1;
+	int xflags;
+
+	for (srest = s; srest <= se; srest++)
+	{
+		m1 = 0;
+		for (psub = p + 1;; psub = pnext)
+		{
+			pnext = PATSCAN(psub, pe, '|', flags);
+			if ((m1 = (GMATCH(s, srest, psub, pnext - 1, NULL, flags) == 0)))
+				break;
+			if (pnext == prest)
+				break;
+		}
+		if (m1 == 0 && (flags & FNM_PERIOD) && *s == '.')
+			return (FNM_NOMATCH);
+		if (m1 == 0 && (flags & FNM_DOTDOT) && (SDOT_OR_DOTDOT(s)))
+			return (FNM_NOMATCH);
+		xflags = (srest > s) ? (flags & ~(FNM_PERIOD | FNM_DOTDOT)) : flags;
+		if (m1 == 0 && GMATCH(srest, se, prest, pe, NULL, xflags) == 0)
+			return (0);
+	}
+	return (FNM_NOMATCH);
+}
+
+int extmatch(int xc, char *s, char *se, char *p, char *pe, int flags)
+{
+	char *prest;
+
+	if (p == NULL || pe == NULL)
+		return (FNM_NOMATCH);
+	/* scan subpattern starting after '(' if present */
+	prest = PATSCAN(p + (*p == '('), pe, 0, flags);
+	if (prest == NULL)
+		return (STRCOMPARE(p - 1, pe, s, se));
+	glob_recursion_depth++;
+	if (xc == '+' || xc == '*')
+		return (ext_plus_star((char)xc, s, se, p, pe, prest, flags));
+	if (xc == '?' || xc == '@')
+		return (ext_q_at((char)xc, s, se, p, pe, prest, flags));
+	if (xc == '!')
+		return (ext_bang(s, se, p, pe, prest, flags));
+	return (FNM_NOMATCH);
+}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:53:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:18:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:02:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void trap_handler(int sig)
 void sigint_sighandler(int sig)
 {
 	(void)sig;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void termsig_sighandler(int sig)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:21:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:02:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ extern "C"
 		int reset_signal;
 		char *signal_name[NSIG];
 		int interactive;
+		int should_unwind;
 	} t_glob_sig;
 
 	/* Signal Management Functions */
@@ -198,7 +199,6 @@ extern "C"
 
 	/* Signal Handler Functions */
 	void trap_handler(int sig);
-	void sigint_sighandler(int sig);
 	void termsig_sighandler(int sig);
 
 	/* External variable management stubs */
@@ -213,6 +213,12 @@ extern "C"
 	t_glob_sig *get_g_sig(void);
 	void block_signal(int sig, t_sigset *set, t_sigset *oset);
 	void unblock_signal(const t_sigset *oset);
+	void sigint_sighandler(int sig);
+	void set_wind(int sig);
+	void mask_dfl_sigact(void (*handler)(int), int sa_flags, int ig_quits);
+	void set_unwind_sig(void);
+	void set_unwind_sig_norestart(void);
+	void bg_signals(void);
 
 #ifdef __cplusplus
 }

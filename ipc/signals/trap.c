@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:19:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:02:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_glob_sig *get_g_sig(void)
 {
-	static t_glob_sig g_sig = {0};
+	static t_glob_sig g_sig = {};
 
 	return (&g_sig);
 }
@@ -39,4 +39,10 @@ void trap_if_untrapped(int sig, const char *command)
 int signal_is_trapped(int sig)
 {
 	return (get_g_sig()->sigmodes[sig] & SIG_TRAPPED);
+}
+
+void set_wind(int sig)
+{
+	(void)sig;
+	get_g_sig()->should_unwind = SIGINT;
 }

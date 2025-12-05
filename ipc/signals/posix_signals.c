@@ -6,21 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 23:46:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:26:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:12:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trap.h"
 
-unsigned int	ft_sigmask(int x)
+unsigned int ft_sigmask(int x)
 {
 	return (1U << (x - 1));
 }
 
 // clear all bits -- meaning no signals are part of the set
-void	ft_sigemptyset(t_sigset *set)
+void ft_sigemptyset(t_sigset *set)
 {
-	*set = 0;
+	if (set)
+		*set = 0;
 }
 
 /*
@@ -30,7 +31,7 @@ void	ft_sigemptyset(t_sigset *set)
  *   0 if not present
  *  -1 if sig is invalid
  */
-int	ft_sigismember(const t_sigset *set, int sig)
+int ft_sigismember(const t_sigset *set, int sig)
 {
 	if (!set || sig <= 0 || sig >= NSIG)
 	{
@@ -44,12 +45,12 @@ int	ft_sigismember(const t_sigset *set, int sig)
  * ft_sigblock: build a sigset_t from integer mask and block those signals
  * Returns the previous mask (as our integer-based sigset_t).
  */
-int	ft_sigblock(int mask)
+int ft_sigblock(int mask)
 {
-	t_sigset	blockset;
-	t_sigset	oldset;
-	int			sig;
-	int			oldmask;
+	t_sigset blockset;
+	t_sigset oldset;
+	int sig;
+	int oldmask;
 
 	ft_sigemptyset(&blockset);
 	sig = 1;

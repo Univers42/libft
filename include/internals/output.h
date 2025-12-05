@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/04 00:17:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 02:45:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,7 @@ int ft_dprintf(int fd, const char *format, ...);
 int	ft_aprintf(char **dst, const char *format, ...);
 void flush_all(void);
 int fmtstr(char *outbuf, size_t length, const char *fmt, ...);
+int ft_eprintf(const char *str, ...);
+char *ft_aseprintf(const char *str, ...);
 
 #endif

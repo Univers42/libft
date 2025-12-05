@@ -51,6 +51,20 @@ typedef uint64_t t_time;
 
 # define NULLSTR ""
 # define SPC_STR " "
+# define SPACE_CHAR 32
+
+/* common escape characters */
+# define ESC_N  '\n'   /* newline */
+# define ESC_T  '\t'   /* tab */
+# define ESC_R  '\r'   /* carriage return */
+# define ESC_B  '\b'   /* backspace */
+# define ESC_A  '\a'   /* bell/alert */
+# define ESC_E  '\e'   /* escape (same as \x1B) */
+# define ESC_F  '\f'   /* form feed */
+# define ESC_V  '\v'   /* vertical tab */
+# define ESC_BS '\\'   /* backslash */
+# define ESC_NUL '\0'  /* NUL byte */
+
 # define SNL_FMT "%s\n"
 # define ILL_NUM "Illegal number: %s"
 # define HOME_STR "HOME"

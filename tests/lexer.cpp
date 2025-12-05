@@ -20,16 +20,29 @@ extern "C"
     int deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx);
 }
 
+static const char *CLR_RESET = "\033[0m";
+static const char *CLR_BOLD = "\033[1m";
+static const char *CLR_BLUE = "\033[34m";
+static const char *CLR_CYAN = "\033[36m";
+static const char *CLR_MAGENTA = "\033[35m";
+static const char *CLR_GREY = "\033[90m";
+
 void test_tokenizer(const char *input)
 {
     t_deque tokens;
     char *prompt;
 
-    std::cout << "\n========================================\n";
-    std::cout << "Testing input: \"" << input << "\"\n";
-    std::cout << "========================================\n";
+    std::cout << "\n";
+    std::cout << CLR_CYAN << "╔════════════════════════════════════════════════════════════════════════════╗\n"
+              << CLR_RESET;
+    std::cout << CLR_CYAN << "║" << CLR_RESET << CLR_BOLD << "                              TEST INPUT                                    " << CLR_RESET << CLR_CYAN << "║\n"
+              << CLR_RESET;
+    std::cout << CLR_CYAN << "╚════════════════════════════════════════════════════════════════════════════╝\n"
+              << CLR_RESET;
+    std::cout << CLR_GREY << "Input: " << CLR_RESET << CLR_BOLD << "\"" << input << "\"\n"
+              << CLR_RESET;
 
-    // Initialize deque for tokens (provide capacity, elem size, ctx=NULL)
+    // Initialize deque for tokens
     deque_init(&tokens, 8, sizeof(t_token), NULL);
 
     // Tokenize
@@ -37,10 +50,11 @@ void test_tokenizer(const char *input)
 
     if (prompt)
     {
-        std::cout << "Incomplete input, prompt: " << prompt << "\n";
+        std::cout << CLR_MAGENTA << "⚠ Incomplete input, prompt: " << CLR_RESET
+                  << CLR_BOLD << prompt << CLR_RESET << "\n";
     }
 
-    // Print tokens
+    // Print tokens (colored by debug_token.c)
     print_tokens(&tokens);
 
     // Print summary
@@ -95,10 +109,12 @@ void run_test_suite()
         "echo \"incomplete",
     };
 
+    std::cout << CLR_MAGENTA << CLR_BOLD
+              << "\n>>> Running lexer test suite (" << test_cases.size() << " cases) <<<\n"
+              << CLR_RESET;
+
     for (const auto &test : test_cases)
-    {
         test_tokenizer(test.c_str());
-    }
 }
 
 void interactive_mode()
@@ -108,12 +124,17 @@ void interactive_mode()
 
     deque_init(&tokens, 8, sizeof(t_token), NULL);
 
-    std::cout << "\n=== Interactive Tokenizer ===\n";
-    std::cout << "Enter commands to tokenize (Ctrl+D to exit):\n\n";
+    std::cout << CLR_MAGENTA << CLR_BOLD
+              << "\n=== Interactive Tokenizer ===\n"
+              << CLR_RESET;
+    std::cout << CLR_GREY
+              << "Enter commands to tokenize (Ctrl+D to exit).\n"
+              << "Type 'exit' or 'quit' to leave.\n\n"
+              << CLR_RESET;
 
     while (true)
     {
-        std::cout << "> ";
+        std::cout << CLR_BLUE << "> " << CLR_RESET;
         if (!std::getline(std::cin, input))
             break;
 
@@ -127,7 +148,8 @@ void interactive_mode()
 
         if (prompt)
         {
-            std::cout << "Incomplete: " << prompt << "\n";
+            std::cout << CLR_MAGENTA << "Incomplete: " << CLR_RESET
+                      << CLR_BOLD << prompt << CLR_RESET << "\n";
         }
         else
         {
@@ -138,7 +160,8 @@ void interactive_mode()
     }
 
     deque_destroy(&tokens);
-    std::cout << "\nGoodbye!\n";
+    std::cout << CLR_GREY << "\nGoodbye!\n"
+              << CLR_RESET;
 }
 
 int main(int argc, char **argv)

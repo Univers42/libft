@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/05 01:08:21 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/05 01:28:19 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,10 @@ AR          ?= ar
 ARFLAGS     ?= rcs
 CFLAGS      ?= -Wall -Wextra -Werror
 CFLAGS_SHARED ?= -shared -fPIC
+
+# C++ toolchain (for tests/*.cpp)
+CXX         ?= g++
+CXXFLAGS    ?= -std=c++17 -Wall -Wextra -Werror -fpermissive
 
 OBJ_DIR     ?= obj
 
@@ -86,6 +90,9 @@ MINILIBX_DIR ?= minilibx-linux
 MINILIBX_LIB ?= $(MINILIBX_DIR)/libmlx.a
 MLX_ALT_LIB  ?= $(MINILIBX_DIR)/mlx.a
 MLX_FLAGS    ?=
+
+# Allow tests to optionally link with MiniLibX (off by default)
+ENABLE_MLX_TESTS ?= 0
 
 # Detect availability of MiniLibX (directory + makefile)
 MLX_ENABLED := 1
@@ -292,21 +299,13 @@ debug:
 # ============================================================================ #
 #                                TEST / MODES                                  #
 # ============================================================================ #
-# Build a test executable from a main.c in a subdirectory
-# Usage: make test TEST=window
-TEST ?=
-
-ifeq ($(TEST),)
-TEST_MAIN :=
-else
-TEST_MAIN := $(shell find . -type f -path "*/$(TEST)/main.c" | head -n 1)
-endif
-
-# Extract just the last part of TEST for the executable name
-TEST_EXE_NAME := $(notdir $(TEST))
-# Place test executables in bin/ directory
+# Build C++ test executables from tests/*.cpp, each linked with libft.a
 BIN_DIR := bin
-TEST_EXE := $(BIN_DIR)/$(TEST_EXE_NAME)
+
+# All C++ test sources under ./tests
+TEST_SRCS := $(shell find tests -type f -name '*.cpp' 2>/dev/null)
+# Map tests/foo/bar.cpp -> bin/foo/bar
+TEST_BINS := $(patsubst tests/%.cpp,$(BIN_DIR)/%,$(TEST_SRCS))
 
 mode_42:
 	@$(trans_remove_c)
@@ -314,7 +313,25 @@ mode_42:
 mode_lab:
 	@$(trans_add_c)
 
-test: $(TEST_EXE)
+test: $(BIN_DIR) $(TEST_BINS)
+	@if [ -z "$(TEST_SRCS)" ]; then \
+		$(call log_warn,No .cpp test files found in ./tests); \
+	else \
+		$(call log_ok,Built $(words $(TEST_BINS)) C++ test executable\(s\) into $(BIN_DIR)); \
+	fi
+
+# Ensure bin/ exists
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
+
+# Rule: build each tests/xxx.cpp into bin/xxx, linked with libft.a (and MiniLibX if enabled)
+$(BIN_DIR)/%: tests/%.cpp $(NAME) | $(BIN_DIR)
+	@mkdir -p $(dir $@)
+	@if [ "$(ENABLE_MLX_TESTS)" = "1" ] && [ "$(MLX_ENABLED)" = "1" ]; then \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(NAME) $(LINK_MLX); \
+	else \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(NAME); \
+	fi
 
 norminette:
 	@output="$$(find . -path "./minilibx-linux" -prune -o -name "*.c" -exec norminette {} +)"; \
@@ -332,14 +349,6 @@ else
 LINK_MLX :=
 endif
 
-$(TEST_EXE): $(MINILIBX_LIB) $(NAME)
-	@if [ -z "$(TEST_MAIN)" ]; then \
-		echo "No main.c found for test '$(TEST)'"; \
-		exit 1; \
-	fi
-	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $@ $(TEST_MAIN) $(NAME) $(LINK_MLX)
-
 # ============================================================================ #
 #                                   HELP                                      #
 # ============================================================================ #
@@ -353,12 +362,13 @@ help:
 	@echo "  fclean             : Remove object files and libraries"
 	@echo "  re                 : Rebuild the library from scratch"
 	@echo "  debug              : Build the library with debug flags and AddressSanitizer"
-	@echo "  test TEST=<name>   : Build and run test executable from directory <name>"
+	@echo "  test               : Compile all tests/*.cpp into bin/, linked with libft.a"
+	@echo "                       (set ENABLE_MLX_TESTS=1 to also link MiniLibX when available)"
 	@echo "  norminette         : Run norminette on all .c files (excluding minilibx)"
 	@echo "  mode_lab           : Rename all main.bak files to main.c (for 42 labs)"
 	@echo "  mode_42            : Rename all main.c files to main.bak (for 42 projects)"
 	@echo "  help               : Show this help message"
 
-.PHONY: both shared all norminette test mode_lab mode_42 $(TEST_EXE) \
-        progress_init debug fclean clean re
+.PHONY: both shared all norminette test mode_lab mode_42 \
+         progress_init debug fclean clean re
 -include $(DEPS)

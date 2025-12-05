@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:59:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:40:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 01:28:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx)
 
 void deque_clear(t_deque *ret)
 {
-    ft_memset(ret, 0, sizeof(t_deque));
+    ret->len = 0;
+    ret->head = 0;
+    ret->tail = 0;
     ret->cmp = ft_memcmp;
 }
 

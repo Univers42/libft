@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:03:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:23:15 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 01:48:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "ft_colors.h"
 
 const char *get_token_name(t_token_type type)
 {
@@ -26,15 +27,33 @@ const char *get_token_name(t_token_type type)
     return ("UNKNOWN");
 }
 
+/* Choose a color based on token category (very lightweight heuristic). */
+static const char *token_color(t_token_type type)
+{
+    if (is_redir_token(type))
+        return YELLOW_TERM;
+    if (is_logical_token(type) || type == TOKEN_PIPE)
+        return CYAN_TERM;
+    if (is_keyword_token(type))
+        return MAGENTA_TERM;
+    if (type == TOKEN_WORD || type == TOKEN_IDENTIFIER || type == TOKEN_NUMBER)
+        return GREEN_TERM;
+    if (type == TOKEN_ERR)
+        return RED_TERM BOLD_TERM;
+    return BLUE_TERM;
+}
+
 void print_token_debug(t_token *token)
 {
     const char *name = get_token_name(token->type);
+    const char *color = token_color(token->type);
 
-    printf("%-30s | len: %3d | ", name, token->len);
+    /* Format: "TYPE (28 chars) | len:NNN | 'lexeme'" */
+    printf("%s%-30s%s │ %3d │ ", color, name, RESET_TERM, token->len);
     if (token->len > 0)
-        printf("'%.*s'", token->len, token->start);
+        printf("%s'%.*s'%s", GREY_TERM, token->len, token->start, RESET_TERM);
     else
-        printf("(empty)");
+        printf("%s(empty)%s", GREY_TERM, RESET_TERM);
     printf("\n");
 }
 
@@ -44,17 +63,41 @@ void print_tokens(t_deque *tokens)
     int i;
 
     i = 0;
-    printf("\n========== TOKEN LIST ==========\n");
-    printf("Total tokens: %d\n", (int)tokens->len);
-    printf("================================\n");
+    printf("\n");
+    printf(CYAN_TERM "╔════════════════════════════════════════════════════════════════════════════╗\n" RESET_TERM);
+    printf(CYAN_TERM "║" RESET_TERM BOLD_TERM "                           TOKEN LIST                                   " RESET_TERM CYAN_TERM "║\n" RESET_TERM);
+    printf(CYAN_TERM "╚════════════════════════════════════════════════════════════════════════════╝\n" RESET_TERM);
+    printf(GREY_TERM "Total tokens: %d\n\n" RESET_TERM, (int)tokens->len);
+
+    printf(CYAN_TERM "╔═════╦════════════════════════════════╦═════╦════════════════════════════════╗\n" RESET_TERM);
+    printf(CYAN_TERM "║" RESET_TERM BOLD_TERM " idx " RESET_TERM CYAN_TERM "║" RESET_TERM BOLD_TERM " %-30s " RESET_TERM CYAN_TERM "║" RESET_TERM BOLD_TERM " len " RESET_TERM CYAN_TERM "║" RESET_TERM BOLD_TERM " %-30s " RESET_TERM CYAN_TERM "║\n" RESET_TERM, "type", "lexeme");
+    printf(CYAN_TERM "╠═════╬════════════════════════════════╬═════╬════════════════════════════════╣\n" RESET_TERM);
+
     while (i < (int)tokens->len)
     {
         curr = (t_token *)deque_idx(tokens, i);
-        printf("[%3d] ", i);
-        print_token_debug(curr);
+        const char *name = get_token_name(curr->type);
+        const char *color = token_color(curr->type);
+
+        /* Build lexeme string */
+        char lexeme_buf[128];
+        if (curr->len > 0)
+        {
+            snprintf(lexeme_buf, sizeof(lexeme_buf), "'%.*s'",
+                     curr->len > 80 ? 80 : curr->len, curr->start);
+        }
+        else
+        {
+            snprintf(lexeme_buf, sizeof(lexeme_buf), "(empty)");
+        }
+
+        /* Print row with proper padding */
+        printf(CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s " CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s " CYAN_TERM "║\n" RESET_TERM,
+               i, color, name, RESET_TERM, curr->len, GREY_TERM, lexeme_buf, RESET_TERM);
         i++;
     }
-    printf("================================\n\n");
+    printf(CYAN_TERM "╚═════╩════════════════════════════════╩═════╩════════════════════════════════╝\n" RESET_TERM);
+    printf("\n");
 }
 
 void print_token_summary(t_deque *tokens)
@@ -62,6 +105,7 @@ void print_token_summary(t_deque *tokens)
     t_token *curr;
     int i;
     int type_counts[TOKEN_SENTINEL] = {0};
+    int total = (int)tokens->len;
 
     i = 0;
     while (i < (int)tokens->len)
@@ -72,11 +116,26 @@ void print_token_summary(t_deque *tokens)
         i++;
     }
 
-    printf("\n========== TOKEN SUMMARY ==========\n");
+    printf("\n");
+    printf(MAGENTA_TERM "╔════════════════════════════════════════════════╗\n" RESET_TERM);
+    printf(MAGENTA_TERM "║" RESET_TERM BOLD_TERM "              TOKEN SUMMARY                     " RESET_TERM MAGENTA_TERM "║\n" RESET_TERM);
+    printf(MAGENTA_TERM "╚════════════════════════════════════════════════╝\n" RESET_TERM);
+    printf(GREY_TERM "Total tokens: %d\n\n" RESET_TERM, total);
+
+    printf(MAGENTA_TERM "╔════════════════════════════════╦═══════╗\n" RESET_TERM);
+    printf(MAGENTA_TERM "║" RESET_TERM BOLD_TERM " %-30s " RESET_TERM MAGENTA_TERM "║" RESET_TERM BOLD_TERM " count " RESET_TERM MAGENTA_TERM "║\n" RESET_TERM, "type");
+    printf(MAGENTA_TERM "╠════════════════════════════════╬═══════╣\n" RESET_TERM);
+
     for (i = 0; i < TOKEN_SENTINEL; i++)
     {
         if (type_counts[i] > 0)
-            printf("%-30s: %d\n", get_token_name(i), type_counts[i]);
+        {
+            const char *name = get_token_name(i);
+            const char *color = token_color(i);
+            printf(MAGENTA_TERM "║" RESET_TERM " %s%-30s%s " MAGENTA_TERM "║" RESET_TERM " %5d " MAGENTA_TERM "║\n" RESET_TERM,
+                   color, name, RESET_TERM, type_counts[i]);
+        }
     }
-    printf("===================================\n\n");
+    printf(MAGENTA_TERM "╚════════════════════════════════╩═══════╝\n" RESET_TERM);
+    printf("\n");
 }

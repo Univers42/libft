@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:17:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 01:33:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 // Regular colors
 # define BLACK_TERM		"\033[0;30m"
+# define GREY_TERM      "\033[0;30m]"
 # define RED_TERM		"\033[0;31m"
 # define GREEN_TERM		"\033[0;32m"
 # define YELLOW_TERM	"\033[0;33m"

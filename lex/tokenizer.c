@@ -6,13 +6,61 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 21:49:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:28:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 01:44:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "ds.h"
 #include <stdint.h> /* added for uintptr_t */
+
+static char *parse_squote(t_deque *tokens, char **str)
+{
+	char *start = *str;
+
+	ft_assert(**str == '\'');
+	(*str)++; /* consume opening quote */
+
+	while (**str && **str != '\'')
+		(*str)++;
+
+	if (**str != '\'')
+		return (LEXER_SQUOTE_PROMPT); /* unclosed */
+
+	(*str)++; /* consume closing quote */
+
+	deque_push_end(tokens, &(t_token){
+							   .start = start + 1,		/* skip opening quote */
+							   .len = *str - start - 2, /* exclude both quotes */
+							   .type = TOKEN_SQUOTE_STRING});
+	return (0);
+}
+
+static char *parse_dquote(t_deque *tokens, char **str)
+{
+	char *start = *str;
+	bool prev_bs = false;
+
+	ft_assert(**str == '"');
+	(*str)++; /* consume opening quote */
+
+	while (**str && (**str != '"' || prev_bs))
+	{
+		prev_bs = **str == '\\' && !prev_bs;
+		(*str)++;
+	}
+
+	if (**str != '"')
+		return (LEXER_DQUOTE_PROMPT); /* unclosed */
+
+	(*str)++; /* consume closing quote */
+
+	deque_push_end(tokens, &(t_token){
+							   .start = start + 1,		/* skip opening quote */
+							   .len = *str - start - 2, /* exclude both quotes */
+							   .type = TOKEN_DQUOTE_STRING});
+	return (0);
+}
 
 char *parse_word(t_deque *tokens, char **str)
 {
@@ -23,25 +71,18 @@ char *parse_word(t_deque *tokens, char **str)
 	{
 		if (**str == '\\')
 			advance_bs(str);
-		else if (!is_spechr(**str) || **str == '$')
+		else if (!is_spechr(**str) && **str != '\'' && **str != '"' && **str != '$')
 			(*str)++;
-		else if (**str == '\'')
-		{
-			if (advance_squote(str))
-				/* assign char into void* ctx safely, then return prompt */
-				return ((tokens->ctx = (void *)(uintptr_t)'\''), LEXER_SQUOTE_PROMPT);
-		}
-		else if (**str == '"')
-		{
-			if (advance_dquote(str))
-				/* assign char into void* ctx safely, then return prompt */
-				return ((tokens->ctx = (void *)(uintptr_t)'"'), LEXER_DQUOTE_PROMPT);
-		}
 		else
 			break;
 	}
-	deque_push_end(
-		tokens, &(t_token){.start = start, .len = *str - start, .type = TOKEN_WORD});
+
+	/* Only emit WORD if we consumed something */
+	if (*str > start)
+	{
+		deque_push_end(
+			tokens, &(t_token){.start = start, .len = *str - start, .type = TOKEN_WORD});
+	}
 	return (0);
 }
 
@@ -86,7 +127,12 @@ char *tokenizer(char *str, t_deque *ret)
 	deque_clear(ret);
 	while (str && *str)
 	{
-		if (*str == '\'' || *str == '"' || *str == '$' || !(is_spechr(*str)))
+		/* Handle quotes separately */
+		if (*str == '\'')
+			prompt = parse_squote(ret, &str);
+		else if (*str == '"')
+			prompt = parse_dquote(ret, &str);
+		else if (*str == '$' || !(is_spechr(*str)))
 			prompt = parse_word(ret, &str);
 		else if (*str == '\n')
 		{

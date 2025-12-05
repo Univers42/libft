@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:28:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:18:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:22:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 void free_trap_command(int sig)
 {
-	if ((get_g_sig()->sigmodes[sig] & SIG_TRAPPED) && get_g_sig()->trap_list[sig] && (get_g_sig()->trap_list[sig] != (char *)IGNORE_SIG) && (get_g_sig()->trap_list[sig] != (char *)DEFAULT_SIG) && (get_g_sig()->trap_list[sig] != (char *)TRAP_IMPOSSIBLE))
+	if ((get_g_sig()->sigmodes[sig] & SIG_TRAPPED)
+		&& get_g_sig()->trap_list[sig] 
+		&& (get_g_sig()->trap_list[sig] != (char *)IGNORE_SIG)
+		&& (get_g_sig()->trap_list[sig] != (char *)DEFAULT_SIG)
+		&& (get_g_sig()->trap_list[sig] != (char *)TRAP_IMPOSSIBLE))
 		free(get_g_sig()->trap_list[sig]);
 }
 

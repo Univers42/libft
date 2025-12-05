@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:52:05 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 14:56:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:15:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include "ft_ctype.h"
+#include "ft_string.h"
 
 static inline int	decode_numeric_signal(const char *string)
 {
@@ -33,16 +35,16 @@ static inline int	decode_realtime_signal(const char *string, int flags)
 {
 	intmax_t	sig;
 
-	if ((strncmp(string, "SIGRTMIN+", 9) == 0) || ((flags & DSIG_NOCASE)
-			&& strncasecmp(string, "SIGRTMIN+", 9) == 0))
+	if ((ft_strncmp(string, "SIGRTMIN+", 9) == 0) || ((flags & DSIG_NOCASE)
+			&& ft_strncasecmp(string, "SIGRTMIN+", 9) == 0))
 	{
 		if (valid_number(string + 9, &sig) && sig >= 0
 			&& sig <= SIGRTMAX - SIGRTMIN)
 			return (SIGRTMIN + (int)sig);
 		return (NO_SIG);
 	}
-	else if ((strncmp(string, "RTMIN+", 6) == 0) || ((flags & DSIG_NOCASE)
-			&& strncasecmp(string, "RTMIN+", 6) == 0))
+	else if ((ft_strncmp(string, "RTMIN+", 6) == 0) || ((flags & DSIG_NOCASE)
+			&& ft_strncasecmp(string, "RTMIN+", 6) == 0))
 	{
 		if (valid_number(string + 6, &sig) && sig >= 0
 			&& sig <= SIGRTMAX - SIGRTMIN)
@@ -60,19 +62,19 @@ static inline int	match_signal_name(const char *string,
 
 	if (name == NULL || name[0] == '\0')
 		return (0);
-	if (strncmp(name, "SIG", 3) == 0)
+	if (ft_strncmp(name, "SIG", 3) == 0)
 	{
 		trimmed = name + 3;
-		if ((flags & DSIG_NOCASE) && strcasecmp(string, trimmed) == 0)
+		if ((flags & DSIG_NOCASE) && ft_strcasecmp(string, trimmed) == 0)
 			return (1);
-		if (!(flags & DSIG_NOCASE) && strcmp(string, trimmed) == 0)
+		if (!(flags & DSIG_NOCASE) && ft_strcmp(string, trimmed) == 0)
 			return (1);
 		if (!(flags & DSIG_SIGPREFIX))
 			return (0);
 	}
-	if ((flags & DSIG_NOCASE) && strcasecmp(string, name) == 0)
+	if ((flags & DSIG_NOCASE) && ft_strcasecmp(string, name) == 0)
 		return (1);
-	if (!(flags & DSIG_NOCASE) && strcmp(string, name) == 0)
+	if (!(flags & DSIG_NOCASE) && ft_strcmp(string, name) == 0)
 		return (1);
 	return (0);
 }

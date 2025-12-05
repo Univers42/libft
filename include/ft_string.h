@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 02:18:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:21:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,5 +356,7 @@ char	*prefix(const char *string, const char *pfx);
 size_t	ft_strnlen(const char *s, size_t maxlen);
 char	*ft_strcpy(char *dest, const char *src);
 int	max_munch(char *haystack, void *needles, size_t offset, size_t size);
+int	ft_strcasecmp(const char *s1, const char *s2);
+int	ft_strncasecmp(const char *s1, const char *s2, size_t n);
 
 #endif

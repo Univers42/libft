@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:40:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:07:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int		dyn_str_pushstr(t_dyn_str *v, char *str);
 int		dyn_str_pushnstr(t_dyn_str *v, char *str, int len);
 void	dyn_str_init_alloc(t_dyn_str *v);
 bool	dyn_str_ends_with_str(t_dyn_str *s, char *s2);
+void    dyn_str_append_fd(int fd, t_dyn_str *ret);
 
 #endif

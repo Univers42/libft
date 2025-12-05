@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bind.c                                             :+:      :+:    :+:   */
+/*   write_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 00:49:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:14:10 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/05 20:44:09 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 20:46:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "trap.h"
+#include "ft_memory.h"
+#include "ft_string.h"
 
-void	unbind_variable_noref(const char *name)
+int write_file(const char *str, int fd)
 {
-	(void)name;
-}
+	int tot;
+	int written;
+	const int len = ft_strlen(str);
 
-void	bind_variable(const char *name, const char *value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-void	bind_var_to_int(const char *name, int value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-char	*get_string_value(const char *name)
-{
-	(void)name;
-	return (NULL);
+	tot = 0;
+	while (tot != len)
+	{
+		written = write(fd, str + tot, len - tot);
+		if (written < 0)
+			return (1);
+		tot += written;
+	}
+	return (0);
 }

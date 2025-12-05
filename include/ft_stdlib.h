@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 19:20:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 20:47:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ t_rng_state	*get_rng_state(void);
 const char	*get_algorithm_name(int type);
 size_t	ft_offsetof(void *struct_base, void *member_addr);
 char	*xgetpid(void);
+int write_file(const char *str, int fd);
 
 #endif

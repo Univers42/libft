@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bind.c                                             :+:      :+:    :+:   */
+/*   dyn_str_append_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 00:49:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:14:10 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/05 20:48:58 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 21:09:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "trap.h"
+#include "ds.h"
+#include "ft_stdio.h"
 
-void	unbind_variable_noref(const char *name)
+void    dyn_str_append_fd(int fd, t_dyn_str *ret)
 {
-	(void)name;
+	char	buff[1024];
+	int		len;
+
+	while (ST_SCANNING)
+	{
+		len = read(fd, buff, sizeof(buff));
+		if (len == 0)
+			break ;
+		if (len > 0)
+			dyn_str_pushnstr(ret, buff, len);
+		else
+			ft_eprintf("ctx :%s", read);
+	}
 }
 
-void	bind_variable(const char *name, const char *value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-void	bind_var_to_int(const char *name, int value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-char	*get_string_value(const char *name)
-{
-	(void)name;
-	return (NULL);
-}

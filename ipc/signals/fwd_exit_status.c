@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bind.c                                             :+:      :+:    :+:   */
+/*   fwd_exit_status.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 00:49:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:14:10 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/05 20:53:33 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/05 21:03:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_debug.h"
 #include "trap.h"
+#include <stdbool.h>
+#include <signal.h>
+#include <stdlib.h>
 
-void	unbind_variable_noref(const char *name)
+void fwd_exstatus(int st, bool c)
 {
-	(void)name;
-}
-
-void	bind_variable(const char *name, const char *value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-void	bind_var_to_int(const char *name, int value, int flags)
-{
-	(void)name;
-	(void)value;
-	(void)flags;
-}
-
-char	*get_string_value(const char *name)
-{
-	(void)name;
-	return (NULL);
+    ft_assert(st != -1);
+    if (c)
+    {
+        set_signal_handler(SIGINT, SIG_DFL);
+        set_signal_handler(SIGQUIT, SIG_DFL);
+        kill(0, SIGINT);
+        while (true)
+            ;
+    }
+    exit(st);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 19:57:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 19:58:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:21:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,24 @@ int	ft_strcasecmp(const char *s1, const char *s2)
 	unsigned char	c2;
 
 	while (*s1 && *s2)
+	{
+		c1 = (unsigned char)ft_tolower((unsigned char)*s1);
+		c2 = (unsigned char)ft_tolower((unsigned char)*s2);
+		if (c1 != c2)
+			return (c1 - c2);
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)ft_tolower((unsigned char)*s1)
+		- (unsigned char)ft_tolower((unsigned char)*s2));
+}
+
+int	ft_strncasecmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned char c1;
+	unsigned char c2;
+
+	while (*s1 && *s2 && n--)
 	{
 		c1 = (unsigned char)ft_tolower((unsigned char)*s1);
 		c2 = (unsigned char)ft_tolower((unsigned char)*s2);

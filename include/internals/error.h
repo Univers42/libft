@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:14:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:05:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,10 @@ void ft_warn(const char *fmt, ...);
 void set_exception_handler(void (*handler)(int));
 void set_error_fd(int fd);
 int get_error_fd(void);
+void	warning_error_errno(void);
+void	warning_error(char *error);
+void	critical_error_errno_context(char *context);
+void	critical_error_errno(void);
+void	critical_error(char *error);
 
 #endif /* ERROR_H */

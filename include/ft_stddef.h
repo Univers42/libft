@@ -21,7 +21,7 @@ typedef void *t_ptr;
 
 typedef long t_ssize;
 typedef unsigned long int t_size;
-typedef char *t_string;
+typedef char*			t_string;
 // maps
 typedef char **t_strings;
 typedef unsigned char t_uint8;

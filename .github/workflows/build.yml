@@ -26,7 +26,7 @@ jobs:
           do
             attempt=$((attempt+1))
             echo "Attempt $attempt / $max: apt-get update && install build-essential"
-            sudo apt-get update -y && sudo apt-get install -y build-essential libreadline6 libreadline6-dev pkg-config || true
+            sudo apt-get update -y && sudo apt-get install -y build-essential libreadline libreadline-dev pkg-config || true
             if command -v gcc >/dev/null 2>&1; then
               echo "gcc present, continuing"
               break

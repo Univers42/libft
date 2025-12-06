@@ -78,7 +78,7 @@ typedef uint64_t t_time;
 #define AMBIGUOUS_REDIRECT 1
 #define PROMPT "❯ "
 #define HIST_FILE ".minishell_history"
-
+# define RL_SPACER_1 "\x03"
 #define ANSI_RED "\033[31m"
 #define ANSI_GREEN "\033[32m"
 #define ANSI_RESET "\033[0m"

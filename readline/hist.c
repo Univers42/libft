@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 02:12:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 18:51:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/06 23:49:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,248 +17,268 @@
 #include "ft_memory.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <readline/readline.h>
+#include <sys/wait.h>
+#include "trap.h"
+#include "lexer.h"
 
-static t_hist *get_history_state(void)
+typedef struct s_status
 {
-	static t_hist hist = {0};
-	return (&hist);
+	int	status;	//-1 means pending
+	int	pid;	// -1 means no PID
+	bool	c_c;
+}t_status;
+
+void	bg_readline(int outfd, char *prompt);
+int		attach_input_readline(t_rl *rl, int pp[2], int pid);
+int		get_more_input_notty(t_rl *rl);
+void	buff_readline_update(t_rl *rl);
+void	buff_readline_reset(t_rl *rl);
+void	buff_readline_init(t_rl *ret);
+void	update_context(t_rl *rl, char *ctx, char *bctx);
+int		get_more_input_notty(t_rl *rl);
+int		return_last_line(t_rl *rl, t_dyn_str *ret);
+int		get_more_input_readline(t_rl *rl, char *prompt);
+int		return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl);
+void	set_cmd_status(t_status res, int *status, t_status *last_cmd_status_res, char *last_cmd_status_s);
+int		buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, int *status, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
+t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st);
+
+
+
+void	buff_readline_reset(t_rl *rl)
+{
+	ft_memmove(rl->str.buff, rl->str.buff + rl->cursor, rl->str.len - rl->cursor);
+	rl->str.len -= rl->cursor;
+	if (rl->str.buff)
+		rl->str.buff[rl->str.len] = 0;
+	rl->cursor = 0;
+	buff_readline_update(rl);
 }
 
-static bool str_slice_eq_str(const char *slice, size_t slice_len, const char *str)
+void	update_context(t_rl *rl, char *ctx, char *bctx)
 {
-	size_t str_len = ft_strlen(str);
-	if (slice_len != str_len)
-		return (false);
-	return (ft_strncmp(slice, str, slice_len) == 0);
+    if (!rl->should_update_ctx)
+        return ;
+    free(ctx);
+    ft_asprintf(&ctx, "%s: line %i", bctx, rl->lineno);
+    if (!ctx)
+        ctx = ft_strdup(bctx ? bctx : "");
 }
 
-static void add_history(const char *line)
+void	buff_readline_update(t_rl *rl)
 {
-	t_hist *h = get_history_state();
-	char *dup = ft_strdup(line);
-	if (dup)
-		vec_push(&h->cmds, &dup);
+	rl->has_line = rl->cursor != rl->str.len;
 }
 
-static bool worthy_of_being_remembered(t_rl *rl, t_hist *h)
+void	buff_readline_init(t_rl *ret)
 {
-	if (rl->cursor > 1 && h->active && h->cmds.len > 0)
+	*ret = (t_rl){};
+}
+
+void	bg_readline(int outfd, char *prompt)
+{
+	char	*ret;
+
+	rl_instream = stdin;
+	rl_outstream = stderr;
+	ret = readline(prompt);
+	if (!ret)
 	{
-		char *last_entry = *(char **)vec_get(&h->cmds, h->cmds.len - 1);
-		if (!str_slice_eq_str(rl->str->buff, rl->cursor - 1, last_entry))
-			return (true);
+		close(outfd);
+		exit (1);
 	}
-	return (false);
+	write_file(ret, outfd);
+	close(outfd);
+	exit(0);
 }
 
-void manage_history(t_rl *rl)
+int	attach_input_readline(t_rl *rl, int pp[2], int pid)
 {
-	t_hist *h = get_history_state();
-	char *hist_entry;
-	char *enc_hist_entry;
+	int	status;
 
-	if (worthy_of_being_remembered(rl, h))
+	close(pp[1]);
+	dyn_str_append_fd(pp[0], &rl->str);
+	buff_readline_update(rl);
+	close(pp[0]);
+	while (1)
+		if (waitpid(pid, &status, 0) != -1)
+			break ;
+	if (WIFSIGNALED(status))
 	{
-		hist_entry = ft_strndup(rl->str->buff, rl->cursor - 1);
-		add_history(hist_entry);
-		vec_push(&h->cmds, &hist_entry);
-		if (h->append_fd >= 0)
+		ft_eprintf("\n");
+		return (2);
+	}
+	return (WEXITSTATUS(status));
+}
+
+int	get_more_input_readline(t_rl *rl, char *prompt)
+{
+	int	pp[2];
+	int	pid;
+
+	if (pipe(pp))
+		critical_error_errno_context("pipe");
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		close(pp[0]);
+		bg_readline(pp[1], prompt);
+	}
+	else if (pid < 0)
+		critical_error_errno_context("fork");
+	else
+		return (attach_input_readline(rl, pp, pid));
+	ft_assert("Unreachable" == 0);
+	return (0);
+}
+
+
+int	return_last_line(t_rl *rl, t_dyn_str *ret)
+{
+	int		len;
+
+	len = rl->str.len - rl->cursor;
+	dyn_str_pushnstr(ret, rl->str.buff + rl->cursor, len);
+	rl->cursor = 0;
+	rl->str.len = 0;
+	rl->has_line = false;
+	if (len == 0)
+		return (1);
+	return (4);
+}
+
+int	get_more_input_notty(t_rl *rl)
+{
+	char	buff[4096 * 2];
+	int		ret;
+	int		status;
+
+	status = 1;
+	set_unwind_sig_norestart();
+	while (ST_SCANNING)
+	{
+		ret = read(0, buff, sizeof(buff));
+		if (ret < 0 && errno == EINTR)
+			status = 2;
+		if (ret == 0)
+			rl->has_finished = true;
+		if (ret == 0)
+			dyn_str_pushstr(&rl->str, "\n");
+		if (ret <= 0)
+			break ;
+		status = 0;
+		dyn_str_pushnstr(&rl->str, buff, ret);
+		if (ft_strnchr(buff, '\n', ret))
+			break ;
+	}
+	set_unwind_sig();
+	buff_readline_update(rl);
+	return (status);
+}
+
+int	return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl)
+{
+	char	*temp;
+	int		len;
+
+	rl->lineno++;
+	update_context(rl, ctx, bctx);
+	temp = ft_strchr(rl->str.buff + rl->cursor, '\n');
+	if (temp == 0)
+		return (return_last_line(rl, ret));
+	len = temp - (rl->str.buff + rl->cursor) + 1;
+	if (len)
+		dyn_str_pushnstr(ret, rl->str.buff + rl->cursor, len);
+	rl->cursor += len;
+	rl->has_line = rl->cursor != rl->str.len;
+	if (len == 0)
+		return (1);
+	return (4);
+}
+
+void	set_cmd_status(t_status res, int *status, t_status *last_cmd_status_res, char *last_cmd_status_s)
+{
+	*last_cmd_status_res = res;
+	free(last_cmd_status_s);
+	last_cmd_status_s = ft_itoa(*status);
+}
+
+int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, int *status, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx)
+{
+	int		code;
+
+	if (rl->has_finished)
+		return (0);
+	if (!rl->has_line)
+	{
+		if (input_method == INP_ARG || input_method == INP_FILE)
+			return (rl->has_finished = true, 0);
+		if (input_method == INP_STDIN_NOTTY)
+			code = get_more_input_notty(rl);
+		else
+			code = get_more_input_readline(rl, prompt);
+		if (code == 1)
+			return (rl->has_finished = true, 0);
+		if (code == 2)
 		{
-			t_dyn_str encoded = encode_cmd_hist(hist_entry);
-			enc_hist_entry = encoded.buff;
-			write(h->append_fd, enc_hist_entry, ft_strlen(enc_hist_entry));
-			free(enc_hist_entry);
+			get_g_sig()->should_unwind = SIGINT;
+			set_cmd_status(*res, status, &(t_status){.status = CANCELED, .pid = 0, .c_c = true}, last_cmd_status_s);
+			return (2);
 		}
-		free(hist_entry);
+		if (input_method == INP_READLINE)
+			dyn_str_push(&rl->str, '\n');
+		rl->has_line = true;
 	}
-	rlreset(rl);
+	return (return_new_line(ctx, bctx, ret, rl));
 }
 
-void init_history(void)
+t_dyn_str	prompt_more_input(t_vec *parse_stack)
 {
-	t_hist *h = get_history_state();
-	t_vec_config cfg = {
-		.elem_size = sizeof(char *),
-		.initial_capacity = 64,
-		.type_mask = VEC_TYPE_PTR};
+	t_dyn_str	ret;
+	t_token_type		curr;
+	size_t		i;
 
-	*h = (t_hist){.append_fd = -1, .active = true};
-	vec_init(&h->cmds, &cfg);
-	dyn_str_init(&h->str);
-}
-
-void free_hist(void)
-{
-	t_hist *h = get_history_state();
-	size_t i = 0;
-
-	while (i < h->cmds.len)
+	i = 0;
+	dyn_str_init(&ret);
+	while (i < parse_stack->len)
 	{
-		char *entry = *(char **)vec_get(&h->cmds, i);
-		free(entry);
-		i++;
+		curr = (t_token_type)vec_idx(parse_stack, i++);
+		if (curr == TOKEN_LEFT_BRACE)
+			dyn_str_pushstr(&ret, "subsh");
+		else if (curr == TOKEN_PIPE)
+			dyn_str_pushstr(&ret, "pipe");
+		else if (curr == TOKEN_LOGICAL_AND)
+			dyn_str_pushstr(&ret, "cmdand");
+		else if (curr == TOKEN_LOGICAL_OR)
+			dyn_str_pushstr(&ret, "cmdor");
+		else
+			continue ;
+		dyn_str_pushstr(&ret, " ");
 	}
-	vec_destroy(&h->cmds);
-	free(h->str.buff);
+	ret.buff[ret.len - 1] = '>';
+	dyn_str_pushstr(&ret, " ");
+	return (ret);
 }
 
-t_dyn_str parse_single_cmd(t_dyn_str hist, size_t *cur)
+t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st)
 {
-	t_dyn_str ret;
-	bool bs = false;
-	char c;
+	t_dyn_str	ret;
 
 	dyn_str_init(&ret);
-	while (*cur < hist.len)
+	if (st->status == 0)
+		dyn_str_pushstr(&ret, GREEN_TERM);
+	else
 	{
-		c = hist.buff[*cur];
-		if (c == '\\' && !bs)
-			bs = true;
-		else if (c == '\n' && !bs)
-		{
-			(*cur)++;
-			break;
-		}
-		else
-		{
-			dyn_str_push(&ret, c);
-			bs = false;
-		}
-		(*cur)++;
+		dyn_str_pushstr(&ret, RED_TERM);
+		dyn_str_pushstr(&ret, last_cmd_status_s);
+		dyn_str_pushstr(&ret, " ");
 	}
+	dyn_str_pushstr(&ret, PROMPT);
+	dyn_str_pushstr(&ret, RESET_TERM);
+	dyn_str_pushstr(&ret, RL_SPACER_1);
+	dyn_str_pushstr(&ret, RL_SPACER_1);
 	return (ret);
-}
-
-t_vec parse_hist_file(t_dyn_str *str)
-{
-	t_vec ret;
-	t_vec_config cfg = {.elem_size = sizeof(char *), .type_mask = VEC_TYPE_PTR};
-	size_t cur = 0;
-
-	vec_init(&ret, &cfg);
-	while (cur < str->len)
-	{
-		t_dyn_str cmd_str = parse_single_cmd(*str, &cur);
-		char *cmd = cmd_str.buff;
-		vec_push(&ret, &cmd);
-	}
-	return (ret);
-}
-
-char *get_hist_file_path(t_vec *ldenv)
-{
-	const char *home = getenv("HOME");
-	t_dyn_str abspath;
-
-	(void)ldenv; /* suppress unused parameter warning */
-	if (!home)
-		return (NULL);
-
-	dyn_str_init(&abspath);
-	dyn_str_pushstr(&abspath, (char *)home); /* cast away const */
-	dyn_str_pushstr(&abspath, "/.hellish_history");
-
-	return (abspath.buff);
-}
-
-void parse_history_file(t_hist *ldhist, t_vec *ldenv)
-{
-	char *phistfile;
-	int fd;
-
-	phistfile = get_hist_file_path(ldenv);
-	if (!phistfile)
-		return;
-
-	fd = open(phistfile, O_RDONLY);
-	if (fd < 0)
-	{
-		free(phistfile);
-		return;
-	}
-
-	dyn_str_append_fd(fd, &ldhist->str);
-	close(fd);
-
-	ldhist->cmds = parse_hist_file(&ldhist->str);
-	ldhist->append_fd = open(phistfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	free(phistfile);
-}
-
-t_dyn_str encode_cmd_hist(char *cmd)
-{
-	t_dyn_str ret;
-	size_t i = 0;
-
-	dyn_str_init(&ret);
-	while (cmd[i])
-	{
-		if (cmd[i] == '\n')
-			dyn_str_pushstr(&ret, "\\\n");
-		else
-			dyn_str_push(&ret, cmd[i]);
-		i++;
-	}
-	dyn_str_push(&ret, '\n');
-	return (ret);
-}
-
-void rl_history_init(void)
-{
-	init_history();
-}
-
-void rl_history_add(const char *line)
-{
-	add_history(line);
-}
-
-char *rl_history_prev(void)
-{
-	t_hist *h = get_history_state();
-	char *result;
-
-	if (h->cmds.len == 0 || h->iter_idx >= h->cmds.len)
-		return (NULL);
-	result = *(char **)vec_get(&h->cmds, h->iter_idx);
-	h->iter_idx++;
-	return (result);
-}
-
-char *rl_history_next(void)
-{
-	t_hist *h = get_history_state();
-
-	if (h->iter_idx == 0)
-		return (NULL);
-	h->iter_idx--;
-	if (h->iter_idx >= h->cmds.len)
-		return (NULL);
-	return (*(char **)vec_get(&h->cmds, h->iter_idx));
-}
-
-void rl_history_reset_index(void)
-{
-	t_hist *h = get_history_state();
-	h->iter_idx = 0;
-}
-
-void rl_history_free(void)
-{
-	free_hist();
-}
-
-int rl_history_find_prev(const char *pat, int from_index)
-{
-	(void)pat;
-	(void)from_index;
-	return (-1);
-}
-
-const char *rl_history_get(int idx)
-{
-	t_hist *h = get_history_state();
-	if (idx < 0 || (size_t)idx >= h->cmds.len)
-		return (NULL);
-	return (*(char **)vec_get(&h->cmds, idx));
 }

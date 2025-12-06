@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:04:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 00:55:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stddef.h>
 #include <inttypes.h>
 #include <string.h>
+#include "ds.h"
 
 typedef struct s_var			t_var;
 typedef struct s_localvar		t_localvar;
@@ -200,5 +201,7 @@ int	            var_cmp(const char *p, const char *q);
  * @return An integer <, ==, or > 0.
  */
 int				var_vpcmp(const void *a, const void *b);
+
+t_vec   env_to_vec_env(t_dyn_str *cwd, char **envp);
 
 #endif

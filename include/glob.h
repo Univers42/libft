@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:27:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:25:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 23:24:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,8 +281,8 @@ typedef struct s_tblentry
 	char cmd_name[ARB];
 } t_tblentry;
 
-int builtinloc = -1;
-t_tblentry *cmdtable[CMDTABLESIZE];
+extern int builtinloc;
+extern t_tblentry *cmdtable[CMDTABLESIZE];
 
 typedef enum e_ast
 {
@@ -402,7 +402,7 @@ typedef struct s_node
 // 	char	*glob_error_return;
 // 	t_list	*find_dirs_err_return;
 // }	t_gglobe;
-//globe g = {
+// globe g = {
 // 		.noglob_dot_filenames = 1;
 // static inline t_gglobe	*get_global(void)// 		.glob_always_skip_dot_and_dotdot = 1;
 // 	t_list	*find_dirs_err_return;

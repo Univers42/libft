@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:30:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/24 12:57:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/06 00:01:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lifoba.h"
+#include "ft_memory.h"
 
 void	*arena_malloc(size_t nbytes)
 {

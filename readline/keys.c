@@ -15,7 +15,7 @@ static int read_byte(int fd, char *c)
 }
 
 /* Decode common ANSI escape sequences */
-int rl_read_key(int fd)
+int ft_rl_read_key(int fd)
 {
     char c;
     if (read_byte(fd, &c) == -1)

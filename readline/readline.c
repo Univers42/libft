@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 22:04:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 23:21:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void tc_move_cursor(int row, int col);
 #define RL_BUFSIZE 4096
 #define RL_HISTORY_INIT 64
 
-typedef struct s_rl
+typedef struct s_rl_ctx
 {
     char *buf;
     int pos;
@@ -38,7 +38,7 @@ typedef struct s_rl
     char *nd;
     char *ce;
     const char *prompt;
-} t_rl;
+} t_rl_ctx;
 
 /* terminal raw helpers */
 static int enable_raw(struct termios *orig)
@@ -92,7 +92,7 @@ static void move_right_n(char *nd, int n)
 }
 
 /* initialize rl ctx */
-static void rl_init_ctx(t_rl *r, const char *prompt)
+static void rl_init_ctx(t_rl_ctx *r, const char *prompt)
 {
     r->buf = (char *)xmalloc(RL_BUFSIZE);
     r->pos = 0;
@@ -105,9 +105,9 @@ static void rl_init_ctx(t_rl *r, const char *prompt)
 }
 
 /* insert printable at cursor */
-static void rl_insert(t_rl *r, char ch)
+static void rl_insert(t_rl_ctx *r, char ch)
 {
-    size_t  n;
+    size_t n;
     if (r->len + 1 >= RL_BUFSIZE)
         return;
     ft_memmove(r->buf + r->pos + 1, r->buf + r->pos, r->len - r->pos);
@@ -121,7 +121,7 @@ static void rl_insert(t_rl *r, char ch)
 }
 
 /* backspace handling */
-static void rl_backspace(t_rl *r)
+static void rl_backspace(t_rl_ctx *r)
 {
     size_t n;
 
@@ -138,13 +138,13 @@ static void rl_backspace(t_rl *r)
 }
 
 /* replace current buffer with given history entry */
-static void rl_replace_with_history(t_rl *r, const char *entry)
+static void rl_replace_with_history(t_rl_ctx *r, const char *entry)
 {
     if (!entry)
         return;
     ft_putchar_fd('\r', STDOUT_FILENO);
     if (r->prompt)
-        ft_putstr_fd((const char*)r->prompt, STDOUT_FILENO);
+        ft_putstr_fd((const char *)r->prompt, STDOUT_FILENO);
     if (r->ce)
         tputs(r->ce, 1, out_putc);
     else
@@ -175,7 +175,7 @@ static void rl_display_search(const char *pat, const char *match, const char *pr
 }
 
 /* reverse incremental search; returns 1 if a match was accepted into r->buf, 0 on cancel */
-static int rl_reverse_search(t_rl *r)
+static int rl_reverse_search(t_rl_ctx *r)
 {
     char pat[256];
     int plen = 0;
@@ -264,7 +264,7 @@ static int rl_reverse_search(t_rl *r)
 char *rl_getline(const char *prompt)
 {
     struct termios orig;
-    t_rl r;
+    t_rl_ctx r;
     char c;
     int n;
     char *res;

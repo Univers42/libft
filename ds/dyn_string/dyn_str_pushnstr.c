@@ -6,15 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:36:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 01:39:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/06 18:44:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dyn_string.h"
 
-int	dyn_str_pushnstr(t_dyn_str *v, char *str, int len)
+int dyn_str_pushnstr(t_dyn_str *v, const char *str, int len)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	while (++i < len && str[i])

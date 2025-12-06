@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/29 18:50:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/06 00:00:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,25 +403,6 @@ size_t		arena_align(size_t nbytes);
  * @return Aligned minimal size to use for blocks or allocations.
  */
 size_t		min_size(size_t nbytes);
-
-/**
- * @brief  Called on unrecoverable out-of-memory conditions.
- *
- * Default implementation prints an error and aborts. The handler may be
- * overridden in the future to perform different error reporting.
- */
-void		out_of_space(void);
-
-/**
- * @brief  Check a heap allocation result and abort on NULL.
- *
- * Convenience wrapper used by arena_malloc/arena_realloc to centralize
- * OOM handling.
- *
- * @param  p Pointer returned by malloc/realloc.
- * @return The same pointer when non-NULL.
- */
-void		*check_null(void *p);
 
 /**
  * @brief  Duplicate a C string using libc malloc.

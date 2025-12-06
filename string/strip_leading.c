@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:44:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 20:59:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 23:54:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,11 @@ void	strip_leading(char *string)
 		ft_strncpy(string, start, len);
 		start[len] = '\0';
 	}
+}
+
+void trim_newline(char *s)
+{
+    if (!s)
+        return;
+    s[strcspn(s, "\r\n")] = '\0';
 }

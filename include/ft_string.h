@@ -6,12 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:21:51 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 23:59:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STRING_H
 #define FT_STRING_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 #include <stddef.h>
 #include "ft_stddef.h"
@@ -29,6 +34,7 @@ typedef struct s_bsearch_ctx
     size_t nmemb;
     size_t size;
 } t_bsearch_ctx;
+
 
 /**
  * Compute the length of a NUL-terminated string.
@@ -352,11 +358,18 @@ void bsearch_ctx_init(t_bsearch_ctx *ctx,
                       const void *base, size_t nmemb, size_t size);
 
 char *ft_sstrdup(const char *p);
-char	*prefix(const char *string, const char *pfx);
-size_t	ft_strnlen(const char *s, size_t maxlen);
-char	*ft_strcpy(char *dest, const char *src);
-int	max_munch(char *haystack, void *needles, size_t offset, size_t size);
-int	ft_strcasecmp(const char *s1, const char *s2);
-int	ft_strncasecmp(const char *s1, const char *s2, size_t n);
+char *prefix(const char *string, const char *pfx);
+size_t ft_strnlen(const char *s, size_t maxlen);
+char *ft_strcpy(char *dest, const char *src);
+int max_munch(char *haystack, void *needles, size_t offset, size_t size);
+int ft_strcasecmp(const char *s1, const char *s2);
+int ft_strncasecmp(const char *s1, const char *s2, size_t n);
+
+
+    void trim_newline(char *s);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:17:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/05 23:35:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,35 @@
 
 #include "ft_stddef.h"
 #include <stddef.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "internals/output.h"
 #include "internals/input.h"
 #include "internals/format.h"
 
-typedef int (*t_ops)(int, int);
+    typedef int (*t_ops)(int, int);
 
-char *get_next_line(int fd);
-void ft_first_word(const char *str);
-void ft_putchar_fd(const char c, int fd);
-void ft_putstr_fd(const char *s, int fd);
-void ft_putendl_fd(const char *s, int fd);
-void ft_putnbr_fd(const int n, int fd);
-void ft_putnbr_base(int nbr, char *radix);
-int ft_printf(const char *format, ...);
-int ft_dprintf(int fd, const char *format, ...);
-int ft_eprintf(const char *format, ...);
-char *ft_aseprintf(const char *format, ...);
-int ft_snprintf(char *dst, size_t cap, const char *format, ...);
-int ft_sprintf(char *dst, const char *format, ...);
-int log_print(t_state_fd *state, const char *file, const char *format, ...);
+    char *get_next_line(int fd);
+    void ft_first_word(const char *str);
+    void ft_putchar_fd(const char c, int fd);
+    void ft_putstr_fd(const char *s, int fd);
+    void ft_putendl_fd(const char *s, int fd);
+    void ft_putnbr_fd(const int n, int fd);
+    void ft_putnbr_base(int nbr, char *radix);
+    int ft_printf(const char *format, ...);
+    int ft_dprintf(int fd, const char *format, ...);
+    int ft_eprintf(const char *format, ...);
+    char *ft_aseprintf(const char *format, ...);
+    int ft_snprintf(char *dst, size_t cap, const char *format, ...);
+    int ft_sprintf(char *dst, const char *format, ...);
+    int log_print(t_state_fd *state, const char *file, const char *format, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

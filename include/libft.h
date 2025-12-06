@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:27:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 00:06:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # include "alias.h"
 # include "pipe.h"
 # include "pool.h"
-# include "readline.h"
+# include "ft_readline.h"
 # include "sh.h"
 # include "slab.h"
 # include "termcap.h"

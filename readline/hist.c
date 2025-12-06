@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 02:12:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 23:49:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 00:06:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "readline.h"
+#include "ft_readline.h"
 #include "ft_vector.h"
 #include "ft_string.h"
 #include "ft_memory.h"

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 02:12:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 13:12:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:17:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,29 @@ typedef struct s_status
 	bool	c_c;
 }t_status;
 
-void	bg_readline(int outfd, char *prompt);
-int		attach_input_readline(t_rl *rl, int pp[2], int pid);
-int		get_more_input_notty(t_rl *rl);
-void	buff_readline_update(t_rl *rl);
-void	buff_readline_reset(t_rl *rl);
-void	buff_readline_init(t_rl *ret);
-void	update_context(t_rl *rl, char *ctx, char *bctx);
-int		get_more_input_notty(t_rl *rl);
-int		return_last_line(t_rl *rl, t_dyn_str *ret);
-int		get_more_input_readline(t_rl *rl, char *prompt);
-int		return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl);
-void	set_cmd_status(t_status res, t_status *last_cmd_status_res, char *last_cmd_status_s);
-int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
+void		bg_readline(int outfd, char *prompt);
+int			attach_input_readline(t_rl *rl, int pp[2], int pid);
+int			get_more_input_notty(t_rl *rl);
+void		buff_readline_update(t_rl *rl);
+void		buff_readline_reset(t_rl *rl);
+void		buff_readline_init(t_rl *ret);
+void		update_context(t_rl *rl, char *ctx, char *bctx);
+int			get_more_input_notty(t_rl *rl);
+int			return_last_line(t_rl *rl, t_dyn_str *ret);
+int			get_more_input_readline(t_rl *rl, char *prompt);
+int			return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl);
+void		set_cmd_status(t_status res, t_status *last_cmd_status_res, char *last_cmd_status_s);
+int			buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
 t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st);
 t_dyn_str	parse_single_cmd(t_dyn_str hist, size_t *cur);
-void	parse_history_file(t_hist *h, t_vec *env);
-char	*get_hist_file_path(t_vec *ldenv);
-t_vec	parse_hist_file(t_dyn_str hist);
+void		parse_history_file(t_hist *h, t_vec *env);
+char		*get_hist_file_path(t_vec *ldenv);
+t_vec		parse_hist_file(t_dyn_str hist);
+t_dyn_str	encode_cmd_hist(char *cmd);
+void		free_hist(t_hist *h);
+void		init_history(t_hist *h, t_vec *env);
+void		manage_history(t_rl *rl, t_hist *h);
+bool		worthy_of_being_remembered(t_rl *rl, t_hist *h);
 
 
 void	buff_readline_reset(t_rl *rl)
@@ -384,4 +389,81 @@ void	parse_history_file(t_hist *h, t_vec *env)
 		warning_error("Can't open the history file for writing");
 	free(hist_file_path);
 	free(hist.buff);
+}
+
+t_dyn_str	encode_cmd_hist(char *cmd)
+{
+	t_dyn_str	ret;
+
+	dyn_str_init(&ret);
+	while (*cmd)
+	{
+		if (*cmd == ESC_BS)
+			dyn_str_push(&ret, ESC_BS);
+		if (*cmd == NEWLINE)
+			dyn_str_push(&ret, ESC_BS);
+		dyn_str_push(&ret, *cmd);
+		cmd++;
+	}
+	dyn_str_push(&ret, '\n');
+	return (ret);
+}
+
+bool	worthy_of_being_remembered(t_rl *rl, t_hist *h)
+{
+    if (rl->cursor > 1 && h->active
+        && (h->cmds.len == 0
+        || !str_slice_eq_str(rl->str.buff, rl->cursor - 1,
+            *((char **)h->cmds.buff + h->cmds.len - 1))))
+        return (true);
+    return (false);
+}
+
+
+void	manage_history(t_rl *rl, t_hist *h)
+{
+	char	*hist_entry;
+	char	*enc_hist_entry;
+
+	if (worthy_of_being_remembered(rl, h))
+	{
+		hist_entry = ft_strndup(rl->str.buff, rl->cursor - 1);
+		add_history(hist_entry);
+		vec_push(&h->cmds, &hist_entry);
+		if (h->append_fd >= 0)
+		{
+			enc_hist_entry = encode_cmd_hist(hist_entry).buff;
+			if (write_file(enc_hist_entry, h->append_fd))
+			{
+				warning_error("Failed to write to the history file");
+				close(h->append_fd);
+				h->append_fd = -1;
+			}
+			free(enc_hist_entry);
+		}
+	}
+	buff_readline_reset(rl);
+}
+
+void	init_history(t_hist *h, t_vec *env)
+{
+	*h = (t_hist){.append_fd = -1, .active = true};
+	parse_history_file(h, env);
+}
+
+void	free_hist(t_hist *h)
+{
+	size_t	i;
+	t_vec_config	conf;
+
+	i = 0;
+	while (i < h->cmds.len)
+	{
+		free(*((char**)h->cmds.buff + i));
+		i++;
+	}
+	//!maybe need to call vec_destroy instead here
+	free(h->cmds.buff);
+	conf = (t_vec_config){.elem_size = sizeof(char *), .type_mask = VEC_TYPE_PTR, .initial_capacity = 32};
+	vec_init(&h->cmds, &conf);
 }

@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   str_slice.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/08 12:37:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 13:32:14 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/07 13:32:22 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/07 13:33:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 
-char	*ft_strstr(const char *haystack, const char *needle)
+bool    str_slice_eq_str(char *s, size_t len, char *s2)
 {
-	size_t	needle_len;
-	size_t	i;
+    size_t  len_s2;
 
-	if (!haystack || !needle)
-		return (NULL);
-	if (*needle == '\0')
-		return ((char *)haystack);
-	needle_len = ft_strlen(needle);
-	i = 0;
-	while (haystack[i])
-	{
-		if (ft_strncmp(&haystack[i], needle, needle_len) == 0)
-			return ((char *)&haystack[i]);
-		i++;
-	}
-	return (NULL);
+    len_s2 = ft_strlen(s2);
+    if (len != len_s2)
+        return (false);
+    if (ft_strncmp(s, s2, len) == 0)
+        return (true);
+    return (false);
 }

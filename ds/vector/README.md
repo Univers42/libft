@@ -16,9 +16,9 @@ A vector is a dynamic array that can grow and shrink at runtime, unlike static a
 ```c
 typedef struct s_vector
 {
-    void    **data;     // Array of void pointers to elements
-    size_t  size;       // Current number of elements
-    size_t  capacity;   // Maximum number of elements before resize
+	void    **data;     // Array of void pointers to elements
+	size_t  size;       // Current number of elements
+	size_t  capacity;   // Maximum number of elements before resize
 }               t_vector;
 ```
 
@@ -86,45 +86,45 @@ typedef struct s_vector
 
 int main(void)
 {
-    t_vector *vec;
-    int *num1, *num2, *num3;
-    
-    // Create vector
-    vec = ft_vector_create();
-    if (!vec)
-        return (1);
-    
-    // Allocate some integers
-    num1 = malloc(sizeof(int)); *num1 = 42;
-    num2 = malloc(sizeof(int)); *num2 = 24;
-    num3 = malloc(sizeof(int)); *num3 = 84;
-    
-    // Add elements
-    ft_vector_add_back(vec, num1);
-    ft_vector_add_back(vec, num2);
-    ft_vector_insert(vec, 1, num3); // Insert at index 1
-    
-    // Access elements
-    int *retrieved = (int *)ft_vector_get(vec, 0);
-    printf("First element: %d\n", *retrieved);
-    
-    // Print vector info
-    printf("Size: %zu, Capacity: %zu\n", 
-           ft_vector_size(vec), ft_vector_capacity(vec));
-    
-    // Remove element
-    int *removed = (int *)ft_vector_pop_back(vec);
-    free(removed);
-    
-    // Clean up (remember to free the elements first)
-    while (!ft_vector_is_empty(vec))
-    {
-        int *elem = (int *)ft_vector_pop_back(vec);
-        free(elem);
-    }
-    ft_vector_destroy(vec);
-    
-    return (0);
+	t_vector *vec;
+	int *num1, *num2, *num3;
+	
+	// Create vector
+	vec = ft_vector_create();
+	if (!vec)
+		return (1);
+	
+	// Allocate some integers
+	num1 = malloc(sizeof(int)); *num1 = 42;
+	num2 = malloc(sizeof(int)); *num2 = 24;
+	num3 = malloc(sizeof(int)); *num3 = 84;
+	
+	// Add elements
+	ft_vector_add_back(vec, num1);
+	ft_vector_add_back(vec, num2);
+	ft_vector_insert(vec, 1, num3); // Insert at index 1
+	
+	// Access elements
+	int *retrieved = (int *)ft_vector_get(vec, 0);
+	printf("First element: %d\n", *retrieved);
+	
+	// Print vector info
+	printf("Size: %zu, Capacity: %zu\n", 
+		   ft_vector_size(vec), ft_vector_capacity(vec));
+	
+	// Remove element
+	int *removed = (int *)ft_vector_pop_back(vec);
+	free(removed);
+	
+	// Clean up (remember to free the elements first)
+	while (!ft_vector_is_empty(vec))
+	{
+		int *elem = (int *)ft_vector_pop_back(vec);
+		free(elem);
+	}
+	ft_vector_destroy(vec);
+	
+	return (0);
 }
 ```
 
@@ -152,3 +152,63 @@ int main(void)
 - **Memory overhead**: May use up to 2x the required memory due to capacity management
 - **Cache locality**: Elements are stored contiguously for better cache performance
 - **Pointer indirection**: One level of indirection when accessing elements
+
+# Key insight
+
+Instead of having separate structs like `t_vec_str`, `t_vec_env`, etc..
+we want one unified struct that can store any type of data..
+
+here's how it works:
+```c
+typedef struct s_vec_str
+{
+	size_t  cap;
+	size_t	len;
+	char	**buff;
+}t_vec_str;
+
+typedef struct s_vec_env
+{
+	size_t	cap;
+	size_t	len;
+	t_env	*buff;
+}t_vec_env;
+
+typedef struct s_vec
+{
+	size_t	cap;
+	size_t	len;
+	void	*buff;
+	size_t	elem_size;
+	int		type_mask;
+	t_elem_copy_fn	copy_fn;
+	t_elem_free_fn	free_fn;
+}t_vec;
+```
+
+how `void *buff` works:
+
+```c
+t_vec strings
+config = {.elem_size = sizeof(char *), .type_mask = VEC_TYPE_PTR};
+vec_init(&strings, &config);
+// Store t_env structs
+t_vec envs;
+config = {.elem_size = sizeof(t_env), .type_mask = VEC_TYPE_CUSTOM};
+vec_init(&envs, &config);
+// buff points to: t_env* (array of t_env structs)
+
+// Store t_dyn_str structs
+t_vec dynstrs;
+config = {.elem_size = sizeof(t_dyn_str), .type_mask = VEC_TYPE_DYNSTR};
+vec_init(&dynstrs, &config);
+// buff points to: t_dyn_str* (array of t_dyn_str structs)
+
+```
+
+> The magic fields tells...
+- Elem_size tells the vector how many bytes each elemet occupies
+- type mask tells the vector how to copy/free elements
+- buff is just raw memeory, the vectore treats is as `(char *)buff + (index * elem_size) to find_elements
+
+# so we can replace all spec struct in one globalized struct, isn't that great !?

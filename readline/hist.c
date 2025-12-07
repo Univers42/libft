@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 02:12:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 00:06:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 13:12:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <sys/wait.h>
 #include "trap.h"
 #include "lexer.h"
+#include "var.h"
 
 typedef struct s_status
 {
@@ -40,10 +42,13 @@ int		get_more_input_notty(t_rl *rl);
 int		return_last_line(t_rl *rl, t_dyn_str *ret);
 int		get_more_input_readline(t_rl *rl, char *prompt);
 int		return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl);
-void	set_cmd_status(t_status res, int *status, t_status *last_cmd_status_res, char *last_cmd_status_s);
-int		buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, int *status, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
+void	set_cmd_status(t_status res, t_status *last_cmd_status_res, char *last_cmd_status_s);
+int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
 t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st);
-
+t_dyn_str	parse_single_cmd(t_dyn_str hist, size_t *cur);
+void	parse_history_file(t_hist *h, t_vec *env);
+char	*get_hist_file_path(t_vec *ldenv);
+t_vec	parse_hist_file(t_dyn_str hist);
 
 
 void	buff_readline_reset(t_rl *rl)
@@ -199,14 +204,14 @@ int	return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl)
 	return (4);
 }
 
-void	set_cmd_status(t_status res, int *status, t_status *last_cmd_status_res, char *last_cmd_status_s)
+void	set_cmd_status(t_status res, t_status *last_cmd_status_res, char *last_cmd_status_s)
 {
 	*last_cmd_status_res = res;
 	free(last_cmd_status_s);
-	last_cmd_status_s = ft_itoa(*status);
+	last_cmd_status_s = ft_itoa(res.status);
 }
 
-int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, int *status, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx)
+int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx)
 {
 	int		code;
 
@@ -225,7 +230,7 @@ int	buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, int 
 		if (code == 2)
 		{
 			get_g_sig()->should_unwind = SIGINT;
-			set_cmd_status(*res, status, &(t_status){.status = CANCELED, .pid = 0, .c_c = true}, last_cmd_status_s);
+			set_cmd_status(*res, &(t_status){.status = CANCELED, .pid = 0, .c_c = true}, last_cmd_status_s);
 			return (2);
 		}
 		if (input_method == INP_READLINE)
@@ -281,4 +286,102 @@ t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st)
 	dyn_str_pushstr(&ret, RL_SPACER_1);
 	dyn_str_pushstr(&ret, RL_SPACER_1);
 	return (ret);
+}
+
+t_dyn_str	parse_single_cmd(t_dyn_str hist, size_t *cur)
+{
+	t_dyn_str	cmd;
+	bool		bs;
+	char		c;
+
+	dyn_str_init(&cmd);
+	bs = false;
+	while (*cur < hist.len)
+	{
+		c = hist.buff[*cur];
+		if (c == '\\' && !bs)
+		{
+			bs = true;
+			(*cur)++;
+			continue ;
+		}
+		if (c == '\n' && !bs)
+		{
+			(*cur)++;
+			break ;
+		}
+		dyn_str_push(&cmd, c);
+		bs = false;
+		(*cur)++;
+	}
+	return (cmd);
+}
+
+/**
+ * !? Set connfig struct , do not forget
+ */
+t_vec	parse_hist_file(t_dyn_str hist)
+{
+	size_t		cur;
+	t_vec		ret;
+	char		*cmd;
+	t_vec_config	config;
+
+	config = (t_vec_config){.elem_size = sizeof(char *), .initial_capacity = 32, .type_mask = VEC_TYPE_PTR};
+
+	cur = 0;
+	if (vec_init(&ret, &config) < 0)
+		return (ret);
+	while (cur < hist.len)
+	{
+		cmd = parse_single_cmd(hist, &cur).buff;
+		vec_push(&ret, cmd);
+		add_history(cmd);
+	}
+	return (ret);
+}
+
+char	*get_hist_file_path(t_vec *ldenv)
+{
+	t_env		*env;
+	t_dyn_str	full_path;
+	env = env_get(ldenv, "HOME");
+	if (!env || !env->value)
+	{
+		warning_error("HOME is not set, can't get the history");
+		return (0);
+	}
+	dyn_str_init(&full_path);
+	dyn_str_pushstr(&full_path, env->value);
+	if (!dyn_str_ends_with_str(&full_path, "/"))
+		dyn_str_push(&full_path, '/');
+	dyn_str_pushstr(&full_path, HIST_FILE);
+	return (full_path.buff);
+}
+
+void	parse_history_file(t_hist *h, t_vec *env)
+{
+	t_dyn_str	hist;
+	int			fd;
+	char		*hist_file_path;
+
+	hist_file_path = get_hist_file_path(env);
+	if (!hist_file_path)
+		return ;
+	fd = open(hist_file_path, O_RDONLY, O_CREAT, 0666);
+	if (fd < 0)
+	{
+		warning_error("Can't open the history file for reading");
+		free(hist_file_path);
+		return ;
+	}
+	dyn_str_init(&hist);
+	dyn_str_append_fd(fd, &hist);
+	close(fd);
+	h->cmds = parse_hist_file(hist);
+	h->append_fd = open(hist_file_path, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	if (h->append_fd < 0)
+		warning_error("Can't open the history file for writing");
+	free(hist_file_path);
+	free(hist.buff);
 }

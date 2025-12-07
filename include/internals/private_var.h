@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:29:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:53:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,17 @@
 
 /* Forward declarations to avoid circular dependencies */
 typedef struct s_hellish t_hellish;
-
+typedef struct s_localvar t_localvar;
+typedef struct s_localvar_list t_localvar_list;
+typedef struct s_var_state t_var_state;
+typedef struct s_var t_var;
 /* Public header provides canonical typedefs */
+
+
+/* avoid including ft_stdio.h here when compiling as C++ (these headers
+   contain C-only constructs that are not C++-friendly). Include them
+   only for C builds. */
+#ifndef __cplusplus
 #include "var.h"
 #include "configs.h"
 #include "ft_string.h"
@@ -25,11 +34,6 @@ typedef struct s_hellish t_hellish;
 #include <inttypes.h>
 #include <stdlib.h>
 #include "ds.h"
-
-/* avoid including ft_stdio.h here when compiling as C++ (these headers
-   contain C-only constructs that are not C++-friendly). Include them
-   only for C builds. */
-#ifndef __cplusplus
 #include "ft_stdio.h"
 #include "ft_sort.h"
 #endif
@@ -126,6 +130,7 @@ typedef struct s_env
 #define DEFOPTINDVAR "OPTIND=1"
 #endif
 
+
 /* Internal definitions for local-variable structures used by implementation.
    We declare struct s_localvar / s_localvar_list (no typedef) so .c files can
    allocate and reference their fields; the public header keeps typedef names
@@ -136,13 +141,13 @@ struct s_localvar
 	struct s_var *vp;
 	int flags;
 	const char *text;
-	void (*restore)(struct s_localvar *lvp, struct s_var_state *state);
+	void (*restore)(struct s_localvar *lvp, t_var_state *state);
 };
 
 struct s_localvar_list
 {
 	struct s_localvar_list *next;
-	struct s_localvar *lv;
+	t_localvar *lv;
 };
 
 /* -------------------------------------------------------------------------

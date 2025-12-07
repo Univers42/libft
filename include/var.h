@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 00:55:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 01:40:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <inttypes.h>
 #include <string.h>
 #include "ds.h"
+#include "private_var.h"
 
 typedef struct s_var			t_var;
 typedef struct s_localvar		t_localvar;

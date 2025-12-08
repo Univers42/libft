@@ -6,36 +6,55 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:57:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:23:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 01:31:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_var.h"
 
-char *env_expand(t_hellish *state, char *key)
+char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec *env)
 {
-	return (env_expand_n(state, key, ft_strlen(key)));
+    t_env *curr;
+
+    if (!key)
+        return (NULL);
+    if (ft_strncmp(key, "?", len) == 0 && len == 1)
+        return (last_cmd_status_s);
+    else if (ft_strncmp(key, "$", len) == 0 && pid && len == 1)
+        return (pid);
+    else if (len == 0)
+        return ("$");
+    curr = env_nget(env, key, len);
+    if (!curr || !curr->key)
+        return (NULL);
+    return (curr->value);
 }
 
-int env_set(t_vec *env, t_env new)
+
+char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env)
+{
+	return (env_expand_n(last_cmd_status_s, pid,  key, ft_strlen(key), env));
+}
+
+int env_set(t_vec *env, t_env new_entry)
 {
 	t_env *old;
 
-	if (!env || !new.key)
+	if (!env || !new_entry.key)
 		return (-1);
-	old = env_get(env, new.key);
+	old = env_get(env, new_entry.key);
 	if (old)
 	{
 		free(old->value);
-		free(new.key);
-		old->value = new.value;
-		old->exported = new.exported;
+		free(new_entry.key);
+		old->value = new_entry.value;
+		old->exported = new_entry.exported;
 		return (0);
 	}
-	return (vec_push(env, &new) ? 0 : -1);
+	return (vec_push(env, &new_entry) ? 0 : -1);
 }
 
-void env_extend(t_vec *edst, t_vec *esrc, bool export)
+void env_extend(t_vec *edst, t_vec *esrc, bool do_export)
 {
 	t_env curr;
 	size_t i;
@@ -47,7 +66,7 @@ void env_extend(t_vec *edst, t_vec *esrc, bool export)
 	{
 		if (vec_pop(esrc, &curr))
 		{
-			curr.exported = export;
+			curr.exported = do_export;
 			env_set(edst, curr);
 		}
 		i++;

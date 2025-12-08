@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:40:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 00:47:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:28:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,9 @@ t_vec   env_to_vec_env(t_dyn_str *cwd, char **envp)
     t_vec_config    config;
     t_env           lentry;
 
-    ft_memset(&config, 0, sizeof(config));
-    config.elem_size = sizeof(t_env);
-    config.initial_capacity = 32;
-    config.type_mask = VEC_TYPE_CUSTOM;
-    config.copy_fn = NULL;
-    config.free_fn = NULL;
-    
-    // guarantte that `ret` is correctly init to store `t_env`with right elemnt size and type handling
+    config = (t_vec_config){.elem_size = sizeof(t_env), .initial_capacity = 32, .type_mask = VEC_TYPE_CUSTOM};
     if (vec_init(&env, &config) < 0)
         return (env);
-    
     while (*envp)
     {
         lentry = str_to_env(*envp);

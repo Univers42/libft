@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/05 02:24:58 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/07 15:22:11 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -349,12 +349,15 @@ TEST_LIB_FLAG :=
 endif
 
 # Rule: build each tests/xxx.cpp into bin/xxx, linked with libft.a (or libft.so if TEST_SHARED_LIB=1)
+# ...existing code...
+
+# Rule: build each tests/xxx.cpp into bin/xxx, linked with libft.a (or libft.so if TEST_SHARED_LIB=1)
 $(BIN_DIR)/%: tests/%.cpp $(TEST_LIB) | $(BIN_DIR)
 	@mkdir -p $(dir $@)
 	@if [ "$(ENABLE_MLX_TESTS)" = "1" ] && [ "$(MLX_ENABLED)" = "1" ]; then \
-		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) $(LINK_MLX) -ldl; \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) $(LINK_MLX) -lreadline -ldl; \
 	else \
-		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) -ldl; \
+		$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) -o $@ $< $(TEST_LIB) $(TEST_LIB_FLAG) -lreadline -ldl; \
 	fi
 
 norminette:

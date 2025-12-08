@@ -6,27 +6,28 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:35:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 23:42:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 02:04:40 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dyn_string.h"
 
-int	dyn_str_double(t_dyn_str *v)
+int dyn_str_double(t_dyn_str *v)
 {
-	char	*temp;
-	size_t	i;
+    char *tmp;
+    size_t newcap;
 
-	v->cap *= 2;
-	if (v->cap == 0)
-		v->cap = 64;
-	temp = malloc(sizeof(int) * v->cap);
-	if (!temp)
-		return (0);
-	i = -1;
-	while (++i < v->len)
-		temp[i] = v->buff[i];
-	free(v->buff);
-	v->buff = temp;
-	return (1);
+    if (!v)
+        return (0);
+    newcap = (v->cap == 0) ? 64 : v->cap * 2;
+    tmp = malloc(newcap);
+    if (!tmp)
+        return (0);
+    if (v->buff && v->len)
+        memcpy(tmp, v->buff, v->len);
+    tmp[v->len] = 0;
+    free(v->buff);
+    v->buff = tmp;
+    v->cap = newcap;
+    return (1);
 }

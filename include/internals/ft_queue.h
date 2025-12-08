@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:26:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 01:03:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_deque
 	size_t head;										   // index of first element
 	size_t tail;										   // index one past last element
 	int (*cmp)(const void *a, const void *b, size_t size); // comp for search/remove (memcmp-like)
-	void *ctx;											   // optional user context
+	void	*ctx;											// optional user context
 } t_deque;
 
 // Core functions

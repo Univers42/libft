@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 16:18:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 16:52:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:00:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,4 @@ int vec_init(t_vec *v, const t_vec_config *config)
 			return (-1);
 	}
 	return (0);
-}
-
-void vec_destroy(t_vec *v)
-{
-	size_t i;
-
-	if (!v)
-		return;
-	if (v->buff && v->free_fn)
-	{
-		i = 0;
-		while (i < v->len)
-		{
-			v->free_fn((char *)v->buff + (i * v->elem_size));
-			i++;
-		}
-	}
-	else if (v->buff && (v->type_mask == VEC_TYPE_PTR))
-	{
-		i = 0;
-		while (i < v->len)
-		{
-			free(((void **)v->buff)[i]);
-			i++;
-		}
-	}
-	free(v->buff);
-	vec_create(v, sizeof(*v));
 }

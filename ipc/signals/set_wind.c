@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 14:45:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:26:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:35:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void mask_dfl_sigact(void (*handler)(int), int sa_flags, int ig_quits)
 
     ft_memset(&act, 0, sizeof(act));
     act.sa_handler = handler;
-    ft_sigemptyset((t_sigset *)&act.sa_mask);
+    sigemptyset(&act.sa_mask);
     act.sa_flags = sa_flags;
     sigaction(SIGINT, &act, NULL);
     if (ig_quits)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:23:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:29:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:33:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,14 @@
 
 t_env str_to_env(char *str)
 {
-    t_env ret;
-    char *eq_pos;
-    size_t key_len;
+    t_env   ret;
+    char    *key_pos;
 
-    ft_assert(str != NULL);
-    eq_pos = ft_strchr(str, '=');
-    if (!eq_pos)
-        eq_pos = str + ft_strlen(str);
-    key_len = eq_pos - str;
+    key_pos = ft_strchr(str, '=') + 1;
+    ft_assert(key_pos != 0);
     ret.exported = true;
-    ret.key = xmalloc(key_len + 1);
-    ft_memcpy(ret.key, str, key_len);
-    ret.key[key_len] = '\0';
-    ret.value = ft_strdup(eq_pos + (eq_pos[0] == '=' ? 1 : 0));
+    ret.key = xmalloc(key_pos - str);
+    ft_strlcpy(ret.key, str, key_pos - str);
+    ret.value = ft_strdup(key_pos);
     return (ret);
 }

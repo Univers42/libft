@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 00:06:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 23:35:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include "ft_wctype.h"
 # include "glob.h"
 # include "lifoba.h"
+# include "lexer.h"
 # include "pipe.h"
 # include "alias.h"
 # include "pipe.h"

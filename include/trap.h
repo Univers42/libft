@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 15:02:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/07 15:20:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
+#include "ft_string.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+#include "ft_string.h"
 	typedef enum e_sigs
 	{
 		SIG_INHERITED = 0x0,
@@ -206,7 +208,6 @@ extern "C"
 	void bind_variable(const char *name, const char *val, int flags);
 	void bind_var_to_int(const char *name, int value, int flags);
 	char *get_string_value(const char *name);
-	char *savestring(const char *s);
 	int valid_number(const char *s, intmax_t *out);
 
 	/* Global Accessors */
@@ -220,6 +221,10 @@ extern "C"
 	void set_unwind_sig_norestart(void);
 	void bg_signals(void);
 
+	static inline char	*savestring(const char *s)
+	{
+		return (save_str(s));
+	}
 #ifdef __cplusplus
 }
 #endif

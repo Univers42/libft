@@ -6,19 +6,19 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:36:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 18:44:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 02:05:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dyn_string.h"
 
-int dyn_str_pushstr(t_dyn_str *v, const char *str)
-{
-	int i;
+// ...existing code...
+#include <string.h>
+#include "ft_string.h"
 
-	i = -1;
-	while (str[++i])
-		if (dyn_str_push(v, str[i]))
-			return (0);
-	return (1);
+int dyn_str_pushstr(t_dyn_str *v, const char *s)
+{
+    if (!s)
+        return (0);
+    return dyn_str_pushnstr(v, s, strlen(s));
 }

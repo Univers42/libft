@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 18:44:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 02:42:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ char dyn_str_pop(t_dyn_str *v);
 int dyn_str_idx(t_dyn_str *v, size_t idx);
 void dyn_str_clear(t_dyn_str *v);
 int dyn_str_pushstr(t_dyn_str *v, const char *str);
-int dyn_str_pushnstr(t_dyn_str *v, const char *str, int len);
+int dyn_str_pushnstr(t_dyn_str *v, const char *s, size_t n);
 void dyn_str_init_alloc(t_dyn_str *v);
-bool dyn_str_ends_with_str(t_dyn_str *s, char *s2);
-void dyn_str_append_fd(int fd, t_dyn_str *ret);
-t_dyn_str encode_cmd_hist(char *cmd);
+int dyn_str_ends_with_str(t_dyn_str *v, const char *s);
+int dyn_str_append_fd(int fd, t_dyn_str *out);
 
 #endif

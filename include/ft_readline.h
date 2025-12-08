@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   ft_readline.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 19:49:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 02:41:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,49 @@ typedef struct s_rl
 
 typedef struct s_hist
 {
-	t_vec cmds;
-	int		append_fd;
+	t_vec		cmds;
+	int			append_fd;
 	t_dyn_str	str;
-	bool	active;
+	bool		active;
 	size_t	iter_idx; /* iteration index for prev/next */
-} t_hist;
+}	t_hist;
+
+typedef struct s_status
+{
+	int		status;	//-1 means pending
+	int		pid;	// -1 means no PID
+	bool	c_c;
+}	t_status;
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+void		bg_readline(int outfd, char *prompt);
+int			attach_input_readline(t_rl *rl, int pp[2], int pid);
+int			get_more_input_notty(t_rl *rl);
+void		buff_readline_update(t_rl *rl);
+void		buff_readline_reset(t_rl *rl);
+void		buff_readline_init(t_rl *ret);
+void		update_context(t_rl *rl, char *ctx, char *bctx);
+int			get_more_input_notty(t_rl *rl);
+int			return_last_line(t_rl *rl, t_dyn_str *ret);
+int			get_more_input_readline(t_rl *rl, char *prompt);
+int			return_new_line(char *ctx, char *bctx, t_dyn_str *ret, t_rl *rl);
+void		set_cmd_status(t_status res, t_status *last_cmd_status_res, char *last_cmd_status_s);
+int			buff_readline(t_rl *rl, t_dyn_str *ret, char *prompt, int input_method, char *last_cmd_status_s, t_status *res, char *ctx, char *bctx);
+t_dyn_str	prompt_normal(char *last_cmd_status_s, t_status *st);
+t_dyn_str	parse_single_cmd(t_dyn_str hist, size_t *cur);
+void		parse_history_file(t_hist *h, t_vec *env);
+char		*get_hist_file_path(t_vec *ldenv);
+t_vec		parse_hist_file(t_dyn_str hist);
+t_dyn_str	encode_cmd_hist(const char *cmd);
+void		free_hist(t_hist *h);
+void		init_history(t_hist *h, t_vec *env);
+void		manage_history(t_rl *rl, t_hist *h);
+bool		worthy_of_being_remembered(t_rl *rl, t_hist *h);
+void		print_history(t_hist *hist);
 
 #ifdef __cplusplus
 }

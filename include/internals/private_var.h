@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 12:53:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/08 01:31:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ typedef struct s_var t_var;
 /* avoid including ft_stdio.h here when compiling as C++ (these headers
    contain C-only constructs that are not C++-friendly). Include them
    only for C builds. */
-#ifndef __cplusplus
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "var.h"
 #include "configs.h"
 #include "ft_string.h"
@@ -36,7 +40,6 @@ typedef struct s_var t_var;
 #include "ds.h"
 #include "ft_stdio.h"
 #include "ft_sort.h"
-#endif
 
 /* If the public headers did not define reasonable sizes, provide safe defaults.
    Use guards so we don't clobber upstream definitions. */
@@ -236,11 +239,12 @@ char **get_envp(t_vec *env);
 void free_env(t_vec *env);
 t_env *env_get(t_vec *env, char *key);
 char *env_get_ifs(t_vec *env);
-char *env_expand(t_hellish *state, char *key);
-int env_set(t_vec *env, t_env new);
-void env_extend(t_vec *edst, t_vec *esrc, bool export);
+char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env);
+int env_set(t_vec *env, t_env new_entry);
+void env_extend(t_vec *edst, t_vec *esrc, bool do_export);
 t_env *env_nget(t_vec *env, char *key, int len);
-char *env_expand_n(t_hellish *state, char *key, int len);
 t_vec create_vec_env(char **envp);
-
+#ifdef __cplusplus
+}
+#endif
 #endif

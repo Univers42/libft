@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:19:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:22:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,7 +440,6 @@ t_scanner *init_scanner(const char *source);
 int advance_dquote(char **str);
 int advance_squote(char **str);
 void    advance_bs(char **str);
-bool    is_empty_token_list(t_deque *tokens);
 char *tokenizer(char *str, t_deque *ret);
 char *parse_word(t_deque *tokens, char **str);
 void parse_op(t_deque *tokens, char **str);

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:31:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:26:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "ft_stdio.h"
+#include "ft_math.h"
 
 #define RUN 32
 
@@ -110,7 +111,6 @@ int get_min(int *arr, int size);
 int *ft_quick_sort(int *arr, int low, int high);
 int get_max(int *arr, int size);
 int find_min_index(t_stck *stack);
-int ft_min(int a, int b);
 int cmp_int(const void *a, const void *b);
 
 void three_way_merge_sort_rec(int *arr, int *bounds, int *temp);

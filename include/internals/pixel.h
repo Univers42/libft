@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:07:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:38:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:24:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ typedef struct s_point
 	t_color	color;
 	t_axis	axes;
 	bool	paint;
+	char	*label;
 }			t_point;
 
 // 2D, 3D, 4D Vectors

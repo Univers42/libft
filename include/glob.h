@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:27:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 23:24:09 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:25:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,14 +297,14 @@ typedef enum e_ast
 	AST_TOKEN
 } t_ast;
 
-typedef struct s_node
-{
-	t_ast node_type;
-	t_token *token; /* Changed from t_token to t_token * */
-	bool has_redirect;
-	int redir_idx;
-	t_vec child;
-} t_node;
+// typedef struct s_node
+// {
+// 	t_ast node_type;
+// 	t_token *token; /* Changed from t_token to t_token * */
+// 	bool has_redirect;
+// 	int redir_idx;
+// 	t_vec child;
+// } t_node;
 
 // enum
 // {

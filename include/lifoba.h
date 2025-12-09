@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 00:00:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:19:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@
 /* ************************************************************************** */
 
 #ifndef LIFOBA_H
-# define LIFOBA_H
+#define LIFOBA_H
 
-# include <stddef.h>
-# include <stdlib.h>
+#include <stddef.h>
+#include <stdlib.h>
 
-# define ARENA_MINSIZE 504
+#define ARENA_MINSIZE 504
 
 /**
  * SYNTAX:
@@ -77,33 +77,33 @@
  */
 typedef struct s_stack_block
 {
-	struct s_stack_block	*prev;					// prev block linked list
-	char					space[ARENA_MINSIZE];	// raw bytes per block
-}	t_stack_block;
+	struct s_stack_block *prev; // prev block linked list
+	char space[ARENA_MINSIZE];	// raw bytes per block
+} t_stack_block;
 
 typedef struct s_stack_mark
 {
-	t_stack_block	*stackp;	// block pointer at time of mark
-	char			*stacknxt;	// pointer to next freeB in the Mblock
-	size_t			stacknleft;	// nfreeb remaining in that block at Mtime
-}	t_stack_mark;
+	t_stack_block *stackp; // block pointer at time of mark
+	char *stacknxt;		   // pointer to next freeB in the Mblock
+	size_t stacknleft;	   // nfreeb remaining in that block at Mtime
+} t_stack_mark;
 
 typedef struct s_garena
 {
-	t_stack_block	stack_base;		// inlined initial block
-	t_stack_block	*stackp;		// where allocations happen
-	char			*stack_next;	// pointer to the nxfreeB in the cblock
-	size_t			stack_nleft;	// remaining free bytes in the cblock
-	char			*sstrend;		// pel of the cblock
-}	t_garena;
+	t_stack_block stack_base; // inlined initial block
+	t_stack_block *stackp;	  // where allocations happen
+	char *stack_next;		  // pointer to the nxfreeB in the cblock
+	size_t stack_nleft;		  // remaining free bytes in the cblock
+	char *sstrend;			  // pel of the cblock
+} t_garena;
 
 typedef struct s_dynall
 {
-	size_t			aligned;		// requested size aligned
-	size_t			block_size;		// usable bytes
-	size_t			len;			// bytes to malloc
-	t_stack_block	*p;				// tmp ptr to new alloc or exp_block
-}	t_dynall;
+	size_t aligned;	   // requested size aligned
+	size_t block_size; // usable bytes
+	size_t len;		   // bytes to malloc
+	t_stack_block *p;  // tmp ptr to new alloc or exp_block
+} t_dynall;
 
 /* Context */
 /**
@@ -119,7 +119,7 @@ typedef struct s_dynall
  *       context being available; callers normally do not need to call
  *       this directly except for diagnostics or tests.
  */
-t_garena	*arena_ctx(void);
+t_garena *arena_ctx(void);
 
 /**
  * @brief  Free all dynamic blocks and reset the arena to initial state.
@@ -130,7 +130,7 @@ t_garena	*arena_ctx(void);
  * @note After calling this, any pointers previously returned by st_alloc()
  *       are invalid.
  */
-void		arena_cleanup(void);
+void arena_cleanup(void);
 
 /* Core allocator (generic, not only strings) */
 /**
@@ -148,7 +148,7 @@ void		arena_cleanup(void);
  * @note Use st_unalloc to rewind; individual free() of returned pointers is
  *       not supported.
  */
-void		*st_alloc(size_t nbytes);
+void *st_alloc(size_t nbytes);
 
 /**
  * @brief  Rewind the arena to the supplied pointer (LIFO unallocation).
@@ -161,7 +161,7 @@ void		*st_alloc(size_t nbytes);
  * @param  p Pointer previously returned by st_alloc or a pointer inside the
  *           current allocation region.
  */
-void		st_unalloc(void *p);
+void st_unalloc(void *p);
 
 /* Growing the active stack block/string */
 /**
@@ -175,7 +175,7 @@ void		st_unalloc(void *p);
  * @return Pointer to the base of the (possibly new) free region where
  *         allocations may start (equivalent to stack_block()).
  */
-char		*grow_stack_block(size_t min);
+char *grow_stack_block(size_t min);
 
 /**
  * @brief  Grow area for string building and return pointer for next char.
@@ -186,7 +186,7 @@ char		*grow_stack_block(size_t min);
  *
  * @return Pointer to the position to store the next character.
  */
-void		*grow_stack_str(void);
+void *grow_stack_str(void);
 
 /**
  * @brief  Ensure current block has at least len free bytes available.
@@ -198,7 +198,7 @@ void		*grow_stack_str(void);
  * @param  len Minimum free bytes required.
  * @return Pointer to the start of a region with at least len bytes free.
  */
-char		*grow_stack_to(size_t len);
+char *grow_stack_to(size_t len);
 
 /**
  * @brief  Ensure 'newlen' bytes are available for a string that begins at p.
@@ -212,7 +212,7 @@ char		*grow_stack_to(size_t len);
  * @param  p      Current pointer within the current string region.
  * @return Pointer to the start of the string region (possibly moved).
  */
-char		*make_str_space(size_t newlen, char *p);
+char *make_str_space(size_t newlen, char *p);
 
 /**
  * @brief  Reserve len bytes in the arena (alias to st_alloc used from helpers).
@@ -222,7 +222,7 @@ char		*make_str_space(size_t newlen, char *p);
  *
  * @param  len Number of bytes to reserve.
  */
-void		grab_stack_block(size_t len);
+void grab_stack_block(size_t len);
 
 /* Stack mark helpers */
 /**
@@ -236,7 +236,7 @@ void		grab_stack_block(size_t len);
  *
  * @see set_stack_mark() for saving state without reservation.
  */
-void		push_stack_mark(t_stack_mark *mark, size_t len);
+void push_stack_mark(t_stack_mark *mark, size_t len);
 
 /**
  * @brief  Save the current arena state into mark (no reservation).
@@ -246,7 +246,7 @@ void		push_stack_mark(t_stack_mark *mark, size_t len);
  *
  * @param  mark Pointer to a t_stack_mark object to initialize.
  */
-void		set_stack_mark(t_stack_mark *mark);
+void set_stack_mark(t_stack_mark *mark);
 
 /**
  * @brief  Restore arena state to the given mark and free newer blocks.
@@ -257,7 +257,7 @@ void		set_stack_mark(t_stack_mark *mark);
  *
  * @param  mark Pointer to the mark to restore. If mark is NULL this is a no-op.
  */
-void		pop_stack_mark(t_stack_mark *mark);
+void pop_stack_mark(t_stack_mark *mark);
 
 /* String helpers on top of arena */
 /**
@@ -269,7 +269,7 @@ void		pop_stack_mark(t_stack_mark *mark);
  *
  * @return Pointer to current string base.
  */
-char		*stack_block(void);
+char *stack_block(void);
 
 /**
  * @brief  Return number of free bytes left in the current block.
@@ -278,7 +278,7 @@ char		*stack_block(void);
  *
  * @return Number of bytes available in the active block.
  */
-size_t		stack_block_size(void);
+size_t stack_block_size(void);
 
 /**
  * @brief  Return pointer to start a new string in the current block.
@@ -288,7 +288,7 @@ size_t		stack_block_size(void);
  *
  * @return Pointer to the first byte where string building should start.
  */
-void		start_stack_str(void *p);
+char *start_stack_str(void);
 
 /**
  * @brief  Write a terminating NUL at the current string pointer.
@@ -301,7 +301,7 @@ void		start_stack_str(void *p);
  *           pointer returned after successive st_putc/st_nputs calls).
  * @return Pointer to the stored NUL character.
  */
-char		*stack_str_nul(char *p);
+char *stack_str_nul(char *p);
 
 /**
  * @brief  Append up to n bytes from s to the string at p.
@@ -313,7 +313,7 @@ char		*stack_str_nul(char *p);
  * @param  p Current insertion pointer inside the active string region.
  * @return New insertion pointer (p + n).
  */
-char		*st_nputs(const char *s, size_t n, char *p);
+char *st_nputs(const char *s, size_t n, char *p);
 
 /**
  * @brief  Append a NUL-terminated string s to the string at p.
@@ -322,7 +322,7 @@ char		*st_nputs(const char *s, size_t n, char *p);
  * @param  p Current insertion pointer.
  * @return New insertion pointer (advanced by strlen(s)).
  */
-char		*st_puts(const char *s, char *p);
+char *st_puts(const char *s, char *p);
 
 /**
  * @brief  Append a single character c to the string at p.
@@ -333,7 +333,7 @@ char		*st_puts(const char *s, char *p);
  * @param  p Current insertion pointer.
  * @return New insertion pointer (one past the written character).
  */
-char		*st_putc(int c, char *p);
+char *st_putc(int c, char *p);
 
 /**
  * @brief  Undo the last put (move insertion pointer one byte back).
@@ -341,7 +341,7 @@ char		*st_putc(int c, char *p);
  * @param  p Current insertion pointer.
  * @return Pointer decremented by one (or same if p is NULL).
  */
-char		*st_unputc(char *p);
+char *st_unputc(char *p);
 
 /**
  * @brief  Return the last written character at p.
@@ -351,7 +351,7 @@ char		*st_unputc(char *p);
  * @param  p Current insertion pointer.
  * @return Last character written.
  */
-int			st_topc(char *p);
+int st_topc(char *p);
 
 /**
  * @brief  Adjust a pointer by amount bytes.
@@ -362,7 +362,7 @@ int			st_topc(char *p);
  * @param  p      Original pointer.
  * @return Adjusted pointer (p + amount).
  */
-char		*st_adjust(ptrdiff_t amount, char *p);
+char *st_adjust(ptrdiff_t amount, char *p);
 
 /**
  * @brief  Rewind/unallocate a previously grabbed string region.
@@ -372,7 +372,7 @@ char		*st_adjust(ptrdiff_t amount, char *p);
  * @param  s Pointer previously used with grab_stack_str()
  * or returned by st_alloc().
  */
-void		ungrab_stack_str(void *s);
+void ungrab_stack_str(void *s);
 
 /**
  * @brief  Commit the bytes written into a string region.
@@ -383,7 +383,7 @@ void		ungrab_stack_str(void *s);
  *
  * @param  p Pointer to the insertion position to commit (one past last used).
  */
-char		**grab_stack_str(char *p);
+char **grab_stack_str(char *p);
 
 /* Generic helpers */
 /**
@@ -392,7 +392,7 @@ char		**grab_stack_str(char *p);
  * @param  nbytes Unaligned size.
  * @return Aligned size (multiple of sizeof(void *)).
  */
-size_t		arena_align(size_t nbytes);
+size_t arena_align(size_t nbytes);
 
 /**
  * @brief  Return minimal block payload size for the arena (aligned).
@@ -402,7 +402,7 @@ size_t		arena_align(size_t nbytes);
  * @param  nbytes Requested size.
  * @return Aligned minimal size to use for blocks or allocations.
  */
-size_t		min_size(size_t nbytes);
+size_t min_size(size_t nbytes);
 
 /**
  * @brief  Duplicate a C string using libc malloc.
@@ -410,7 +410,7 @@ size_t		min_size(size_t nbytes);
  * @param  s Source NUL-terminated string.
  * @return Newly allocated copy (must be freed with arena_free or free()).
  */
-char		*str_save(const char *s);
+char *str_save(const char *s);
 
 /**
  * @brief  Wrapper around malloc for arena implementation.
@@ -421,7 +421,7 @@ char		*str_save(const char *s);
  * @param  nbytes Number of bytes to allocate.
  * @return Pointer to allocated memory (non-NULL on success).
  */
-void		*arena_malloc(size_t nbytes);
+void *arena_malloc(size_t nbytes);
 
 /**
  * @brief  Wrapper around realloc for arena implementation.
@@ -432,14 +432,14 @@ void		*arena_malloc(size_t nbytes);
  * @param  nbytes New requested size.
  * @return Pointer to reallocated memory (non-NULL on success).
  */
-void		*arena_realloc(void *p, size_t nbytes);
+void *arena_realloc(void *p, size_t nbytes);
 
 /**
  * @brief  Wrapper around free for arena-allocated blocks.
  *
  * @param  p Pointer returned by arena_malloc/arena_realloc.
  */
-void		arena_free(void *p);
+void arena_free(void *p);
 
 /**
  * @brief  Compute a new payload length to use when growing a block.
@@ -451,8 +451,8 @@ void		arena_free(void *p);
  * @param  g   Pointer to arena context used for heuristics.
  * @return Chosen payload length in bytes.
  */
-size_t		compute_new_len(size_t min, t_garena *g);
+size_t compute_new_len(size_t min, t_garena *g);
 
-char		*stack_str_end(void);
+char *stack_str_end(void);
 
 #endif

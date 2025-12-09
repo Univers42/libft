@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:25:56 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:20:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
  *    0 on immediate EOF with no data (st_unalloc already called),
  *    1 when finished reading (either newline seen or EOF after data)
  */
-static int	read_line_fill(int fd, char *base, char **pp)
+static int read_line_fill(int fd, char *base, char **pp)
 {
-	char	buf;
-	ssize_t	r;
+	char buf;
+	ssize_t r;
 
 	while (1)
 	{
@@ -31,7 +31,7 @@ static int	read_line_fill(int fd, char *base, char **pp)
 		if (r < 0)
 		{
 			if (errno == EINTR)
-				continue ;
+				continue;
 			return (st_unalloc(base), -1);
 		}
 		if (r == 0)
@@ -52,14 +52,13 @@ static int	read_line_fill(int fd, char *base, char **pp)
  * to build and commit the string in the arena. Caller must ensure the arena
  * context remains valid for the returned string lifetime.
  */
-char	*read_line_arena(int fd)
+char *read_line_arena(int fd)
 {
-	char	*base;
-	char	*p;
-	int		r;
+	char *base;
+	char *p;
+	int r;
 
-	base = NULL;
-	start_stack_str(base);
+	base = start_stack_str();
 	p = base;
 	r = read_line_fill(fd, base, &p);
 	if (r <= 0)

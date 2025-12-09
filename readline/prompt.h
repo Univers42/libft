@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:16:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:49:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:09:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #include "lexer.h"
 #include "ft_colors.h"
 #include "system.h"
+#include "ft_wctype.h"
 
 static inline int get_cols(void)
 {
@@ -73,7 +74,7 @@ static inline int vis_width(const char *s)
 				p++;
 			continue;
 		}
-		r = mbrtowc(&wc, p, MB_CUR_MAX, &st);
+		r = ft_mbrtowc(&wc, p, MB_CUR_MAX, &st);
 		if (r == (size_t)-2 || r == (size_t)-1)
 		{
 			width++;
@@ -83,7 +84,7 @@ static inline int vis_width(const char *s)
 		}
 		if (r == 0)
 			break;
-		w = wcwidth(wc);
+		w = ft_wcwidth(wc);
 		if (w > 0)
 			width += w;
 		p += r;

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:24:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 16:52:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:06:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ int			ft_towupper(wint_t wc);
 /* meta helpers */
 int			ft_iswctype(wint_t wc, t_wctype desc);
 t_wctype	ft_wctype(const wchar_t *name);
+size_t ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps);
 
+int     ft_wcwidth(wchar_t wc);
 #endif

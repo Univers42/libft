@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:22:41 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 01:55:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 02:43:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "trap.h"
+#include <stdio.h> // add for snprintf
 
 void buff_readline_update(t_rl *l)
 {
@@ -38,11 +39,19 @@ void buff_readline_init(t_rl *ret)
 
 void update_context(t_rl *rl, char **context, char **base_context)
 {
+	char *new_ctx;
+	int len;
+
 	if (!rl->should_update_ctx)
 		return;
-	free(*context);
-	ft_asprintf(context, "%s: line %i",
-						   *base_context, rl->lineno);
+	len = ft_strlen(*base_context) + 16;
+	new_ctx = (char *)malloc((size_t)len);
+	if (!new_ctx)
+		return;
+	snprintf(new_ctx, (size_t)len, "%s: line %d", *base_context, rl->lineno);
+	if (*context)
+		free(*context);
+	*context = new_ctx;
 }
 
 int get_more_input_notty(t_rl *rl)

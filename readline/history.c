@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 22:51:48 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/08 23:30:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 02:18:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void parse_history_file(t_hist *_hist, t_vec *env)
 	hist_file_path = get_hist_file_path(env);
 	if (!hist_file_path)
 		return;
+
+	/* Open for reading to load existing history */
 	fd = open(hist_file_path, O_RDONLY | O_CREAT, 0666);
 	if (fd < 0)
 	{
@@ -110,9 +112,12 @@ void parse_history_file(t_hist *_hist, t_vec *env)
 	dyn_str_append_fd(fd, &hist);
 	close(fd);
 	_hist->cmds = parse_hist_file(hist);
+
+	/* Critical: open for appending to write new entries */
 	_hist->append_fd = open(hist_file_path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (_hist->append_fd < 0)
 		warning_error("Can't open the history file for writing");
+
 	free(hist_file_path);
 	free(hist.buff);
 }

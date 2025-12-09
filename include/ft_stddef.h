@@ -21,7 +21,7 @@ typedef void *t_ptr;
 
 typedef long t_ssize;
 typedef unsigned long int t_size;
-typedef char*			t_string;
+typedef char *t_string;
 // maps
 typedef char **t_strings;
 typedef unsigned char t_uint8;
@@ -44,31 +44,31 @@ typedef uint64_t t_time;
 #define FAILURE 1
 #define ERROR 1
 #define OK 0
-# define BYTE 8
+#define BYTE 8
 /***************************
  * WRAPPED MESSAGES SHORTCUT
  ***************************/
 
-# define NULLSTR ""
-# define SPC_STR " "
-# define SPACE_CHAR 32
+#define NULLSTR ""
+#define SPC_STR " "
+#define SPACE_CHAR 32
 
 /* common escape characters */
-# define ESC_N  '\n'   /* newline */
-# define ESC_T  '\t'   /* tab */
-# define ESC_R  '\r'   /* carriage return */
-# define ESC_B  '\b'   /* backspace */
-# define ESC_A  '\a'   /* bell/alert */
-# define ESC_E  '\e'   /* escape (same as \x1B) */
-# define ESC_F  '\f'   /* form feed */
-# define ESC_V  '\v'   /* vertical tab */
-# define ESC_BS '\\'   /* backslash */
-# define ESC_NUL '\0'  /* NUL byte */
+#define ESC_N '\n'	 /* newline */
+#define ESC_T '\t'	 /* tab */
+#define ESC_R '\r'	 /* carriage return */
+#define ESC_B '\b'	 /* backspace */
+#define ESC_A '\a'	 /* bell/alert */
+#define ESC_E '\e'	 /* escape (same as \x1B) */
+#define ESC_F '\f'	 /* form feed */
+#define ESC_V '\v'	 /* vertical tab */
+#define ESC_BS '\\'	 /* backslash */
+#define ESC_NUL '\0' /* NUL byte */
 
-# define SNL_FMT "%s\n"
-# define ILL_NUM "Illegal number: %s"
-# define HOME_STR "HOME"
-# define DOT_DIR "."
+#define SNL_FMT "%s\n"
+#define ILL_NUM "Illegal number: %s"
+#define HOME_STR "HOME"
+#define DOT_DIR "."
 
 #define COMMAND_NOT_FOUND 127
 #define EXE_PERM_DENIED 126
@@ -76,12 +76,12 @@ typedef uint64_t t_time;
 #define CANCELED 130
 #define SYNTAX_ERR 2
 #define AMBIGUOUS_REDIRECT 1
-#define PROMPT "❯ "
+#define PROMPT "\001❯ \002"
 #define HIST_FILE ".minishell_history"
-# define RL_SPACER_1 "\x03"
-#define ANSI_RED "\033[31m"
-#define ANSI_GREEN "\033[32m"
-#define ANSI_RESET "\033[0m"
+#define RL_SPACER_1 "\x03" /* restore spacer to keep prompt/backspace stable */
+#define ANSI_RED "\001\033[31m\002"
+#define ANSI_GREEN "\001\033[32m\002"
+#define ANSI_RESET "\001\033[0m\002"
 
 #define LEXER_SQUOTE_PROMPT "squote> "
 #define LEXER_DQUOTE_PROMPT "dquote> "
@@ -104,41 +104,41 @@ typedef enum e_state
 	ST_DONE = 0,
 	ST_DEFAULT = 0,
 	ST_INIT = 0,
-	ST_NORMAL = 0,			// Default state
+	ST_NORMAL = 0, // Default state
 	ST_USE = 1,
 	ST_FOUND_NL = 1,
 	ST_IN_MEMORY = 1,
 	ST_DEAD,
 	ST_INFO_BASE = SEV_INFO,
-    ST_MATCH_ANY,
-    ST_MATCH_BEG,
-    ST_MATCH_END,
-    ST_MATCH_GLOBREP,
-    ST_MATCH_QUOTED,
-    ST_MATCH_LITERAL,
-    ST_MATCH_ASSIGNRHS,
-    ST_MATCH_VARSUB,
-    ST_MATCH_CMDSUB,
-    ST_MATCH_ARITH,
-    ST_MATCH_PATHNAME,
-    ST_MATCH_WORDBOUND,
-    ST_MATCH_EXTGLOB,
-    ST_MATCH_ERRBASE,
-    ST_MATCH_EXPREP,
-    ST_MATCH_ESCAPED,
-    ST_BIN_FILE,
-	ST_IN_SQUOTE,			// Inside single quotes
-	ST_IN_DQUOTE,			// Inside double quotes
-	ST_IN_BQUOTE,			// Inside backticks
-	ST_IN_SUBSHELL,			// Inside $()
-	ST_IN_ARITH,			// Inside $(())
-	ST_IN_PARAM,			// Inside ${}
-	ST_HEREDOC,				// Reading heredoc content
-	ST_IN_COMMENT,			// Reading comment
+	ST_MATCH_ANY,
+	ST_MATCH_BEG,
+	ST_MATCH_END,
+	ST_MATCH_GLOBREP,
+	ST_MATCH_QUOTED,
+	ST_MATCH_LITERAL,
+	ST_MATCH_ASSIGNRHS,
+	ST_MATCH_VARSUB,
+	ST_MATCH_CMDSUB,
+	ST_MATCH_ARITH,
+	ST_MATCH_PATHNAME,
+	ST_MATCH_WORDBOUND,
+	ST_MATCH_EXTGLOB,
+	ST_MATCH_ERRBASE,
+	ST_MATCH_EXPREP,
+	ST_MATCH_ESCAPED,
+	ST_BIN_FILE,
+	ST_IN_SQUOTE,	// Inside single quotes
+	ST_IN_DQUOTE,	// Inside double quotes
+	ST_IN_BQUOTE,	// Inside backticks
+	ST_IN_SUBSHELL, // Inside $()
+	ST_IN_ARITH,	// Inside $(())
+	ST_IN_PARAM,	// Inside ${}
+	ST_HEREDOC,		// Reading heredoc content
+	ST_IN_COMMENT,	// Reading comment
 	ST_MORE_INPUT,
 	ST_IN_WORD,
-	ST_ESCAPE_NEXT,			// next char is escaped
-	ST_WHITESPACE,			// Reading whitespace
+	ST_ESCAPE_NEXT, // next char is escaped
+	ST_WHITESPACE,	// Reading whitespace
 	ST_SIGN,
 	ST_BASE_PREFIX,
 	ST_DIGITS,
@@ -150,22 +150,22 @@ typedef enum e_state
 	ST_WARNING_BASE = SEV_WARNING,
 	ST_OVERFLOW,
 	ST_ERR_BASE = SEV_ERROR,
-    ST_EXECUTION_FAILURE,
-    ST_EX_BADUSAGE,
-    ST_EX_MISCERROR,
-    ST_RETRYFAIL,
-    ST_WEXPCOMBSUB,
-    ST_EX_NOEXEC,
-    ST_EX_NOINPUT,
-    ST_EX_NOTFOUND,
-    ST_EX_ERRBASE,
-    ST_EX_BADSYNTAX,
-    ST_EX_USAGE,
-    ST_EX_REDIRFAIL,
-    ST_EX_BADASSIGN,
-    ST_EXPRFAIL,
-    ST_EX_DISKFALLBACK,
-    ST_EX_UTILERROR,
+	ST_EXECUTION_FAILURE,
+	ST_EX_BADUSAGE,
+	ST_EX_MISCERROR,
+	ST_RETRYFAIL,
+	ST_WEXPCOMBSUB,
+	ST_EX_NOEXEC,
+	ST_EX_NOINPUT,
+	ST_EX_NOTFOUND,
+	ST_EX_ERRBASE,
+	ST_EX_BADSYNTAX,
+	ST_EX_USAGE,
+	ST_EX_REDIRFAIL,
+	ST_EX_BADASSIGN,
+	ST_EXPRFAIL,
+	ST_EX_DISKFALLBACK,
+	ST_EX_UTILERROR,
 	ST_ERR_ALLOC,
 	ST_ERR_FATAL
 } t_state;

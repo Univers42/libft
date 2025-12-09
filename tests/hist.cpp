@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 02:12:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 02:36:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,13 @@ static void init_stdin_notty(int *input_method, t_rl *rl)
 	rl->should_update_ctx = true;
 }
 
-char	*getpid_hack(void)
+char *getpid_hack(void)
 {
-	int			fd;
-	t_dyn_str	file;
-	char		*ret;
-	char		**temp;
-	const char	*err = "CAnnot get PID.";
+	int fd;
+	t_dyn_str file;
+	char *ret;
+	char **temp;
+	const char *err = "CAnnot get PID.";
 	fd = open("/proc/self/stat", O_RDONLY);
 	if (fd < 0)
 	{
@@ -175,6 +175,10 @@ static void init_app(t_app *shell, char **argv, char **envp)
 	shell->last_cmd_status_res = res_status(0);
 	init_cwd(&shell->cwd);
 	shell->env = env_to_vec_env(&shell->cwd, envp);
+
+	/* Always initialize history first before checking input method */
+	init_history(&shell->hist, &shell->env);
+
 	if (argv[1] && ft_strcmp(argv[1], "-c") == 0)
 		init_arg(&shell->input_method, shell->base_context, &shell->rl, argv, &ctx);
 	else if (argv[1])
@@ -182,7 +186,11 @@ static void init_app(t_app *shell, char **argv, char **envp)
 	else if (!isatty(0))
 		init_stdin_notty(&shell->input_method, &shell->rl);
 	else
-		init_history(&shell->hist, &shell->env);
+	{
+		/* interactive readline mode */
+		shell->input_method = INP_READLINE;
+		shell->rl.should_update_ctx = true;
+	}
 }
 
 static void parse_input(t_app *shell)
@@ -197,8 +205,10 @@ static void parse_input(t_app *shell)
 	parser = (t_parse){.st = ST_INIT, .stack = {}};
 	prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
 	deque_init(&tt, 64, sizeof(t_token), (void *)looking_for);
+
 	get_more_tokens(&tt, &shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
 					&shell->input_method, &shell->context, &shell->base_context, (int *)&shell->should_exit);
+
 	if (get_g_sig()->should_unwind)
 		set_cmd_status(&shell->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &shell->last_cmd_status_s);
 	free(parser.stack.buff);

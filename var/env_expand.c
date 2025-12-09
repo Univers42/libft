@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:57:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:31:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:40:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,64 +30,78 @@ char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec
     return (curr->value);
 }
 
-
 char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env)
 {
 	return (env_expand_n(last_cmd_status_s, pid,  key, ft_strlen(key), env));
 }
 
-int env_set(t_vec *env, t_env new_entry)
+int env_set(t_vec *env, t_env nw)
 {
 	t_env *old;
 
-	if (!env || !new_entry.key)
-		return (-1);
-	old = env_get(env, new_entry.key);
+	ft_assert(nw.key != 0);
+	old = env_get(env, nw.key);
 	if (old)
 	{
 		free(old->value);
-		free(new_entry.key);
-		old->value = new_entry.value;
-		old->exported = new_entry.exported;
-		return (0);
+		free(nw.key);
+		old->value = nw.value;
+		old->exported = nw.exported;
 	}
-	return (vec_push(env, &new_entry) ? 0 : -1);
+	else
+		return (vec_push(env, &nw));
+	return (0);
 }
 
-void env_extend(t_vec *edst, t_vec *esrc, bool do_export)
+
+void env_extend(t_vec *dest, t_vec *src, bool exp)
 {
-	t_env curr;
+	t_env *curr;
+	t_env temp;
 	size_t i;
 
-	if (!edst || !esrc)
-		return;
 	i = 0;
-	while (i < esrc->len)
+	while (i < src->len)
 	{
-		if (vec_pop(esrc, &curr))
-		{
-			curr.exported = do_export;
-			env_set(edst, curr);
-		}
+		curr = (t_env *)vec_idx(src, i);
+		temp = *curr;
+		temp.exported = exp;
+		env_set(dest, temp);
 		i++;
 	}
-	vec_destroy(esrc);
+	vec_destroy(src);
 }
+
 
 t_env *env_nget(t_vec *env, char *key, int len)
 {
 	t_env *curr;
 	int i;
 
-	if (!env || !key)
-		return (NULL);
-	i = (int)env->len - 1;
+	i = env->len - 1;
 	while (i >= 0)
 	{
-		curr = (t_env *)vec_idx(env, i);
-		if (curr && ft_strncmp(key, curr->key, len) == 0 && curr->key[len] == '\0')
+		curr = vec_idx(env, i);
+		if (ft_strncmp(key, curr->key, len) == 0 && curr->key[len] == 0)
 			return (curr);
 		i--;
 	}
-	return (NULL);
+	return (0);
+}
+
+void free_env(t_vec *env)
+{
+	size_t i;
+	t_env *curr;
+
+	i = 0;
+	while (i < env->len)
+	{
+		curr = (t_env *)vec_idx(env, i);
+		free(curr->key);
+		free(curr->value);
+		i++;
+	}
+	free(env->buff);
+	env->buff = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:35:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 02:04:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:47:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ int dyn_st_push(t_dyn_str *v, char el)
 	v->buff[v->len] = 0;
 	return (1);
 }
-
-/* public API wrapper kept for compatibility */
-// ...existing code...
-#include "ft_string.h"
 
 int dyn_str_push(t_dyn_str *v, char el)
 {

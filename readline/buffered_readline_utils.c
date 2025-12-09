@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   buffered_readline_utils.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 07:22:41 by anddokhn          #+#    #+#             */
+/*   Updated: 2025/12/09 01:55:05 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_readline.h"
+#include <errno.h>
+#include <unistd.h>
+#include "ft_stdio.h"
+#include "trap.h"
+
+void buff_readline_update(t_rl *l)
+{
+	l->has_line = l->cursor != l->str.len;
+}
+
+void buff_readline_reset(t_rl *l)
+{
+	ft_memmove(l->str.buff, l->str.buff + l->cursor, l->str.len - l->cursor);
+	l->str.len -= l->cursor;
+	if (l->str.buff)
+		l->str.buff[l->str.len] = 0;
+	l->cursor = 0;
+	buff_readline_update(l);
+}
+
+void buff_readline_init(t_rl *ret)
+{
+	*ret = (t_rl){};
+}
+
+void update_context(t_rl *rl, char **context, char **base_context)
+{
+	if (!rl->should_update_ctx)
+		return;
+	free(*context);
+	ft_asprintf(context, "%s: line %i",
+						   *base_context, rl->lineno);
+}
+
+int get_more_input_notty(t_rl *rl)
+{
+	char buff[4096 * 2];
+	int ret;
+	int status;
+
+	status = 1;
+	set_unwind_sig_norestart();
+	while (1)
+	{
+		ret = read(0, buff, sizeof(buff));
+		if (ret < 0 && errno == EINTR)
+			status = 2;
+		if (ret == 0)
+			rl->has_finished = true;
+		if (ret == 0)
+			dyn_str_pushstr(&rl->str, "\n");
+		if (ret <= 0)
+			break;
+		status = 0;
+		dyn_str_pushnstr(&rl->str, buff, ret);
+		if (ft_strnchr(buff, '\n', ret))
+			break;
+	}
+	set_unwind_sig();
+	buff_readline_update(rl);
+	return (status);
+}

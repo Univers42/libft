@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 02:45:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:05:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 02:05:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	critical_error_errno_context(char *context)
 	exit(1);
 }
 
-void	warning_error(char *error)
+void	warning_error(const char *error)
 {
 	ft_eprintf("[WARNING] %s\n", error);
 }

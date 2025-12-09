@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:31:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:41:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_localvar_list t_localvar_list;
 typedef struct s_var_state t_var_state;
 typedef struct s_var t_var;
 /* Public header provides canonical typedefs */
-
 
 /* avoid including ft_stdio.h here when compiling as C++ (these headers
    contain C-only constructs that are not C++-friendly). Include them
@@ -51,33 +50,33 @@ extern "C"
 #define NOPTS 32
 #endif
 
-/* Provide an internal definition of struct s_var so internal modules can
-   allocate arrays of struct s_var (e.g. varinit[16]). We do NOT create a
-   typedef here (var.h already declares 'typedef struct s_var t_var;'). */
-struct s_var
-{
-	struct s_var *next;
-	int flags;
-	const char *text;
-	void (*func)(const char *);
-};
+	/* Provide an internal definition of struct s_var so internal modules can
+	   allocate arrays of struct s_var (e.g. varinit[16]). We do NOT create a
+	   typedef here (var.h already declares 'typedef struct s_var t_var;'). */
+	struct s_var
+	{
+		struct s_var *next;
+		int flags;
+		const char *text;
+		void (*func)(const char *);
+	};
 
-/* Minimal metadata structure used by set_var/build helpers.
-   The public header forward-declares 'typedef struct s_meta t_meta;'
-   but the concrete struct layout is private and required by implementation
-   files (set_var.c, etc.). Provide it here (no typedef duplication). */
-struct s_meta
-{
-	const char *name;
-	size_t len;
-};
+	/* Minimal metadata structure used by set_var/build helpers.
+	   The public header forward-declares 'typedef struct s_meta t_meta;'
+	   but the concrete struct layout is private and required by implementation
+	   files (set_var.c, etc.). Provide it here (no typedef duplication). */
+	struct s_meta
+	{
+		const char *name;
+		size_t len;
+	};
 
-typedef struct s_env
-{
-	bool exported;
-	char *key;
-	char *value;
-} t_env;
+	typedef struct s_env
+	{
+		bool exported;
+		char *key;
+		char *value;
+	} t_env;
 
 /* ---- Missing flag macros (guarded) ----
    Provide reasonable defaults only if not defined by public headers.
@@ -133,117 +132,188 @@ typedef struct s_env
 #define DEFOPTINDVAR "OPTIND=1"
 #endif
 
+	/* Internal definitions for local-variable structures used by implementation.
+	   We declare struct s_localvar / s_localvar_list (no typedef) so .c files can
+	   allocate and reference their fields; the public header keeps typedef names
+	   (t_localvar, t_localvar_list) and will refer to these structs. */
+	struct s_localvar
+	{
+		struct s_localvar *next;
+		struct s_var *vp;
+		int flags;
+		const char *text;
+		void (*restore)(struct s_localvar *lvp, t_var_state *state);
+	};
 
-/* Internal definitions for local-variable structures used by implementation.
-   We declare struct s_localvar / s_localvar_list (no typedef) so .c files can
-   allocate and reference their fields; the public header keeps typedef names
-   (t_localvar, t_localvar_list) and will refer to these structs. */
-struct s_localvar
-{
-	struct s_localvar *next;
-	struct s_var *vp;
-	int flags;
-	const char *text;
-	void (*restore)(struct s_localvar *lvp, t_var_state *state);
-};
+	struct s_localvar_list
+	{
+		struct s_localvar_list *next;
+		t_localvar *lv;
+	};
 
-struct s_localvar_list
-{
-	struct s_localvar_list *next;
-	t_localvar *lv;
-};
+	/* -------------------------------------------------------------------------
+	   INTERNAL: define struct s_var_state so internal implementation files
+	   may access its fields. Do NOT create a typedef here — var.h already
+	   provides "typedef struct s_var_state t_var_state;" and that typedef
+	   will name this struct correctly.
+	   ------------------------------------------------------------------------- */
+	struct s_var_state
+	{
+		/* hash table of variables */
+		struct s_var *vartab[VTABSIZE];
 
-/* -------------------------------------------------------------------------
-   INTERNAL: define struct s_var_state so internal implementation files
-   may access its fields. Do NOT create a typedef here — var.h already
-   provides "typedef struct s_var_state t_var_state;" and that typedef
-   will name this struct correctly.
-   ------------------------------------------------------------------------- */
-struct s_var_state
-{
-	/* hash table of variables */
-	struct s_var *vartab[VTABSIZE];
+		/* stack of local variable scopes */
+		struct s_localvar_list *localvar_stack;
 
-	/* stack of local variable scopes */
-	struct s_localvar_list *localvar_stack;
+		/* option lists (canonical storage) */
+		char optlist[NOPTS];
+		char oplist[NOPTS];
 
-	/* option lists (canonical storage) */
-	char optlist[NOPTS];
-	char oplist[NOPTS];
+		/* initial set of variables used during initialization */
+		struct s_var varinit[16];
+		int varinit_size;
 
-	/* initial set of variables used during initialization */
-	struct s_var varinit[16];
-	int varinit_size;
+		/* defaults for a few special variables (point to static strings) */
+		const char *defpathvar;
+		const char *defifsvar;
+		const char *defoptindvar;
 
-	/* defaults for a few special variables (point to static strings) */
-	const char *defpathvar;
-	const char *defifsvar;
-	const char *defoptindvar;
+		/* line-number helper (optional) */
+		char linenovar[16];
+		struct s_var *vlineno_ptr;
+		int lineno;
+	};
 
-	/* line-number helper (optional) */
-	char linenovar[16];
-	struct s_var *vlineno_ptr;
-	int lineno;
-};
+	/* ---- Private-only helpers and test utilities ----
+	   Expose only additional internal function prototypes needed across
+	   the var implementation. Do NOT redefine public structs/macros.
+	*/
 
-/* ---- Private-only helpers and test utilities ----
-   Expose only additional internal function prototypes needed across
-   the var implementation. Do NOT redefine public structs/macros.
-*/
+	/* Test utility: reset singleton state for unit tests. */
+	void libvar_reset_state(void);
 
-/* Test utility: reset singleton state for unit tests. */
-void libvar_reset_state(void);
+	/* Numeric helper */
+	intmax_t ft_atomax(const char *s, int base);
 
-/* Numeric helper */
-intmax_t ft_atomax(const char *s, int base);
+	/* Factory helpers used by var_state init */
+	t_var make_atty(void);
+	t_var make_ifs(const char *ifs);
+	t_var make_mail(void);
+	t_var make_mailpath(void);
+	t_var make_path(const char *path);
+	/* change: reset callback returns void (matches var_state helpers) */
+	t_var make_optind(const char *optind, void (*resetfn)(void));
+	t_var make_lineno(const char *lineno);
+	t_var make_term(void);
+	t_var make_histsize(void);
+	t_var make_ps1(void);
+	t_var make_ps2(void);
+	t_var make_ps4(void);
 
-/* Factory helpers used by var_state init */
-t_var make_atty(void);
-t_var make_ifs(const char *ifs);
-t_var make_mail(void);
-t_var make_mailpath(void);
-t_var make_path(const char *path);
-/* change: reset callback returns void (matches var_state helpers) */
-t_var make_optind(const char *optind, void (*resetfn)(void));
-t_var make_lineno(const char *lineno);
-t_var make_term(void);
-t_var make_histsize(void);
-t_var make_ps1(void);
-t_var make_ps2(void);
-t_var make_ps4(void);
+	/* var_state helpers used during initialization */
+	int add_atty(t_var_state *state, int i);
+	int add_term_histsize(t_var_state *state, int i);
+	int init_varinit_pt2(t_var_state *state, int i);
 
-/* var_state helpers used during initialization */
-int add_atty(t_var_state *state, int i);
-int add_term_histsize(t_var_state *state, int i);
-int init_varinit_pt2(t_var_state *state, int i);
+	/* var lookup helpers provided privately */
+	t_var **find_var(const char *name);
+	char *var_null(const char *s);
 
-/* var lookup helpers provided privately */
-t_var **find_var(const char *name);
-char *var_null(const char *s);
+	/* DECLARE unset_func used by unset.c (stub / shell integration) */
+	void unset_func(const char *name);
 
-/* DECLARE unset_func used by unset.c (stub / shell integration) */
-void unset_func(const char *name);
+	/* Accessors that are implemented in var/ (kept for internal linkage) */
+	t_var_state *get_var_state(void);
+	t_localvar_list *get_localvar_stack(void);
+	char *get_optlist(void);
+	intmax_t set_varint(const char *name, intmax_t val, int flags);
 
-/* Accessors that are implemented in var/ (kept for internal linkage) */
-t_var_state *get_var_state(void);
-t_localvar_list *get_localvar_stack(void);
-char *get_optlist(void);
-intmax_t set_varint(const char *name, intmax_t val, int flags);
+	/* New: teardown API to free all libvar-managed allocations */
+	void libvar_destroy(void);
 
-/* New: teardown API to free all libvar-managed allocations */
-void libvar_destroy(void);
+	/* Environment management functions */
+	char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env);
+	t_env *env_nget(t_vec *env, char *key, int len);
+	t_vec create_vec_env(char **envp);
+	char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env);
+	int env_set(t_vec *env, t_env nw);
+	void env_extend(t_vec *dest, t_vec *src, bool exp);
+	t_env *env_nget(t_vec *env, char *key, int len);
+	void free_env(t_vec *env);
 
-/* Environment management functions */
-t_env str_to_env(char *str);
-char **get_envp(t_vec *env);
-void free_env(t_vec *env);
-t_env *env_get(t_vec *env, char *key);
-char *env_get_ifs(t_vec *env);
-char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env);
-int env_set(t_vec *env, t_env new_entry);
-void env_extend(t_vec *edst, t_vec *esrc, bool do_export);
-t_env *env_nget(t_vec *env, char *key, int len);
-t_vec create_vec_env(char **envp);
+	t_vec env_to_vec_env(t_dyn_str *cwd, char **envp);
+	char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec *env);
+	void free_env(t_vec *env);
+	static inline t_env str_to_env(char *str)
+	{
+		t_env ret;
+		char *key_pos;
+
+		key_pos = ft_strchr(str, '=') + 1;
+		ft_assert(key_pos != 0);
+		ret.exported = true;
+		ret.key = (char *)malloc(key_pos - str);
+		ft_strlcpy(ret.key, str, key_pos - str);
+		ret.value = ft_strdup(key_pos);
+		return (ret);
+	}
+
+	static inline char **get_envp(t_vec *env, char *exe_path)
+	{
+		char **ret;
+		size_t i;
+		size_t j;
+		t_dyn_str s;
+		t_env *curr;
+
+		env_set(env, (t_env){
+						 .exported = true,
+						 .key = ft_strdup("_"),
+						 .value = ft_strdup(exe_path)});
+		ret = (char **)ft_calloc(env->len + 1, sizeof(char *));
+		i = 0;
+		j = 0;
+		while (i < env->len)
+		{
+			curr = (t_env *)vec_idx(env, i);
+			if (curr->exported)
+			{
+				dyn_str_init(&s);
+				dyn_str_pushstr(&s, curr->key);
+				dyn_str_push(&s, '=');
+				dyn_str_pushstr(&s, curr->value);
+				ret[j++] = s.buff;
+			}
+			i++;
+		}
+		return (ret);
+	}
+
+	static inline t_env *env_get(t_vec *env, char *key)
+	{
+		t_env *curr;
+		size_t i;
+
+		i = 0;
+		while (i < env->len)
+		{
+			curr = (t_env *)vec_idx(env, i);
+			if (ft_strcmp(key, curr->key) == 0)
+				return (curr);
+			i++;
+		}
+		return (0);
+	}
+
+	static inline char *env_get_ifs(t_vec *v)
+	{
+		t_env *e;
+
+		e = env_get(v, (char *)"IFS");
+		if (!e)
+			return ((char *)" \t\n");
+		return (e->value);
+	}
 #ifdef __cplusplus
 }
 #endif

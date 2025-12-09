@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:30:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:36:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,9 @@ int	            var_cmp(const char *p, const char *q);
  * @return An integer <, ==, or > 0.
  */
 int				var_vpcmp(const void *a, const void *b);
-
-t_vec   env_to_vec_env(t_dyn_str *cwd, char **envp);
 char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec *env);
+
+
+
 
 #endif

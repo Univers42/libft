@@ -135,6 +135,7 @@ typedef enum e_state
 	ST_IN_PARAM,			// Inside ${}
 	ST_HEREDOC,				// Reading heredoc content
 	ST_IN_COMMENT,			// Reading comment
+	ST_MORE_INPUT,
 	ST_IN_WORD,
 	ST_ESCAPE_NEXT,			// next char is escaped
 	ST_WHITESPACE,			// Reading whitespace
@@ -312,5 +313,11 @@ typedef enum e_search_algorithm
 	SEARCH_JUMP,
 	SEARCH_INTERPOLATION
 } t_search_algorithm;
+
+typedef struct s_fnctx
+{
+	void (*fn)(void *arg);
+	void *arg;
+} t_fnctx;
 
 #endif

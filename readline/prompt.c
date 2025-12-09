@@ -5,26 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 21:09:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 02:57:15 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
+/*   Updated: 2025/12/08 23:38:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "ft_readline.h"
-#include "ft_vector.h"
-#include "ft_string.h"
-#include "ft_memory.h"
-#include <fcntl.h>
-#include <unistd.h>
+#include <stdio.h>
 #include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/wait.h>
-#include "trap.h"
+#include "libft.h"
+#include "parser.h"
 #include "lexer.h"
-#include "var.h"
 
-t_dyn_str prompt_more_input(t_vec *parse_stack)
+t_dyn_str prompt_more_input(t_parse *parser)
 {
 	t_dyn_str ret;
 	t_token_type curr;
@@ -32,9 +24,9 @@ t_dyn_str prompt_more_input(t_vec *parse_stack)
 
 	i = 0;
 	dyn_str_init(&ret);
-	while (i < parse_stack->len)
+	while (i < parser->stack.len)
 	{
-		curr = (t_token_type)vec_idx(parse_stack, i++);
+		curr = (t_token_type)vec_idx(&parser->stack, i++);
 		if (curr == TOKEN_LEFT_BRACE)
 			dyn_str_pushstr(&ret, "subsh");
 		else if (curr == TOKEN_PIPE)
@@ -52,34 +44,22 @@ t_dyn_str prompt_more_input(t_vec *parse_stack)
 	return (ret);
 }
 
-// ...existing code...
-t_dyn_str prompt_normal(char *last_cmd_status_s, t_status *st)
+t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s)
 {
-    t_dyn_str ret;
+	t_dyn_str ret;
 
-    dyn_str_init(&ret);
-    if (st->status == 0)
-    {
-        /* wrap non-printing ANSI with \001 and \002 for readline */
-        dyn_str_pushstr(&ret, "\001");
-        dyn_str_pushstr(&ret, GREEN_TERM);
-        dyn_str_pushstr(&ret, "\002");
-    }
-    else
-    {
-        dyn_str_pushstr(&ret, "\001");
-        dyn_str_pushstr(&ret, RED_TERM);
-        dyn_str_pushstr(&ret, "\002");
-        dyn_str_pushstr(&ret, last_cmd_status_s);
-        dyn_str_pushstr(&ret, " ");
-    }
-    /* PROMPT may contain printable chars only; color reset must be wrapped */
-    dyn_str_pushstr(&ret, PROMPT);
-    dyn_str_pushstr(&ret, "\001");
-    dyn_str_pushstr(&ret, RESET_TERM);
-    dyn_str_pushstr(&ret, "\002");
-    dyn_str_pushstr(&ret, RL_SPACER_1);
-    dyn_str_pushstr(&ret, RL_SPACER_1);
-    return (ret);
+	dyn_str_init(&ret);
+	if (last_cmd_status_res->status == 0)
+		dyn_str_pushstr(&ret, ANSI_GREEN);
+	else
+	{
+		dyn_str_pushstr(&ret, ANSI_RED);
+		dyn_str_pushstr(&ret, *last_cmd_status_s);
+		dyn_str_pushstr(&ret, " ");
+	}
+	dyn_str_pushstr(&ret, PROMPT);
+	dyn_str_pushstr(&ret, ANSI_RESET);
+	dyn_str_pushstr(&ret, RL_SPACER_1);
+	dyn_str_pushstr(&ret, RL_SPACER_1);
+	return (ret);
 }
-// ...existing code...

@@ -6,26 +6,26 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:48:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 02:05:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:46:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ds.h"
 #include "ft_stdio.h"
 
-int dyn_str_append_fd(int fd, t_dyn_str *out)
+void dyn_str_append_fd(int fd, t_dyn_str *ret)
 {
-    char buf[4096];
-    ssize_t r;
+	char buff[1024];
+	int len;
 
-    if (!out)
-        return (0);
-    if (!out->buff)
-        dyn_str_double(out);
-    while ((r = read(fd, buf, sizeof(buf))) > 0)
-    {
-        if (!dyn_str_pushnstr(out, buf, (size_t)r))
-            return (0);
-    }
-    return (r >= 0);
+	while (1)
+	{
+		len = read(fd, buff, sizeof(buff));
+		if (len == 0)
+			break;
+		if (len > 0)
+			dyn_str_pushnstr(ret, buff, len);
+		else
+			critical_error_errno_context("read");
+	}
 }

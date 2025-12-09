@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:40:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 16:28:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:28:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,36 @@ t_vec create_vec_env(char **envp)
  * The vector `ret` now has a properly types buffer that stores t_env
  * strutures, not pointers to them. 
  */
-t_vec   env_to_vec_env(t_dyn_str *cwd, char **envp)
+t_vec env_to_vec_env(t_dyn_str *cwd, char **envp)
 {
-    t_vec           env;
-    t_vec_config    config;
-    t_env           lentry;
+	t_vec ret;
+	t_vec_config config;
+	t_env env_entry;
 
-    config = (t_vec_config){.elem_size = sizeof(t_env), .initial_capacity = 32, .type_mask = VEC_TYPE_CUSTOM};
-    if (vec_init(&env, &config) < 0)
-        return (env);
-    while (*envp)
-    {
-        lentry = str_to_env(*envp);
-        vec_push(&env, &lentry);
-        envp++;
-    }
-    if (cwd->len)
-        env_set(&env, (t_env){.key = ft_strdup("PWD"), .value = ft_strdup(cwd->buff), .exported = true});
-    if (cwd->len)
-        env_set(&env, (t_env){.key = ft_strdup("IFS"), .value = ft_strdup(" \t\n"), .exported = false});
-    return (env);
+	config = (t_vec_config){
+		.elem_size = sizeof(t_env),
+		.initial_capacity = 64,
+		.type_mask = 0};
+	vec_init(&ret, &config);
+	while (*envp)
+	{
+		env_entry = str_to_env(*envp);
+		vec_push(&ret, &env_entry);
+		envp++;
+	}
+	if (cwd->len)
+	{
+		env_entry = (t_env){.key = ft_strdup("PWD"),
+							.value = ft_strdup(cwd->buff),
+							.exported = true};
+		env_set(&ret, env_entry);
+	}
+	if (cwd->len)
+	{
+		env_entry = (t_env){.key = ft_strdup("IFS"),
+							.value = ft_strdup(" \t\n"),
+							.exported = false};
+		env_set(&ret, env_entry);
+	}
+	return (ret);
 }

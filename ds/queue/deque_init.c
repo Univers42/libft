@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:59:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:03:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 01:06:14 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx)
     if (initial_cap == 0 || elem_size == 0)
         return (1);
     ret->buf = xmalloc(initial_cap * elem_size);
-    if (ret->buf == NULL)
-        return (1);
     ret->cap = initial_cap;
     ret->elem_size = elem_size;
     ret->cmp = ft_memcmp;

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 16:34:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:26:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "parser.h"
-
+#include "ft_time.h"
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */
 typedef enum e_rl_key
@@ -76,10 +76,28 @@ extern "C"
 {
 #endif
 
-	/* Execution time tracking for prompt */
-	void prompt_start_timer(void);
-	void prompt_stop_timer(void);
+static inline t_chrono *get_chrono(void)
+{
+	static t_chrono g = {};
 
+	return (&g);
+}
+	/* Execution time tracking for prompt */
+static inline void prompt_start_timer(void)
+{
+	struct timeval start;
+
+	start = get_chrono()->start;
+	gettimeofday(&start, NULL);
+}
+
+static inline void prompt_stop_timer(void)
+{
+	struct timeval end;
+
+	gettimeofday(&end, NULL);
+	get_chrono()->last_ms = (end.tv_sec - get_chrono()->start.tv_sec) * 1000 + (end.tv_usec - get_chrono()->start.tv_usec) / 1000;
+}
 	void buff_readline_update(t_rl *l);
 	void bg_readline(int outfd, char *prompt);
 	int attach_input_readline(t_rl *l, int pp[2], int pid);

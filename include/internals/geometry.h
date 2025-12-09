@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:14:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:35:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ typedef struct s_sphere_data				t_sphere_data;
 /* Callback for transformations */
 typedef void								(*t_transform_callback)\
 											(t_sphere_data *data);
-
-/* Forward declaration for parser (map system) */
-typedef struct s_parser						t_parser;
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:05:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 14:25:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:37:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Reusable helper: return first (lowest-index) element of array or NULL.
  */
-t_arr_elem	*as_get_first_elem(t_arr *a)
+t_arr_elem *as_get_first_elem(t_arr *a)
 {
 	if (a == NULL || array_empty(a))
 		return (NULL);
@@ -26,7 +26,7 @@ t_arr_elem	*as_get_first_elem(t_arr *a)
  * Not generally reusable: detach element and extract its value into out.
  * Leaves ownership of the returned string to the caller.
  */
-int	as_detach_and_extract(t_arr *a, t_arr_elem *el, char **out)
+int as_detach_and_extract(t_arr *a, t_arr_elem *el, char **out)
 {
 	if (a == NULL || el == NULL || out == NULL)
 		return (-1);
@@ -41,13 +41,13 @@ int	as_detach_and_extract(t_arr *a, t_arr_elem *el, char **out)
 /*
  * Reusable helper: renumber indices and update metadata, invalidate lastref.
  */
-void	as_renumber_indices(t_arr *a)
+void as_renumber_indices(t_arr *a)
 {
-	t_arr_elem	*cur;
-	size_t		idx;
+	t_arr_elem *cur;
+	size_t idx;
 
 	if (!a)
-		return ;
+		return;
 	idx = 0;
 	cur = element_forw(a->head);
 	while (cur != a->head)
@@ -75,27 +75,27 @@ void	as_renumber_indices(t_arr *a)
  * Returns 1 if handled (success), 0 if not handled, -1 on error.
  * Specific to insert semantics.
  */
-int	as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *new)
+int as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *elem)
 {
-	if (!a || !new)
+	if (!a || !elem)
 		return (-1);
 	if (array_empty(a))
 	{
-		add_before(a->head, new);
+		add_before(a->head, elem);
 		as_renumber_indices(a);
 		set_lastref(a, element_forw(a->head));
 		return (1);
 	}
 	if (i > array_max_index(a))
 	{
-		add_before(a->head, new);
+		add_before(a->head, elem);
 		as_renumber_indices(a);
 		set_lastref(a, element_forw(a->head->prev));
 		return (1);
 	}
 	if (i < array_first_index(a))
 	{
-		add_after(a->head, new);
+		add_after(a->head, elem);
 		as_renumber_indices(a);
 		set_lastref(a, element_forw(a->head->next));
 		return (1);
@@ -107,14 +107,14 @@ int	as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *new)
  * Choose a start element and traversal direction based on lastref optimisation.
  * Reusable in the sense it only inspects metadata and returns choices.
  */
-void	as_choose_start_direction(t_arr *a, size_t i, t_arr_elem **start,
-								int *direction)
+void as_choose_start_direction(t_arr *a, size_t i, t_arr_elem **start,
+							   int *direction)
 {
-	t_arr_elem	*st;
-	size_t		startind;
+	t_arr_elem *st;
+	size_t startind;
 
 	if (!a || !start || !direction)
-		return ;
+		return;
 	st = lastref(a);
 	if (st == NULL || st == a->head)
 		st = element_forw(a->head);
@@ -123,7 +123,7 @@ void	as_choose_start_direction(t_arr *a, size_t i, t_arr_elem **start,
 	{
 		*start = element_forw(a->head);
 		*direction = 1;
-		return ;
+		return;
 	}
 	if (i >= startind)
 		*direction = 1;

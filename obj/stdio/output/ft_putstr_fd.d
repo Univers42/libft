@@ -8,13 +8,13 @@ obj/./stdio/output/ft_putstr_fd.o: stdio/output/ft_putstr_fd.c libft.h \
  include/internals/ft_vector.h include/ft_stddef.h \
  include/internals/dyn_string.h include/ft_stdlib.h include/ft_memory.h \
  include/internals/strto.h include/ft_string.h include/internals/bitmap.h \
- include/ft_limits.h include/ft_time.h include/ft_wctype.h include/glob.h \
- include/lifoba.h include/lexer.h include/ds.h include/pipe.h \
- include/alias.h include/pool.h include/ft_readline.h \
- include/internals/dyn_string.h include/parser.h include/sh.h \
- include/slab.h include/trap.h include/ft_string.h include/var.h \
- include/internals/private_var.h include/ft_stdio.h \
- include/internals/output.h include/internals/error.h \
+ include/array.h include/ft_limits.h include/ft_time.h \
+ include/ft_wctype.h include/glob.h include/lifoba.h include/lexer.h \
+ include/ds.h include/pipe.h include/alias.h include/pool.h \
+ include/ft_readline.h include/internals/dyn_string.h include/parser.h \
+ include/ft_time.h include/sh.h include/slab.h include/trap.h \
+ include/ft_string.h include/var.h include/internals/private_var.h \
+ include/ft_stdio.h include/internals/output.h include/internals/error.h \
  include/internals/input.h include/internals/get_next_line.h \
  include/internals/lseek.h include/internals/tee.h \
  include/internals/format.h include/internals/output.h include/ft_sort.h \
@@ -44,6 +44,7 @@ include/ft_memory.h:
 include/internals/strto.h:
 include/ft_string.h:
 include/internals/bitmap.h:
+include/array.h:
 include/ft_limits.h:
 include/ft_time.h:
 include/ft_wctype.h:
@@ -57,6 +58,7 @@ include/pool.h:
 include/ft_readline.h:
 include/internals/dyn_string.h:
 include/parser.h:
+include/ft_time.h:
 include/sh.h:
 include/slab.h:
 include/trap.h:

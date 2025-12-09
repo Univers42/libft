@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:40:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 00:49:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:26:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef struct timespec t_timespec;
 #define CLOCK_TICK 60
 // Fix: Use struct timeval, not just timeval
 typedef struct timeval t_timeval;
+
+typedef struct s_chrono
+{
+	struct timeval	start;
+	long            last_ms;
+}t_chrono;
 
 t_time ft_time(void);
 t_time ft_usleep(t_time duration);

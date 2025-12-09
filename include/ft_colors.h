@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 01:33:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:40:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,44 @@
 // Dim and bold
 # define DIM_TERM		"\033[2m"
 # define BOLD_TERM      "\033[1m"
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INFERNO THEME - Color Palette (Foreground Only - No Blocks)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#define FG_FIRE "\001\033[38;5;196m\002"
+#define FG_MOLTEN "\001\033[38;5;208m\002"
+#define FG_EMBER "\001\033[38;5;214m\002"
+#define FG_LAVA "\001\033[38;5;202m\002"
+#define FG_ASH "\001\033[38;5;245m\002"
+#define FG_CHARCOAL "\001\033[38;5;240m\002"
+#define FG_DIM "\001\033[38;5;238m\002"
+#define FG_SUCCESS "\001\033[38;5;82m\002"
+#define FG_WARN "\001\033[38;5;220m\002"
+#define FG_BLOOD "\001\033[38;5;124m\002"
+#define FG_CYAN "\001\033[38;5;87m\002"
+#define FG_MAGENTA "\001\033[38;5;213m\002"
+#define FG_PURPLE "\001\033[38;5;135m\002"
+#define FG_BLUE "\001\033[38;5;27m\002"
+#define BOLD "\001\033[1m\002"
+#define RESET "\001\033[0m\002"
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UNICODE SYMBOLS - Wide, Elegant Separators
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#define SEP_L " ═══ "
+#define SEP_R " ═══ "
+#define SEP_GIT " ║ "
+#define SEP_THIN " ─── "
+#define GIT_ICON ""
+#define DIRTY "●"
+#define CLEAN "○"
+#define TIMER_ICON "⏱"
+#define ARROW_OK " ●"
+#define ARROW_FAIL "✗"
+#define ARROW_WARN "⚠"
+#define USER_ICON ""
+#define DIR_ICON ""
 
 #endif

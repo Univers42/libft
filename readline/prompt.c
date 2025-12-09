@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 17:27:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:45:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 {
 	t_dyn_str p;
 	t_dyn_str cwd;
-	t_git git;
+	t_vcs_info git;
 	char *user;
 	char *short_path;
 	char time_buf[32];
@@ -85,7 +85,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 			dyn_str_pushstr(&p, FG_ASH);
 		dyn_str_pushstr(&p, GIT_ICON);
 		dyn_str_pushstr(&p, " ");
-		dyn_str_pushstr(&p, git.branch);
+		dyn_str_pushstr(&p, git.data);
 		dyn_str_pushstr(&p, RESET);
 		// DIRTY circle removed
 	}
@@ -173,8 +173,8 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 
 	free(cwd.buff);
 	free(short_path);
-	if (git.branch)
-		free(git.branch);
+	if (git.data)
+		free(git.data);
 	return (p);
 }
 

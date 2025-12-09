@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh.h                                               :+:      :+:    :+:   */
+/*   system.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:04:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:39:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:50:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_H
 # define SH_H
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
 
 //Those functions has to be maybe placed into the libarena implementation
 // it's more related to mmemory management, for strings or data structures
@@ -22,6 +26,13 @@ typedef union u_smt
 	char	*cp;
 	double	d;
 }	t_smt;
+
+typedef struct s_vcs_info
+{
+	char	*data;
+	int		dirty;
+	int		ok;
+}	t_vcs_info;
 
 // return the size of union - 1. This value is for allocation granurality
 static inline size_t	shell_size()
@@ -38,4 +49,15 @@ static inline size_t	shell_size()
 //	return (nbytes + SHELL_SIZE & ~SHELL_SIZE)
 //}
 //
+static inline void ensure_locale(void)
+{
+	static int done = 0;
+
+	if (!done)
+	{
+		setlocale(LC_CTYPE, "");
+		done = 1;
+	}
+}
+
 #endif

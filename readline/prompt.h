@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:16:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:26:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:49:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,55 +35,8 @@
 #include "libft.h"
 #include "parser.h"
 #include "lexer.h"
-
-typedef struct s_git
-{
-	char *branch;
-	int dirty;
-	int ok;
-} t_git;
-
-
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   INFERNO THEME - Color Palette (Foreground Only - No Blocks)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-#define FG_FIRE "\001\033[38;5;196m\002"
-#define FG_MOLTEN "\001\033[38;5;208m\002"
-#define FG_EMBER "\001\033[38;5;214m\002"
-#define FG_LAVA "\001\033[38;5;202m\002"
-#define FG_ASH "\001\033[38;5;245m\002"
-#define FG_CHARCOAL "\001\033[38;5;240m\002"
-#define FG_DIM "\001\033[38;5;238m\002"
-#define FG_SUCCESS "\001\033[38;5;82m\002"
-#define FG_WARN "\001\033[38;5;220m\002"
-#define FG_BLOOD "\001\033[38;5;124m\002"
-#define FG_CYAN "\001\033[38;5;87m\002"
-#define FG_MAGENTA "\001\033[38;5;213m\002"
-#define FG_PURPLE "\001\033[38;5;135m\002"
-#define FG_BLUE "\001\033[38;5;27m\002"
-#define BOLD "\001\033[1m\002"
-#define RESET "\001\033[0m\002"
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   UNICODE SYMBOLS - Wide, Elegant Separators
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-#define SEP_L " ═══ "
-#define SEP_R " ═══ "
-#define SEP_GIT " ║ "
-#define SEP_THIN " ─── "
-#define GIT_ICON ""
-#define DIRTY "●"
-#define CLEAN "○"
-#define TIMER_ICON "⏱"
-#define ARROW_OK " ●"
-#define ARROW_FAIL "✗"
-#define ARROW_WARN "⚠"
-#define USER_ICON ""
-#define DIR_ICON ""
-
+#include "ft_colors.h"
+#include "system.h"
 
 static inline int get_cols(void)
 {
@@ -92,17 +45,6 @@ static inline int get_cols(void)
 	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
 		return (80);
 	return ((int)ws.ws_col);
-}
-
-static inline void ensure_locale(void)
-{
-	static int done = 0;
-
-	if (!done)
-	{
-		setlocale(LC_CTYPE, "");
-		done = 1;
-	}
 }
 
 static inline int vis_width(const char *s)
@@ -185,10 +127,6 @@ static inline char *shorten_path(const char *path, int max_w)
 	return (r.buff);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   COMMAND CAPTURE & GIT
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 static inline int cap_cmd(const char *cmd, t_dyn_str *out)
 {
 	int pp[2];
@@ -226,32 +164,19 @@ static inline int cap_cmd(const char *cmd, t_dyn_str *out)
 	return (WIFEXITED(st) ? WEXITSTATUS(st) : -1);
 }
 
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   EXECUTION TIMER - Global State
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   PATH SHORTENING
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-
-
-static inline t_git get_git(void)
+static inline t_vcs_info	get_git(void)
 {
-	t_git g;
-	t_dyn_str br;
-	t_dyn_str d;
-	int ret;
+	t_vcs_info	g;
+	t_dyn_str	br;
+	t_dyn_str	d;
+	int			ret;
 
-	g = (t_git){NULL, 0, 0};
+	g = (t_vcs_info){NULL, 0, 0};
 	ret = cap_cmd("git rev-parse --abbrev-ref HEAD 2>/dev/null", &br);
 	if (ret == 0 && br.len > 0)
 	{
 		g.ok = 1;
-		g.branch = br.buff;
+		g.data = br.buff;
 		cap_cmd("git status --porcelain 2>/dev/null | head -1", &d);
 		g.dirty = (d.len > 0);
 		free(d.buff);
@@ -274,4 +199,5 @@ static void fmt_time(char *buf, size_t sz, long ms)
 	else
 		snprintf(buf, sz, "%ldm%lds", ms / 60000, (ms % 60000) / 1000);
 }
+
 # endif

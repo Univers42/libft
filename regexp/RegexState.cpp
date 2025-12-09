@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RegexState.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 18:39:16 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/09 18:39:16 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "RegexState.hpp"
 
 RegexState::RegexState()
@@ -29,7 +41,7 @@ bool RegexState::Matches(const std::string& input, size_t& pos, std::vector<std:
 }
 
 /// <summary>
-/// Para WebServ42. Permite deserializar la posición en la cadena a ser validada y el estado actual de los nodos.
+/// Para WebServ42. Permite deserializar la posiciï¿½n en la cadena a ser validada y el estado actual de los nodos.
 /// </summary>
 /// <param name="record"></param>
 /// <param name="pos"></param>
@@ -56,7 +68,7 @@ void RegexState::GetProgress(std::map<RegexState*, CurrentState>& record, int po
 }
 
 /// <summary>
-/// Para WebServ42. Permite serializar la posición en la cadena a ser validada y el estado actual de los nodos.
+/// Para WebServ42. Permite serializar la posiciï¿½n en la cadena a ser validada y el estado actual de los nodos.
 /// </summary>
 /// <param name="record"></param>
 /// <param name="start"></param>

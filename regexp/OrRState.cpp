@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   OrRState.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 18:38:58 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/09 18:38:58 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "RegexState.hpp"
 
 OrRState::OrRState(int lvl)
@@ -60,8 +72,8 @@ bool OrRState::Matches(const std::string& input, size_t& pos, std::vector<std::s
 }
 
 /// <summary>
-/// Método para el proyecto Webserv, funciona igual que el match, pero serializa si se ha llegado al final
-///		de la cadena y aún sigue siendo válida la expresión regular.
+/// Mï¿½todo para el proyecto Webserv, funciona igual que el match, pero serializa si se ha llegado al final
+///		de la cadena y aï¿½n sigue siendo vï¿½lida la expresiï¿½n regular.
 /// </summary>
 /// <param name="input"></param>
 /// <param name="pos"></param>

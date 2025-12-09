@@ -1,4 +1,16 @@
-﻿
+﻿# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    regex.sln                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/12/09 18:39:01 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/09 18:39:02 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   GroupRState.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 18:38:51 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/09 18:38:51 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "RegexState.hpp"
 
 GroupRState::GroupRState()
@@ -57,15 +69,15 @@ bool GroupRState::Matches(const std::string& input, size_t& pos, std::vector<std
 }
 
 /// <summary>
-/// Método para el proyecto Webserv, funciona igual que el match, pero serializa si se ha llegado al final
-///		de la cadena y aún sigue siendo válida la expresión regular.
+/// Mï¿½todo para el proyecto Webserv, funciona igual que el match, pero serializa si se ha llegado al final
+///		de la cadena y aï¿½n sigue siendo vï¿½lida la expresiï¿½n regular.
 /// </summary>
 /// <param name="input"></param>
 /// <param name="pos"></param>
 /// <param name="record"></param>
 /// <returns>Ver RegexState.hpp</returns>
 Result GroupRState::StaticMatch(const std::string& input, size_t& pos, std::map<RegexState*, CurrentState>& record)
-{	// MEJORA: Se podría realizar con un patrón Visitor para no modificar la estructura de clases del regex.
+{	// MEJORA: Se podrï¿½a realizar con un patrï¿½n Visitor para no modificar la estructura de clases del regex.
 		size_t start;
 	size_t cant;
 	size_t none;

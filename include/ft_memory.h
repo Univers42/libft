@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 14:59:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:20:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <stdbool.h>
 #include "lifoba.h"
 #include <errno.h>
+# include "pool.h"
+# include "slab.h"
+# include "arena.h"
 
 #ifdef __cplusplus
 extern "C"

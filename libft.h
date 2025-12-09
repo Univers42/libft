@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:43:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:24:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,33 @@
 #  define _BSD_SOURCE
 # endif
 
-# include "arena.h"
-# include "configs.h"
+# include "alias.h"
+# include "analyzer.h"
 # include "configs.h"
 # include "ds.h"
+# include "ft_colors.h"
+# include "ft_ctype.h"
+# include "ft_debug.h"
 # include "ft_limits.h"
+# include "ft_math.h"
+# include "ft_memory.h"
+# include "ft_readline.h"
+# include "ft_render.h"
+# include "ft_sort.h"
+# include "ft_stddef.h"
+# include "ft_stdio.h"
+# include "ft_stdlib.h"
+# include "ft_string.h"
+# include "termcap.h"
 # include "ft_time.h"
 # include "ft_wctype.h"
+//# include "get.h" //!PROTOTYPE NOT WORKING
 # include "glob.h"
-# include "lifoba.h"
-# include "lexer.h"
-# include "pipe.h"
-# include "alias.h"
-# include "pipe.h"
-# include "pool.h"
-# include "ft_readline.h"
+# include "ipc.h"
 # include "system.h"
-# include "slab.h"
-# include "termcap.h"
-# include "trap.h"
 # include "var.h"
-# include "ft_string.h"
-# include "ft_memory.h"
-# include "ft_ctype.h"
-# include "ft_math.h"
-# include "ft_stdlib.h"
-# include "ft_stdio.h"
-# include "ft_render.h"
-# include "ft_debug.h"
-# include "ft_colors.h"
-# include "ft_stddef.h"
-# include "ft_sort.h"
+
+
 # include <immintrin.h>
 # include <unistd.h>
 # include <signal.h>
@@ -68,6 +64,7 @@
 # include <sys/stat.h>
 
 # ifdef TESTER
-#  include "tester.h"
+#  include "tester.hpp"
 # endif
+
 #endif

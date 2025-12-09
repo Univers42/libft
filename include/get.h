@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:27:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:57:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:24:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 #define GET_H
 
 #include "libft.h"
-#include "alias.h"
-#include "trap.h"
-#include "arena.h"
-#include "array.h"
-#include "geometry.h"
-#include "parser.h"
 
 /* ========================================================================== */
 /* Master Singleton Structure - Central Access Point                         */

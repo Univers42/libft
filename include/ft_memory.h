@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/06 00:01:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 14:59:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ extern "C"
 	void *check_null(void *p);
 	void out_of_space(void);
 	void *ternary(bool cond, void *true_val, void *false_val);
-	int capture_output(const char *cmd, char *buf, size_t cap);
+	//int capture_output(const char *cmd, char *buf, size_t cap);
 	char *extract_fd(int fd);
 
 #ifdef __cplusplus

@@ -1,0 +1,3 @@
+obj/./ds/array/array_max_index.o: ds/array/array_max_index.c \
+ include/array.h
+include/array.h:

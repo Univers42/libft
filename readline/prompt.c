@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 15:00:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 15:16:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,71 +115,38 @@ t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s)
 	char *short_cwd;
 
 	dyn_str_init(&ret);
-
-	/* Get user and short cwd */
 	user = getenv("USER");
 	if (!user)
 		user = "user";
 	if (capture_output("pwd | sed \"s|$HOME|~|\"", &cwd) < 0)
 		dyn_str_init(&cwd);
 	short_cwd = cwd.buff ? cwd.buff : "~";
-
-	/* Get git branch if in repo */
 	git_branch = get_git_branch();
 
-	/* Build prompt with proper readline escapes:
-	   \001 = RL_PROMPT_START_IGNORE
-	   \002 = RL_PROMPT_END_IGNORE */
-
-	/* Opening bracket */
-	dyn_str_pushstr(&ret, "\001");
-	dyn_str_pushstr(&ret, ANSI_RESET);
-	dyn_str_pushstr(&ret, "\002[");
-
-	/* user@host:dir */
-	dyn_str_pushstr(&ret, "\001\033[36m\002"); /* cyan */
+	/* ASCII-only, single-line prompt */
+	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002[");          // [
+	dyn_str_pushstr(&ret, "\001\033[38;5;87m\002");            // user (cyan)
 	dyn_str_pushstr(&ret, user);
-	dyn_str_pushstr(&ret, "\001\033[0m\002:");
-	dyn_str_pushstr(&ret, "\001\033[34m\002"); /* blue */
+	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002:");          // :
+	dyn_str_pushstr(&ret, "\001\033[38;5;117m\002");           // cwd (blue)
 	dyn_str_pushstr(&ret, short_cwd);
-	dyn_str_pushstr(&ret, "\001\033[0m\002");
-
-	/* Git branch if present */
 	if (git_branch.len > 0)
 	{
-		dyn_str_pushstr(&ret, " \001\033[35m\002("); /* magenta */
+		dyn_str_pushstr(&ret, " \001\033[38;5;213m\002");       // branch (magenta)
 		dyn_str_pushnstr(&ret, git_branch.buff, git_branch.len);
-		dyn_str_pushstr(&ret, ")\001\033[0m\002");
 	}
+	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002]");          // ]
 
-	/* Closing bracket */
-	dyn_str_pushstr(&ret, "]");
-
-	/* Status code (if non-zero, show in red) */
 	if (last_cmd_status_res->status != 0)
 	{
-		dyn_str_pushstr(&ret, " ");
-		dyn_str_pushstr(&ret, ANSI_RED);
+		dyn_str_pushstr(&ret, " \001\033[38;5;203m\002ERR ");
 		dyn_str_pushstr(&ret, *last_cmd_status_s);
-		dyn_str_pushstr(&ret, ANSI_RESET);
 	}
 
-	/* Arrow prompt */
-	dyn_str_pushstr(&ret, " ");
-	if (last_cmd_status_res->status == 0)
-		dyn_str_pushstr(&ret, ANSI_GREEN);
-	else
-		dyn_str_pushstr(&ret, ANSI_RED);
-	dyn_str_pushstr(&ret, "❯ ");
-	dyn_str_pushstr(&ret, ANSI_RESET);
+	dyn_str_pushstr(&ret, " \001\033[38;5;245m\002>");         // >
+	dyn_str_pushstr(&ret, "\001\033[0m\002 ");                 // reset + space
 
-	/* Add spacers (invisible to readline) to prevent drift */
-	dyn_str_pushstr(&ret, RL_SPACER_1);
-	dyn_str_pushstr(&ret, RL_SPACER_1);
-
-	/* Cleanup */
 	free(cwd.buff);
 	free(git_branch.buff);
-
 	return (ret);
 }

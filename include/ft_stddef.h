@@ -76,9 +76,9 @@ typedef uint64_t t_time;
 #define CANCELED 130
 #define SYNTAX_ERR 2
 #define AMBIGUOUS_REDIRECT 1
-#define PROMPT "\001❯ \002"
+#define PROMPT "\001> \002"
 #define HIST_FILE ".minishell_history"
-#define RL_SPACER_1 "\x03" /* restore spacer to keep prompt/backspace stable */
+#define RL_SPACER_1 "" /* keep empty to avoid cursor drift */
 #define ANSI_RED "\001\033[31m\002"
 #define ANSI_GREEN "\001\033[32m\002"
 #define ANSI_RESET "\001\033[0m\002"

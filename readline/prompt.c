@@ -6,16 +6,452 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 15:16:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:54:10 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _XOPEN_SOURCE 700
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <wchar.h>
+#include <locale.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include "libft.h"
 #include "parser.h"
 #include "lexer.h"
-#include <sys/wait.h>
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EXECUTION TIMER - Global State
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+static struct timeval g_cmd_start;
+static long g_last_cmd_ms = 0;
+
+void prompt_start_timer(void)
+{
+	gettimeofday(&g_cmd_start, NULL);
+}
+
+void prompt_stop_timer(void)
+{
+	struct timeval end;
+
+	gettimeofday(&end, NULL);
+	g_last_cmd_ms = (end.tv_sec - g_cmd_start.tv_sec) * 1000 + (end.tv_usec - g_cmd_start.tv_usec) / 1000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INFERNO THEME - Color Palette (Foreground Only - No Blocks)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#define FG_FIRE "\001\033[38;5;196m\002"
+#define FG_MOLTEN "\001\033[38;5;208m\002"
+#define FG_EMBER "\001\033[38;5;214m\002"
+#define FG_LAVA "\001\033[38;5;202m\002"
+#define FG_ASH "\001\033[38;5;245m\002"
+#define FG_CHARCOAL "\001\033[38;5;240m\002"
+#define FG_DIM "\001\033[38;5;238m\002"
+#define FG_SUCCESS "\001\033[38;5;82m\002"
+#define FG_WARN "\001\033[38;5;220m\002"
+#define FG_BLOOD "\001\033[38;5;124m\002"
+#define FG_CYAN "\001\033[38;5;87m\002"
+#define FG_MAGENTA "\001\033[38;5;213m\002"
+#define FG_PURPLE "\001\033[38;5;135m\002"
+#define FG_BLUE "\001\033[38;5;27m\002"
+#define BOLD "\001\033[1m\002"
+#define RESET "\001\033[0m\002"
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UNICODE SYMBOLS - Wide, Elegant Separators
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#define SEP_L " ═══ "
+#define SEP_R " ═══ "
+#define SEP_GIT " ║ "
+#define SEP_THIN " ─── "
+#define GIT_ICON ""
+#define DIRTY "●"
+#define CLEAN "○"
+#define TIMER_ICON "⏱"
+#define ARROW_OK " ●"
+#define ARROW_FAIL "✗"
+#define ARROW_WARN "⚠"
+#define USER_ICON ""
+#define DIR_ICON ""
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+static int get_cols(void)
+{
+	struct winsize ws;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
+		return (80);
+	return ((int)ws.ws_col);
+}
+
+static void ensure_locale(void)
+{
+	static int done = 0;
+
+	if (!done)
+	{
+		setlocale(LC_CTYPE, "");
+		done = 1;
+	}
+}
+
+static int vis_width(const char *s)
+{
+	mbstate_t st;
+	wchar_t wc;
+	size_t r;
+	const char *p;
+	int width;
+	int w;
+
+	if (!s)
+		return (0);
+	ensure_locale();
+	ft_memset(&st, 0, sizeof(st));
+	p = s;
+	width = 0;
+	while (*p)
+	{
+		if (*p == '\001')
+		{
+			p++;
+			while (*p && *p != '\002')
+				p++;
+			if (*p == '\002')
+				p++;
+			continue;
+		}
+		r = mbrtowc(&wc, p, MB_CUR_MAX, &st);
+		if (r == (size_t)-2 || r == (size_t)-1)
+		{
+			width++;
+			p++;
+			ft_memset(&st, 0, sizeof(st));
+			continue;
+		}
+		if (r == 0)
+			break;
+		w = wcwidth(wc);
+		if (w > 0)
+			width += w;
+		p += r;
+	}
+	return (width);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PATH SHORTENING
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+static char *shorten_path(const char *path, int max_w)
+{
+	t_dyn_str r;
+	const char *home;
+	const char *start;
+	const char *last;
+	const char *base;
+
+	if (!path)
+		return (ft_strdup("~"));
+	home = getenv("HOME");
+	start = path;
+	dyn_str_init(&r);
+	if (home && ft_strncmp(path, home, ft_strlen(home)) == 0)
+	{
+		dyn_str_push(&r, '~');
+		start = path + ft_strlen(home);
+	}
+	last = ft_strrchr(start, '/');
+	base = last ? last + 1 : start;
+	if (vis_width(r.buff) + (int)ft_strlen(start) <= max_w)
+	{
+		dyn_str_pushstr(&r, start);
+		return (r.buff);
+	}
+	if (vis_width(base) < max_w - 6 && *base)
+	{
+		dyn_str_pushstr(&r, "/...");
+		if (last)
+			dyn_str_pushstr(&r, last);
+	}
+	else
+		dyn_str_pushstr(&r, start);
+	return (r.buff);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMMAND CAPTURE & GIT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+static int cap_cmd(const char *cmd, t_dyn_str *out)
+{
+	int pp[2];
+	pid_t pid;
+	int st;
+	char buf[256];
+	ssize_t n;
+
+	dyn_str_init(out);
+	if (pipe(pp) < 0)
+		return (-1);
+	pid = fork();
+	if (pid < 0)
+	{
+		close(pp[0]);
+		close(pp[1]);
+		return (-1);
+	}
+	if (pid == 0)
+	{
+		close(pp[0]);
+		dup2(pp[1], STDOUT_FILENO);
+		dup2(pp[1], STDERR_FILENO);
+		close(pp[1]);
+		execl("/bin/sh", "sh", "-c", cmd, (char *)NULL);
+		_exit(127);
+	}
+	close(pp[1]);
+	while ((n = read(pp[0], buf, sizeof(buf))) > 0)
+		dyn_str_pushnstr(out, buf, (size_t)n);
+	close(pp[0]);
+	waitpid(pid, &st, 0);
+	if (out->len > 0 && out->buff[out->len - 1] == '\n')
+		out->buff[--out->len] = '\0';
+	return (WIFEXITED(st) ? WEXITSTATUS(st) : -1);
+}
+
+typedef struct s_git
+{
+	char *branch;
+	int dirty;
+	int ok;
+} t_git;
+
+static t_git get_git(void)
+{
+	t_git g;
+	t_dyn_str br;
+	t_dyn_str d;
+	int ret;
+
+	g = (t_git){NULL, 0, 0};
+	ret = cap_cmd("git rev-parse --abbrev-ref HEAD 2>/dev/null", &br);
+	if (ret == 0 && br.len > 0)
+	{
+		g.ok = 1;
+		g.branch = br.buff;
+		cap_cmd("git status --porcelain 2>/dev/null | head -1", &d);
+		g.dirty = (d.len > 0);
+		free(d.buff);
+	}
+	else
+		free(br.buff);
+	return (g);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORMAT TIME
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+static void fmt_time(char *buf, size_t sz, long ms)
+{
+	if (ms < 1000)
+		snprintf(buf, sz, "%ldms", ms);
+	else if (ms < 60000)
+		snprintf(buf, sz, "%.1fs", ms / 1000.0);
+	else
+		snprintf(buf, sz, "%ldm%lds", ms / 60000, (ms % 60000) / 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUILD PROMPT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+t_dyn_str prompt_normal(t_status *st_res, char **st_s)
+{
+	t_dyn_str p;
+	t_dyn_str cwd;
+	t_git git;
+	char *user;
+	char *short_path;
+	char time_buf[32];
+	int cols;
+	int status;
+	int line_w;
+	int chrono_w;
+	int pad;
+
+	(void)st_s;
+	dyn_str_init(&p);
+	ensure_locale();
+	user = getenv("USER");
+	if (!user)
+		user = "inferno";
+	cap_cmd("pwd", &cwd);
+	git = get_git();
+	cols = get_cols();
+	status = st_res->status;
+	short_path = shorten_path(cwd.buff, cols - 60);
+
+	/* ══════════════════════════════════════════════════════════════════════
+	   LINE 1: ╭─  user ═══  path ║  branch ●
+	   ══════════════════════════════════════════════════════════════════════ */
+
+	/* Opening decoration */
+	dyn_str_pushstr(&p, FG_CHARCOAL);
+	dyn_str_pushstr(&p, "╭─");
+	dyn_str_pushstr(&p, RESET);
+
+	/* User segment */
+	dyn_str_pushstr(&p, " ");
+	dyn_str_pushstr(&p, FG_MOLTEN);
+	dyn_str_pushstr(&p, USER_ICON);
+	dyn_str_pushstr(&p, " ");
+	dyn_str_pushstr(&p, BOLD);
+	dyn_str_pushstr(&p, user);
+	dyn_str_pushstr(&p, RESET);
+
+	/* Separator */
+	dyn_str_pushstr(&p, FG_CHARCOAL);
+	dyn_str_pushstr(&p, SEP_L);
+	dyn_str_pushstr(&p, RESET);
+
+	/* Path segment */
+	dyn_str_pushstr(&p, FG_EMBER);
+	dyn_str_pushstr(&p, DIR_ICON);
+	dyn_str_pushstr(&p, " ");
+	dyn_str_pushstr(&p, short_path);
+	dyn_str_pushstr(&p, RESET);
+
+	/* Git segment */
+	if (git.ok)
+	{
+		dyn_str_pushstr(&p, FG_CHARCOAL);
+		dyn_str_pushstr(&p, SEP_GIT);
+		dyn_str_pushstr(&p, RESET);
+		if (git.dirty)
+			dyn_str_pushstr(&p, FG_PURPLE);
+		else
+			dyn_str_pushstr(&p, FG_ASH);
+		dyn_str_pushstr(&p, GIT_ICON);
+		dyn_str_pushstr(&p, " ");
+		dyn_str_pushstr(&p, git.branch);
+		dyn_str_pushstr(&p, RESET);
+		// DIRTY circle removed
+	}
+
+	/* Status code if error */
+	if (status != 0)
+	{
+		dyn_str_pushstr(&p, " ");
+		dyn_str_pushstr(&p, FG_FIRE);
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, "⟦");
+		dyn_str_pushstr(&p, RESET);
+		dyn_str_pushstr(&p, FG_WARN);
+		char stat_buf[16];
+		snprintf(stat_buf, sizeof(stat_buf), "%d", status);
+		dyn_str_pushstr(&p, stat_buf);
+		dyn_str_pushstr(&p, RESET);
+		dyn_str_pushstr(&p, FG_FIRE);
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, "⟧");
+		dyn_str_pushstr(&p, RESET);
+	}
+
+	/* ══════════════════════════════════════════════════════════════════════
+	   RIGHT-ALIGNED CHRONO (always show execution time)
+	   ══════════════════════════════════════════════════════════════════════ */
+	fmt_time(time_buf, sizeof(time_buf), g_last_cmd_ms);
+	line_w = vis_width(p.buff);
+	chrono_w = 3 + (int)ft_strlen(time_buf); /* "⏱ " + time */
+	pad = cols - line_w - chrono_w - 1;
+	if (pad < 2)
+		pad = 2;
+	while (pad-- > 0)
+		dyn_str_push(&p, ' ');
+	if (g_last_cmd_ms >= 100)
+		dyn_str_pushstr(&p, FG_WARN);
+	else
+		dyn_str_pushstr(&p, FG_DIM);
+	dyn_str_pushstr(&p, TIMER_ICON);
+	dyn_str_pushstr(&p, " ");
+	dyn_str_pushstr(&p, time_buf);
+	dyn_str_pushstr(&p, RESET);
+
+	/* ══════════════════════════════════════════════════════════════════════
+	   LINE 2: status circle (color by ultimate state)
+	   ══════════════════════════════════════════════════════════════════════ */
+	dyn_str_pushstr(&p, "\n");
+	dyn_str_pushstr(&p, FG_CHARCOAL);
+	dyn_str_pushstr(&p, "╰─");
+	dyn_str_pushstr(&p, RESET);
+
+	// Status color logic - priority: signal > exit_code > success
+	if (st_res->c_c)
+	{
+		dyn_str_pushstr(&p, FG_PURPLE); // signal (Ctrl+C, etc.)
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, " ●");
+	}
+	else if (status == 0)
+	{
+		dyn_str_pushstr(&p, FG_SUCCESS); // green = success
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, " ●");
+	}
+	else if (status == 1)
+	{
+		dyn_str_pushstr(&p, FG_BLUE); // blue = generic error
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, " ●");
+	}
+	else if (status >= 128)
+	{
+		dyn_str_pushstr(&p, FG_WARN); // yellow = signal termination
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, " ●");
+	}
+	else
+	{
+		dyn_str_pushstr(&p, FG_FIRE); // red = other error
+		dyn_str_pushstr(&p, BOLD);
+		dyn_str_pushstr(&p, " ●");
+	}
+	dyn_str_pushstr(&p, RESET);
+	dyn_str_pushstr(&p, " ");
+
+	free(cwd.buff);
+	free(short_path);
+	if (git.branch)
+		free(git.branch);
+	return (p);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MORE INPUT PROMPT
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 t_dyn_str prompt_more_input(t_parse *parser)
 {
@@ -23,130 +459,27 @@ t_dyn_str prompt_more_input(t_parse *parser)
 	t_token_type curr;
 	size_t i;
 
-	i = 0;
 	dyn_str_init(&ret);
+	dyn_str_pushstr(&ret, FG_CHARCOAL);
+	i = 0;
 	while (i < parser->stack.len)
 	{
-		curr = (t_token_type)vec_idx(&parser->stack, i++);
+		curr = (t_token_type)(uintptr_t)vec_idx(&parser->stack, i++);
 		if (curr == TOKEN_LEFT_BRACE)
 			dyn_str_pushstr(&ret, "subsh");
 		else if (curr == TOKEN_PIPE)
 			dyn_str_pushstr(&ret, "pipe");
 		else if (curr == TOKEN_LOGICAL_AND)
-			dyn_str_pushstr(&ret, "cmdand");
+			dyn_str_pushstr(&ret, "and");
 		else if (curr == TOKEN_LOGICAL_OR)
-			dyn_str_pushstr(&ret, "cmdor");
+			dyn_str_pushstr(&ret, "or");
 		else
 			continue;
 		dyn_str_pushstr(&ret, " ");
 	}
-	ret.buff[ret.len - 1] = '>';
-	dyn_str_pushstr(&ret, " ");
-	return (ret);
-}
-
-/**
- * @brief Capture stdout of a shell command using pipe redirection
- * @param cmd Shell command to execute (via sh -c)
- * @param out Output buffer (caller must free out.buff)
- * @return 0 on success, -1 on error
- */
-static int capture_output(const char *cmd, t_dyn_str *out)
-{
-	int pipefd[2];
-	pid_t pid;
-	int status;
-	char buf[512];
-	ssize_t n;
-
-	dyn_str_init(out);
-	if (pipe(pipefd) < 0)
-		return (-1);
-	pid = fork();
-	if (pid < 0)
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-		return (-1);
-	}
-	if (pid == 0)
-	{
-		/* child: redirect stdout to pipe write end */
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		execl("/bin/sh", "sh", "-c", cmd, (char *)NULL);
-		exit(127);
-	}
-	/* parent: read from pipe */
-	close(pipefd[1]);
-	while ((n = read(pipefd[0], buf, sizeof(buf))) > 0)
-		dyn_str_pushnstr(out, buf, (size_t)n);
-	close(pipefd[0]);
-	waitpid(pid, &status, 0);
-	/* trim trailing newline if present */
-	if (out->len > 0 && out->buff[out->len - 1] == '\n')
-		out->buff[--out->len] = '\0';
-	return (0);
-}
-
-/**
- * @brief Get current git branch name (empty string if not in repo)
- */
-static t_dyn_str get_git_branch(void)
-{
-	t_dyn_str branch;
-
-	if (capture_output("git rev-parse --abbrev-ref HEAD 2>/dev/null", &branch) < 0)
-		dyn_str_init(&branch);
-	return (branch);
-}
-
-/**
- * @brief Build a beautiful, dynamic prompt with git info
- * Format: [user@host:dir (branch)] status ❯
- */
-t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s)
-{
-	t_dyn_str ret;
-	t_dyn_str git_branch;
-	t_dyn_str cwd;
-	char *user;
-	char *short_cwd;
-
-	dyn_str_init(&ret);
-	user = getenv("USER");
-	if (!user)
-		user = "user";
-	if (capture_output("pwd | sed \"s|$HOME|~|\"", &cwd) < 0)
-		dyn_str_init(&cwd);
-	short_cwd = cwd.buff ? cwd.buff : "~";
-	git_branch = get_git_branch();
-
-	/* ASCII-only, single-line prompt */
-	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002[");          // [
-	dyn_str_pushstr(&ret, "\001\033[38;5;87m\002");            // user (cyan)
-	dyn_str_pushstr(&ret, user);
-	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002:");          // :
-	dyn_str_pushstr(&ret, "\001\033[38;5;117m\002");           // cwd (blue)
-	dyn_str_pushstr(&ret, short_cwd);
-	if (git_branch.len > 0)
-	{
-		dyn_str_pushstr(&ret, " \001\033[38;5;213m\002");       // branch (magenta)
-		dyn_str_pushnstr(&ret, git_branch.buff, git_branch.len);
-	}
-	dyn_str_pushstr(&ret, "\001\033[38;5;245m\002]");          // ]
-
-	if (last_cmd_status_res->status != 0)
-	{
-		dyn_str_pushstr(&ret, " \001\033[38;5;203m\002ERR ");
-		dyn_str_pushstr(&ret, *last_cmd_status_s);
-	}
-
-	dyn_str_pushstr(&ret, " \001\033[38;5;245m\002>");         // >
-	dyn_str_pushstr(&ret, "\001\033[0m\002 ");                 // reset + space
-
-	free(cwd.buff);
-	free(git_branch.buff);
+	dyn_str_pushstr(&ret, RESET);
+	dyn_str_pushstr(&ret, FG_EMBER);
+	dyn_str_pushstr(&ret, "..> ");
+	dyn_str_pushstr(&ret, RESET);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 02:36:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/09 16:43:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,11 +203,17 @@ static void parse_input(t_app *shell)
 	looking_for = (char *)malloc(sizeof(char));
 	*looking_for = '\0';
 	parser = (t_parse){.st = ST_INIT, .stack = {}};
+
+	/* Generate prompt AFTER stopping previous timer (shows last cmd time) */
 	prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
 	deque_init(&tt, 64, sizeof(t_token), (void *)looking_for);
 
+	/* Do NOT start chrono here; no exec happens in this test harness */
+	/* get tokens / read input */
 	get_more_tokens(&tt, &shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
 					&shell->input_method, &shell->context, &shell->base_context, (int *)&shell->should_exit);
+
+	/* Chrono is driven by executor in real shell; keep untouched here */
 
 	if (get_g_sig()->should_unwind)
 		set_cmd_status(&shell->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &shell->last_cmd_status_s);

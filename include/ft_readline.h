@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:26:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:59:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,45 @@ typedef struct s_status
 	bool c_c;
 } t_status;
 
+// Callback function types for customization
+typedef t_dyn_str (*t_prompt_gen_fn)(t_status *, char **);               // For generating prompts
+typedef bool (*t_process_input_fn)(const char *input, t_status *status); // For processing input (return true to exit)
+typedef void (*t_cleanup_fn)(void *user_data);                           // For custom cleanup
+
+typedef struct s_repl_config
+{
+    // Environment and context
+    t_vec *env;         // Environment vector for history and variables
+    char *base_context; // Base context string (e.g., "shell")
+    char **context;     // Pointer to current context string
+    int input_method;   // Input method (e.g., INP_READLINE)
+
+    // Status and state
+    t_status *status;  // Pointer to current status
+    char **status_str; // Pointer to status string
+
+    // Prompts (can be overridden with functions)
+    const char *basic_prompt;      // Default basic prompt string
+    const char *multi_line_prompt; // Default multi-line prompt string
+    const char *dquote_prompt;     // Default double-quote prompt string
+    const char *squote_prompt;     // Default single-quote prompt string
+
+    // Function pointers for customization
+    t_prompt_gen_fn prompt_gen;       // Custom prompt generator (if NULL, use basic_prompt)
+    t_process_input_fn process_input; // Custom input processor (if NULL, echo and check for "exit")
+    t_cleanup_fn cleanup;             // Custom cleanup function
+
+    // REPL behavior flags
+    bool echo_input;              // Whether to echo input by default
+    bool handle_signals;          // Whether to handle Ctrl+C/D
+    bool enable_history;          // Whether to enable history management
+    bool accumulate_continuation; // Whether to handle backslash continuation
+
+    // User data for callbacks
+    void *user_data; // Passed to callbacks
+} t_repl_config;
+
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -124,11 +163,11 @@ static inline void prompt_stop_timer(void)
 	t_dyn_str prompt_more_input(t_parse *parser);
 	t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s);
 	int xreadline(t_rl *rl, t_dyn_str *ret, char *prompt, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context);
-	void get_more_tokens(t_deque *tt, t_rl *rl,
+	void get_more_tokens(t_rl *rl,
 						 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 						 char **last_cmd_status_s, int *input_method,
 						 char **context, char **base_context, int *should_exit);
-
+	int repl_run(t_repl_config *config);
 #ifdef __cplusplus
 }
 #endif

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 16:43:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:24:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,22 +195,16 @@ static void init_app(t_app *shell, char **argv, char **envp)
 
 static void parse_input(t_app *shell)
 {
-	t_deque tt;
 	char *prompt;
 	t_parse parser;
-	char *looking_for;
 
-	looking_for = (char *)malloc(sizeof(char));
-	*looking_for = '\0';
 	parser = (t_parse){.st = ST_INIT, .stack = {}};
 
 	/* Generate prompt AFTER stopping previous timer (shows last cmd time) */
 	prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
-	deque_init(&tt, 64, sizeof(t_token), (void *)looking_for);
-
 	/* Do NOT start chrono here; no exec happens in this test harness */
 	/* get tokens / read input */
-	get_more_tokens(&tt, &shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
+	get_more_tokens(&shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
 					&shell->input_method, &shell->context, &shell->base_context, (int *)&shell->should_exit);
 
 	/* Chrono is driven by executor in real shell; keep untouched here */
@@ -219,8 +213,6 @@ static void parse_input(t_app *shell)
 		set_cmd_status(&shell->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &shell->last_cmd_status_s);
 	free(parser.stack.buff);
 	parser.stack = (t_vec){};
-	free(tt.buf);
-	free(looking_for);
 	shell->should_exit |= ((get_g_sig()->should_unwind && shell->input_method != INP_READLINE) || shell->rl.has_finished);
 }
 

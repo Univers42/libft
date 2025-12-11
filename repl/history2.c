@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 22:51:28 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/08 23:40:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:16:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void free_hist(t_hist *hist)
 		i++;
 	}
 	free(hist->cmds.buff);
-	vec_init(&hist->cmds, &(t_vec_config){});
+	vec_init(&hist->cmds, &(t_vec_config){0});
 }

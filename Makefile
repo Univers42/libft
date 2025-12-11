@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:30:42 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/07 15:22:11 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/11 16:14:43 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,10 @@
 CC          ?= cc
 AR          ?= ar
 ARFLAGS     ?= rcs
-CFLAGS      ?= -Wall -Wextra -Werror
+CFLAGS      ?= -Wall -Wextra -Werror -pedantic \
+					-Wshadow -Wpointer-arith -Wcast-align -Wvolatile-register-var \
+					-Wdangling-else -Wenum-compare -Wexpansion-to-defined -Waddress \
+					-Wno-shift-count-overflow -Wstrict-overflow -Wfatal-errors
 CFLAGS_SHARED ?= -shared -fPIC
 
 # C++ toolchain (for tests/*.cpp)

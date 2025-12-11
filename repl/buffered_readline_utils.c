@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:22:41 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/11 13:31:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:16:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void buff_readline_reset(t_rl *l)
 
 void buff_readline_init(t_rl *ret)
 {
-	*ret = (t_rl){};
+	*ret = (t_rl){0};
 }
 
 void update_context(t_rl *rl, char **context, char **base_context)

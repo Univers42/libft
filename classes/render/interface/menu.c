@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:06:03 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 00:45:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:15:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,5 @@
 // 		print_str(meta, 10, 150, "Red=peaks Green=mid Blue=valleys");
 // 	}
 // }
+
+#include "libft.h"

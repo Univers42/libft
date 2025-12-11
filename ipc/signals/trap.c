@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 15:02:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:15:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_glob_sig *get_g_sig(void)
 {
-	static t_glob_sig g_sig = {};
+	static t_glob_sig g_sig = {0};
 
 	return (&g_sig);
 }

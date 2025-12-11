@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:52:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 13:39:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:16:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 static void free_all_state(t_stream_dft_data *shell)
 {
 	free(shell->input.buff);
-	shell->input = (t_dyn_str){};
+	shell->input = (t_dyn_str){0};
 	free(shell->last_cmd_status_s);
 	free(shell->pid);
 	free(shell->context);
@@ -83,7 +83,7 @@ static void init_repl(t_stream_dft_data *meta, char **argv, char **envp, t_repl_
 	(void)ctx;
 	(void)conf;
 	set_unwind_sig();
-	*meta = (t_stream_dft_data){};
+	*meta = (t_stream_dft_data){0};
 	meta->pid = getpid_hack();
 	meta->context = ft_strdup(argv[0]);
 	meta->base_context = ft_strdup(argv[0]);
@@ -100,14 +100,14 @@ static void parse_input(t_stream_dft_data *meta)
 	t_parse parser;
 	t_deque tt;
 
-	parser = (t_parse){.st = ST_INIT, .stack = {}};
+	parser = (t_parse){.st = ST_INIT, .stack = {0}};
 	prompt = prompt_normal(&meta->last_cmd_status_res, &meta->last_cmd_status_s).buff;
 	deque_init(&tt, 64, sizeof(t_token), NULL);
 	get_more_tokens(&meta->rl, &prompt, &meta->input, &meta->last_cmd_status_res, &meta->last_cmd_status_s, &meta->input_method, &meta->context, &meta->base_context, &meta->should_exit, &tt);
 	if (get_g_sig()->should_unwind)
 		set_cmd_status(&meta->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &meta->last_cmd_status_s);
 	free(parser.stack.buff);
-	parser.stack = (t_vec){};
+	parser.stack = (t_vec){0};
 	if (tt.cap && tt.buf)
 		free(tt.buf);
 	meta->should_exit |= (((get_g_sig()->should_unwind && meta->input_method != INP_READLINE) || meta->rl.has_finished));
@@ -127,7 +127,7 @@ void repl(t_repl_config *conf, char **argv, char **envp)
 			manage_history(&meta.hist, &meta.rl);
 		buff_readline_reset(&meta.rl);
 		free(meta.input.buff);
-		meta.input = (t_dyn_str){};
+		meta.input = (t_dyn_str){0};
 	}
 	free_env(&meta.env);
 	free_all_state(&meta);

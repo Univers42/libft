@@ -6,11 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:54:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 15:54:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:13:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	debug_todo(const char *message)
 {
+	(void)message;
 	return ;
 }

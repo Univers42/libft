@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:05:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 00:45:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:16:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,5 @@
 // 	print_str(meta, MENU_TAB, line, "Blending:");
 // 	print_nbr(meta, MENU_TAB + 100, line, meta->map.brange * 10000);
 // }
+
+#include "libft.h"

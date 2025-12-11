@@ -29,26 +29,15 @@ define clean_library
 	@$(RM) $(NAME)
 endef
 
-define log_info
-	$(call logging,$(CYAN),INFO,$(1))
-endef
+# Logging macros for formatted output
+log_note = @printf "$(BOLD_MAGENTA)%s$(RESET)\n" "$(1)"
+log_info = @printf "$(BOLD_GREEN)%s$(RESET)\n" "$(1)"
+log_ok = @printf "  $(BRIGHT_CYAN)✓$(RESET) %s\n" "$(1)"
+log_warn = @printf "$(BRIGHT_YELLOW)⚠ %s$(RESET)\n" "$(1)"
+log_error = @printf "$(BRIGHT_RED)✗ %s$(RESET)\n" "$(1)"
 
-define log_warn
-	$(call logging,$(YELLOW),WARN,$(1))
-endef
-
-define log_ok
-	$(call logging,$(GREEN),OK,$(1))
-endef
-
-define log_note
-	$(call logging,$(BLUE),NOTE,$(1))
-endef
-
-define log_error
-	$(call logging,$(RED),ERROR,$(1))
-endef
-
-define log_debug
-	$(call logging,$(MAGENTA),DEBUG,$(1))
-endef
+# Print a centered, colored title banner.
+# Usage: $(call log_title,Your Title Here)
+log_title = @printf "$(BOLD_CYAN)╔════════════════════════════════════════════════════════╗$(RESET)\n"; \
+             printf "$(BOLD_CYAN)║$(RESET)  $(BOLD_YELLOW)%-46s$(RESET)  $(BOLD_CYAN)	 ║$(RESET)\n" "$(1)"; \
+             printf "$(BOLD_CYAN)╚════════════════════════════════════════════════════════╝$(RESET)\n"

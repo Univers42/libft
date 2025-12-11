@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:53:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 23:41:20 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:55:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,6 @@ void	*ft_print_memory(void *addr, unsigned int size);
 void	*ft_print_array(int *arr, int size, char mode);
 void	print_array(int *arr, int size);
 void	ft_assert(int cond);
+void	debug_todo(const char *message);
+
 #endif

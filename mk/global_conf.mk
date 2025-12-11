@@ -6,7 +6,7 @@
 #    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 19:30:00 by dlesieur          #+#    #+#              #
-#    Updated: 2025/12/11 15:13:54 by dlesieur         ###   ########.fr        #
+#    Updated: 2025/12/11 15:52:22 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ESC_BLUE = $(ESC)[0;34m
 ESC_MAGENTA = $(ESC)[0;35m
 ESC_CYAN = $(ESC)[0;36m
 ESC_WHITE = $(ESC)[0;37m
-#
+
 ## Bold colors
 ESC_BOLD_BLACK = $(ESC)[1;30m
 ESC_BOLD_RED = $(ESC)[1;31m
@@ -122,16 +122,16 @@ STATE_COLOR_NOTE  := $(BRIGHT_MAGENTA)
 STATE_COLOR_ERROR := $(BRIGHT_RED)
 STATE_COLOR_DEBUG := $(BRIGHT_BLUE)
 
-CC			:= cc
-CXX			:= CXX
+CC				:= cc
+CXX				:= CXX
 CSTD			?= -std=gnu99
 CXXSTD			?= -std=gnu++17
 DEFINES			?= -D_GNU_SOURCE -D_POSIX_C_SOURCE=200809L
 PREPROCFLAGS	?= -MMD -MP -MF
-DPDCS_STATIC	?=
-DPDCS_SLIB		?=
+DPDCS_STATIC	?= $(sh -c "git submodule foreach --quiet 'echo $paht'")
+DPDCS_SLIB		?= 
 SUBMODULE_URLS	?= git@github.com:Univers42/libft.git
-SUBMODULE_DIRS ?= 
+SUBMODULE_DIRS	?= 
 WARN_FLAGS		?=	-Wall -Wextra -Werror -pedantic \
 					-Wshadow -Wpointer-arith -Wcast-align -Wvolatile-register-var \
 					-Wdangling-else -Wenum-compare -Wexpansion-to-defined -Waddress \
@@ -142,5 +142,8 @@ ANAFLAGS		?= -fsanitize=address,undefined,leak
 CFLAGS			?= $(CSTD) $(WARN_FLAGS) $(DEBFLAGS) $(ANAFLAGS) $(DEFINES)
 DEBFLAGS		?= -g3 -O0 -ggdb
 OPTFLAGS		?= -Ofast -pipe
-
+SOURCES_DIR		?= srcs
+OBJ_DIR			:= obj
 LDFLAGS			:= $(DPDCS_STATIC) 
+RM				:= rm -rf
+AR				:= ar rcs

@@ -6,13 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 21:49:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 02:03:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:50:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "ds.h"
 #include <stdint.h> /* added for uintptr_t */
+#include <ctype.h>	/* for isprint */
+
+/* Helper: characters that we treat as explicit operators/separators for tokenization.
+   Stop word-scanning when we encounter any of these (or whitespace/newline/quotes). */
+static inline bool is_op_char(char c)
+{
+	return (c == '|' || c == '&' || c == ';' || c == '<' || c == '>' ||
+			c == '(' || c == ')' || c == '{' || c == '}' || c == '\n');
+}
 
 static char *parse_squote(t_deque *tokens, char **str)
 {
@@ -69,9 +78,14 @@ char *parse_word(t_deque *tokens, char **str)
 	start = *str;
 	while (**str)
 	{
+		/* backslash escaping */
 		if (**str == '\\')
 			advance_bs(str);
-		else if (!is_spechr(**str) && **str != '\'' && **str != '"' && **str != '$')
+		/* stop on quotes, dollar, newline, whitespace, or operator characters */
+		else if (**str == '\'' || **str == '"' || **str == '$' || **str == '\n' || ft_isspace((int)**str) || is_op_char(**str))
+			break;
+		/* allow printable chars as part of a word (this includes '/', '.', '-', etc.) */
+		else if ((unsigned char)**str >= 32 && isprint((unsigned char)**str))
 			(*str)++;
 		else
 			break;
@@ -81,7 +95,7 @@ char *parse_word(t_deque *tokens, char **str)
 	if (*str > start)
 	{
 		deque_push_end(
-			tokens, &(t_token){.start = start, .len = *str - start, .type = TOKEN_WORD});
+			tokens, &(t_token){.start = start, .len = (int)(*str - start), .type = TOKEN_WORD});
 	}
 	return (0);
 }
@@ -96,7 +110,7 @@ void parse_op(t_deque *tokens, char **str)
 
 	operators[0] = (t_op_map){"|", TOKEN_PIPE};
 	operators[1] = (t_op_map){"<<", TOKEN_REDIR_HEREDOC};
-	operators[2] = (t_op_map){"<<-", TOKEN_REDIR_CLOBBER};
+	operators[2] = (t_op_map){"<<-", TOKEN_REDIR_HEREDOC_STRIP};
 	operators[3] = (t_op_map){">>", TOKEN_REDIR_APPEND};
 	operators[4] = (t_op_map){"(", TOKEN_RIGHT_PAREN};
 	operators[5] = (t_op_map){")", TOKEN_LEFT_PAREN};
@@ -132,8 +146,10 @@ char *tokenizer(char *str, t_deque *ret)
 			prompt = parse_squote(ret, &str);
 		else if (*str == '"')
 			prompt = parse_dquote(ret, &str);
-		else if (*str == '$' || !(is_spechr(*str)))
+		/* dollar always starts expansion/token */
+		else if (*str == '$')
 			prompt = parse_word(ret, &str);
+		/* newline token */
 		else if (*str == '\n')
 		{
 			deque_push_end(ret, &(t_token){
@@ -143,10 +159,16 @@ char *tokenizer(char *str, t_deque *ret)
 									.allocated = false});
 			str++;
 		}
-		else if (ft_isspace(*str))
+		/* skip pure whitespace */
+		else if (ft_isspace((int)*str))
 			str++;
-		else
+		/* if it's an operator char, parse as operator(s) */
+		else if (is_op_char(*str) || *str == '|' || *str == '&' || *str == ';' || *str == '<' || *str == '>' ||
+				 *str == '(' || *str == ')' || *str == '{' || *str == '}')
 			parse_op(ret, &str);
+		/* otherwise parse as word */
+		else
+			prompt = parse_word(ret, &str);
 		if (prompt)
 			break;
 	}

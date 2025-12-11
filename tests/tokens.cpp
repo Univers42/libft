@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:39:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 12:57:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:53:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ extern "C"
 #include "ft_stddef.h"
 #include "ft_readline.h"
 #include "parser.h"
+#include "lexer.h" // added so print_tokens and token types are declared
 }
 
 typedef struct s_app
@@ -75,6 +76,7 @@ static void free_all_state(t_app *shell)
 	free(shell->cwd.buff);
 }
 
+#if 0
 static void init_arg(int *input_method, const char *base_context, t_rl *rl, char **argv, t_fnctx *ft)
 {
 	if (!argv[2])
@@ -89,8 +91,9 @@ static void init_arg(int *input_method, const char *base_context, t_rl *rl, char
 	rl->should_update_ctx = true;
 	*input_method = INP_ARG;
 }
+#endif
 
-
+#if 0
 static void init_file(t_app *shell, char **argv)
 {
 	int fd;
@@ -115,13 +118,15 @@ static void init_file(t_app *shell, char **argv)
 	shell->context = ft_strdup(argv[1]);
 	shell->input_method = INP_FILE;
 }
+#endif
 
+#if 0
 static void init_stdin_notty(int *input_method, t_rl *rl)
 {
 	*input_method = INP_STDIN_NOTTY;
 	rl->should_update_ctx = true;
 }
-
+#endif
 
 char *getpid_hack(void)
 {
@@ -148,8 +153,6 @@ char *getpid_hack(void)
 
 static void init_app(t_app *shell, char **argv, char **envp)
 {
-	t_fnctx ctx = {.fn = (void (*)(void *))free_all_state, .arg = shell};
-
 	set_unwind_sig();
 	*shell = (t_app){
 		.input = {},
@@ -176,38 +179,67 @@ static void init_app(t_app *shell, char **argv, char **envp)
 	init_history(&shell->hist, &shell->env);
 }
 
-
 static void parse_input(t_app *shell)
 {
 	char *prompt;
-    t_deque tt;
-    t_fnctx ctx;
+	t_deque tt;
+	t_fnctx ctx;
 
-    ctx = (t_fnctx){.fn = (void (*)(void *))free_all_state, .arg = &shell};
-    while (!shell->should_exit)
-    {
-        prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
-        deque_init(&tt, 64, sizeof(t_token_type), &ctx);
-        if (get_g_sig()->should_unwind)
-            set_cmd_status(&shell->last_cmd_status_res, (t_status){.status = CANCELED, .c_c = true}, &shell->last_cmd_status_s);
-        if (shell->should_exit || get_g_sig()->should_unwind)
-        {
-            if (tt.cap && tt.buf)
-                free(tt.buf);
-            break ;
-        }
-        print_token(&(t_token_type)tt.ctx);
-        if (tt.cap && tt.buf)
-            free(tt.buf);
-        if (shell->input.buff)
-        {
-            free(&shell->input.buff);
-            shell->input = (t_dyn_str){};
-        }
-        buff_readline_init(&shell->rl);
-    }
+	ctx = (t_fnctx){.fn = (void (*)(void *))free_all_state, .arg = &shell};
+	while (!shell->should_exit)
+	{
+		prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
+		deque_init(&tt, 64, sizeof(t_token), &ctx);
+		get_more_tokens(&shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s, &shell->input_method, &shell->context, &shell->base_context, &shell->should_exit, &tt);
+		if (get_g_sig()->should_unwind)
+		{
+			t_status tmp = res_status(CANCELED);
+			tmp.c_c = true;
+			set_cmd_status(&shell->last_cmd_status_res, tmp, &shell->last_cmd_status_s);
+		}
+		if (shell->should_exit || get_g_sig()->should_unwind)
+		{
+			if (tt.cap && tt.buf)
+				free(tt.buf);
+			break;
+		}
+		/* Diagnostics: if tokenizer produced no meaningful tokens, show input/rl state */
+		if (tt.len == 0 || is_empty_token_list(&tt))
+		{
+			fprintf(stderr, "DEBUG: tokenizer produced %zu tokens\n", (size_t)tt.len);
+			fprintf(stderr, "DEBUG: shell.input.len=%zu, shell.rl.str.len=%zu, shell.rl.cursor=%zu\n",
+					shell->input.len, shell->rl.str.len, shell->rl.cursor);
+			fprintf(stderr, "DEBUG: shell.input.buff: %s\n", shell->input.buff ? shell->input.buff : "(null)");
+			fprintf(stderr, "DEBUG: rl.str.buff: %s\n", shell->rl.str.buff ? shell->rl.str.buff : "(null)");
+			/* hex dump of input (helpful for hidden characters) */
+			if (shell->input.buff && shell->input.len)
+			{
+				fprintf(stderr, "DEBUG: input hex:");
+				for (size_t i = 0; i < shell->input.len; ++i)
+					fprintf(stderr, " %02x", (unsigned char)shell->input.buff[i]);
+				fprintf(stderr, "\n");
+			}
+		}
+		/* print each token using the debug formatter and then a summary */
+		for (size_t i = 0; i < tt.len; ++i)
+			print_token_debug((t_token *)deque_idx(&tt, i));
+		print_token_summary(&tt);
+		if (tt.cap && tt.buf)
+			free(tt.buf);
+		if (shell->input.buff)
+		{
+			free(shell->input.buff);
+			shell->input = (t_dyn_str){};
+		}
+		buff_readline_init(&shell->rl);
+	}
 	if (get_g_sig()->should_unwind)
-		set_cmd_status(&shell->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &shell->last_cmd_status_s);
+	{
+		t_status tmp = res_status(CANCELED);
+		tmp.c_c = true;
+		tmp.pid = -1;
+		set_cmd_status(&shell->last_cmd_status_res, tmp, &shell->last_cmd_status_s);
+	}
 	shell->should_exit |= ((get_g_sig()->should_unwind && shell->input_method != INP_READLINE) || shell->rl.has_finished);
 }
 

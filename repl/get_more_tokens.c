@@ -6,16 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:43:56 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/11 11:55:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:53:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdbool.h>
 
-// 1 - EOF
-//
-// 2 - C-c
 static int readline_cmd(t_rl *rl, char **prompt, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
 {
 	int stat;
@@ -65,6 +62,7 @@ static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res,
 	while (ends_with_bs_nl(*input))
 	{
 		dyn_str_pop(input);
+		dyn_str_pop(input);
 		prompt = ft_strdup("> ");
 		if (readline_cmd(rl, &prompt, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit))
 			return;
@@ -74,33 +72,58 @@ static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res,
 void get_more_tokens(t_rl *rl,
 					 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 					 char **last_cmd_status_s, int *input_method,
-					 char **context, char **base_context, bool *should_exit)
+					 char **context, char **base_context, bool *should_exit, t_deque *out_tokens)
 {
-	int		stat;
-	char	*curr_prompt;
-	char	*next_prompt;
-	t_deque	tt;
-	char	*looking_for;
+	int stat;
+	char *curr_prompt;
+	char *next_prompt;
+	t_deque tt;
+	bool created_local = false;
+	char looking_for = '\0';
 
-	looking_for = (char *)malloc(sizeof(char));
-	*looking_for = '\0';
-	deque_init(&tt, 64, sizeof(t_token), (void *)looking_for);
-	while (*prompt)
+	/* Only create a temporary deque if caller did not provide one. */
+	if (!out_tokens)
+	{
+		deque_init(&tt, 64, sizeof(t_token), NULL);
+		out_tokens = &tt;
+		created_local = true;
+	}
+	while (prompt && *prompt)
 	{
 		curr_prompt = *prompt;
 		stat = readline_cmd(rl, prompt, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit);
+		if (stat == 1)
+		{
+			if (looking_for && input->len)
+				ft_eprintf("%s: unexpected EOF while looking for "
+						   "matching `%c'\n",
+						   (context && *context) ? *context : "input", looking_for);
+			else if (input->len)
+				ft_eprintf("%s: syntax error: unexpected end of file\n", (context && *context) ? *context : "input");
+			if (*input_method == INP_READLINE)
+				ft_eprintf("exit\n");
+			if (!last_cmd_status_res->status && input->len)
+				set_cmd_status(last_cmd_status_res, (t_status){.status = SYNTAX_ERR}, last_cmd_status_s);
+			*should_exit = true;
+		}
 		if (stat)
 		{
 			free(curr_prompt);
+			/* If we created a local deque, free its buffer */
+			if (created_local && out_tokens && out_tokens->buf)
+				free(out_tokens->buf);
 			return;
 		}
-		next_prompt = (extend_bs(rl, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit), tokenizer(input->buff, &tt));
+		extend_bs(rl, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit);
+		/* Tokenize into the (possibly caller-provided) deque */
+		next_prompt = tokenizer(input->buff, out_tokens);
 		free(curr_prompt);
 		if (next_prompt)
 			*prompt = ft_strdup(next_prompt);
 		else
-			*prompt = 0;
+			*prompt = NULL;
 	}
-	free(tt.buf);
-	free(looking_for);
+	/* Free local deque buffer if we created it here */
+	if (created_local && out_tokens && out_tokens->buf)
+		free(out_tokens->buf);
 }

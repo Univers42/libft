@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:22:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:47:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,5 +444,8 @@ char *tokenizer(char *str, t_deque *ret);
 char *parse_word(t_deque *tokens, char **str);
 void parse_op(t_deque *tokens, char **str);
 void trigger_assert_fail(void);
+void print_token_summary(t_deque *tokens);
+void print_tokens(t_deque *tokens);
+void print_token_debug(t_token *token);
 
 #endif

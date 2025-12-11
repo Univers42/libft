@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:01:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 22:03:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,40 @@
 
 #define INTMAX_BUFSIZE 25
 
-//Forward declarations
-//TODO: 
-static t_var	*build_and_set(t_meta *key, t_meta *val, int flags);
+// Forward declarations
+// TODO:
+static t_var *build_and_set(t_dyn_str *key, t_dyn_str *val, int flags);
 
 // Main public API
-intmax_t	set_varint(const char *name, intmax_t val, int flags)
+intmax_t set_varint(char *name, intmax_t val, int flags)
 {
-	char	buf[INTMAX_BUFSIZE];
+	char buf[INTMAX_BUFSIZE];
 
 	fmtstr(buf, INTMAX_BUFSIZE, "%" PRIdMAX, val);
 	set_var(name, buf, flags);
 	return (val);
 }
 
-t_var	*set_var(const char *name, const char *val, int flags)
+t_var *set_var(char *name, char *val, int flags)
 {
-	t_meta	key;
-	t_meta	value;
-	char	*p;
-	char	*q;
-	t_var	*vp;
+	t_dyn_str key;
+	t_dyn_str value;
+	char *p;
+	char *q;
+	t_var *vp;
 
-	key.name = name;
-	value.name = val;
-	q = end_of_name(key.name);
+	key.buff = name;
+	value.buff = val;
+	q = end_of_name(key.buff);
 	p = ft_strchrnul(q, '=');
-	key.len = p - key.name;
+	key.len = p - key.buff;
 	if (!key.len || p != q)
 		return (NULL);
 	value.len = 0;
-	if (!value.name)
+	if (!value.buff)
 		flags |= VUNSET;
 	else
-		value.len = ft_strlen(value.name);
+		value.len = ft_strlen(value.buff);
 	intoff();
 	vp = build_and_set(&key, &value, flags);
 	inton();
@@ -56,24 +56,24 @@ t_var	*set_var(const char *name, const char *val, int flags)
 }
 
 // Private helper
-static t_var	*build_and_set(t_meta *key, t_meta *val, int flags)
+static t_var *build_and_set(t_dyn_str *key, t_dyn_str *val, int flags)
 {
-	char	*name_eq;
-	char	*p;
-	t_var	*vp;
+	char *name_eq;
+	char *p;
+	t_var *vp;
 
-	if (val->name)
+	if (val->buff)
 		name_eq = xmalloc((size_t)key->len + val->len + 2);
 	else
 		name_eq = xmalloc((size_t)key->len + 1);
-	ft_memcpy(name_eq, key->name, key->len);
+	ft_memcpy(name_eq, key->buff, key->len);
 	p = name_eq + key->len;
-	if (val->name)
+	if (val->buff)
 	{
 		*p++ = '=';
 		if (val->len)
 		{
-			ft_memcpy(p, val->name, val->len);
+			ft_memcpy(p, val->buff, val->len);
 			p += val->len;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:36:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:49:55 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_meta			t_meta;
  * @param flags Flags to be OR'ed with the variable's flags (e.g., VEXPORT).
  * @return A pointer to the variable structure.
  */
-t_var			*set_var(const char *name, const char *val, int flags);
+t_var			*set_var(char *name, char *val, int flags);
 
 /**
  * @brief Sets a variable to an integer value.
@@ -45,7 +45,7 @@ t_var			*set_var(const char *name, const char *val, int flags);
  * @param flags Flags to be OR'ed with the variable's flags.
  * @return The integer value that was set.
  */
-intmax_t		set_varint(const char *name, intmax_t val, int flags);
+intmax_t		set_varint(char *name, intmax_t val, int flags);
 
 /**
  * @brief Sets a variable from a "name=value" string.
@@ -73,7 +73,7 @@ intmax_t		lookup_varint(const char *name);
  * @brief Unsets the specified variable.
  * @param s The name of the variable to unset.
  */
-void			unset_var(const char *s);
+void			unset_var(char *s);
 
 /*
  * Built-in Command Implementations

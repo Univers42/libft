@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:10:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:43:32 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/03 23:43:32 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:05:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "error.h"
 
 /*

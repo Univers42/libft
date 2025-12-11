@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 16:04:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:07:17 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/11 22:02:37 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:05:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "var.h"
 
 int changed;
@@ -28,7 +27,7 @@ t_var make_atty(void)
 
 t_var make_ifs(const char *ifs)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, ifs, 0};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, (char *)ifs, 0};
 }
 
 t_var make_mail(void)
@@ -43,5 +42,6 @@ t_var make_mailpath(void)
 
 t_var make_path(const char *path)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, path, 0};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, (char *)path, 0};
 }
+

@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:09:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:44:21 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/03 23:44:21 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:05:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "var.h"
 
 static t_var *variable_not_found(char *s, int *pflags, t_var **vpp);

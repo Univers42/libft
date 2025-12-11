@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:06:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:36:16 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/11 21:48:31 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:03:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "var.h"
 #include <string.h>
 
@@ -39,7 +38,7 @@ int unset_cmd(int argc, char **argv)
 	return (0);
 }
 
-void unset_var(const char *s)
+void unset_var(char *s)
 {
 	set_var(s, 0, 0);
 }

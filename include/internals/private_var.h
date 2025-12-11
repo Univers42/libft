@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:41:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:52:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ extern "C"
 	{
 		struct s_var *next;
 		int flags;
-		const char *text;
+		char *text;
 		void (*func)(const char *);
 	};
 
@@ -141,7 +141,7 @@ extern "C"
 		struct s_localvar *next;
 		struct s_var *vp;
 		int flags;
-		const char *text;
+		char *text;
 		void (*restore)(struct s_localvar *lvp, t_var_state *state);
 	};
 
@@ -226,7 +226,6 @@ extern "C"
 	t_var_state *get_var_state(void);
 	t_localvar_list *get_localvar_stack(void);
 	char *get_optlist(void);
-	intmax_t set_varint(const char *name, intmax_t val, int flags);
 
 	/* New: teardown API to free all libvar-managed allocations */
 	void libvar_destroy(void);

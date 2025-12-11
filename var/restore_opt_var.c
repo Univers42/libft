@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/29 17:26:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 00:57:05 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/01 00:57:05 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:06:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
+#include "var.h"
 
 /*
  * Minimal placeholder for restoring option-like local variables.

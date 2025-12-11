@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:09:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:43:52 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/03 23:43:52 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:05:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "var.h"
 
 static void process_local_var_list(t_localvar *lvp_list,

@@ -5,34 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 17:57:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:40:32 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/09 01:40:32 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:06:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
+#include "var.h"
 
 char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec *env)
 {
-    t_env *curr;
+	t_env *curr;
 
-    if (!key)
-        return (NULL);
-    if (ft_strncmp(key, "?", len) == 0 && len == 1)
-        return (last_cmd_status_s);
-    else if (ft_strncmp(key, "$", len) == 0 && pid && len == 1)
-        return (pid);
-    else if (len == 0)
-        return ("$");
-    curr = env_nget(env, key, len);
-    if (!curr || !curr->key)
-        return (NULL);
-    return (curr->value);
+	if (!key)
+		return (NULL);
+	if (ft_strncmp(key, "?", len) == 0 && len == 1)
+		return (last_cmd_status_s);
+	else if (ft_strncmp(key, "$", len) == 0 && pid && len == 1)
+		return (pid);
+	else if (len == 0)
+		return ("$");
+	curr = env_nget(env, key, len);
+	if (!curr || !curr->key)
+		return (NULL);
+	return (curr->value);
 }
 
 char *env_expand(char *last_cmd_status_s, char *pid, char *key, t_vec *env)
 {
-	return (env_expand_n(last_cmd_status_s, pid,  key, ft_strlen(key), env));
+	return (env_expand_n(last_cmd_status_s, pid, key, ft_strlen(key), env));
 }
 
 int env_set(t_vec *env, t_env nw)
@@ -53,7 +53,6 @@ int env_set(t_vec *env, t_env nw)
 	return (0);
 }
 
-
 void env_extend(t_vec *dest, t_vec *src, bool exp)
 {
 	t_env *curr;
@@ -71,7 +70,6 @@ void env_extend(t_vec *dest, t_vec *src, bool exp)
 	}
 	vec_destroy(src);
 }
-
 
 t_env *env_nget(t_vec *env, char *key, int len)
 {

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:30:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 15:36:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 21:50:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int builtin_var_dump_all(int on_flags)
 }
 
 /* convenience: set NAME or NAME=VALUE command-style */
-int builtin_var_set(const char *arg, int flags)
+int builtin_var_set(char *arg, int flags)
 {
     const char *eq;
 
@@ -90,7 +90,7 @@ int builtin_var_set(const char *arg, int flags)
 }
 
 /* convenience: unset NAME */
-int builtin_var_unset(const char *name)
+int builtin_var_unset(char *name)
 {
     if (!name)
         return (1);

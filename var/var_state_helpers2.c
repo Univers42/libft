@@ -5,15 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 16:04:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:07:17 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/11 22:02:36 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/11 22:05:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_var.h"
 #include "var.h"
 
-static void set_histsize(const char *hs)
+static void set_histsize(char *hs)
 {
 	(void)hs;
 	/* Stub: history management is shell-specific.
@@ -25,15 +24,21 @@ t_var make_ps4(void)
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS4=+ ", 0};
 }
 
+/* Match the public/header prototype: optind is const char *, resetfn is void(*)(void).
+   t_var.func expects a callback taking (const char *), so cast resetfn accordingly
+   when storing it into the t_var structure. */
 t_var make_optind(const char *optind, void (*resetfn)(void))
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind,
-				   (void (*)(const char *))resetfn};
+	return (t_var){
+		NULL,
+		VSTR_FIXED | VTEXT_FIXED,
+		(char *)optind, /* t_var.text is char*, cast away const here (stored as static text) */
+		(void (*)(const char *))resetfn};
 }
 
 t_var make_lineno(const char *lineno)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, lineno, 0};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, (char *)lineno, 0};
 }
 
 t_var make_term(void)
@@ -43,5 +48,5 @@ t_var make_term(void)
 
 t_var make_histsize(void)
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED | VUNSET, "HISTSIZE\0", set_histsize};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED | VUNSET, "HISTSIZE\0", (void (*)(const char *))set_histsize};
 }

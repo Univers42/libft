@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/10 20:24:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:50:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ static void parse_input(t_app *shell)
 	/* Do NOT start chrono here; no exec happens in this test harness */
 	/* get tokens / read input */
 	get_more_tokens(&shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
-					&shell->input_method, &shell->context, &shell->base_context, (int *)&shell->should_exit);
+					&shell->input_method, &shell->context, &shell->base_context, &shell->should_exit);
 
 	/* Chrono is driven by executor in real shell; keep untouched here */
 

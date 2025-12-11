@@ -6,139 +6,126 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:52:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/10 20:58:38 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:49:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 #include <stdbool.h>
 #include "ft_stdio.h"
+#include "ipc.h"
+#include "var.h"
+#include "ipc.h"
 
-
-// Default prompt generator using the config's prompts
-static t_dyn_str default_prompt_gen(t_status *status, char **status_str)
+static void free_all_state(t_stream_dft_data	*shell)
 {
-    (void)status_str;
-    t_dyn_str p;
-    dyn_str_init(&p);
-    dyn_str_pushstr(&p, (status->status == 0) ? "> " : "error> ");
-    return p;
+	free(shell->input.buff);
+	shell->input = (t_dyn_str){};
+	free(shell->last_cmd_status_s);
+	free(shell->pid);
+	free(shell->context);
+	free(shell->base_context);
+	shell->context = 0;
+	shell->base_context = 0;
+	free(shell->rl.str.buff);
+	free_hist(&shell->hist);
+	free(shell->cwd.buff);
 }
 
-// Default input processor: echo and check for "exit"
-static bool default_process_input(const char *input, t_status *status)
+static char *getpid_hack(void)
 {
-    if (ft_strcmp(input, "exit") == 0)
-    {
-        status->status = 0;
-        return true; // Exit
-    }
-    ft_printf("Echo: %s\n", input);
-    status->status = 0;
-    return false; // Continue
+	int fd;
+	t_dyn_str file;
+	char *ret;
+	char **temp;
+	const char *err = "CAnnot get PID.";
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd < 0)
+	{
+		warning_error(err);
+		return (0);
+	}
+	dyn_str_init(&file);
+	dyn_str_append_fd(fd, &file);
+	close(fd);
+	temp = ft_split(file.buff, ' ');
+	free(file.buff);
+	ret = ft_strdup(temp[0]);
+	free_tab(temp);
+	return (ret);
 }
 
-// Main REPL runner function
-int repl_run(t_repl_config *config)
+static t_status res_status(int status)
 {
-    t_rl rl;
-    t_hist hist;
-    t_dyn_str input;
-    char *prompt_str;
-    int ret;
-    bool should_exit = false;
+	return ((t_status){.status = status, .pid = -1, .c_c = false});
+}
 
-    // Initialize readline and history if enabled
-    buff_readline_init(&rl);
-    dyn_str_init(&input);
-    if (config->enable_history)
-    {
-        init_history(&hist, config->env);
-    }
+static void init_cwd(t_dyn_str *_cwd)
+{
+	char *cwd;
 
-    while (!should_exit)
-    {
-        // Generate prompt
-        t_dyn_str prompt;
-        if (config->prompt_gen)
-        {
-            prompt = config->prompt_gen(config->status, config->status_str);
-        }
-        else
-        {
-            prompt = default_prompt_gen(config->status, config->status_str);
-        }
-        prompt_str = prompt.buff;
+	dyn_str_init(_cwd);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		cwd = getenv("PWD");
+	if (cwd)
+		dyn_str_pushstr(_cwd, cwd);
+	else
+		ft_eprintf("Shell-init: getcwd failed: %s\n", strerror(errno));
+	free(cwd);
+}
 
-        // Read input
-        ret = xreadline(&rl, &input, prompt_str, config->status, config->status_str,
-                        &config->input_method, config->context, &config->base_context);
+static void init_repl(t_stream_dft_data *meta, char **argv, char **envp, t_repl_config *conf)
+{
+	t_fnctx ctx = {.fn = (void (*)(void *))free_all_state, .arg = meta};
 
-        free(prompt_str); // Free the prompt string
+	(void)ctx;
+	(void)conf;
+	set_unwind_sig();
+	*meta = (t_stream_dft_data){};
+	meta->pid = getpid_hack();
+	meta->context = ft_strdup(argv[0]);
+	meta->base_context = ft_strdup(argv[0]);
+	set_cmd_status(&meta->last_cmd_status_res, res_status(0), &meta->last_cmd_status_s);
+	meta->last_cmd_status_res = res_status(0);
+	init_cwd(&meta->cwd);
+	meta->env = env_to_vec_env(&meta->cwd, envp);
+	init_history(&meta->hist, &meta->env);
+	
+}
 
-        if (ret == 0)
-        {
-            // EOF
-            should_exit = true;
-            continue;
-        }
-        if (ret == 2 && config->handle_signals)
-        {
-            // Interrupt
-            if (config->echo_input)
-                ft_printf("\n");
-            config->status->status = 130;
-            config->status->c_c = true;
-            dyn_str_clear(&input);
-            if (config->enable_history)
-                manage_history(&hist, &rl);
-            continue;
-        }
+static void parse_input(t_stream_dft_data *meta)
+{
+	char	*prompt;
+	t_parse	parser;
 
-        // Handle backslash continuation if enabled
-        if (config->accumulate_continuation &&
-            input.len > 0 && input.buff[input.len - 1] == '\n' &&
-            input.len > 1 && input.buff[input.len - 2] == '\\')
-        {
-            input.len -= 2;
-            input.buff[input.len] = '\0';
-            continue;
-        }
+	parser = (t_parse){.st = ST_INIT, .stack = {}};
+	prompt = prompt_normal(&meta->last_cmd_status_res, &meta->last_cmd_status_s).buff;
+	get_more_tokens(&meta->rl, &prompt, &meta->input, &meta->last_cmd_status_res, &meta->last_cmd_status_s, &meta->input_method, &meta->context, &meta->base_context, &meta->should_exit);
+	if (get_g_sig()->should_unwind)
+		set_cmd_status(&meta->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &meta->last_cmd_status_s);
+	free(parser.stack.buff);
+	parser.stack = (t_vec){};
+	meta->should_exit |= (((get_g_sig()->should_unwind && meta->input_method != INP_READLINE) || meta->rl.has_finished));
+}
 
-        // Remove trailing newline
-        if (input.len > 0 && input.buff[input.len - 1] == '\n')
-            input.buff[input.len - 1] = '\0';
+void    repl(t_repl_config *conf, char **argv, char **envp)
+{
+	t_stream_dft_data	meta;
 
-        // Process input
-        if (config->process_input)
-        {
-            should_exit = config->process_input(input.buff, config->status);
-        }
-        else
-        {
-            should_exit = default_process_input(input.buff, config->status);
-        }
-
-        // Manage history if enabled
-        if (config->enable_history)
-        {
-            // Prepare rl->str for history
-            dyn_str_clear(&rl.str);
-            dyn_str_pushstr(&rl.str, input.buff);
-            dyn_str_push(&rl.str, '\n');
-            rl.cursor = rl.str.len;
-            manage_history(&hist, &rl);
-        }
-
-        // Clear input for next iteration
-        dyn_str_clear(&input);
-    }
-
-    // Cleanup
-    if (config->enable_history)
-        free_hist(&hist);
-    if (config->cleanup)
-        config->cleanup(config->user_data);
-
-    return config->status->status;
+	init_repl(&meta, argv, envp, conf);
+	while (meta.should_exit)
+	{
+		dyn_str_init(&meta.input);
+		get_g_sig()->should_unwind = 0;
+		parse_input(&meta);
+		if (meta.rl.cursor > 1)
+			manage_history(&meta.hist, &meta.rl);
+		buff_readline_reset(&meta.rl);
+		free(meta.input.buff);
+		meta.input = (t_dyn_str){};
+	}
+	free_env(&meta.env);
+	free_all_state(&meta);
+	forward_exit_status(meta.last_cmd_status_res);
 }

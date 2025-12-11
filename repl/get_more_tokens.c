@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:43:56 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/10 20:24:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:55:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // 1 - EOF
 //
 // 2 - C-c
-static int readline_cmd(t_rl *rl, char **prompt, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, int *should_exit)
+static int readline_cmd(t_rl *rl, char **prompt, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
 {
 	int stat;
 
@@ -58,13 +58,12 @@ bool ends_with_bs_nl(t_dyn_str s)
 	return (unterminated);
 }
 
-static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, int *should_exit)
+static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
 {
 	char *prompt;
 
 	while (ends_with_bs_nl(*input))
 	{
-		dyn_str_pop(input);
 		dyn_str_pop(input);
 		prompt = ft_strdup("> ");
 		if (readline_cmd(rl, &prompt, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit))
@@ -75,7 +74,7 @@ static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res,
 void get_more_tokens(t_rl *rl,
 					 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 					 char **last_cmd_status_s, int *input_method,
-					 char **context, char **base_context, int *should_exit)
+					 char **context, char **base_context, bool *should_exit)
 {
 	int		stat;
 	char	*curr_prompt;
@@ -85,7 +84,7 @@ void get_more_tokens(t_rl *rl,
 
 	looking_for = (char *)malloc(sizeof(char));
 	*looking_for = '\0';
-	deque_init(&tt,64, sizeof(t_token), (void *)looking_for);
+	deque_init(&tt, 64, sizeof(t_token), (void *)looking_for);
 	while (*prompt)
 	{
 		curr_prompt = *prompt;

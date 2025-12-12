@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:18:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 21:44:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:37:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	    is_meta_char(int c);
 int     is_word_char(int c);
 int     is_name_char(int c);
 bool	is_custom_set(int c, const char *set);
-int     is_in_name(int c);
+int     is_int_name(int c);
 bool    is_spechr(int c);
-
+bool    is_escapable(int c);
 #endif

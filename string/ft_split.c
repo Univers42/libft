@@ -6,18 +6,20 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 20:32:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:17:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include "ft_memory.h"
+#include "ft_string.h"
 //#include "TDD/test.h"
+
 /**
  * @description:
  * Allocates (with malloc(3) and returns an array of strings obtained
@@ -109,6 +111,7 @@ static int	count_segments(const char *str, char delimiter)
 	return (segment);
 }
 
+#ifdef SPLIT_OPT
 char	**ft_split(char const *s, char c)
 {
 	size_t	tokens;
@@ -125,3 +128,33 @@ char	**ft_split(char const *s, char c)
 		return (free(token_v), NULL);
 	return (token_v);
 }
+# else
+
+char **ft_split(char const *str, char c)
+{
+	char	**out;
+	int		i;
+	int		start;
+	int		occ;
+	int		end;
+
+	out = ft_calloc((num_blocks(str, c) + 1), sizeof(char *));
+	if (out == 0)
+		return (0);
+	i = 0;
+	occ = 0;
+	while (str[i] != 0)
+	{
+		start = find_block(&end, str + i, c);
+		if (start == -1)
+			return (out);
+		out[occ] = malloc(end - start + 1);
+		if (out[occ] == 0)
+			return ((void **)free_list(out, occ));
+		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
+		i += end;
+	}
+	return (out);
+}
+
+# endif

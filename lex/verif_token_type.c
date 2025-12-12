@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 23:13:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/27 22:46:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 03:00:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,33 @@ bool	is_expansion(t_token_type type)
 		type == TOKEN_DOLLAR_DASH ||
 		type == TOKEN_DOLLAR_ZERO
 	);
+}
+
+bool	is_simple_cmd_token(t_token_type tt)
+{
+	return (tt == TOKEN_REDIR_FD_IN
+		|| tt == TOKEN_WORD
+		|| tt == TOKEN_REDIR_FD_OUT
+		|| tt == TOKEN_REDIR_APPEND
+		|| tt == TOKEN_REDIR_HEREDOC);
+}
+
+bool	is_simple_list_op(t_token_type tt)
+{
+	return (tt == TOKEN_SEMICOLON
+		|| tt == TOKEN_LOGICAL_OR
+		|| tt == TOKEN_LOGICAL_AND);
+}
+
+bool	is_compund_list_op(t_token_type tt)
+{
+	return (is_simple_list_op(tt) || tt == TOKEN_NEWLINE);
+}
+
+bool	is_redirect(t_token_type tt)
+{
+	return (tt == TOKEN_REDIR_FD_IN
+		|| tt == TOKEN_REDIR_FD_OUT
+		|| tt == TOKEN_REDIR_APPEND
+		|| tt == TOKEN_REDIR_HEREDOC);
 }

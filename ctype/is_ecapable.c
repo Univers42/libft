@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_param.hpp                                     :+:      :+:    :+:   */
+/*   is_ecapable.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/13 00:33:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 00:33:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/12 21:32:30 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/12 21:33:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_PARAM_HPP
-# define TEST_PARAM_HPP
+#include <stdbool.h>
 
-#endif
+bool    is_escapable(int c)
+{
+    return (c == '\\' || c == '$');
+}

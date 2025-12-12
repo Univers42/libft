@@ -133,6 +133,8 @@ typedef enum e_state
 	ST_IN_SUBSHELL, // Inside $()
 	ST_IN_ARITH,	// Inside $(())
 	ST_IN_PARAM,	// Inside ${}
+	ST_SLASH,
+	ST_ASTERISK,
 	ST_HEREDOC,		// Reading heredoc content
 	ST_IN_COMMENT,	// Reading comment
 	ST_MORE_INPUT,

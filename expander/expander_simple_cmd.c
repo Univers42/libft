@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_name_char.c                                     :+:      :+:    :+:   */
+/*   expander_simple_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 23:29:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 21:39:00 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/12 20:26:18 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/12 20:28:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ctype.h"
+#include "expander.h"
 
-//[a-zA-Z_]
-int	is_name_char(int c)
+bool    is_export(t_ast_node word)
 {
-	return (ft_isalpha((unsigned char) c) || c == '_');
+    t_ast_node c;
+
+    if (word.children.len != 1)
+        return (false);
+    c = word.children.buff[0];
+    if (c.token.tt != TOKEN_WORD)
+        return (false);
+    if (ft_strncmp(c.token.start, "export", c.token.len))
+        return (false);
+    return (true);
 }
 
-//[a-zA-Z0-9_]
-int	is_int_name(int c)
-{
-	return (c == '_' || ft_isalnum((unsigned char)c));
-}
+int expand_simple_cmd_assignment(t_expander_simple_cmd *exp, t_executable_cmd *ret)

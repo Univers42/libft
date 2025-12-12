@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 16:15:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 02:03:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ extern "C"
 
 	static inline t_chrono *get_chrono(void)
 	{
-		static t_chrono g = {0};
+		/* static objects have static storage and are zero-initialized */
+		static t_chrono g;
 
 		return (&g);
 	}

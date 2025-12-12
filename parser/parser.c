@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_param.hpp                                     :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/13 00:33:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 00:33:22 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/12 02:49:51 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/12 02:55:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_PARAM_HPP
-# define TEST_PARAM_HPP
+#include "parser.h"
+#include "lexer.h"
 
-#endif
+t_ast_node	parser_subshell()
+{
+
+}
+
+t_ast_node	parse_pipeline()
+{
+
+}
+
+t_ast_node	create_subtoken_node()
+{
+
+}
+
+t_ast_node	parse_tokens()
+{
+	
+}

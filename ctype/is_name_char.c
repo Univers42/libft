@@ -6,18 +6,20 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 23:29:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:02:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:39:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
+//[a-zA-Z_]
 int	is_name_char(int c)
 {
 	return (ft_isalpha((unsigned char) c) || c == '_');
 }
 
-int	is_in_name(int c)
+//[a-zA-Z0-9_]
+int	is_int_name(int c)
 {
 	return (c == '_' || ft_isalnum((unsigned char)c));
 }

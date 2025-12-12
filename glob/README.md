@@ -125,3 +125,53 @@ that need globbing at the end of the day.
 - [ ] xdumpstowcs2
 - [ ] xdupmbstowcs
 - [ ] xwcsrtombs
+
+
+ # TEST CASES
+ short checklist of edge cases to exercices our glob implementation (example pattern behaviour / what to verify)
+ 
+ ## basic wildcar
+ - *.c --> matches filles ending in .c only (not directories unless names end with .c)
+ - ? ->single-char match: a?.txt matches a1.txt but not a12.txt
+ ## Multiple/consecurtive stars
+ - `**` -> **treated like a single; test`. `.c` and `.c` produce the same list
+ ## Character classes and negation
+ [abc].txt, [!a]*.log → correct selection and negation semantics
+Ranges: [0-9].dat and malformed ranges (e.g. [z-a]) → behaviour / error handling
+ ## leading dot handling
+ *.txt must NOT match ".secret.txt"
+.*.txt must match dotfiles
+Patterns with segment-internal leading dot: in path "dir/.foo", matching depending on segment-first flag
+ ## path separators and segments
+ a/*/b.txt matches only when there's exactly one segment between a and b.txt
+a/**/b (if you support recursive glob) — otherwise ensure expected non-match
+"/abs/path/.c" vs "relative/.c"
+ ## Tailing slash / directory-only matches
+ pattern ending with '/' or pattern that should only match directories: ensure directories vs files distinction
+
+ ## No match behavior
+ pattern that matches nothing: ensure you return either the original word (no-match policy) or empty list, per spec; test both cases
+ ## Sorting duplicates
+ Create files in random name order; verify result is sorted and unique (if expected)
+Duplicates from different branches should be either deduped or preserved consistently
+ ## hidden/parent entries
+ "." and ".." should not be matched by wildcards unless explicitly requested
+Patterns that could match "." or ".." (e.g., single-char patterns) — verify rejection
+ ## quotes /  non expnadable rejection
+ Patterns inside single quotes: '*.c' (quoted) should be literal, not expanded
+Double-quoted behavior and escaping: "a*.c" vs a*.c
+ ## escapes and backslahes
+ a*b should match literal "a*b" not act as wildcard
+backslash escaping inside double quotes vs single quotes
+ ##  environment / variable interplay
+ $HOME/*.txt (if expansion done before glob) vs literal $HOME — verify order of expansion relative to glob
+ ## character encoding & special bytes
+ Filenames with spaces, Unicode, high-bit bytes — ensure matching and sorting behave correctly
+ ## symlinks and fily type
+ Symlink to file vs symlink to dir — ensure match behavior consistent and not following links unless intended
+ ## File permissions & undereabl dirs
+ Directory traversal where readdir fails (permission denied) — check handling and error propagation
+## REcursion depth and unwind / signals
+If the implementation uses recursion or a global unwind flag (get_g_sig()->should_unwind), simulate interruption (signal or set flag) and ensure it aborts cleanly without leaks
+## Edge lexing interactions (tokenization effects)
+Patterns that include tokens treated specially by tokenizer (dollar, quotes, braces) to ensure tokenization stage marks them as non-expandable when appropriate

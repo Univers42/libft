@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 13:47:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/12 02:59:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -447,5 +447,9 @@ void trigger_assert_fail(void);
 void print_token_summary(t_deque *tokens);
 void print_tokens(t_deque *tokens);
 void print_token_debug(t_token *token);
+bool	is_simple_cmd_token(t_token_type tt);
+bool	is_compund_list_op(t_token_type tt);
+bool	is_simple_list_op(t_token_type tt);
+bool	is_redirect(t_token_type tt);
 
 #endif

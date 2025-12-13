@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:24:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:25:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/13 01:16:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@
 
 typedef struct s_pipe_fds
 {
-	int r;
-	int w;
-} t_pipe_fds;
+	int	r;
+	int	w;
+}	t_pipe_fds;
+
+typedef struct s_redir_pair
+{
+	int	outfd;
+	int	next_infd;
+}	t_redir_pair;
 
 #ifdef __cplusplus
 

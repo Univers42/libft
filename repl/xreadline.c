@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:23:53 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 02:49:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:58:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <stdbool.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+/* forward declaration for buffered readline helper (defined in buffered_readline_readline.c) */
+extern int get_more_input_readline(t_rl *rl, char *prompt);
 
 uint32_t g_should_unwind = 0;
 

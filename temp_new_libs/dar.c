@@ -6,12 +6,12 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 19:27:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 19:40:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/13 23:47:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_memory.h"
+#include "new_lib.h"
+
 
 void ft_putdar(char **arr)
 {

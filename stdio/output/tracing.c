@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 18:09:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 14:40:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:24:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void trputc(int c)
 	(void)rc;
 }
 
-void trace(const char *fmt, ...)
+void ft_trace(const char *fmt, ...)
 {
 	va_list va;
 	char buf[4096];

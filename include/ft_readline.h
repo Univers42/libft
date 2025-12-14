@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 16:15:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:58:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,16 +147,15 @@ extern "C"
 		gettimeofday(&end, NULL);
 		get_chrono()->last_ms = (end.tv_sec - get_chrono()->start.tv_sec) * 1000 + (end.tv_usec - get_chrono()->start.tv_usec) / 1000;
 	}
+	/* Execution time tracking for prompt */
 	void buff_readline_update(t_rl *l);
 	void bg_readline(int outfd, char *prompt);
-	int attach_input_readline(t_rl *l, int pp[2], int pid);
-	int get_more_input_readline(t_rl *l, char *prompt);
 	void buff_readline_update(t_rl *l);
 	void buff_readline_reset(t_rl *l);
 	void buff_readline_init(t_rl *ret);
 	void update_context(t_rl *rl, char **context, char **base_context);
 	int get_more_input_notty(t_rl *rl);
-	void free_tab(char **tab);
+	void free_tab(char **arr);
 	int write_to_file(char *str, int fd);
 	void forward_exit_status(t_status res);
 	void set_cmd_status(t_status *last_cmd_status_res, t_status res, char **last_cmd_status_s);
@@ -177,7 +176,6 @@ extern "C"
 						 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 						 char **last_cmd_status_s, int *input_method,
 						 char **context, char **base_context, bool *should_exit, t_deque *out_tokens);
-	int repl_run(t_repl_config *config);
 #ifdef __cplusplus
 }
 #endif

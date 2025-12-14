@@ -6,24 +6,19 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 19:45:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 19:48:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:11:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_memory.h"
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include "new_lib.h"
 
-char	**ft_dir_content(char *dirpath, short flag)
+char **ft_dir_content(char *dirpath, short flag)
 {
-	size_t			i;
-	DIR				*dirp;
-	struct dirent	*d;
-	char			**file_list;
-	size_t			size;
+	size_t i;
+	DIR *dirp;
+	struct dirent *d;
+	char **file_list;
+	size_t size;
 
 	if (!(size = ft_size_dir(dirpath)))
 		return (NULL);
@@ -41,7 +36,7 @@ char	**ft_dir_content(char *dirpath, short flag)
 	return (file_list);
 }
 
-short	ft_dir_flag(short flag, unsigned char d_type)
+short ft_dir_flag(short flag, unsigned char d_type)
 {
 	if (!flag)
 		return (1);
@@ -52,7 +47,7 @@ short	ft_dir_flag(short flag, unsigned char d_type)
 	return (0);
 }
 
-char		get_type(mode_t mode)
+char get_type(mode_t mode)
 {
 	if (S_ISLNK(mode))
 		return ('l');
@@ -72,9 +67,9 @@ char		get_type(mode_t mode)
 		return ('?');
 }
 
-char			ft_file_type(char *path)
+char ft_file_type(char *path)
 {
-	struct stat	buf;
+	struct stat buf;
 
 	if (!path || !(*path))
 		return (0);
@@ -83,37 +78,48 @@ char			ft_file_type(char *path)
 	return (get_type(buf.st_mode));
 }
 
-char	*ft_read_file(char *path)
+char *ft_read_file(char *path)
 {
-	int		fd;
-	int		res;
-	char	*content;
-	char	*buff;
-	char	*copy;
+	int fd;
+	char *content;
+	char *buff;
+	char *copy;
+	char *tmp;
 
 	if ((fd = open(path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
 		return (NULL);
 	if (!(content = ft_strnew(1)))
+	{
+		close(fd);
 		return (NULL);
-	while ((res = get_next_line(fd, &buff)) > 0)
+	}
+	while ((buff = get_next_line(fd)))
 	{
 		copy = content;
-		if (!(content = ft_strjoin(copy, buff)))
+		tmp = ft_strjoin(copy, buff);
+		if (!tmp)
+		{
+			ft_strdel(&buff);
+			ft_strdel(&copy);
+			close(fd);
 			return (NULL);
+		}
+		content = tmp;
 		ft_strdel(&buff);
 		ft_strdel(&copy);
 	}
-	if (res == -1)
-		return (NULL);
 	if ((close(fd)) == -1)
+	{
+		ft_strdel(&content);
 		return (NULL);
+	}
 	return (content);
 }
 
-size_t	ft_size_dir(char *dirpath)
+size_t ft_size_dir(char *dirpath)
 {
-	size_t	size;
-	DIR		*dirp;
+	size_t size;
+	DIR *dirp;
 
 	size = 0;
 	if (!dirpath)
@@ -127,13 +133,13 @@ size_t	ft_size_dir(char *dirpath)
 	return (size);
 }
 
-void	ft_write_to_file(char *path, int flags, int perm, char *content)
+void ft_write_to_file(char *path, int flags, int perm, char *content)
 {
-	int	fd;
+	int fd;
 
 	if ((fd = open(path, flags, perm)) == -1)
-		return ;
+		return;
 	ft_putstr_fd(content, fd);
 	if ((close(fd)) == -1)
-		return ;
+		return;
 }

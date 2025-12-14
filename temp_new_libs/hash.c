@@ -6,16 +6,16 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 19:52:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 19:53:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:51:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "new_lib.h"
 
-size_t	djb2_hash_function(char *str)
+size_t djb2_hash_function(char *str)
 {
-	size_t	hash;
-	int		c;
+	size_t hash;
+	int c;
 
 	hash = 5381;
 	while ((c = *str++))
@@ -23,12 +23,13 @@ size_t	djb2_hash_function(char *str)
 	return (hash);
 }
 
-t_hash	**free_hash_table(t_hash **table, size_t len, char free_data)
+t_hash_list **free_hash_table(t_hash_list **table, size_t len, char free_data)
 {
-	size_t	i;
-	t_hash	*next;
-	t_hash	*copy;
+	size_t i;
+	t_hash_list *next;
+	t_hash_list *copy;
 
+	(void)free_data; /* parameter intentionally unused for function-pointer payloads */
 	if (table && len > 0)
 	{
 		i = 0;
@@ -37,25 +38,25 @@ t_hash	**free_hash_table(t_hash **table, size_t len, char free_data)
 			next = table[i];
 			while (next)
 			{
-				if (free_data)
-					ft_memdel((void**)&(next->data));
+				/* function pointers don't need freeing; if free_data is set
+				   the caller deliberately stored heap pointers and must free them. */
 				next->hash_key = 0;
 				copy = next;
 				next = next->next;
-				ft_memdel((void**)&(copy));
+				ft_memdel((void **)&(copy));
 			}
 			i++;
 		}
-		ft_memdel((void**)&table);
+		ft_memdel((void **)&table);
 	}
 	return (table);
 }
 
-void	*get_hash_data(t_hash **table, char *hash_str, size_t size)
+nl_hash_fn get_hash_data(t_hash_list **table, char *hash_str, size_t size)
 {
-	size_t	index;
-	size_t	key;
-	t_hash	*hash;
+	size_t index;
+	size_t key;
+	t_hash_list *hash;
 
 	if (!table)
 		return (NULL);
@@ -69,17 +70,17 @@ void	*get_hash_data(t_hash **table, char *hash_str, size_t size)
 	return (NULL);
 }
 
-size_t	hash_index(size_t key, size_t size)
+size_t hash_index(size_t key, size_t size)
 {
 	return (key % size);
 }
 
-t_hash	**init_hash_table(size_t size)
+t_hash_list **init_hash_table(size_t size)
 {
-	t_hash	**table;
-	size_t	i;
+	t_hash_list **table;
+	size_t i;
 
-	if (!(table = (t_hash**)malloc(sizeof(t_hash*) * (size + 1))))
+	if (!(table = (t_hash_list **)malloc(sizeof(t_hash_list *) * (size + 1))))
 		return (NULL);
 	i = 0;
 	while (i <= size)
@@ -87,11 +88,11 @@ t_hash	**init_hash_table(size_t size)
 	return (table);
 }
 
-t_hash	*init_hash(void)
+t_hash_list *init_hash(void)
 {
-	t_hash	*hash;
+	t_hash_list *hash;
 
-	if (!(hash = (t_hash*)malloc(sizeof(t_hash))))
+	if (!(hash = (t_hash_list *)malloc(sizeof(t_hash_list))))
 		return (NULL);
 	hash->data = NULL;
 	hash->hash_key = 0;
@@ -99,12 +100,12 @@ t_hash	*init_hash(void)
 	return (hash);
 }
 
-t_hash	**push_hash(t_hash **table, char *hash_str, void *data, size_t size)
+t_hash_list **push_hash(t_hash_list **table, char *hash_str, nl_hash_fn data, size_t size)
 {
-	size_t	key;
-	t_hash	*hash;
-	t_hash	*copy;
-	size_t	index;
+	size_t key;
+	t_hash_list *hash;
+	t_hash_list *copy;
+	size_t index;
 
 	if (!table || !(hash = init_hash()))
 		return (NULL);
@@ -124,10 +125,10 @@ t_hash	**push_hash(t_hash **table, char *hash_str, void *data, size_t size)
 	return (table);
 }
 
-t_hash	*set_hash(char *hash_str, char *data, size_t size)
+t_hash_list *set_hash(char *hash_str, nl_hash_fn data, size_t size)
 {
-	size_t	key;
-	t_hash	*hash;
+	size_t key;
+	t_hash_list *hash;
 
 	if (!hash_str || !data || size == 0)
 		return (NULL);

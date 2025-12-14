@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:53:38 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 00:10:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:22:28 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 #include <errno.h>
 #include <string.h>
 
-void free_tab(char **tab)
+void free_tab(char **arr)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }
 
 // 0 on success

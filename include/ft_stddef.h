@@ -43,7 +43,6 @@ typedef uint64_t t_time;
 #define SUCCESS 0
 #define FAILURE 1
 #define ERROR 1
-#define OK 0
 #define BYTE 8
 /***************************
  * WRAPPED MESSAGES SHORTCUT
@@ -169,12 +168,6 @@ typedef enum e_state
 	ST_ERR_ALLOC,
 	ST_ERR_FATAL
 } t_state;
-
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-} t_bool;
 
 typedef enum e_order
 {

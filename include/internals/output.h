@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/05 02:45:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 00:24:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void flush_all(void);
 int ft_write(int fd, const void *p, size_t n);
 void trputs(const char *s);
 void tracev(const char *fmt, va_list va);
-void trace(const char *fmt, ...);
+void ft_trace(const char *fmt, ...);
 void trputc(int c);
 void indent(int amount, char *pfx, int fd);
 void set_debug(int newval);

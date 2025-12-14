@@ -16,4 +16,3 @@ minishell
 .env
 bin/
 framework_test/googletest
-readline

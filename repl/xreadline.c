@@ -6,11 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:23:53 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/14 00:58:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:46:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+/* make readline/repl/utility prototypes visible (update_context, get_more_input_*, etc) */
+#include "ft_readline.h"
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <sys/wait.h>

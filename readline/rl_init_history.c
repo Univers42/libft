@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:17:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/14 01:17:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 02:35:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,46 @@ void rl_init_history(t_rl_history *history)
 	char *path;
 	char *rl_histsize;
 	char *rl_histfilesize;
+	char *hf_env;
+	char *home;
+	char *tmp = NULL;
 
-	if ((get_var("HOME", ENV)))
+	/* Prefer explicit HISTFILE from VARS or environment */
+	hf_env = get_var("HISTFILE", VARS);
+	if (!hf_env)
+		hf_env = getenv("HISTFILE");
+	if (hf_env)
 	{
-		if (!(path = ft_strjoin(get_var("HOME", ENV), RL_HISTORY_FILE)))
+		if (!(path = ft_strdup(hf_env)))
 			rl_err("42sh", "malloc() error", ENOMEM);
 	}
-	else if (!(path = ft_strdup(RL_HISTORY_FILE)))
-		rl_err("42sh", "malloc() error", ENOMEM);
-	set_var("HISTFILE", path, VARS);
+	else if ((home = get_var("HOME", ENV)))
+	{
+		if (!(tmp = ft_strjoin(home, RL_HISTORY_FILE)))
+			rl_err("42sh", "malloc() error", ENOMEM);
+		path = tmp;
+	}
+	else
+	{
+		if (!(tmp = ft_strdup("./.42sh_history")))
+			rl_err("42sh", "malloc() error", ENOMEM);
+		path = tmp;
+	}
+
+	/* Ensure VARS knows HISTFILE too (best-effort; ft_set_var may be stub) */
+	ft_set_var("HISTFILE", path, VARS);
 	if (!(rl_histsize = get_var("HISTSIZE", VARS)))
 	{
 		rl_histsize = RL_HISTSIZE;
-		set_var("HISTSIZE", rl_histsize, VARS);
+		ft_set_var("HISTSIZE", rl_histsize, VARS);
 	}
 	if (!(rl_histfilesize = get_var("HISTFILESIZE", VARS)))
 	{
 		rl_histfilesize = RL_HISTFILESIZE;
-		set_var("HISTFILESIZE", rl_histfilesize, VARS);
+		ft_set_var("HISTFILESIZE", rl_histfilesize, VARS);
 	}
 	rl_get_hist_size(history);
 	rl_set_hist_buff(path, history, rl_find_hist_len(path));
 	ft_strdel(&path);
+	/* tmp was same as path when allocated, already freed by ft_strdel above */
 }

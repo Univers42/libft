@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 23:49:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:51:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ extern "C"
     int ft_snprintf(char *dst, size_t cap, const char *format, ...);
     int ft_sprintf(char *dst, const char *format, ...);
     int log_print(t_state_fd *state, const char *file, const char *format, ...);
+    /* New canonical trace function name to avoid collisions with other libs. */
+    void ft_trace(const char *fmt, ...);
+    /* Backwards-compatibility: map old name to new implementation at compile time. */
+#ifndef trace
+#define trace(...) ft_trace(__VA_ARGS__)
+#endif
 
 #ifdef __cplusplus
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:17:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/14 01:17:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 02:27:04 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ extern void err_exit(const char *name, const char *msg, const void *ctx, int err
 
 void rl_err(char *name, char *str, int err)
 {
-	reset_shell_mode();
+	/* call wrapper to avoid conflicting external symbol */
+	rl_reset_shell_mode();
 	rl_set_mode(&g_rl.start_mode);
 	err_exit(name, str, NULL, err);
 }

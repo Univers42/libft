@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:09:49 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 03:21:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:51:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,15 @@ void sh_warnx(const char *fmt, ...)
 
     va_start(ap, fmt);
     exvwarning_simple(fmt, ap);
+    va_end(ap);
+}
+
+void ft_trace(const char *fmt, ...)
+{
+    va_list ap;
+
+    va_start(ap, fmt);
+    write_fd_formatted(NULL, fmt, ap);
     va_end(ap);
 }
 

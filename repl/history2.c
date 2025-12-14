@@ -6,20 +6,19 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 22:51:28 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/11 16:16:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:46:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_readline.h"
 #include <readline/history.h>
 #include <unistd.h>
 
 bool worthy_of_being_remembered(t_hist *hist, t_rl *rl)
 {
 
-	if (rl->cursor > 1 && hist->active && (!hist->cmds.len ||
-		!str_slice_eq_str(rl->str.buff, rl->cursor - 1,
-		*(char **)vec_idx(&hist->cmds, hist->cmds.len - 1))))
+	if (rl->cursor > 1 && hist->active && (!hist->cmds.len || !str_slice_eq_str(rl->str.buff, rl->cursor - 1, *(char **)vec_idx(&hist->cmds, hist->cmds.len - 1))))
 	{
 		return (true);
 	}

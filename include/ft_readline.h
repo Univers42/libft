@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/14 00:58:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/14 02:09:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <stdbool.h>
 #include "parser.h"
 #include "ft_time.h"
+#include "ft_stdio.h"
+
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */
 typedef enum e_rl_key
@@ -125,57 +127,44 @@ extern "C"
 {
 #endif
 
-	static inline t_chrono *get_chrono(void)
-	{
-		static t_chrono g = {0};
+	extern t_chrono *get_chrono(void);
+	void prompt_start_timer(void);
+	void prompt_stop_timer(void);
 
-		return (&g);
-	}
-	/* Execution time tracking for prompt */
-	static inline void prompt_start_timer(void)
-	{
-		struct timeval start;
+	/* trace is provided by ft_stdio.h; do not redeclare it here to avoid conflicts */
 
-		start = get_chrono()->start;
-		gettimeofday(&start, NULL);
-	}
-
-	static inline void prompt_stop_timer(void)
-	{
-		struct timeval end;
-
-		gettimeofday(&end, NULL);
-		get_chrono()->last_ms = (end.tv_sec - get_chrono()->start.tv_sec) * 1000 + (end.tv_usec - get_chrono()->start.tv_usec) / 1000;
-	}
-	/* Execution time tracking for prompt */
-	void buff_readline_update(t_rl *l);
-	void bg_readline(int outfd, char *prompt);
-	void buff_readline_update(t_rl *l);
-	void buff_readline_reset(t_rl *l);
-	void buff_readline_init(t_rl *ret);
-	void update_context(t_rl *rl, char **context, char **base_context);
+	/* Missing REPL/readline helper prototypes (avoid implicit-declaration) */
+	/* Input helpers */
+	int get_more_input_readline(t_rl *rl, char *prompt);
 	int get_more_input_notty(t_rl *rl);
-	void free_tab(char **arr);
-	int write_to_file(char *str, int fd);
-	void forward_exit_status(t_status res);
-	void set_cmd_status(t_status *last_cmd_status_res, t_status res, char **last_cmd_status_s);
-	t_dyn_str parse_single_cmd(t_dyn_str hist, size_t *cur);
-	t_vec parse_hist_file(t_dyn_str hist);
-	char *get_hist_file_path(t_vec *_env);
-	void parse_history_file(t_hist *_hist, t_vec *env);
+	void bg_readline(int outfd, char *prompt);
+
+	/* Buffer / context / history helpers */
+	void update_context(t_rl *rl, char **context, char **base_context);
+	void parse_history_file(t_hist *hist, t_vec *env);
 	t_dyn_str encode_cmd_hist(char *cmd);
-	bool worthy_of_being_remembered(t_hist *hist, t_rl *rl);
+
+	/* Misc helpers used by repl */
+	int write_to_file(char *str, int fd);
+	char *get_next_line(int fd);
+	void set_cmd_status(t_status *last_cmd_status_res, t_status res, char **last_cmd_status_s);
 	void manage_history(t_hist *hist, t_rl *rl);
 	void init_history(t_hist *hist, t_vec *env);
-	void free_hist(t_hist *hist);
-	bool is_empty_token_list(t_deque *tokens);
-	t_dyn_str prompt_more_input(t_parse *parser);
-	t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s);
 	int xreadline(t_rl *rl, t_dyn_str *ret, char *prompt, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context);
 	void get_more_tokens(t_rl *rl,
 						 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 						 char **last_cmd_status_s, int *input_method,
 						 char **context, char **base_context, bool *should_exit, t_deque *out_tokens);
+
+	/* Prototypes required by tests and repl users */
+	void free_hist(t_hist *history);
+	void free_tab(char **arr);
+	t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s);
+	bool is_empty_token_list(t_deque *tokens);
+	void buff_readline_init(t_rl *ret);
+	void buff_readline_reset(t_rl *l);
+	void forward_exit_status(t_status res);
+	void buff_readline_update(t_rl *l);
 #ifdef __cplusplus
 }
 #endif

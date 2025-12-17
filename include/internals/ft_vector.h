@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 18:29:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 15:53:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,15 @@ typedef struct s_vec_config
  */
 typedef struct s_vec
 {
-	size_t cap;
-	size_t len;
-	void *buff; /* typed buffer (char**, t_dyn_str*, t_glob*, etc.) */
-	size_t elem_size;
-	int type_mask;
-	t_elem_copy_fn copy_fn;
-	t_elem_free_fn free_fn;
-} t_vec;
+	size_t			cap;
+	size_t			len;
+	size_t			count;
+	void			*buff; /* typed buffer (char**, t_dyn_str*, t_glob*, etc.) */
+	size_t			elem_size;
+	int				type_mask;
+	t_elem_copy_fn	copy_fn;
+	t_elem_free_fn	free_fn;
+}	t_vec;
 
 /* Initialization */
 /**

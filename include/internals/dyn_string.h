@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:47:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:37:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_dyn_str
 {
 	size_t cap;
 	size_t len;
+	size_t	pos;
 	char *buff;
 } t_dyn_str;
 

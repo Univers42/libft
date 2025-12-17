@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:20:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 13:47:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 15:55:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ typedef enum e_token_type
 	TOKEN_DASH,	  // -    - Previous directory / Option delimiter (standalone)
 	TOKEN_COMMA,  // ,
 	TOKEN_DOT,	  // .
+	TOKEN_VARIABLE,
 	/* === 1300-1399: CAT_CONTROL - Control/Metadata Tokens === */
 	TOKEN_CONTROL = CAT_CONTROL,
 	TOKEN_WHITESPACE, // Space/tab (usually ignored)

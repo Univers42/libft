@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:07:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:36:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:50:08 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 #include "ds.h"
 #include "private_var.h"
 
-typedef struct s_var			t_var;
-typedef struct s_localvar		t_localvar;
-typedef struct s_localvar_list	t_localvar_list;
-typedef struct s_var_state		t_var_state;
-typedef struct s_meta			t_meta;
+// typedef struct s_var			t_var;
+// typedef struct s_localvar		t_localvar;
+// typedef struct s_localvar_list	t_localvar_list;
+// typedef struct s_var_state		t_var_state;
+// typedef struct s_meta			t_meta;
 
 /*********************
  * PUBLIC APIS

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 16:15:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:48:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "dyn_string.h"
 #include <stddef.h>
 #include <stdbool.h>
-#include "parser.h"
+#include "internals/parser.h"
 #include "ft_time.h"
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:42:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 00:39:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:24:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,33 @@ ssize_t ft_tee(int fd_in, int fd_out, size_t len)
 /*
 ** Small local test; marked weak so it doesn't interfere with real programs.
 */
-__attribute__((weak)) int main(void)
-{
-	int input_fd;
-	ssize_t n;
+// __attribute__((weak)) int main(void)
+// {
+// 	int input_fd;
+// 	ssize_t n;
 
-	input_fd = open("input.txt", O_RDONLY | O_CREAT | O_TRUNC, 0644);
-	if (input_fd == -1)
-	{
-		perror("open input (create)");
-		return (1);
-	}
-	if (write(input_fd, "Line 1\nLine 2\nLine 3\n", 22) != 22)
-	{
-		perror("write input");
-		close(input_fd);
-		return (1);
-	}
-	close(input_fd);
-	input_fd = open("input.txt", O_RDONLY);
-	if (input_fd == -1)
-	{
-		perror("open input (read)");
-		return (1);
-	}
-	n = ft_tee(input_fd, STDOUT_FILENO, 1024);
-	if (n < 0)
-		perror("ft_tee");
-	close(input_fd);
-	return (0);
-}
+// 	input_fd = open("input.txt", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (input_fd == -1)
+// 	{
+// 		perror("open input (create)");
+// 		return (1);
+// 	}
+// 	if (write(input_fd, "Line 1\nLine 2\nLine 3\n", 22) != 22)
+// 	{
+// 		perror("write input");
+// 		close(input_fd);
+// 		return (1);
+// 	}
+// 	close(input_fd);
+// 	input_fd = open("input.txt", O_RDONLY);
+// 	if (input_fd == -1)
+// 	{
+// 		perror("open input (read)");
+// 		return (1);
+// 	}
+// 	n = ft_tee(input_fd, STDOUT_FILENO, 1024);
+// 	if (n < 0)
+// 		perror("ft_tee");
+// 	close(input_fd);
+// 	return (0);
+// }

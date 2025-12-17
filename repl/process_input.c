@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 09:39:34 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/08 23:44:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:05:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 #include "ds.h"
 #include "parser.h"
 
-bool is_empty_token_list(t_deque *tokens)
-{
-	t_token_type	first_token = (t_token_type)deque_idx(tokens, 0);
+// bool is_empty_token_list(t_deque *tokens)
+// {
+// 	t_token_type	first_token = (t_token_type)deque_idx(tokens, 0);
 
-	if (tokens->len < 2)
-		return (true);
-	if (tokens->len == 2 && first_token == TOKEN_NEWLINE)
-		return (true);
-	return (false);
-}
+// 	if (tokens->len < 2)
+// 		return (true);
+// 	if (tokens->len == 2 && first_token == TOKEN_NEWLINE)
+// 		return (true);
+// 	return (false);
+// }
 
 // void parse_input(t_state *state)
 // {

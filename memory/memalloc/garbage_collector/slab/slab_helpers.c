@@ -6,21 +6,24 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:41:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:04:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "slab_internal.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 static void	slab_build_free_list(t_slab_chunk *chunk, t_slab_cache *cache)
 {
-	char			*ptr;
-	size_t			i;
+	uintptr_t	ptr;
+	size_t		 i;
 	t_slab_block	*block;
+	size_t		 bsz;
 
-	ptr = chunk->memory;
+	ptr = (uintptr_t)chunk->memory;
+	bsz = sizeof(t_slab_block) + cache->block_size;
 	i = 0;
 	while (i < cache->blocks_per_chunk)
 	{
@@ -28,7 +31,7 @@ static void	slab_build_free_list(t_slab_chunk *chunk, t_slab_cache *cache)
 		block->is_free = true;
 		block->next = chunk->free_list;
 		chunk->free_list = block;
-		ptr += sizeof(t_slab_block) + cache->block_size;
+		ptr += bsz;
 		i += 1;
 	}
 }

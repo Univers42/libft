@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:52:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 21:18:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:00:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int handle_async_or_untrapped(int sig)
 		change_signal(sig, (char *)DEFAULT_SIG);
 		return (1);
 	}
-	if (((get_g_sig()->sigmodes[sig] & SIG_TRAPPED) == 0) && (sig != SIGCHLD || (get_g_sig()->sigmodes[sig] & SIG_INPROGRESS) == 0 || get_g_sig()->trap_list[sig] != (char *)TRAP_IMPOSSIBLE))
+	if (((get_g_sig()->sigmodes[sig] & SIG_TRAPPED) == 0) && (sig != SIGCHLD || (get_g_sig()->sigmodes[sig] & SIG_INPROGRESS) == 0 || ft_strcmp(get_g_sig()->trap_list[sig], (char *)TRAP_IMPOSSIBLE)) != 0)
 		return (1);
 	return (0);
 }

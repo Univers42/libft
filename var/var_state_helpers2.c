@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:04:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:07:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:07:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ t_var make_ps4(void)
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS4=+ ", 0};
 }
 
-t_var make_optind(const char *optind, void (*resetfn)(void))
+t_var make_optind(const char *optind_name, void (*resetfn)(void))
 {
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind,
-				   (void (*)(const char *))resetfn};
+	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind_name,
+			   (void (*)(const char *))resetfn};
 }
 
 t_var make_lineno(const char *lineno)

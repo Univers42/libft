@@ -6,15 +6,17 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 18:27:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/26 19:57:55 by alcacere         ###   ########.fr       */
+/*   Updated: 2025/12/17 02:57:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "trap.h"
+#include "ft_string.h"
 
 void	reinit_trap(int sig)
 {
 	get_g_sig()->sigmodes[sig] |= SIG_TRAPPED;
-	if (get_g_sig()->trap_list[sig] == (char *)IGNORE_SIG)
+	if (ft_strcmp(get_g_sig()->trap_list[sig], (char *)IGNORE_SIG) == 0)
 		get_g_sig()->sigmodes[sig] |= SIG_IGNORED;
 	else
 		get_g_sig()->sigmodes[sig] &= ~SIG_IGNORED;

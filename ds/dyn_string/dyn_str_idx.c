@@ -12,7 +12,7 @@
 
 #include "dyn_string.h"
 
-int	dyn_str_idx(t_dyn_str *v, size_t idx)
+int	dyn_str_idx(size_t idx)
 {
 	ft_assert(idx < v->len);
 	return (v->buff[idx]);

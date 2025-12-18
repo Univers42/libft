@@ -6,7 +6,11 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/12/11 21:52:22 by dlesieur         ###   ########.fr       */
+=======
+/*   Updated: 2025/12/17 03:51:46 by dlesieur         ###   ########.fr       */
+>>>>>>> hotfix
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +63,6 @@ extern "C"
 		int flags;
 		char *text;
 		void (*func)(const char *);
-	};
-
-	/* Minimal metadata structure used by set_var/build helpers.
-	   The public header forward-declares 'typedef struct s_meta t_meta;'
-	   but the concrete struct layout is private and required by implementation
-	   files (set_var.c, etc.). Provide it here (no typedef duplication). */
-	struct s_meta
-	{
-		const char *name;
-		size_t len;
 	};
 
 	typedef struct s_env

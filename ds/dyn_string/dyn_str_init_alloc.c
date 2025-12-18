@@ -12,9 +12,9 @@
 
 #include "dyn_string.h"
 
-void	dyn_str_init_alloc(t_dyn_str *v)
+void	dyn_str_init_alloc(void)
 {
-	dyn_str_init(v);
-	dyn_str_push(v, '\0');
+	dyn_str_init();
+	dyn_str_push('\0');
 	v->len--;
 }

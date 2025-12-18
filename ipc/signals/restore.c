@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   restore_traps.c                                    :+:      :+:    :+:   */
+/*   restore.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:52:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/10 18:35:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:01:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "trap.h"
+#include "ft_string.h"
 
 static void	restore_spec_traps(void)
 {
@@ -37,19 +38,19 @@ static void	restore_signal_trap(int i)
 	trapstr = get_g_sig()->trap_list[i];
 	if (get_g_sig()->sigmodes[i] & SIG_SPECIAL)
 	{
-		if (trapstr && trapstr != (char *)DEFAULT_SIG)
+		if (trapstr && ft_strcmp(trapstr, (char *)DEFAULT_SIG) != 0)
 			reinit_trap(i);
-		if (trapstr == (char *)IGNORE_SIG
+		if (ft_strcmp(trapstr ,(char *)IGNORE_SIG) == 0
 			&& (get_g_sig()->sigmodes[i] & SIG_NO_TRAP) == 0)
 			set_signal_handler(i, SIG_IGN);
 	}
-	else if (trapstr == (char *)IGNORE_SIG)
+	else if (ft_strcmp(trapstr, (char *)IGNORE_SIG) == 0)
 	{
 		reinit_trap(i);
 		if ((get_g_sig()->sigmodes[i] & SIG_NO_TRAP) == 0)
 			set_signal_handler(i, SIG_IGN);
 	}
-	else if (trapstr != (char *)DEFAULT_SIG)
+	else if (ft_strcmp(trapstr, (char *)DEFAULT_SIG) != 0)
 		set_signal(i, trapstr);
 	get_g_sig()->pending_traps[i] = 0;
 }

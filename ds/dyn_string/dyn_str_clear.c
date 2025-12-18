@@ -12,7 +12,7 @@
 
 #include "dyn_string.h"
 
-void	dyn_str_clear(t_dyn_str *v)
+void	dyn_str_clear()
 {
 	v->len = 0;
 }

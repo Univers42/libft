@@ -16,7 +16,7 @@
 #include <string.h>
 #include "ft_string.h"
 
-int dyn_str_pushnstr(t_dyn_str *v, const char *s, size_t n)
+int dyn_str_pushnstr(const char *s, size_t n)
 {
     size_t need;
 

@@ -12,7 +12,7 @@
 
 #include "dyn_string.h"
 
-int dyn_str_ends_with_str(t_dyn_str *v, const char *s)
+int dyn_str_ends_with_str(const char *s)
 {
     size_t sl;
     if (!v || !v->buff || !s)

@@ -12,7 +12,7 @@
 
 #include "dyn_string.h"
 
-int dyn_str_double(t_dyn_str *v)
+int dyn_str_double(void)
 {
     char *tmp;
     size_t newcap;

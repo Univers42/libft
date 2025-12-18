@@ -6,15 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:52:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 00:44:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:06:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "ft_string.h"
-#include <stddef.h>
 #include <stdint.h>
-#include "ft_string.h"
 
 static void	forward_byte_copy(const unsigned char *s,
 				unsigned char *d, size_t n);
@@ -88,7 +86,7 @@ static void	backward_byte_copy(const unsigned char *s,
  * Leaves remaining bytes to be handled by caller.
  */
 static void	forward_word_copy(const unsigned char **ps,
-				unsigned char **pd, size_t *pn)
+					unsigned char **pd, size_t *pn)
 {
 	size_t	word_count;
 	size_t	*sw;
@@ -97,8 +95,9 @@ static void	forward_word_copy(const unsigned char **ps,
 	word_count = *pn / sizeof(size_t);
 	if (word_count == 0)
 		return ;
-	sw = (size_t *)(*ps);
-	dw = (size_t *)(*pd);
+	/* cast via uintptr_t to avoid direct char* -> size_t* cast which can warn */
+	sw = (size_t *)(uintptr_t)(*ps);
+	dw = (size_t *)(uintptr_t)(*pd);
 	while (word_count > 0)
 	{
 		*dw = *sw;
@@ -116,17 +115,22 @@ static void	forward_word_copy(const unsigned char **ps,
  * Leaves remaining bytes to be handled by caller.
  */
 static void	backward_word_copy(const unsigned char **ps,
-							unsigned char **pd, size_t *pn)
+					unsigned char **pd, size_t *pn)
 {
 	size_t	word_count;
 	size_t	*sw;
 	size_t	*dw;
+	uintptr_t	base_s;
+	uintptr_t	base_d;
 
 	word_count = *pn / sizeof(size_t);
 	if (word_count == 0)
 		return ;
-	sw = (size_t *)(*ps + *pn);
-	dw = (size_t *)(*pd + *pn);
+	/* compute end addresses then cast via uintptr_t */
+	base_s = (uintptr_t)(*ps + *pn);
+	base_d = (uintptr_t)(*pd + *pn);
+	sw = (size_t *)base_s;
+	dw = (size_t *)base_d;
 	while (word_count > 0)
 	{
 		sw--;

@@ -6,20 +6,21 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:55:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:55:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:03:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pool_internal.h"
 #include <stdlib.h>
+#include <stdint.h>
 
 static void	build_free_list(t_pool_chunk *chunk, t_pool *pool)
 {
-	char			*ptr;
-	size_t			i;
+	uintptr_t	ptr;
+	size_t		i;
 	t_pool_block	*blk;
 
-	ptr = chunk->memory;
+	ptr = (uintptr_t)chunk->memory;
 	i = 0;
 	while (i < pool->blocks_per_chunk)
 	{
@@ -34,10 +35,8 @@ static void	build_free_list(t_pool_chunk *chunk, t_pool *pool)
 
 t_pool_chunk	*create_chunk(t_pool *pool)
 {
-	size_t			mem_size;
+	size_t		mem_size;
 	t_pool_chunk	*chunk;
-	char			*ptr;
-	size_t			i;
 
 	mem_size = pool->blocks_per_chunk;
 	mem_size *= sizeof(t_pool_block) + pool->block_size;
@@ -54,7 +53,5 @@ t_pool_chunk	*create_chunk(t_pool *pool)
 	chunk->free_list = NULL;
 	chunk->next = pool->chunks;
 	build_free_list(chunk, pool);
-	(void)ptr;
-	(void)i;
 	return (chunk);
 }

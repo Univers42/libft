@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:55:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 01:57:55 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:03:23 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pool.h"
 #include "pool_internal.h"
+#include <stdint.h>
 
 /* init */
 void	pool_init(t_pool *pool, size_t block_size, size_t blocks_per_chunk)
@@ -56,14 +57,17 @@ static int	pool_free_in_chunk(t_pool *pool, t_pool_chunk *chunk, void *ptr)
 	char			*start;
 	char			*end;
 	size_t			bsz;
-	t_pool_block	*block;
+	t_pool_block		*block;
+	uintptr_t		p;
 
 	bsz = sizeof(t_pool_block) + pool->block_size;
 	start = chunk->memory;
 	end = start + pool->blocks_per_chunk * bsz;
 	if ((char *)ptr >= start && (char *)ptr < end)
 	{
-		block = (t_pool_block *)((char *)ptr - sizeof(t_pool_block));
+		p = (uintptr_t)ptr;
+		p -= sizeof(t_pool_block);
+		block = (t_pool_block *)p;
 		if (block->is_free == false)
 		{
 			block->is_free = true;

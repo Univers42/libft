@@ -34,6 +34,9 @@ typedef double t_prec;
 typedef int t_qty;
 typedef int t_flag;
 typedef uint64_t t_time;
+typedef int (*ft_ctype)(int);
+
+# define CHAR_SIZE 1
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 #define STDIN_FILENO 0

@@ -13,7 +13,7 @@
 #include "dyn_string.h"
 
 /* internal implementation (restore original behavior) */
-int dyn_st_push(t_dyn_str *v, char el)
+int dyn_st_push(char el)
 {
 	if (v->len + 1 >= v->cap || v->buff == 0)
 	{
@@ -25,7 +25,7 @@ int dyn_st_push(t_dyn_str *v, char el)
 	return (1);
 }
 
-int dyn_str_push(t_dyn_str *v, char el)
+int dyn_str_push(char el)
 {
     if (!v)
         return (0);

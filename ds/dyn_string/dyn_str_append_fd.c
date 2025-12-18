@@ -13,7 +13,7 @@
 #include "ds.h"
 #include "ft_stdio.h"
 
-void dyn_str_append_fd(int fd, t_dyn_str *ret)
+void dyn_str_append_fd(int fd)
 {
 	char buff[1024];
 	int len;
@@ -24,7 +24,7 @@ void dyn_str_append_fd(int fd, t_dyn_str *ret)
 		if (len == 0)
 			break;
 		if (len > 0)
-			dyn_str_pushnstr(ret, buff, len);
+			dyn_str_pushnstr(buff, len);
 		else
 			critical_error_errno_context("read");
 	}

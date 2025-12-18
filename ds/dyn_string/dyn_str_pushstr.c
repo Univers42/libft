@@ -16,9 +16,21 @@
 #include <string.h>
 #include "ft_string.h"
 
-int dyn_str_pushstr(t_dyn_str *v, const char *s)
+int dyn_str_pushstr(const char *s)
 {
     if (!s)
         return (0);
-    return dyn_str_pushnstr(v, s, strlen(s));
+    return dyn_str_pushnstr(s, strlen(s));
+}
+
+bool dyn_str_check_at(size_t pos, ctype_fn fn, char *cmp, size_t len)
+{
+	t_dyn_str	*input;
+
+	input = get_dyn_str(NULL);
+    ft_assert(input && input->buff && pos < input->len);
+    if (fn)
+        return fn((unsigned char)dyn_str_idx(input, pos));
+    else
+        return (ft_strncmp(input->buff + pos, cmp, len) == 0);
 }

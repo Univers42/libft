@@ -12,7 +12,7 @@
 
 #include "dyn_string.h"
 
-char	dyn_str_pop(t_dyn_str *v)
+char	dyn_str_pop(void)
 {
 	char	ret;
 

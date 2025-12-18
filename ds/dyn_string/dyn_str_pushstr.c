@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dyn_str_pushstr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:36:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/18 16:41:19 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/18 21:29:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // ...existing code...
 #include <string.h>
 #include "ft_string.h"
+#include "ft_debug.h"
 
 int dyn_str_pushstr(const char *s)
 {
@@ -27,6 +28,7 @@ bool dyn_str_check_at(size_t pos, ctype_fn fn, char *cmp, size_t len)
 {
 	t_dyn_str	*input;
 
+    ft_assert(pos > 0);
 	input = get_dyn_str(NULL);
     ft_assert(input && input->buff && pos < input->len);
     if (fn)

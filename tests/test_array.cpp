@@ -45,7 +45,7 @@ static void print_meta(t_arr *a, const char *when)
 static t_arr *tokenize_string(const char *s)
 {
     t_arr *a = array_create();
-    size_t len = s ? strlen(s) : 0;
+    size_t len = s ? ft_strlen(s) : 0;
     char *buf = (char *)malloc(len + 1);
     size_t bi = 0;
     bool in_single = false, in_double = false;
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
     /* Join argv into a single input string */
     size_t tot = 0;
     for (int i = 1; i < argc; ++i)
-        tot += strlen(argv[i]) + 1;
+        tot += ft_strlen(argv[i]) + 1;
     char *input = (char *)malloc(tot + 1);
     if (!input)
         return 1;

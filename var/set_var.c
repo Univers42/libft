@@ -5,29 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:09:40 by dlesieur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/11 22:03:22 by dlesieur         ###   ########.fr       */
-=======
-/*   Updated: 2025/12/17 03:54:42 by dlesieur         ###   ########.fr       */
->>>>>>> hotfix
+/*   Created: 2025/12/19 03:53:59 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 03:54:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "private_var.h"
 #include "var.h"
 
 #define INTMAX_BUFSIZE 25
 
-<<<<<<< HEAD
-// Forward declarations
-// TODO:
 static t_var *build_and_set(t_dyn_str *key, t_dyn_str *val, int flags);
-=======
-//Forward declarations
-//TODO: 
-static t_var	*build_and_set(t_dyn_str *key, t_dyn_str *val, int flags);
->>>>>>> hotfix
 
 // Main public API
 intmax_t set_varint(char *name, intmax_t val, int flags)
@@ -41,16 +30,6 @@ intmax_t set_varint(char *name, intmax_t val, int flags)
 
 t_var *set_var(char *name, char *val, int flags)
 {
-<<<<<<< HEAD
-	t_dyn_str key;
-	t_dyn_str value;
-	char *p;
-	char *q;
-	t_var *vp;
-
-	key.buff = name;
-	value.buff = val;
-=======
 	t_dyn_str	key;
 	t_dyn_str	value;
 	char	*p;
@@ -59,7 +38,6 @@ t_var *set_var(char *name, char *val, int flags)
 
 	key.buff = (char *)name;
 	value.buff = (char *)val;
->>>>>>> hotfix
 	q = end_of_name(key.buff);
 	p = ft_strchrnul(q, '=');
 	key.len = p - key.buff;
@@ -77,11 +55,8 @@ t_var *set_var(char *name, char *val, int flags)
 }
 
 // Private helper
-<<<<<<< HEAD
-static t_var *build_and_set(t_dyn_str *key, t_dyn_str *val, int flags)
-=======
+
 static t_var	*build_and_set(t_dyn_str *key, t_dyn_str *val, int flags)
->>>>>>> hotfix
 {
 	char *name_eq;
 	char *p;

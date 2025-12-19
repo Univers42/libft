@@ -6,18 +6,18 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 02:49:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 03:31:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 04:20:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int parse_simple_list_s()
-{
+// int parse_simple_list_s()
+// {
     
-}
+// }
 
-t_ast_node      parse_simple_list()
-{
+// t_ast_node      parse_simple_list()
+// {
     
-}
+// }

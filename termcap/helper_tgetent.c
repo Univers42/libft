@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:44:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:49:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	init_buffers(t_tgetent_ctx *ctx, t_buffer *buf)
 	if (ctx->indirect)
 	{
 		strcpy(ctx->bp, ctx->tcenv);
-		ctx->bp1 += strlen(ctx->tcenv);
+		ctx->bp1 += ft_strlen(ctx->tcenv);
 	}
 	return (1);
 }

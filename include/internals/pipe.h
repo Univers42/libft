@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:24:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/13 01:16:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:07:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h> /* System headers first */
 #include <unistd.h>
 #include "ft_memory.h" /* Then local headers */
+#include "ft_string.h"
 
 typedef struct s_pipe_fds
 {

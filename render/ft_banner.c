@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/08 19:35:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	print_centered(const char *text, int width)
 
 	if (!text)
 		return ;
-	text_len = strlen(text);
+	text_len = ft_strlen(text);
 	if (text_len > width - 4)
 		text_len = width - 4;
 	padding = (width - text_len) / 2;
@@ -84,7 +84,7 @@ void	ft_print_boxed(const char *text)
 	if (!text)
 		return ;
 	width = ft_get_terminal_width();
-	text_len = strlen(text);
+	text_len = ft_strlen(text);
 	if (text_len > width - 4)
 		text_len = width - 4;
 	padding = (width - text_len - 2) / 2;

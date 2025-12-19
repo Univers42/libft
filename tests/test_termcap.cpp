@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 00:29:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void show_term_entry(void)
         printf("%s(no term_entry set)%s\n", g_use_color ? C_FAIL : "", g_use_color ? C_RST : "");
         return;
     }
-    len = strlen(e);
+    len = ft_strlen(e);
     printf("Length: %zu bytes\n", len);
     printf("Raw: ");
     print_bytes(e);
@@ -331,7 +331,7 @@ static void test_cursor_move(void)
 static void explain_missing(void)
 {
     t_tglob *g = access_glob();
-    if (!g->term_entry || strlen(g->term_entry) < 20)
+    if (!g->term_entry || ft_strlen(g->term_entry) < 20)
     {
         show_header("Diagnosis");
         printf("%sTermcap entry extremely short. Likely causes:%s\n",

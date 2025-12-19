@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:27:10 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/12 02:01:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:17:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int attach_input_readline(t_rl *l, int pp[2], int pid)
 	int status;
 
 	close(pp[1]);
-	dyn_str_append_fd(pp[0], &l->str);
+	dyn_str_append_fd(&l->str, pp[0]);
 	buff_readline_update(l);
 	close(pp[0]);
 	while (1)

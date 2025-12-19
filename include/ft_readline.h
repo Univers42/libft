@@ -5,14 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 21:44:00 by dlesieur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/12 02:03:09 by dlesieur         ###   ########.fr       */
-=======
-/*   Updated: 2025/12/17 03:48:51 by dlesieur         ###   ########.fr       */
->>>>>>> hotfix
+/*   Created: 2025/12/19 02:51:12 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 02:51:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef READLINE_H
 #define READLINE_H

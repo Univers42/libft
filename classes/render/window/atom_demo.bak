@@ -466,7 +466,7 @@
 //     // Draw atom name as rectangles (visual label)
 //     int name_y = info_y + 5;
 //     int name_x = info_x + 40;
-//     int name_len = strlen(name);
+//     int name_len = ft_strlen(name);
 //     for (int i = 0; i < name_len; ++i)
 //         window_draw_rectangle_simple(win, name_x + i * 12, name_y, 10, 14, 0xAAAAFF);
 

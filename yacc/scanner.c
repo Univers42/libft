@@ -1,6 +1,6 @@
 #include "lexer.h"
 #include <stdio.h>
-#include <string.h> // for strlen, memcmp if needed
+#include <string.h> // for ft_strlen, memcmp if needed
 
 t_token scan_token(t_scanner *scan)
 {

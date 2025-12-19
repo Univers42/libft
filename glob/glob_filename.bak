@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   glob_filename.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 19:45:28 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 20:15:09 by dlesieur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    glob_filename.bak                                  :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/07 19:45:28 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #include "glob.h"
 
@@ -98,7 +98,7 @@ char	**glob_filename(char *pathname, int flags)
 			all_starstar = 1;
 	  		d = p;
 	  		dflags |= GX_ALLDIRS|GX_ADDCURDIR;
-	  		directory_len = strlen (d);
+	  		directory_len = ft_strlen (d);
 		}
 		if ((flags & GX_GLOBSTAR) && all_starstar == 0)
 		{
@@ -256,7 +256,7 @@ char	**glob_filename(char *pathname, int flags)
 		if (directory_len > 0 && hasglob == 2 && (flags & GX_RECURSE) != 0)
 		{
 	  		dequote_pathname (directory_name);
-			directory_len = strlen (directory_name);
+			directory_len = ft_strlen (directory_name);
 		}
 		if (directory_len > 0 && hasglob == 2 && (flags & GX_RECURSE) == 0)
 		{

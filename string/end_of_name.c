@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:58:32 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 18:01:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:44:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*end_of_name(const char *name)
 	if (!is_name_char(*p))
 		return (p);
 	while (*++p)
-		if (! is_in_name(*p))
+		if (! is_int_name(*p))
 			break ;
 	return (p);
 }

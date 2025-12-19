@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:25:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:27:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 02:52:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	str_clear(void)
 
 void	dyn_str_clear(t_dyn_str *s)
 {
-	ft_assert(s);
+	ft_assert(s != NULL);
 	s->len = 0;
 	if (s->buff)
 		s->buff[0] = 0;

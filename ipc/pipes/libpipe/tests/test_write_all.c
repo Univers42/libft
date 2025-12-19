@@ -19,7 +19,7 @@ void test_write_all() {
 
     // Prepare data to write
     const char *data = "Hello, World!";
-    size_t data_length = strlen(data);
+    size_t data_length = ft_strlen(data);
 
     // Write data to the pipe
     bytes_written = write_all(pipe_fds[1], data, data_length);

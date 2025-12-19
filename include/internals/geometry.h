@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:05:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:35:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:55:51 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 /* Provide aliases expected by point.h (reuse pixel.h types) */
 typedef t_point2							t_vec2;
-typedef t_fpoint3							t_position;
+typedef t_fpoint3							t_pos3;
 typedef t_point3							t_pos;
 typedef struct s_sphere_data				t_sphere_data;
 /* Callback for transformations */

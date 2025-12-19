@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 18:52:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:40:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,11 @@ extern "C"
 	void *ternary(bool cond, void *true_val, void *false_val);
 	//int capture_output(const char *cmd, char *buf, size_t cap);
 	char *extract_fd(int fd);
-	void *free_list(void **list, int size);
-	void *free_list(void **list, int size);
-	void	ast_postorder_traversal_generic(void *vnode, void (*f)(void *node));
-	void	ast_postorder_traversal(t_ast_node *node, void (*f)(t_ast_node *node));
-	void	free_node_void(void *vnode);
-	void	free_ast(void *root);
+	void	free_list(void **list, int size);
+	//void	ast_postorder_traversal_generic(void *vnode, void (*f)(void *node));
+	//void	ast_postorder_traversal(t_ast_node *node, void (*f)(t_ast_node *node));
+	void    *xcalloc(size_t nmemb, size_t size);
+	bool	check_overflow(size_t n, size_t size);
 	
 	
 #ifdef __cplusplus

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 19:12:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:09:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:18:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*xgetpid(void)
 		return(0);
 	}
 	dyn_str_init(&file);
-	dyn_str_append_fd(fd, &file);
+	dyn_str_append_fd(&file, fd);
 	close(fd);
 	temp = ft_split(file.buff, SPACE_CHAR);
 	free(file.buff);

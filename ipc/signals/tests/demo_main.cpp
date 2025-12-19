@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 09:20:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 02:26:43 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static void logmsg(const char *clr, const char *tag, const char *msg)
 {
 	if (g_verbose)
 	{
-		write(1, clr, strlen(clr));
+		write(1, clr, ft_strlen(clr));
 		write(1, "[PARENT] ", 9);
-		write(1, tag, strlen(tag));
-		write(1, msg, strlen(msg));
-		write(1, C_RESET, strlen(C_RESET));
+		write(1, tag, ft_strlen(tag));
+		write(1, msg, ft_strlen(msg));
+		write(1, C_RESET, ft_strlen(C_RESET));
 	}
 }
 
@@ -165,7 +165,7 @@ static void set_protect_mode(int mode)
 		int n = snprintf(buf, sizeof(buf), "auto_reap=%s\n", g_auto_reap ? "on" : "off");
 		if (n > 0 && n < (int)sizeof(buf))
 		{
-			write(1, C_GRN "[CFG] " C_RESET, strlen(C_GRN "[CFG] " C_RESET));
+			write(1, C_GRN "[CFG] " C_RESET, ft_strlen(C_GRN "[CFG] " C_RESET));
 			write(1, buf, n);
 		}
 	}
@@ -173,7 +173,7 @@ static void set_protect_mode(int mode)
 
 static int starts_with(const char *s, const char *p)
 {
-	return strncmp(s, p, strlen(p)) == 0;
+	return strncmp(s, p, ft_strlen(p)) == 0;
 }
 
 static int spawn_child(const char *label)
@@ -290,7 +290,7 @@ static void drain_child_output(t_child *c)
 
 	while ((r = read(c->pipe_out[0], buf, sizeof(buf))) > 0)
 	{
-		write(1, prefix, strlen(prefix));
+		write(1, prefix, ft_strlen(prefix));
 		write(1, buf, (size_t)r);
 	}
 }
@@ -315,7 +315,7 @@ static void status_report(void)
 	if (n > 0 && n < (int)sizeof(line))
 	{
 		const char prefix[] = C_BOLD C_YEL "[STATUS] " C_RESET;
-		write(1, prefix, strlen(prefix));
+		write(1, prefix, ft_strlen(prefix));
 		write(1, line, n);
 	}
 
@@ -381,18 +381,18 @@ int main(void)
 	const char *msg7 = C_CYN "Initial state: leak_mode=off (clean), protect_mode=" C_RESET;
 	const char *msg8 = "Note: Toggle 'leak on' or 'leak off' affects future allocations.\n";
 
-	write(1, msg1, strlen(msg1));
-	write(1, msg2, strlen(msg2));
-	write(1, msg3, strlen(msg3));
-	write(1, msg4, strlen(msg4));
-	write(1, msg5, strlen(msg5));
-	write(1, msg6, strlen(msg6));
-	write(1, msg7, strlen(msg7));
+	write(1, msg1, ft_strlen(msg1));
+	write(1, msg2, ft_strlen(msg2));
+	write(1, msg3, ft_strlen(msg3));
+	write(1, msg4, ft_strlen(msg4));
+	write(1, msg5, ft_strlen(msg5));
+	write(1, msg6, ft_strlen(msg6));
+	write(1, msg7, ft_strlen(msg7));
 	char protect_buf[8];
 	int pn = snprintf(protect_buf, sizeof(protect_buf), "%d\n", ZOMBIE_PROTECT);
 	if (pn > 0 && pn < (int)sizeof(protect_buf))
 		write(1, protect_buf, pn);
-	write(1, msg8, strlen(msg8));
+	write(1, msg8, ft_strlen(msg8));
 
 	char line[512];
 	const char *prompt = C_CYN "mini> " C_RESET;
@@ -406,7 +406,7 @@ int main(void)
 			reap_zombies();
 		}
 
-		write(1, prompt, strlen(prompt));
+		write(1, prompt, ft_strlen(prompt));
 		ssize_t r = read(STDIN_FILENO, line, sizeof(line) - 1);
 		if (r <= 0)
 			break;
@@ -427,7 +427,7 @@ int main(void)
 		else if (starts_with(line, "crash"))
 		{
 			const char *crash_msg = C_RED "[CRASH] simulated crash, no cleanup\n" C_RESET;
-			write(1, crash_msg, strlen(crash_msg));
+			write(1, crash_msg, ft_strlen(crash_msg));
 
 			/* Free the children array to avoid "still reachable" leak */
 			free(g_children);
@@ -506,7 +506,7 @@ int main(void)
 			/* Send input to all children */
 			for (int i = 0; i < g_child_count; i++)
 				if (g_children[i].pid > 0 && g_children[i].pipe_in[1] >= 0)
-					write(g_children[i].pipe_in[1], line, strlen(line));
+					write(g_children[i].pipe_in[1], line, ft_strlen(line));
 
 			/* Drain output from all children */
 			for (int i = 0; i < g_child_count; i++)
@@ -525,7 +525,7 @@ int main(void)
 	cleanup_all();
 
 	const char *exit_msg = C_BOLD "[demo] clean exit" C_RESET "\n";
-	write(1, exit_msg, strlen(exit_msg));
+	write(1, exit_msg, ft_strlen(exit_msg));
 
 	return 0;
 }

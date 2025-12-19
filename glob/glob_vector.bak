@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   glob_vector.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 19:23:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 01:02:28 by dlesieur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    glob_vector.bak                                    :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/07 19:23:25 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
@@ -143,7 +143,7 @@ static int handle_literal_pat(char *pat, size_t patlen, char *dir,
 
 	if (glob_testdir(dir, 0) < 0)
 		return (-1);
-	dirlen = strlen(dir);
+	dirlen = ft_strlen(dir);
 	nextname = malloc(dirlen + patlen + 2);
 	npat = malloc(patlen + 1);
 	if (nextname == NULL || npat == NULL)
@@ -198,7 +198,7 @@ static int scan_directory_and_collect(char *pat, char *dir, int flags,
 	if (d == NULL)
 		return -1;
 	if (pat)
-		patlen = strlen(pat);
+		patlen = ft_strlen(pat);
 	else
 		patlen = 0;
 	convpat = fnx_fromfs(pat, patlen);
@@ -280,7 +280,7 @@ static int scan_directory_and_collect(char *pat, char *dir, int flags,
 				nextlink = (t_list *)malloc(sizeof(struct globval));
 				if (*firstmalloc == NULL)
 					*firstmalloc = nextlink;
-				sdlen = strlen(subdir);
+				sdlen = ft_strlen(subdir);
 				nextname = (char *)malloc(sdlen + 1);
 				if (nextlink == NULL || nextname == NULL)
 				{
@@ -392,7 +392,7 @@ glob_vector(char *pat, char *dir, int flags)
 		skip = 1;
 	}
 
-	patlen = (pat && *pat) ? strlen(pat) : 0;
+	patlen = (pat && *pat) ? ft_strlen(pat) : 0;
 
 	/* Non-glob optimization */
 	hasglob = 0;
@@ -419,7 +419,7 @@ glob_vector(char *pat, char *dir, int flags)
 	/* Handle add_current compat */
 	if (add_current && !lose)
 	{
-		sdlen = strlen(dir);
+		sdlen = ft_strlen(dir);
 		nextname = (char *)malloc(sdlen + 1);
 		nextlink = (t_list *)malloc(sizeof(struct globval));
 		if (nextlink == NULL || nextname == NULL)

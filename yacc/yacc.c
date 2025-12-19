@@ -6,344 +6,431 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:40:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/18 21:22:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 04:06:06 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_yacc.h"
 
 /**
- * @param personnalized say to the function if people want to put or not their
- * own structure
+ * Singleton accessor for the default yacc parser
+ * Returns either the provided pointer or the static singleton
  */
-
-t_yacc *get_yacc(bool personnalized)
+t_yacc *get_yacc(t_yacc *maybe)
 {
-    static t_yacc *singleton = NULL;
+    static t_yacc singleton = {0};
+    
+    if (maybe)
+        return maybe;
+    return &singleton;
+}
 
-    if (personnalized)
-        return NULL;
-    if (singleton)
-        return singleton;
-    singleton = malloc(sizeof(t_yacc));
-    if (!singleton)
-        return NULL;
-    singleton->input = (t_dyn_str){0};
-    singleton->pos = (t_position){0};
-    singleton->options = (t_yopt){0};
-    vec_init(&singleton->rules, &(t_vec_config){
+/**
+ * Initialize the yacc parser
+ * Can be called with NULL for singleton or with a custom structure
+ */
+int yacc_init(t_yacc *yacc)
+{
+    t_yacc *y = get_yacc(yacc);
+    
+    ft_assert(y != NULL);
+    y->input = (t_dyn_str){0};
+    y->pos = (t_position){0};
+    y->options = (t_yopt){0};
+    vec_init(&y->rules, &(t_vec_config){
         .elem_size = sizeof(t_yrule),
         .initial_capacity = 64,
         .type_mask = VEC_TYPE_PLAIN
     });
-    return singleton;
+    return 0;
 }
 
-// For default singleton
-void add_rule(match_fn match, t_token_type type, trans_fn trans)
+/**
+ * Add a rule to the yacc parser
+ * Works with both singleton and custom structures
+ */
+void yacc_add_rule(t_yacc *yacc, match_fn match, t_token_type type, trans_fn trans)
 {
-    t_yacc *yacc = get_yacc(false);
+    t_yacc *y = get_yacc(yacc);
     t_yrule rule;
 
-    if (!yacc)
-        return;
+    ft_assert(y != NULL);
     rule.match = match;
     rule.type = type;
     rule.transform = trans;
-    vec_push(&yacc->rules, &rule);
-}
-
-// For user-provided yacc structure
-void dft_add_rule(void *structure, match_fn match, t_token_type type, trans_fn trans)
-{
-    t_yacc *yacc = (t_yacc *)structure;
-    t_yrule rule;
-
-    if (!yacc)
-        return;
-    rule.match = match;
-    rule.type = type;
-    rule.transform = trans;
-    vec_push(&yacc->rules, &rule);
-}
-
-void	setup_deft_lexer()
-{
-	add_rule(match_comment, TOKEN_HASH, NULL);	
-	add_rule(match_keyword, TOKEN_KEYWORDS, NULL);
-	add_rule(match_variable, TOKEN_VARIABLE, NULL);
-	add_rule(match_number, TOKEN_NUMBER, NULL);
-	add_rule(match_sqstring, TOKEN_SQUOTE_STRING, NULL);
-	add_rule(match_dqstring, TOKEN_DQUOTE_STRING, NULL);
-	add_rule(match_or, TOKEN_LOGICAL_OR, NULL);
-	add_rule(match_pipe, TOKEN_PIPE, NULL);
-	add_rule(match_identifier, TOKEN_IDENTIFIER, NULL);
-	add_rule(match_operator, TOKEN_OPERATOR, NULL);
-	add_rule(match_and, TOKEN_LOGICAL_AND, NULL);
-}
-
-void 	update_position(t_yacc *yacc, int length)
-{
-	size_t i;
-	t_dyn_str *input;
-
-	input = get_dyn_str(NULL);
-	while (i < length)
-	{
-		if (dyn_str_check_at(yacc->input. , NULL, "\n", CHAR_SIZE))
-		{
-			i
-			yacc->pos.column = 0;
-		}
-		else
-			yacc->pos.column++
-	}
-}
-
-void	yacc_skip_whitespace(t_yacc *yacc)
-{
-	while (yacc->input[yacc->pos] && ft_isspace(yacc->input[yacc->pos]))
-		yacc->pos++;	
-}
-
-t_yacc	*yacc_next_token(t_yacc *yacc)
-{
-	ft_assert(yacc != NULL);
-	if (yacc->options.skip_whitespace)
-	{
-		while (dyn_str_check_at(yacc->input.pos, ft_isspace, NULL, 0))
-			yacc->input.pos++;
-	}
-}
-
-t_yacc	**yacc_tokenize_all(t_yacc *yacc, int *token_count)
-{
-	int		cap;
-	int		count;
-	t_yacc	**toks;
-	t_yacc	*tok;
-
-	toks = malloc(sizeof(t_yacc *) * 64);
-	tok = yacc_next_token();
-	while ((t_token = lexer_next_token(cd)))
+    vec_push(&y->rules, &rule);
 }
 
 
 /**
- * in implementation of match we have to be concerned about the
- * the consumption of data
- * */
-bool	match_sqstring(t_dyn_str *input)
+ * Skip whitespace in the input
+ */
+void yacc_skip_whitespace(t_yacc *yacc)
 {
-	
+    ft_assert(yacc != NULL);
+    while (yacc->pos.idx < yacc->input.len && 
+           ft_isspace(dyn_str_idx(&yacc->input, yacc->pos.idx)))
+        yacc->pos.idx++;
 }
 
-bool	match_dqstring(t_dyn_str *input)
+/**
+ * Update position tracking (line, column, index)
+ */
+void yacc_update_position(t_yacc *yacc, size_t length)
 {
-		
-}
-
-bool	match_identifier(t_dyn_str *input)
-{
-
-}
-
-bool	match_number(t_dyn_str *input)
-{
-
-}
-
-bool	match_string(t_dyn_str *input)
-{
-	char quote;
-	int	len;
-
-	quote = dyn_str_idx(input, input->pos);
-	while (dyn_str_check_at(input->pos, NULL, &quote, CHAR_SIZE))
-	{
-
-	}
-		len++;
-}
-
-bool	match_keyword(t_dyn_str *input)
-{
-	size_t	i;
-	const char *keywords[] = {
-		"if", "then", "else", "elif", "fi", "for", "while", "do", "done",
-		"case", "esac", "in", "function", NULL
-	};
-
-	i = 0;
-	while (keywords[i])
-	{
-		size_t	len = ft_strlen(keywords[i]);
-		if (dyn_str_check_at(input->pos, NULL, (char *)keywords[i], len))
-		{
-			if (dyn_str_check_at(input->pos + len, NULL, "\0", 1) ||
-				(!dyn_str_check_at(input->pos + len, ft_isalnum, NULL, 0) &&
-				 !dyn_str_check_at(input->pos + len, NULL, "_", 1)))
-			{
-				dyn_str_uppdate_len(len);
-				return (true);
-			}
-		}
-		i++;
-	}
-	return (false);
-}
-
-bool	match_operator(t_dyn_str *input)
-{
-    size_t	i;
-    const char *operators[] = {
-        "==", "!=", "<=", ">=", "<", ">", "+", "-", "*", "/", "%",
-        "=", "+=", "-=", "*=", "/=", "%=", NULL
-    };
-
-	i = 0;
-	while (operators[i])
-	{
-		size_t	len = ft_strlen(operators[i]);
-		if (dyn_str_check_at(input->pos, NULL, (char *)operators[i], len))
-			return (dyn_str_uppdate_len(len), true);
-		i++;
-	}
-	if (ft_strchr("+-*/<>=!&|", input->buff[input->pos]))
-		return (dyn_str_uppdate_len(1), true);
-	return (false);
-}
-
-bool	match_pipe(t_dyn_str *input)
-{
-    if (dyn_str_check_at(input->pos, NULL, "|", 1))
+    size_t i;
+    
+    ft_assert(yacc != NULL);
+    i = 0;
+    while (i < length && yacc->pos.idx < yacc->input.len)
     {
-        dyn_str_uppdate_len(1);
-        return (true);
+        if (dyn_str_idx(&yacc->input, yacc->pos.idx) == '\n')
+        {
+            yacc->pos.line++;
+            yacc->pos.column = 0;
+        }
+        else
+            yacc->pos.column++;
+        yacc->pos.idx++;
+        i++;
     }
-    return (false);
 }
 
-bool	match_and(t_dyn_str *input)
+/**
+ * Match functions - all take t_dyn_str pointer and use input->pos
+ */
+
+bool match_comment(t_dyn_str *input)
 {
-    if (dyn_str_check_at(input->pos, NULL, "&", 1) &&
-        dyn_str_check_at(input->pos + 1, NULL, "&", 1))
-        return (dyn_str_uppdate_len(2), true);
-    return (false);
+    size_t len;
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '#')
+        return false;
+    len = 1;
+    while (pos + len < input->len && dyn_str_idx(input, pos + len) != '\n')
+        len++;
+    return true;
 }
 
-bool	match_or(t_dyn_str *input)
+bool match_identifier(t_dyn_str *input)
 {
-    if (dyn_str_check_at(input->pos, NULL, "|", 1) &&
-        dyn_str_check_at(input->pos + 1, NULL, "|", 1))
-        return (dyn_str_uppdate_len(2), true);
-    return (false);
+    size_t len;
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len)
+        return false;
+    if (!ft_isalpha(dyn_str_idx(input, pos)) && dyn_str_idx(input, pos) != '_')
+        return false;
+    len = 1;
+    while (pos + len < input->len &&
+           (ft_isalnum(dyn_str_idx(input, pos + len)) || 
+            dyn_str_idx(input, pos + len) == '_'))
+        len++;
+    return true;
 }
 
-t_dyn_str	*get_dyn_str(t_dyn_str *maybe)
+bool match_number(t_dyn_str *input)
 {
-	static	t_dyn_str  str	= {0};
+    size_t len;
+    size_t pos = input->pos;
 
-	if (maybe)
-		return (maybe);
-	return (&str);
+    ft_assert(input && input->buff);
+    if (pos >= input->len || !ft_isdigit(dyn_str_idx(input, pos)))
+        return false;
+    len = 0;
+    while (pos + len < input->len && ft_isdigit(dyn_str_idx(input, pos + len)))
+        len++;
+    if (pos + len < input->len && dyn_str_idx(input, pos + len) == '.')
+    {
+        len++;
+        while (pos + len < input->len && ft_isdigit(dyn_str_idx(input, pos + len)))
+            len++;
+    }
+    return true;
+}
+
+bool match_sqstring(t_dyn_str *input)
+{
+    size_t len;
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '\'')
+        return false;
+    len = 1;
+    while (pos + len < input->len && dyn_str_idx(input, pos + len) != '\'')
+        len++;
+    if (pos + len < input->len && dyn_str_idx(input, pos + len) == '\'')
+    {
+        len++;
+        return true;
+    }
+    return false;
+}
+
+bool match_dqstring(t_dyn_str *input)
+{
+    size_t len;
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '"')
+        return false;
+    len = 1;
+    while (pos + len < input->len && dyn_str_idx(input, pos + len) != '"')
+    {
+        if (dyn_str_idx(input, pos + len) == '\\' && pos + len + 1 < input->len)
+            len += 2;
+        else
+            len++;
+    }
+    if (pos + len < input->len && dyn_str_idx(input, pos + len) == '"')
+    {
+        len++;
+        return true;
+    }
+    return false;
 }
 
 bool match_variable(t_dyn_str *input)
 {
-    int len;
+    size_t len;
+    size_t pos = input->pos;
 
-    ft_assert(input != NULL && input->buff != NULL);
-
-    if (input->pos >= input->len)
-        return (false);
-    if (!dyn_str_check_at(input->pos, NULL, "$", 1))
-        return (false);
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '$')
+        return false;
     len = 1;
-    if (input->pos + len < input->len &&
-        (dyn_str_check_at(input->pos + len, ft_isalpha, NULL, 0) ||
-         dyn_str_check_at(input->pos + len, NULL, "_", 1)))
+    if (pos + len < input->len &&
+        (ft_isalpha(dyn_str_idx(input, pos + len)) ||
+         dyn_str_idx(input, pos + len) == '_'))
     {
         len++;
-        while (input->pos + len < input->len &&
-               (dyn_str_check_at(input->pos + len, ft_isalnum, NULL, 0) ||
-                dyn_str_check_at(input->pos + len, NULL, "_", 1)))
+        while (pos + len < input->len &&
+               (ft_isalnum(dyn_str_idx(input, pos + len)) ||
+                dyn_str_idx(input, pos + len) == '_'))
             len++;
-        dyn_str_uppdate_len(len);
-        return (true);
+        return true;
     }
-    return (false);
+    return false;
 }
 
-bool match_comment(t_dyn_str *input)
+bool match_keyword(t_dyn_str *input)
 {
-    int len = 0;
+    const char *keywords[] = {
+        "if", "then", "else", "elif", "fi", "for", "while", "do", "done",
+        "case", "esac", "in", "function", NULL
+    };
+    size_t i;
+    size_t len;
+    size_t pos = input->pos;
 
-    if (!input || !input->buff || input->pos >= input->len)
+    ft_assert(input && input->buff);
+    if (pos >= input->len)
         return false;
-    if (input->buff[input->pos] != '#')
+    i = 0;
+    while (keywords[i])
+    {
+        len = ft_strlen(keywords[i]);
+        if (pos + len <= input->len &&
+            ft_strncmp(input->buff + pos, keywords[i], len) == 0 &&
+            (pos + len >= input->len ||
+             (!ft_isalnum(dyn_str_idx(input, pos + len)) &&
+              dyn_str_idx(input, pos + len) != '_')))
+            return true;
+        i++;
+    }
+    return false;
+}
+
+bool match_operator(t_dyn_str *input)
+{
+    const char *operators[] = {
+        "==", "!=", "<=", ">=", "++", "--", "+=", "-=", NULL
+    };
+    size_t i;
+    size_t len;
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len)
         return false;
-    len = 1;
-    while ((input->pos + len) < input->len && input->buff[input->pos + len] != '\n')
-        len++;
-    input->pos += len;
+    i = 0;
+    while (operators[i])
+    {
+        len = ft_strlen(operators[i]);
+        if (pos + len <= input->len &&
+            ft_strncmp(input->buff + pos, operators[i], len) == 0)
+            return true;
+        i++;
+    }
+    if (ft_strchr("+-*/<>=!&|", dyn_str_idx(input, pos)))
+        return true;
+    return false;
+}
+
+bool match_pipe(t_dyn_str *input)
+{
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '|')
+        return false;
+    if (pos + 1 < input->len && dyn_str_idx(input, pos + 1) == '|')
+        return false;
     return true;
 }
 
-bool	match_and(t_dyn_str *)
+bool match_and(t_dyn_str *input)
 {
-	
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '&')
+        return false;
+    if (pos + 1 < input->len && dyn_str_idx(input, pos + 1) == '&')
+        return true;
+    return false;
 }
 
+bool match_or(t_dyn_str *input)
+{
+    size_t pos = input->pos;
+
+    ft_assert(input && input->buff);
+    if (pos >= input->len || dyn_str_idx(input, pos) != '|')
+        return false;
+    if (pos + 1 < input->len && dyn_str_idx(input, pos + 1) == '|')
+        return true;
+    return false;
+}
+
+/**
+ * Get next token from the input
+ */
+t_ytoken *yacc_next_token(t_yacc *yacc)
+{
+    size_t i;
+    t_yrule *rule;
+    t_ytoken *token;
+
+    ft_assert(yacc != NULL);
+    if (yacc->options.skip_whitespace)
+        yacc_skip_whitespace(yacc);
+    if (yacc->pos.idx >= yacc->input.len)
+        return NULL;
+    i = 0;
+    while (i < yacc->rules.len)
+    {
+        rule = (t_yrule *)vec_idx(&yacc->rules, i);
+        if (rule && rule->match(&yacc->input))
+        {
+            token = malloc(sizeof(t_ytoken));
+            if (!token)
+                return NULL;
+            token->type = rule->type;
+            token->position = yacc->pos;
+            token->input = yacc->input;
+            if (rule->transform)
+                rule->transform(token->input);
+            return token;
+        }
+        i++;
+    }
+    return NULL;
+}
+
+/**
+ * Tokenize entire input
+ */
+t_ytoken **yacc_tokenize_all(t_yacc *yacc, int *token_count)
+{
+    int cap;
+    int count;
+    t_ytoken **tokens;
+    t_ytoken *token;
+
+    ft_assert(yacc && token_count);
+    cap = 64;
+    count = 0;
+    tokens = malloc(sizeof(t_ytoken *) * cap);
+    if (!tokens)
+        return NULL;
+    while (yacc->pos.idx < yacc->input.len)
+    {
+        token = yacc_next_token(yacc);
+        if (!token)
+            break;
+        if (count >= cap)
+        {
+            cap *= 2;
+            tokens = realloc(tokens, sizeof(t_ytoken *) * cap);
+            if (!tokens)
+                return NULL;
+        }
+        tokens[count++] = token;
+    }
+    *token_count = count;
+    return tokens;
+}
+
+/**
+ * Create a yacc parser with custom options
+ */
 t_yacc *yacc_create(t_yopt options)
 {
-    t_yacc *yacc = malloc(sizeof(t_yacc));
+    t_yacc *yacc;
+
+    yacc = malloc(sizeof(t_yacc));
     if (!yacc)
         return NULL;
-    dyn_str_init(&yacc->input);
-    yacc->pos = (t_position){0};
+    yacc_init(yacc);
     yacc->options = options;
-    vec_init(&yacc->rules, (t_vec_config){
-        .elem_size = sizeof(t_yrule),
-        .initial_capacity = 64,
-        .type_mask = VEC_TYPE_PTR
-    });
     return yacc;
 }
 
-void	yacc_destroy(t_yacc *yacc)
+/**
+ * Destroy a yacc parser
+ */
+void yacc_destroy(t_yacc *yacc)
 {
-	if (!yacc)
-		return ;
-	vec_clear(&yacc->rules);
-	free(yacc);
+    if (!yacc)
+        return;
+    dyn_str_free(&yacc->input);
+    vec_destroy(&yacc->rules);
+    free(yacc);
 }
 
-int	main(void)
+/**
+ * Setup default lexer rules
+ */
+void yacc_setup_deft_lexer(t_yacc *yacc)
 {
-	const t_yopt	options = {
-		.skip_whitespace = true,
-		.track_position = true,
-		.error_on_unknown = false
-	};
-	t_vec	lexer;
-	t_token	**tokens;
-	int		count;
+    t_yacc *y = get_yacc(yacc);
+    
+    yacc_add_rule(y, match_comment, TOKEN_HASH, NULL);    
+    yacc_add_rule(y, match_keyword, TOKEN_KEYWORDS, NULL);
+    yacc_add_rule(y, match_variable, TOKEN_VARIABLE, NULL);
+    yacc_add_rule(y, match_number, TOKEN_NUMBER, NULL);
+    yacc_add_rule(y, match_sqstring, TOKEN_SQUOTE_STRING, NULL);
+    yacc_add_rule(y, match_dqstring, TOKEN_DQUOTE_STRING, NULL);
+    yacc_add_rule(y, match_or, TOKEN_LOGICAL_OR, NULL);
+    yacc_add_rule(y, match_pipe, TOKEN_PIPE, NULL);
+    yacc_add_rule(y, match_identifier, TOKEN_IDENTIFIER, NULL);
+    yacc_add_rule(y, match_operator, TOKEN_OPERATOR, NULL);
+    yacc_add_rule(y, match_and, TOKEN_LOGICAL_AND, NULL);
+}
 
-	vec_init(&lexer, (t_vec_config){.elem_size = sizeof(t_yacc), .initial_capacity = 64, .type_mask = VEC_TYPE_PTR});
-	if (!lexer)
-		return (1);
-	setup_shell_lexer();
-	printf("=== Shell command Lexer ===\n");
-	for (int i = 0; i < count; i++)
-	{
-		token_print(tokens[i]);
-		token_destroy(tokens[i]);
-	}
-	free(tokens);
-	printf("\n === variables ===\n");
-	vec_clear(&lexer);
-	lexer_set_input(lexer, "x = $HOME && echo $USER");
-	vecc_destroy(&lexer);
-	return  (0);
+
+int main(void)
+{
+    t_yacc *yacc;
+
+    yacc = get_yacc(NULL);
+    yacc_init(yacc);
+    yacc_setup_deft_lexer(yacc);
+    return 0;
 }

@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 16:10:08 by dlesieur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/11 21:52:22 by dlesieur         ###   ########.fr       */
-=======
-/*   Updated: 2025/12/17 03:51:46 by dlesieur         ###   ########.fr       */
->>>>>>> hotfix
+/*   Created: 2025/12/19 02:51:27 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 03:49:34 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +192,7 @@ extern "C"
 	t_var make_mailpath(void);
 	t_var make_path(const char *path);
 	/* change: reset callback returns void (matches var_state helpers) */
-	t_var make_optind(const char *optind, void (*resetfn)(void));
+	t_var make_optind(void (*resetfn)(void));
 	t_var make_lineno(const char *lineno);
 	t_var make_term(void);
 	t_var make_histsize(void);

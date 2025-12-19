@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:39:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:03:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int main(void)
 
         /* send a few textual lines for read_line_arena test */
         const char *lines = "first line from child\nsecond line from child\n";
-        if (write_all(p->w, lines, strlen(lines)) < 0)
+        if (write_all(p->w, lines, ft_strlen(lines)) < 0)
             perror("write_all lines");
 
         pipe_close_pair(p);

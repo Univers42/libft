@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   bglob.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 00:51:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/07 02:15:29 by dlesieur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    bglob.bak                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/07 00:51:29 by dlesieur          #+#    #+#              #
+#    Updated: 2025/12/19 03:08:45 by dlesieur         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #include "glob.h"
 
@@ -94,7 +94,7 @@ static char *brackmatch(char *p, unsigned char test, int flags)
                 ccname = malloc(close - p);
                 if (ccname)
                 {
-                    memcpy(ccname, p + 1, close - p - 1);
+                    ft_memcpy(ccname, p + 1, close - p - 1);
                     ccname[close - p - 1] = '\0';
                     pc = is_cclass(orig_test, (unsigned char *)ccname);
                     if (pc == -1)
@@ -348,8 +348,8 @@ int strmatch_internal(const char *pattern, const char *string, int flags)
 
 	if (string == NULL || pattern == NULL)
 		return FNM_NOMATCH;
-	se = string + strlen(string);
-	pe = pattern + strlen(pattern);
+	se = string + ft_strlen(string);
+	pe = pattern + ft_strlen(pattern);
 	// GMATCH would need to be rewritten for char* as well
 	return GMATCH((char *)string, (char *)se, (char *)pattern, (char *)pe, NULL, flags);
 }

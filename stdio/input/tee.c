@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:42:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:24:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:19:01 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/types.h>
-#include <string.h> /* strlen */
+#include <string.h> /* ft_strlen */
 #include <fcntl.h>	/* open */
 #include <stdio.h>	/* perror */
 
@@ -71,33 +71,7 @@ ssize_t ft_tee(int fd_in, int fd_out, size_t len)
 // 	int input_fd;
 // 	ssize_t n;
 
-<<<<<<< HEAD
-	input_fd = open("input.txt", O_RDONLY | O_CREAT | O_TRUNC, 0644);
-	if (input_fd == -1)
-	{
-		perror("open input (create)");
-		return (1);
-	}
-	if (write(input_fd, "Line 1\nLine 2\nLine 3\n", 22) != 22)
-	{
-		perror("write input");
-		close(input_fd);
-		return (1);
-	}
-	close(input_fd);
-	input_fd = open("input.txt", O_RDONLY);
-	if (input_fd == -1)
-	{
-		perror("open input (read)");
-		return (1);
-	}
-	n = ft_tee(input_fd, STDOUT_FILENO, 1024);
-	if (n < 0)
-		perror("ft_tee");
-	close(input_fd);
-	return (0);
-}
-=======
+// <<<<<<< HEAD
 // 	input_fd = open("input.txt", O_RDONLY | O_CREAT | O_TRUNC, 0644);
 // 	if (input_fd == -1)
 // 	{
@@ -123,4 +97,30 @@ ssize_t ft_tee(int fd_in, int fd_out, size_t len)
 // 	close(input_fd);
 // 	return (0);
 // }
->>>>>>> hotfix
+// =======
+// 	input_fd = open("input.txt", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (input_fd == -1)
+// 	{
+// 		perror("open input (create)");
+// 		return (1);
+// 	}
+// 	if (write(input_fd, "Line 1\nLine 2\nLine 3\n", 22) != 22)
+// 	{
+// 		perror("write input");
+// 		close(input_fd);
+// 		return (1);
+// 	}
+// 	close(input_fd);
+// 	input_fd = open("input.txt", O_RDONLY);
+// 	if (input_fd == -1)
+// 	{
+// 		perror("open input (read)");
+// 		return (1);
+// 	}
+// 	n = ft_tee(input_fd, STDOUT_FILENO, 1024);
+// 	if (n < 0)
+// 		perror("ft_tee");
+// 	close(input_fd);
+// 	return (0);
+// }
+// >>>>>>> hotfix

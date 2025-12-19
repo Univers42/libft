@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 12:32:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 17:11:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	ft_isalnum(int c)
 //	return(c == ' ');
 // }
 // int is_valid_product_code(const char *code) {
-//     int strlen;
+//     int ft_strlen;
 //
-//     strlen = ft_strlen(code);
-//     if (code == NULL || strlen < 2 || !ft_isalnum(*code))
+//     ft_strlen = ft_strlen(code);
+//     if (code == NULL || ft_strlen < 2 || !ft_isalnum(*code))
 //         return 0;
-//     for (int i = 0; i < strlen - 1; i++) {
+//     for (int i = 0; i < ft_strlen - 1; i++) {
 //         if (!ft_isalnum(code[i]))
 //             return 0;
 //     }

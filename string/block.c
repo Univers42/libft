@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:01:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 18:14:48 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:35:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_memory.h"
 
-int find_block(int *end, char *str, const char *sep)
+int find_block(int *end, const char *str, const char *sep)
 {
     int i;
     int prev;
@@ -39,7 +39,7 @@ int find_block(int *end, char *str, const char *sep)
     return (-1);
 }
 
-int num_blocks(char *str, char *sep)
+int num_blocks(const char *str, char *sep)
 {
     int i;
     int occ;

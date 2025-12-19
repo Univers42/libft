@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 15:58:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 02:39:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int try_addr2line(void *addr, const char *binary, char *out, size_t outle
 	}
 	pclose(fp);
 	/* trim newline */
-	size_t l = strlen(out);
+	size_t l = ft_strlen(out);
 	if (l && out[l - 1] == '\n')
 		out[l - 1] = '\0';
 	/* filter trivial output */
@@ -150,7 +150,7 @@ static void parse_and_print_frame(int idx, char *symbol, void *addr)
 			/* addr2line prints "func (file:line)" - reuse as func_name and binary_name when possible */
 			/* bounded copy of addr2line output into func_name */
 			{
-				size_t blen = strlen(buf);
+				size_t blen = ft_strlen(buf);
 				size_t copy_len = blen < sizeof(func_name) ? blen : (sizeof(func_name) - 1);
 				memcpy(func_name, buf, copy_len);
 				func_name[copy_len] = '\0';
@@ -161,7 +161,7 @@ static void parse_and_print_frame(int idx, char *symbol, void *addr)
 			/* 2) try local libft.so (common development path) */
 			if (try_addr2line(addr, "./libft.so", buf, sizeof(buf)))
 			{
-				size_t blen = strlen(buf);
+				size_t blen = ft_strlen(buf);
 				size_t copy_len = blen < sizeof(func_name) ? blen : (sizeof(func_name) - 1);
 				memcpy(func_name, buf, copy_len);
 				func_name[copy_len] = '\0';

@@ -138,10 +138,10 @@ static int execvpe_local(const char *file, char *const argv[], char *const envp[
     while (*path)
     {
         colon = strchr(path, ':');
-        dirlen = colon ? (size_t)(colon - path) : strlen(path);
-        if (dirlen + 1 + strlen(file) + 1 < sizeof(buf))
+        dirlen = colon ? (size_t)(colon - path) : ft_strlen(path);
+        if (dirlen + 1 + ft_strlen(file) + 1 < sizeof(buf))
         {
-            memcpy(buf, path, dirlen);
+            ft_memcpy(buf, path, dirlen);
             buf[dirlen] = '/';
             strcpy(buf + dirlen + 1, file);
             if (access(buf, X_OK) == 0)

@@ -141,7 +141,7 @@ static void *worker(void *arg)
         char *t = memcheck_strdup("worker-temp");
         char tag[64];
         snprintf(tag, sizeof(tag), "worker/%d/temp", id);
-        memcheck_register_alloc_tag(t, strlen(t) + 1, tag);
+        memcheck_register_alloc_tag(t, ft_strlen(t) + 1, tag);
         /* free immediately */
         memcheck_free(t);
     }

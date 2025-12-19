@@ -25,7 +25,7 @@ char **glob_vector(char *pat, char *dir, int flags)
 			return (char **) &glob_error_return;
 		skip = 1;
 	}
-	patlen = (pat && *pat) ? strlen(pat) : 0;
+	patlen = (pat && *pat) ? ft_strlen(pat) : 0;
 	if (!skip && ((hasglob = glob_pattern_p(pat)) == 0 || hasglob == 2))
 	{
 		int h = handle_literal_pat(pat, patlen, dir, &lastlink,
@@ -49,7 +49,7 @@ char **glob_vector(char *pat, char *dir, int flags)
 		addcur = 1;
 	if (addcur && !lose)
 	{
-		size_t sdlen = strlen(dir);
+		size_t sdlen = ft_strlen(dir);
 		nextname = (char *) malloc(sdlen + 1);
 		t_list *nextlink = (t_list *) malloc(sizeof(struct globval));
 		if (nextlink == NULL || nextname == NULL)

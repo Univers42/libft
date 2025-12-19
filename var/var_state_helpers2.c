@@ -5,17 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
-/*   Created: 2025/12/11 22:02:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:05:06 by dlesieur         ###   ########.fr       */
-=======
-/*   Created: 2025/11/28 16:04:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:07:52 by dlesieur         ###   ########.fr       */
->>>>>>> hotfix
+/*   Created: 2025/12/19 03:45:37 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 03:52:22 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "var.h"
+#include <bits/getopt_core.h>
 
 static void set_histsize(char *hs)
 {
@@ -29,23 +25,20 @@ t_var make_ps4(void)
 	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, "PS4=+ ", 0};
 }
 
-<<<<<<< HEAD
 /* Match the public/header prototype: optind is const char *, resetfn is void(*)(void).
    t_var.func expects a callback taking (const char *), so cast resetfn accordingly
    when storing it into the t_var structure. */
-t_var make_optind(const char *optind, void (*resetfn)(void))
+t_var make_optind(void (*resetfn)(void))
 {
-	return (t_var){
-		NULL,
-		VSTR_FIXED | VTEXT_FIXED,
-		(char *)optind, /* t_var.text is char*, cast away const here (stored as static text) */
-		(void (*)(const char *))resetfn};
-=======
-t_var make_optind(const char *optind_name, void (*resetfn)(void))
-{
-	return (t_var){NULL, VSTR_FIXED | VTEXT_FIXED, optind_name,
-			   (void (*)(const char *))resetfn};
->>>>>>> hotfix
+    char *s;
+
+    s = ft_itoa(optind);
+    return (t_var){
+        NULL,
+        VSTR_FIXED | VTEXT_FIXED,
+        s,
+        (void (*)(const char *))resetfn
+    };
 }
 
 t_var make_lineno(const char *lineno)

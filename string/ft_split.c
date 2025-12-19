@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/12/12 18:17:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:42:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
  * @return a new multidimensional array of characters, NULL if faulty
  */
 
+ #ifdef SPLIT_OPT
 static int	safe_alloc(char **token_v, size_t pos, size_t buffer)
 {
 	size_t	i;
@@ -111,7 +112,7 @@ static int	count_segments(const char *str, char delimiter)
 	return (segment);
 }
 
-#ifdef SPLIT_OPT
+
 char	**ft_split(char const *s, char c)
 {
 	size_t	tokens;
@@ -138,19 +139,19 @@ char **ft_split(char const *str, char c)
 	int		occ;
 	int		end;
 
-	out = ft_calloc((num_blocks(str, c) + 1), sizeof(char *));
+	out = xcalloc((num_blocks(str, &c) + 1), sizeof(char *));
 	if (out == 0)
 		return (0);
 	i = 0;
 	occ = 0;
 	while (str[i] != 0)
 	{
-		start = find_block(&end, str + i, c);
+		start = find_block(&end, str + i, &c);
 		if (start == -1)
 			return (out);
 		out[occ] = malloc(end - start + 1);
 		if (out[occ] == 0)
-			return ((void **)free_list(out, occ));
+			return (free_list((void **)out, occ), NULL);
 		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
 		i += end;
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_line_arena.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/19 03:06:41 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 03:06:42 by dlesieur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_memory.h"
 #include "pipe.h"
 
@@ -10,7 +22,6 @@ char *read_line_arena(int fd)
 {
     char *base;
     char *p;
-    int r;
 
     base = start_stack_str();
     p = base;

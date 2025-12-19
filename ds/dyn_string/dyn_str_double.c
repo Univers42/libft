@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:35:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:27:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 02:53:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	str_double(void)
 	t_dyn_str	*v;
 
 	v = get_dyn_str(NULL);
-	ft_assert(v);
+	ft_assert(v != NULL);
 	newcap = 64;
 	if (v->cap != 0)
 		newcap = v->cap * 2;
@@ -54,7 +54,7 @@ int	dyn_str_double(t_dyn_str *s)
 	size_t	newcap;
 	char	*tmp;
 
-	ft_assert(s);
+	ft_assert(s != NULL);
 	newcap = 64;
 	if (s->cap)
 		newcap = s->cap * 2;

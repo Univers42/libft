@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:09:49 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 03:21:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:08:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void write_fd_formatted(const char *prefix, const char *msg,
             n = 0;
     }
     if (pfxlen > 0)
-        memcpy(buf, prefix, (size_t)pfxlen);
+        ft_memcpy(buf, prefix, (size_t)pfxlen);
     /* append newline if space allows */
     if ((size_t)(pfxlen + n) < sizeof(buf) - 1)
     {

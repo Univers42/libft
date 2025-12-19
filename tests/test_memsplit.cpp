@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:21:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void test_string_split(void)
 
     print_sep("TEST 1: String Split");
     str = "apple,banana,cherry,date,elderberry";
-    parts = memsplit(str, strlen(str), 1, ",");
+    parts = memsplit(str, ft_strlen(str), 1, ",");
     if (!parts)
         return;
     printf("Input: \"%s\"\n", str);
@@ -105,7 +105,7 @@ static void test_nested_csv(void)
 
     print_sep("TEST 3: Nested CSV");
     csv = "ID,Name,Age\n001,Alice,25\n002,Bob,30\n003,Carol,28";
-    rows = memsplit(csv, strlen(csv), 1, "\n");
+    rows = memsplit(csv, ft_strlen(csv), 1, "\n");
     if (!rows)
         return;
     i = 0;
@@ -201,12 +201,12 @@ static void test_performance(void)
     while (len < 99990)
         len += sprintf(data + len, "%zu,", len);
     data[len - 1] = '\0';
-    printf("Data size: %zu bytes\n\n", strlen(data));
+    printf("Data size: %zu bytes\n\n", ft_strlen(data));
     t1 = clock();
-    p1 = memsplit(data, strlen(data), 1, ",");
+    p1 = memsplit(data, ft_strlen(data), 1, ",");
     t1 = clock() - t1;
     t2 = clock();
-    p2 = memsplit_zc(data, strlen(data), 1, ",");
+    p2 = memsplit_zc(data, ft_strlen(data), 1, ",");
     t2 = clock() - t2;
     printf("COPY mode:      %ld µs\n", t1);
     printf("ZERO-COPY mode: %ld µs\n", t2);
@@ -278,7 +278,7 @@ static void test_path_split(void)
     print_sep("TEST 7: Path Splitting");
     path = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
     printf("PATH: %s\n\n", path);
-    parts = memsplit(path, strlen(path), 1, ":");
+    parts = memsplit(path, ft_strlen(path), 1, ":");
     if (!parts)
         return;
     i = 0;
@@ -299,7 +299,7 @@ static void test_multiline(void)
 
     print_sep("TEST 8: Log Processing");
     log = "[INFO] Started\n[WARN] Low memory\n[ERROR] Failed\n[INFO] Retry";
-    lines = memsplit(log, strlen(log), 1, "\n");
+    lines = memsplit(log, ft_strlen(log), 1, "\n");
     if (!lines)
         return;
     printf("Log entries:\n\n");

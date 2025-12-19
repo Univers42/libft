@@ -37,7 +37,7 @@ int handle_literal_pat(char *pat, size_t patlen, char *dir,
 
 	if (glob_testdir(dir, 0) < 0)
 		return -1;
-	dirlen = strlen(dir);
+	dirlen = ft_strlen(dir);
 	nextname = malloc(dirlen + patlen + 2);
 	npat = malloc(patlen + 1);
 	if (nextname == NULL || npat == NULL)

@@ -17,7 +17,7 @@ static int prepare_convpat(char **out, char *pat)
 {
 	size_t patlen;
 
-	patlen = pat ? strlen(pat) : 0;
+	patlen = pat ? ft_strlen(pat) : 0;
 	*out = fnx_fromfs(pat, patlen);
 	if (*out != pat)
 		*out = savestring(*out);
@@ -120,7 +120,7 @@ int scan_directory_and_collect(char *pat, char *dir, int flags,
 				nextlink = (t_list *) malloc(sizeof(struct globval));
 				if (*firstmalloc == NULL)
 					*firstmalloc = nextlink;
-				sdlen = strlen(subdir);
+				sdlen = ft_strlen(subdir);
 				nextname = (char *) malloc(sdlen + 1);
 				if (nextlink == NULL || nextname == NULL)
 				{

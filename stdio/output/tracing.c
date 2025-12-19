@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 18:09:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 14:40:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:19:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h> /* for ssize_t */
-
-
+#include "ft_string.h"
 
 /*
 ** Singleton storage accessors (no file-scope globals).
@@ -76,7 +75,7 @@ void indent(int amount, char *pfx, int fd)
 	{
 		if (pfx && i == amount - 1)
 		{
-			len = strlen(pfx);
+			len = ft_strlen(pfx);
 			if (len > 0)
 				rc = write(fd, pfx, len), (void)rc;
 		}
@@ -151,7 +150,7 @@ void trputs(const char *s)
 
 	if (get_debug() != 1 || s == NULL)
 		return;
-	len = strlen(s);
+	len = ft_strlen(s);
 	if (len > 0)
 	{
 		fd = get_trace_fd();

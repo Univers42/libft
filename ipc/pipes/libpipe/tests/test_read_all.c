@@ -18,7 +18,7 @@ void test_read_all() {
     }
 
     // Write to the pipe
-    write_all(pipe_fds->w, test_string, strlen(test_string));
+    write_all(pipe_fds->w, test_string, ft_strlen(test_string));
     close(pipe_fds->w); // Close the write end after writing
 
     // Read from the pipe

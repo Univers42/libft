@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:11:15 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/02 01:51:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <execinfo.h> // for backtrace
 #include <sstream>
 #include <fstream>
-#include <cstring>		 // for strlen/strcmp
+#include <cstring>		 // for ft_strlen/strcmp
 #include <unordered_map> // added for LogRecorder
 
 namespace memcheck
@@ -773,7 +773,7 @@ extern "C"
 			libc_strdup = (libc_strdup_t)dlsym(RTLD_NEXT, "strdup");
 		char *p = libc_strdup ? libc_strdup(s) : nullptr;
 		if (p)
-			memcheck::onAlloc(p, strlen(p) + 1);
+			memcheck::onAlloc(p, ft_strlen(p) + 1);
 		return p;
 	}
 

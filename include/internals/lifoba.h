@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:19:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ char *st_nputs(const char *s, size_t n, char *p);
  *
  * @param  s Source NUL-terminated string.
  * @param  p Current insertion pointer.
- * @return New insertion pointer (advanced by strlen(s)).
+ * @return New insertion pointer (advanced by ft_strlen(s)).
  */
 char *st_puts(const char *s, char *p);
 

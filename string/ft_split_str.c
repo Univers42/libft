@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 17:50:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 18:15:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:43:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char **ft_split_str(char *str, char *sep)
     int     occ;
     int     end;
 
-    out = ft_calloc((num_blocks(str, sep) + 1), sizeof(char *));
+    out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
     if (out == 0)
         return (0);
     i = 0;
@@ -34,7 +34,7 @@ char **ft_split_str(char *str, char *sep)
             return (out);
         out[occ] = malloc(end - start + 1);
         if (out[occ] == 0)
-            return (free_list((void **)out, occ));
+            return (free_list((void **)out, occ), NULL);
         ft_strlcpy(out[occ++], str + i + start, end - start + 1);
         i += end;
     }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:48:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/30 21:04:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@
 // 				   ansic_quote (element_value(ae), 0, (int *)0) :
 // 				   sh_double_quote (element_value (ae)))
 // 					    : (char *)NULL;
-// 		elen = STRLEN (is) + 8 + STRLEN (valstr);
+// 		elen = ft_strlen (is) + 8 + ft_strlen (valstr);
 // 		RESIZE_MALLOCED_BUFFER (result, rlen, (elen + 1), rsize, rsize);
 
 // 		result[rlen++] = '[';
 // 		strcpy (result + rlen, is);
-// 		rlen += STRLEN (is);
+// 		rlen += ft_strlen (is);
 // 		result[rlen++] = ']';
 // 		result[rlen++] = '=';
 // 		if (valstr) {
 // 			strcpy (result + rlen, valstr);
-// 			rlen += STRLEN (valstr);
+// 			rlen += ft_strlen (valstr);
 // 		}
 
 // 		if (element_forw(ae) != a->head)

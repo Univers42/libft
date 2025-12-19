@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 21:28:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:35:26 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ extern "C"
     char *ft_strdup(const char *s);
 
     /**
-     * Length of string up to and including first occurrence of c (or strlen).
+     * Length of string up to and including first occurrence of c (or ft_strlen).
      * @return number of bytes.
      */
     t_size ft_strclen(const char *s, int c);
@@ -364,8 +364,8 @@ extern "C"
     int ft_strcasecmp(const char *s1, const char *s2);
     int ft_strncasecmp(const char *s1, const char *s2, size_t n);
     bool str_slice_eq_str(char *s, size_t len, char *s2);
-    int num_blocks(char *str, char *sep);
-    int find_block(int *end, char *str, const char *sep);
+    int num_blocks(const char *str, char *sep);
+    int find_block(int *end, const char *str, const char *sep);
     char **ft_split_str(char *str, char *sep);
 
     void trim_newline(char *s);

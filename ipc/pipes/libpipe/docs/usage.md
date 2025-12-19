@@ -69,7 +69,7 @@ int main() {
 
     // Example of writing to the pipe
     const char *message = "Hello, Pipe!";
-    write_all(pipe_fds->w, message, strlen(message));
+    write_all(pipe_fds->w, message, ft_strlen(message));
 
     // Example of reading from the pipe
     char buffer[128];

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:00:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:03:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:53:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int init_varinit_pt2(t_var_state *state, int i)
 	state->varinit[i++] = make_ps4();
 	/* cast callback to the prototype expected by make_optind to avoid
 	   incompatible-pointer-type diagnostics across translation units */
-	state->varinit[i++] = make_optind(state->defoptindvar, (void (*)(void))getoptsreset);
+	state->varinit[i++] = make_optind((void (*)(void))getoptsreset);
 	state->varinit[i] = make_lineno(state->linenovar);
 	state->vlineno_ptr = &state->varinit[i];
 	i++;

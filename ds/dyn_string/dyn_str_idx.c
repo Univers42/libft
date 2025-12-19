@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:36:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:26:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 02:53:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	str_ends_with_str(const char *s)
 	t_dyn_str	*v;
 
 	v = get_dyn_str(NULL);
-	ft_assert(v && v->buff && s);
+	ft_assert(v != NULL && v->buff && s);
 	sl = ft_strlen(s);
 	ft_assert(v->len >= sl);
 	if (sl == 0)
@@ -45,7 +45,7 @@ int	dyn_str_ends_with_str(t_dyn_str *s, const char *suffix)
 {
 	size_t	sl;
 
-	ft_assert(s && s->buff && suffix);
+	ft_assert(s != NULL && s->buff && suffix);
 	sl = ft_strlen(suffix);
 	if (sl == 0)
 		return (1);

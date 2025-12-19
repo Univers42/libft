@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 01:28:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:05:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:08:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_vec create_vec_env(char **envp)
  * 2. Type: `config.type_mask = VEC_TYPE_CUSTOM` - This is a custom
  * struct, not a pointer
  * 3. Memory amangeement: config.copy_fn = NULL, and the other NULL too
- * - use default memcpy for copying/freeing
+ * - use default ft_memcpy for copying/freeing
  *
  * So, what happens is that our vector env when we call the funciton to
  * push into the struct vec_push(&env, str_to_env(*envp)) the vector knows

@@ -106,7 +106,7 @@ that need globbing at the end of the day.
 #define STRCHR(S, C)		wcschr((S), (C))
 #define MEMCHR(S, C, N)		wmemchr((S), (C), (N))
 #define STRCOLL(S1, S2)		wcscoll((S1), (S2))
-#define STRLEN(S)		wcslen(S)
+#define ft_strlen(S)		wcslen(S)
 #define STRCMP(S1, S2)		wcscmp((S1), (S2))
 #define RANGECMP(C1, C2, F)	rangecmp_wc((C1), (C2), (F))
 #define COLLEQUIV(C1, C2)	collseqcmp_wc((C1), (C2))

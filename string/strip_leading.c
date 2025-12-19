@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:44:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 21:28:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char *skip_trailing_flags(char *line, const char *pattern, int flags)
 	/* SUBSTRING mode: repeatedly strip trailing occurrences of pattern */
 	if (flags & SKIP_TRIM_SUBSTR)
 	{
-		plen = strlen(pattern);
+		plen = ft_strlen(pattern);
 		if (plen == 0 || plen > len)
 			return (line);
 		while (len >= plen)

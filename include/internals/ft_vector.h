@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 15:53:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:08:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #define VEC_TYPE_CUSTOM 0x0000 /* user provides copy/free */
 #define VEC_TYPE_PTR 0x0001	   /* stores pointers (char *, void *) - free each pointer */
 #define VEC_TYPE_DYNSTR 0x0002 /* stores t_dyn_str by value - deep copy/free */
-#define VEC_TYPE_PLAIN 0x0004  /* stores plain structs - memcpy, no free */
+#define VEC_TYPE_PLAIN 0x0004  /* stores plain structs - ft_memcpy, no free */
 
 typedef void (*t_elem_free_fn)(void *elem);
 typedef bool (*t_elem_copy_fn)(void *dest, const void *src);

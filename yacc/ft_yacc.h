@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:31:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 16:50:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 04:05:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
  
 typedef struct s_position
 {
-	int	line;
-	int	column;
-	int	idx;
+	size_t	line;
+	size_t	column;
+	size_t	idx;
 }	t_position;
 
 //ytoken, because we already have another struct called token

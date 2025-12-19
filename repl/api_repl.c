@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:52:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 16:16:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:15:48 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static char *getpid_hack(void)
 	char *ret;
 	char **temp;
 	const char *err = "CAnnot get PID.";
+
 	fd = open("/proc/self/stat", O_RDONLY);
 	if (fd < 0)
 	{
@@ -47,7 +48,7 @@ static char *getpid_hack(void)
 		return (0);
 	}
 	dyn_str_init(&file);
-	dyn_str_append_fd(fd, &file);
+	dyn_str_append_fd(&file, fd);
 	close(fd);
 	temp = ft_split(file.buff, ' ');
 	free(file.buff);

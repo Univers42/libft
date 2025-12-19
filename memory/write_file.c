@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:44:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:49:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int write_file(const char *str, int fd)
 {
     if (!str)
         return -1;
-    return write_file_buf(str, strlen(str), fd);
+    return write_file_buf(str, ft_strlen(str), fd);
 }
 
 int	write_to_file(char *str, int fd)

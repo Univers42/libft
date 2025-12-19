@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:31:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 05:17:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 05:20:25 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ typedef struct s_ytoken
 	t_position		position;
 }	t_ytoken;
 
-typedef bool (*t_match_fn)(t_dyn_str *input);
-typedef void (*t_trans_fn)(t_dyn_str value);
+typedef bool (*t_matchfn)(t_dyn_str *input);
+typedef void (*t_transfn)(t_dyn_str value);
 
 typedef struct s_yrule
 {
-	t_match_fn		match;
-	t_trans_fn		transform;
+	t_matchfn		match;
+	t_transfn		transform;
 	t_token_type	type;
 }t_yrule;
 
@@ -85,7 +85,7 @@ typedef struct s_yacc
 t_yacc *yacc_create(t_yopt options);
 int yacc_init(t_yacc *yacc);
 t_yacc *get_yacc(t_yacc *maybe);
-void yacc_add_rule(t_yacc *yacc, t_match_fn match, t_token_type type, t_trans_fn trans);
+void yacc_add_rule(t_yacc *yacc, t_matchfn match, t_token_type type, t_transfn trans);
 void yacc_skip_whitespace(t_yacc *yacc);
 void yacc_update_position(t_yacc *yacc, size_t length);
 bool match_comment(t_dyn_str *input);

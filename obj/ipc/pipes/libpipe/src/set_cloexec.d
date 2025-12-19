@@ -1,0 +1,24 @@
+obj/./ipc/pipes/libpipe/src/set_cloexec.o: \
+  ipc/pipes/libpipe/src/set_cloexec.c include/internals/pipe.h \
+  include/ft_memory.h include/ft_stddef.h include/internals/lifoba.h \
+  include/internals/pool.h include/internals/slab.h \
+  include/internals/arena.h include/ft_string.h \
+  include/internals/bitmap.h
+
+include/internals/pipe.h:
+
+include/ft_memory.h:
+
+include/ft_stddef.h:
+
+include/internals/lifoba.h:
+
+include/internals/pool.h:
+
+include/internals/slab.h:
+
+include/internals/arena.h:
+
+include/ft_string.h:
+
+include/internals/bitmap.h:

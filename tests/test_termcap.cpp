@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 04:29:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ extern "C"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "ft_string.h"
 
 #define C_OK "\033[32m"
 #define C_FAIL "\033[31m"

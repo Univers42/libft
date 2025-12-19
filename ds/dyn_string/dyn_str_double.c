@@ -6,28 +6,61 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:35:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:46:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 02:27:19 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dyn_string.h"
+#include <stdlib.h>
 
-int dyn_str_double(void)
+void	str_replace_buff(t_dyn_str *v, char *new_buff, size_t new_cap)
 {
-    char *tmp;
-    size_t newcap;
+	ft_assert(v && new_buff);
+	new_buff[v->len] = 0;
+	free(v->buff);
+	v->buff = new_buff;
+	v->cap = new_cap;
+}
 
-    if (!v)
-        return (0);
-    newcap = (v->cap == 0) ? 64 : v->cap * 2;
-    tmp = malloc(newcap);
-    if (!tmp)
-        return (0);
-    if (v->buff && v->len)
-        memcpy(tmp, v->buff, v->len);
-    tmp[v->len] = 0;
-    free(v->buff);
-    v->buff = tmp;
-    v->cap = newcap;
-    return (1);
+void	dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap)
+{
+	ft_assert(s && new_buff);
+	new_buff[s->len] = 0;
+	free(s->buff);
+	s->buff = new_buff;
+	s->cap = new_cap;
+}
+
+int	str_double(void)
+{
+	char		*tmp;
+	size_t		newcap;
+	t_dyn_str	*v;
+
+	v = get_dyn_str(NULL);
+	ft_assert(v);
+	newcap = 64;
+	if (v->cap != 0)
+		newcap = v->cap * 2;
+	tmp = xmalloc(newcap);
+	if (v->buff && v->len)
+		memcpy(tmp, v->buff, v->len);
+	dyn_str_replace_buff(v, tmp, newcap);
+	return (1);
+}
+
+int	dyn_str_double(t_dyn_str *s)
+{
+	size_t	newcap;
+	char	*tmp;
+
+	ft_assert(s);
+	newcap = 64;
+	if (s->cap)
+		newcap = s->cap * 2;
+	tmp = xmalloc(newcap);
+	if (s->buff && s->len)
+		ft_memcpy(tmp, s->buff, s->len);
+	dyn_str_replace_buff(s, tmp, newcap);
+	return (1);
 }

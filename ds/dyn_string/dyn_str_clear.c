@@ -6,13 +6,37 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:25:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 01:46:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 02:27:41 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dyn_string.h"
 
-void	dyn_str_clear()
+void	str_clear(void)
 {
+	t_dyn_str	*v;
+
+	v = get_dyn_str(NULL);
 	v->len = 0;
+	if (v->buff)
+		v->buff[0] = 0;
+}
+
+void	dyn_str_clear(t_dyn_str *s)
+{
+	ft_assert(s);
+	s->len = 0;
+	if (s->buff)
+		s->buff[0] = 0;
+}
+
+void	dyn_str_free(t_dyn_str *s)
+{
+	if (s && s->buff)
+	{
+		free(s->buff);
+		s->buff = NULL;
+		s->cap = 0;
+		s->len = 0;
+	}
 }

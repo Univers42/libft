@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:06:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:27:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 01:02:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,14 +201,14 @@ char *get_next_line(int fd)
 }
 
 // int main(int argc, char **argv)
-//{
+// {
 //     char	*line;
 //     int		fd;
 //     int		i;
-//
-//	i = 0;
+
+// 	i = 0;
 //     if (argc < 2)
-//		return (fprintf(stderr, "Usage: %s <filename>\n", argv[0]), 1);
+// 		return (fprintf(stderr, "Usage: %s <filename>\n", argv[0]), 1);
 //     fd = open(argv[1], O_RDONLY);
 //     if (fd < 0)
 //         return (perror("open"), 1);

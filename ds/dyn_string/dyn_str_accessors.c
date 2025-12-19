@@ -10,10 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	dyn_str_uppdate_len(size_t val)
+#include "dyn_string.h"
+
+void	str_uppdate_len(size_t val)
 {
-	t_dyn_str *str;
+	t_dyn_str	*str;
 
 	str = get_dyn_str(NULL);
 	str->len = val;
+}
+
+t_dyn_str	*get_dyn_str(t_dyn_str *maybe)
+{
+	static t_dyn_str	str = {0};
+
+	if (maybe)
+		return (maybe);
+	return (&str);
 }

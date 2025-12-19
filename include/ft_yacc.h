@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:31:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 04:05:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 04:41:07 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /**
  * t_token type is already present into lexer.h so we don't need to recreate it
@@ -74,5 +79,32 @@ typedef struct s_yacc
 	t_yopt		options;
 }	t_yacc;
 
+#ifdef __cplusplus
+}
+
+t_yacc *yacc_create(t_yopt options);
+int yacc_init(t_yacc *yacc);
+t_yacc *get_yacc(t_yacc *maybe);
+void yacc_add_rule(t_yacc *yacc, match_fn match, t_token_type type, trans_fn trans);
+void yacc_skip_whitespace(t_yacc *yacc);
+void yacc_update_position(t_yacc *yacc, size_t length);
+bool match_comment(t_dyn_str *input);
+bool match_identifier(t_dyn_str *input);
+bool match_number(t_dyn_str *input);
+bool match_sqstring(t_dyn_str *input);
+bool match_dqstring(t_dyn_str *input);
+bool match_variable(t_dyn_str *input);
+bool match_keyword(t_dyn_str *input);
+bool match_operator(t_dyn_str *input);
+bool match_pipe(t_dyn_str *input);
+bool match_and(t_dyn_str *input);
+bool match_or(t_dyn_str *input);
+t_ytoken *yacc_next_token(t_yacc *yacc);
+t_ytoken **yacc_tokenize_all(t_yacc *yacc, int *token_count);
+t_yacc *yacc_create(t_yopt options);
+void yacc_destroy(t_yacc *yacc);
+void yacc_setup_deft_lexer(t_yacc *yacc);
+
+#endif
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:03:09 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 01:48:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 05:06:03 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void print_tokens(t_deque *tokens)
     i = 0;
     printf("\n");
     printf(CYAN_TERM "╔════════════════════════════════════════════════════════════════════════════╗\n" RESET_TERM);
-    printf(CYAN_TERM "║" RESET_TERM BOLD_TERM "                           TOKEN LIST                                   " RESET_TERM CYAN_TERM "║\n" RESET_TERM);
+    printf(CYAN_TERM "║" RESET_TERM BOLD_TERM "                           TOKEN LIST                                       " RESET_TERM CYAN_TERM "║\n" RESET_TERM);
     printf(CYAN_TERM "╚════════════════════════════════════════════════════════════════════════════╝\n" RESET_TERM);
     printf(GREY_TERM "Total tokens: %d\n\n" RESET_TERM, (int)tokens->len);
 
@@ -92,7 +92,7 @@ void print_tokens(t_deque *tokens)
         }
 
         /* Print row with proper padding */
-        printf(CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s " CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s " CYAN_TERM "║\n" RESET_TERM,
+        printf(CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s " CYAN_TERM "║" RESET_TERM " %3d " CYAN_TERM "║" RESET_TERM " %s%-30s%s" CYAN_TERM "║\n" RESET_TERM,
                i, color, name, RESET_TERM, curr->len, GREY_TERM, lexeme_buf, RESET_TERM);
         i++;
     }

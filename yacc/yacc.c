@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:40:33 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 05:20:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 05:25:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ int yacc_init(t_yacc *yacc)
  * Add a rule to the yacc parser
  * Works with both singleton and custom structures
  */
-void yacc_add_rule(t_yacc *yacc, t_matchfn match, t_token_type type, t_transfn trans)
+void yacc_add_rule(t_yacc *yacc, t_matchfn match_fn, t_token_type type_en, t_transfn trans_fn)
 {
     t_yacc *y = get_yacc(yacc);
     t_yrule rule;
 
     ft_assert(y != NULL);
-    rule.match = match;
-    rule.type = type;
-    rule.transform = trans;
+    rule.match = match_fn;
+    rule.type = type_en;
+    rule.transform = trans_fn;
     vec_push(&y->rules, &rule);
 }
 

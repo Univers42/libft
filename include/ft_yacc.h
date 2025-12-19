@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 14:31:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 05:20:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 05:25:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_yacc
 t_yacc *yacc_create(t_yopt options);
 int yacc_init(t_yacc *yacc);
 t_yacc *get_yacc(t_yacc *maybe);
-void yacc_add_rule(t_yacc *yacc, t_matchfn match, t_token_type type, t_transfn trans);
+void yacc_add_rule(t_yacc *yacc, t_matchfn match_fn, t_token_type type_en, t_transfn trans_fn);
 void yacc_skip_whitespace(t_yacc *yacc);
 void yacc_update_position(t_yacc *yacc, size_t length);
 bool match_comment(t_dyn_str *input);

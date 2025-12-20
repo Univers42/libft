@@ -6,12 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:01:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 03:23:25 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 03:24:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_memory.h"
+#include "ft_debug.h"
 
 // ...existing code...
 int	find_block(int *end, const char *str, const char *sep)

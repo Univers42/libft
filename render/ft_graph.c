@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_graph.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:05:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 19:58:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:30:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	print_graph_row(int *values, int count, t_graph_params params)
 	{
 		bar_height = (values[i] * params.max_height) / params.max_val;
 		if (bar_height >= params.row)
-			ft_printf("%s█%s", GREEN_TERM, RESET_TERM);
+			ft_printf("%s█%s", ASCII_GREEN, RESET_TERM);
 		else
 			ft_printf(" ");
 		i++;

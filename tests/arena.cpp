@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:06:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 01:02:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:03:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,6 @@ void *ft_memmove(void *dst, const void *src, size_t n)
             *--d = *--s;
     }
     return (dst);
-}
-
-size_t ft_strclen(const char *s, int c)
-{
-    size_t i;
-
-    i = 0;
-    while (s && s[i] && s[i] != (char)c)
-        i++;
-    return (i);
-}
-
-char *ft_strndup(const char *s, size_t n)
-{
-    char *dup;
-
-    dup = (char *)st_alloc(n + 1);
-    if (!dup)
-        return (NULL);
-    ft_memmove(dup, s, n);
-    dup[n] = '\0';
-    return (dup);
 }
 
 char *ft_strjoin_gnl(char *s1, const char *s2)

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   icp.h                                              :+:      :+:    :+:   */
+/*   ipc.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:17:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 19:18:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:24:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IPC_H
 # define IPC_H
 
-# include "trap.h"
-# include "pipe.h"
+# include "internals/trap.h"
+# include "internals/pipe.h"
 
 # endif

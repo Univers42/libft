@@ -3,70 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 21:49:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 14:50:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:22:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "ds.h"
-#include <stdint.h> /* added for uintptr_t */
-#include <ctype.h>	/* for isprint */
+#include <stdint.h>
+#include <ctype.h>
 
-/* Helper: characters that we treat as explicit operators/separators for tokenization.
-   Stop word-scanning when we encounter any of these (or whitespace/newline/quotes). */
-static inline bool is_op_char(char c)
+/* Helper: characters that we treat as
+	explicit operators/separators for tokenization.
+	Stop word-scanning when we encounter any of these
+	(or whitespace/newline/quotes). */
+static inline bool	is_op_char(char c)
 {
 	return (c == '|' || c == '&' || c == ';' || c == '<' || c == '>' ||
 			c == '(' || c == ')' || c == '{' || c == '}' || c == '\n');
 }
 
-static char *parse_squote(t_deque *tokens, char **str)
+static char	*parse_squote(t_deque *tokens, char **str)
 {
-	char *start = *str;
+	char	*start = *str;
 
 	ft_assert(**str == '\'');
-	(*str)++; /* consume opening quote */
-
+	(*str)++;
 	while (**str && **str != '\'')
 		(*str)++;
-
 	if (**str != '\'')
-		return (LEXER_SQUOTE_PROMPT); /* unclosed */
-
-	(*str)++; /* consume closing quote */
-
+		return (LEXER_SQUOTE_PROMPT);
+	(*str)++;
 	deque_push_end(tokens, &(t_token){
-							   .start = start + 1,		/* skip opening quote */
-							   .len = *str - start - 2, /* exclude both quotes */
+							   .start = start + 1,
+							   .len = *str - start - 2,
 							   .type = TOKEN_SQUOTE_STRING});
 	return (0);
 }
 
-static char *parse_dquote(t_deque *tokens, char **str)
+static char	*parse_dquote(t_deque *tokens, char **str)
 {
-	char *start = *str;
-	bool prev_bs = false;
+	char	*start;
+	bool	prev_bs;
 
+	prev_bs = false;
+	start = *str;
 	ft_assert(**str == '"');
-	(*str)++; /* consume opening quote */
-
+	(*str)++;
 	while (**str && (**str != '"' || prev_bs))
 	{
 		prev_bs = **str == '\\' && !prev_bs;
 		(*str)++;
 	}
-
 	if (**str != '"')
-		return (LEXER_DQUOTE_PROMPT); /* unclosed */
-
-	(*str)++; /* consume closing quote */
-
+		return (LEXER_DQUOTE_PROMPT);
+	(*str)++;
 	deque_push_end(tokens, &(t_token){
-							   .start = start + 1,		/* skip opening quote */
-							   .len = *str - start - 2, /* exclude both quotes */
+							   .start = start + 1,
+							   .len = *str - start - 2,
 							   .type = TOKEN_DQUOTE_STRING});
 	return (0);
 }
@@ -78,25 +74,20 @@ char *parse_word(t_deque *tokens, char **str)
 	start = *str;
 	while (**str)
 	{
-		/* backslash escaping */
 		if (**str == '\\')
 			advance_bs(str);
-		/* stop on quotes, dollar, newline, whitespace, or operator characters */
-		else if (**str == '\'' || **str == '"' || **str == '$' || **str == '\n' || ft_isspace((int)**str) || is_op_char(**str))
+		else if (**str == '\'' || **str == '"' || **str == '$'
+			|| **str == '\n' || ft_isspace((int)**str) || is_op_char(**str))
 			break;
-		/* allow printable chars as part of a word (this includes '/', '.', '-', etc.) */
 		else if ((unsigned char)**str >= 32 && isprint((unsigned char)**str))
 			(*str)++;
 		else
 			break;
 	}
-
-	/* Only emit WORD if we consumed something */
 	if (*str > start)
-	{
 		deque_push_end(
-			tokens, &(t_token){.start = start, .len = (int)(*str - start), .type = TOKEN_WORD});
-	}
+			tokens, &(t_token){.start = start, .len
+				= (int)(*str - start), .type = TOKEN_WORD});
 	return (0);
 }
 
@@ -141,15 +132,12 @@ char *tokenizer(char *str, t_deque *ret)
 	deque_clear(ret);
 	while (str && *str)
 	{
-		/* Handle quotes separately */
 		if (*str == '\'')
 			prompt = parse_squote(ret, &str);
 		else if (*str == '"')
 			prompt = parse_dquote(ret, &str);
-		/* dollar always starts expansion/token */
 		else if (*str == '$')
 			prompt = parse_word(ret, &str);
-		/* newline token */
 		else if (*str == '\n')
 		{
 			deque_push_end(ret, &(t_token){
@@ -159,14 +147,11 @@ char *tokenizer(char *str, t_deque *ret)
 									.allocated = false});
 			str++;
 		}
-		/* skip pure whitespace */
 		else if (ft_isspace((int)*str))
 			str++;
-		/* if it's an operator char, parse as operator(s) */
 		else if (is_op_char(*str) || *str == '|' || *str == '&' || *str == ';' || *str == '<' || *str == '>' ||
 				 *str == '(' || *str == ')' || *str == '{' || *str == '}')
 			parse_op(ret, &str);
-		/* otherwise parse as word */
 		else
 			prompt = parse_word(ret, &str);
 		if (prompt)
@@ -178,9 +163,7 @@ char *tokenizer(char *str, t_deque *ret)
 	return (prompt);
 }
 
-/* Test helper: deliberately trigger ft_assert failure for verification */
 void trigger_assert_fail(void)
 {
-	/* Force a failing assertion so the project's assertion handler/routine can be verified */
 	ft_assert(0 && "Deliberate ft_assert failure triggered by trigger_assert_fail");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dyn_string.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:15:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:55:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_dyn_str
 	size_t	len;
 	size_t	pos;
 	char	*buff;
+	void	*data;
 }	t_dyn_str;
 
 /**
@@ -70,4 +71,5 @@ void    dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap);
 bool    dyn_str_check_at(t_dyn_str *s, size_t pos, int (*fn)(int), const char *cmp);
 void	dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap);
 void	dyn_str_append_fd(t_dyn_str *str, int fd);
+void	dyn_str_update_pos(t_dyn_str *v, size_t val);
 #endif

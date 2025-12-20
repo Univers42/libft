@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ctype.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 00:18:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 21:37:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:32:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ bool	is_custom_set(int c, const char *set);
 int     is_int_name(int c);
 bool    is_spechr(int c);
 bool    is_escapable(int c);
+bool	is_metachar(int c);
 #endif

@@ -102,6 +102,7 @@ typedef enum s_severity
 typedef enum e_state
 {
 	ST_FILE_NOT_FOUND = -2,
+	ST_ERR,
 	ST_FILE_ERR_FATAL_MEMORY,
 	ST_OK = 0,
 	ST_DONE = 0,

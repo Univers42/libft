@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glob.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 00:27:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:49:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:56:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <sys/types.h>
-#include "ft_list.h"
+#include "internals/ft_list.h"
 
 /* Minimal built-in command descriptor used by the command-table union. */
 typedef struct s_builtincmd

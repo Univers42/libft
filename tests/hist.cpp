@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hist.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 13:40:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:30:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // // static const char *CLR_BLUE = "\033[34m";
 // // static const char *CLR_CYAN = "\033[36m";
 // // static const char *CLR_MAGENTA = "\033[35m";
-// // static const char *CLR_GREEN = GREEN_TERM;
+// // static const char *CLR_GREEN = ASCII_GREEN;
 // typedef struct s_app
 // {
 // 	t_dyn_str input;

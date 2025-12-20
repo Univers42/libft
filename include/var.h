@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   var.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 02:51:20 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:51:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:37:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VAR_H
 # define VAR_H
 
-#include <stddef.h>
-#include <inttypes.h>
-#include <string.h>
-#include "ds.h"
-#include "private_var.h"
+# include <stddef.h>
+# include <inttypes.h>
+# include <string.h>
+# include "ds.h"
+# include "internals/private_var.h"
 
 // typedef struct s_var			t_var;
 // typedef struct s_localvar		t_localvar;
@@ -202,9 +202,7 @@ int	            var_cmp(const char *p, const char *q);
  * @return An integer <, ==, or > 0.
  */
 int				var_vpcmp(const void *a, const void *b);
-char *env_expand_n(char *last_cmd_status_s, char *pid, char *key, int len, t_vec *env);
-
-
-
+char			*env_expand_n(char *last_cmd_status_s, char *pid,
+					char *key, int len, t_vec *env);
 
 #endif

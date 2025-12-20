@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getpid.c                                        :+:      :+:    :+:   */
+/*   xgetpid.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 19:12:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:18:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:27:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ft_stdlib.h"
-# include "ds.h"
-# include "ft_stdio.h"
-# include "ft_string.h"
-# include "ft_stddef.h"
+#include "ft_stdlib.h"
+#include "ds.h"
+#include "ft_stdio.h"
+#include "ft_string.h"
+#include "ft_stddef.h"
 
-static void free_tab(char **tab)
+static void	free_tab(char **tab)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ char	*xgetpid(void)
 	if (fd < 0)
 	{
 		warning_error("Cannot get PID.");
-		return(0);
+		return (0);
 	}
 	dyn_str_init(&file);
 	dyn_str_append_fd(&file, fd);

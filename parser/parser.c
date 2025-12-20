@@ -3,32 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 02:49:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 04:20:22 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:30:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "lexer.h"
-
-// t_ast_node	parser_subshell()
-// {
-
-// }
-
-// t_ast_node	parse_pipeline()
-// {
-
-// }
-
-// t_ast_node	create_subtoken_node()
-// {
-
-// }
-
-// t_ast_node	parse_tokens()
-// {
-	
-// }

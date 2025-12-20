@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   analyzer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 19:21:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 19:21:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:27:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ANALYZER_H
 # define ANALYZER_H
-# include "parser.h"
-# include "lexer.h"
+# include "internals/parser.h"
+# include "internals/lexer.h"
 
 #endif

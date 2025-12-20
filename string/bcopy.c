@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bcopy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 20:52:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:06:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:17:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void	forward_word_copy(const unsigned char **ps,
 	word_count = *pn / sizeof(size_t);
 	if (word_count == 0)
 		return ;
-	/* cast via uintptr_t to avoid direct char* -> size_t* cast which can warn */
 	sw = (size_t *)(uintptr_t)(*ps);
 	dw = (size_t *)(uintptr_t)(*pd);
 	while (word_count > 0)
@@ -117,16 +116,15 @@ static void	forward_word_copy(const unsigned char **ps,
 static void	backward_word_copy(const unsigned char **ps,
 					unsigned char **pd, size_t *pn)
 {
-	size_t	word_count;
-	size_t	*sw;
-	size_t	*dw;
+	size_t		word_count;
+	size_t		*sw;
+	size_t		*dw;
 	uintptr_t	base_s;
 	uintptr_t	base_d;
 
 	word_count = *pn / sizeof(size_t);
 	if (word_count == 0)
 		return ;
-	/* compute end addresses then cast via uintptr_t */
 	base_s = (uintptr_t)(*ps + *pn);
 	base_d = (uintptr_t)(*pd + *pn);
 	sw = (size_t *)base_s;

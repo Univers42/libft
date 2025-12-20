@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 19:57:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 21:21:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:56:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	ft_strcasecmp(const char *s1, const char *s2)
 
 int	ft_strncasecmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned char c1;
-	unsigned char c2;
+	unsigned char	c1;
+	unsigned char	c2;
 
 	while (*s1 && *s2 && n--)
 	{

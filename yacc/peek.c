@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnlen.c                                       :+:      :+:    :+:   */
+/*   peek.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 15:54:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 15:54:46 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/10/26 17:51:17 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/19 18:16:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <stdio.h>
+#include "lexer.h"
 
-size_t	ft_strnlen(const char *s, size_t maxlen)
+char	peek(t_scanner *scan)
 {
-	size_t	len;
+	return (*(scan->current));
+}
 
-	len = 0;
-	while (len < maxlen && s[len] != '\0')
-		len++;
-	return (len);
+char	peek_next(t_scanner *scan)
+{
+	if (scan_is_at_end(scan))
+		return ('\0');
+	return (scan->current[1]);
 }

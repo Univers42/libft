@@ -3,21 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   parser_simple_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 02:49:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 04:20:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:30:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-// int parse_simple_list_s()
-// {
-    
-// }
-
-// t_ast_node      parse_simple_list()
-// {
-    
-// }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   is_ecapable.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:32:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/12 21:33:06 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:38:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 
-bool    is_escapable(int c)
+bool	is_escapable(int c)
 {
-    return (c == '\\' || c == '$');
+	return (c == '\\' || c == '$');
 }

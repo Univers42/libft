@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   is_meta_char.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 23:26:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 17:14:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:56:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdbool.h>
+#include "ft_string.h"
 
 int	is_meta_char(int c)
 {
@@ -16,4 +19,11 @@ int	is_meta_char(int c)
 		|| c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'
 		|| c == ' ' || c == '\t' || c == '$' || c == '`' || c == '\\'
 		|| c == '"' || c == '\'' || c == '#');
+}
+
+bool	is_metachar(int c)
+{
+	const char	*metachars = "|&;<>(){}[]'\"`\\$#~*?";
+
+	return (c && ft_strchr(metachars, c) != NULL);
 }

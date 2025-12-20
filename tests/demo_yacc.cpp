@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   demo_yacc.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 04:30:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 05:05:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:02:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,25 @@ int main()
         std::cerr << "Failed to create yacc parser\n";
         return 1;
     }
-
-    const char *src = "echo \"hello world\" | grep hello && echo $USER #end\n";
+    const char *src =
+        "#!/bin/bash\n"
+        "function compute() {\n"
+        "  local sum=0\n"
+        "  for i in 1 2 3 4; do\n"
+        "    sum $((sum + i))\n"
+        "  done\n"
+        "  if [ $sum -gt 5 ]; then\n"
+        "    echo \"big\"\n"
+        "    return (0)\n"
+        "  else\n"
+        "    echo \"small\"\n"
+        "    return (1)\n"
+        "  fi\n"
+        "}\n"
+		"((cat - e \"this is a subshell\"))"
+        "\n"
+        "# call compute with fallback and pipe its output\n"
+        "compute ${ARGS:-default} | grep big && echo \"done\" # end\n";
     y->input.buff = ft_strdup(src);
     if (!y->input.buff)
     {

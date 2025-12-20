@@ -28,3 +28,8 @@ t_dyn_str	*get_dyn_str(t_dyn_str *maybe)
 		return (maybe);
 	return (&str);
 }
+
+void	dyn_str_update_pos(t_dyn_str *v, size_t val)
+{
+	v->pos = val;
+}

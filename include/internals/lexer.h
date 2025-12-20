@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 02:50:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:51:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 01:55:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef enum e_token_type
 	// Command and Arithmetic Substitution starters belong here as they define groups
 	TOKEN_CMD_SUBST_START, // $(   - Control substitution (was TOKEN_DOLLAR_LPAREN)
 	TOKEN_ARITH_EXP_START, // $((  - Arithmetic expansion (was TOKEN_DOLLAR_DPAREN)
+	TOKEN_ARITH_EXP_END,   // ))   - Arithmetic expansion end
 
 	/* === 400-499: CAT_KEYWORDS - Shell Keywords - Reserved words === */
 	TOKEN_KEYWORDS = CAT_KEYWORDS,
@@ -123,6 +124,7 @@ typedef enum e_token_type
 	TOKEN_ELSE,		// else
 	TOKEN_ELIF,		// elif
 	TOKEN_FI,		// fi
+	TOKEN_RETURN,   // return
 	TOKEN_CASE,		// case
 	TOKEN_ESAC,		// esac
 	TOKEN_FOR,		// for
@@ -240,6 +242,9 @@ typedef enum e_token_type
 	TOKEN_DQENVVAR,
 	TOKEN_SENTINEL
 } t_token_type;
+
+#define FMT_TOKEN "|@$%&/()=?¿'{}[]^*`+.,-;:"
+#define BIT_BUFFER 8
 
 typedef enum e_stream_type
 {

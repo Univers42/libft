@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cpy.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:34:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:54:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:02:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_memory.h"
 
 char	*ft_strcpy(char *dest, const char *src)
 {
@@ -83,4 +84,13 @@ t_size	ft_strlcpy(char *dst, const char *src, t_size dsize)
 		dst[i] = '\0';
 	}
 	return (ft_strlen(src));
+}
+
+char	*strpcpy(char *dst, const char *src)
+{
+	size_t	len;
+
+	len = ft_strlen(src);
+	dst[len] = 0;
+	return (ft_memcpy(dst, src, len));
 }

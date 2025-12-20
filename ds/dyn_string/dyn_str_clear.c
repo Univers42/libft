@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dyn_str_clear.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:25:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:52:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 16:21:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,14 @@ void	dyn_str_free(t_dyn_str *s)
 		s->buff = NULL;
 		s->cap = 0;
 		s->len = 0;
+	}
+}
+
+void	dyn_str_destroy(t_dyn_str *to_empty)
+{
+	if (to_empty->buff)
+	{
+		free(to_empty->buff);
+		to_empty->buff = NULL;
 	}
 }

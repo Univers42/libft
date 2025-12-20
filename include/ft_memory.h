@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memory.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:40:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 16:52:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,55 @@ extern "C"
 	//void	ast_postorder_traversal(t_ast_node *node, void (*f)(t_ast_node *node));
 	void    *xcalloc(size_t nmemb, size_t size);
 	bool	check_overflow(size_t n, size_t size);
+	static inline void	buffer_destroy(void **to_empty, size_t size)
+	{
+		size_t i;
 	
+		if (!to_empty)
+			return ;
+		i = -1;
+		while (++i < size)
+		{
+			if (to_empty[i])
+				free(to_empty[i]);
+		}
+		free(to_empty);
+	}
+	/**
+	 * Generic free function:
+	 * @param data: pointer to the data to free
+	 * @param count: number of elements in the data
+	 * @param elem_size: size of each element
+	 * @param free_elem: function pointer to free each element (can be NULL)
+	 * 
+	 * for an array of pointers pass elemt_size as sizeof(void *)
+	 * and free_elem as the function to free each element
+	 * for raw buffers that just need a single free pass
+	 * put -> elem_size as 0 and free_elem as NULL
+	 * @note `free_any(array_of_pointers, count, sizeof(void *), free)`;
+	 * @note `free_any(raw_buffer, 1, 0, NULL)`;
+	 */
+	static inline void	destroy(void *data, size_t count, size_t elem_size, void (*free_elem)(void *))
+	{
+		size_t	i;
+		char	*ptr;
+		void	*next;
 	
+		if (!data)
+			return ;
+		if (free_elem)
+		{
+			ptr = (char *)data;
+			i = -1;
+			while (++i < count)
+			{
+				next = *(void **)(ptr + i * elem_size);
+				if (next)
+					free_elem(next);
+			}
+		}
+		free(data);
+	}
 #ifdef __cplusplus
 }
 #endif

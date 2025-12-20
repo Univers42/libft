@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:04:20 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/06/04 14:15:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:16:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_string.h"
 //#include "TDD/test.h"
+
 /**
  * Concatenates the string `s2` to the end of 
  * the string `s1` and returns a new string.

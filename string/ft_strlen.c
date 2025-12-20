@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:25:43 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/22 00:08:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:59:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,29 @@ size_t	ft_strlen(const char *s)
 		;
 	return ((ptr - s) - 1);
 }
+
+size_t	ft_strnlen(const char *s, size_t maxlen)
+{
+	size_t	len;
+
+	len = 0;
+	while (len < maxlen && s[len] != '\0')
+		len++;
+	return (len);
+}
+
+t_size	ft_strclen(const char *s, int c)
+{
+	t_size	len;
+
+	if (!s)
+		return (0);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
+}
+
 //size_t ft_strlen(const char *s)
 //{
 //    const char *start;

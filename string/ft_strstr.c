@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:37:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 13:32:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:04:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,34 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		if (ft_strncmp(&haystack[i], needle, needle_len) == 0)
 			return ((char *)&haystack[i]);
 		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, t_size n)
+{
+	const char	*sub_haystack;
+	const char	*sub_needle;
+	t_size		remaining;
+
+	if (*needle == '\0')
+		return ((char *)haystack);
+	while (*haystack && n > 0)
+	{
+		sub_haystack = haystack;
+		sub_needle = needle;
+		remaining = n;
+		while (*sub_haystack && *sub_needle
+			&& *sub_haystack == *sub_needle && remaining > 0)
+		{
+			sub_haystack++;
+			sub_needle++;
+			remaining--;
+		}
+		if (*sub_needle == '\0')
+			return ((char *)haystack);
+		n--;
+		haystack++;
 	}
 	return (NULL);
 }

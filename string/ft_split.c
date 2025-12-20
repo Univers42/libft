@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/12/19 03:42:59 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 03:24:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,19 @@
 #include <sys/stat.h>
 #include "ft_memory.h"
 #include "ft_string.h"
+
 //#include "TDD/test.h"
+
+int	safe_alloc(char **token_v, size_t pos, size_t buffer);
+int	allocate_and_copy_token(char **tokens,
+		char **current_token,
+		const char *start,
+		size_t len);
+int	allocate_and_copy_tokens(char **tokens,
+		const char *s,
+		char delimiter,
+		size_t token_count);
+int	count_segments(const char *str, char delimiter);
 
 /**
  * @description:
@@ -30,88 +42,7 @@
  * @return a new multidimensional array of characters, NULL if faulty
  */
 
- #ifdef SPLIT_OPT
-static int	safe_alloc(char **token_v, size_t pos, size_t buffer)
-{
-	size_t	i;
-
-	i = 0;
-	token_v[pos] = malloc(buffer);
-	if (!token_v[pos])
-	{
-		while (i < pos)
-			free(token_v[i++]);
-		free(token_v);
-		return (1);
-	}
-	return (0);
-}
-
-static int	allocate_and_copy_token(char **tokens,
-									char **current_token,
-									const char *start,
-									size_t len)
-{
-	char	*token;
-
-	if (safe_alloc(tokens, current_token - tokens, len + 1))
-		return (1);
-	token = *current_token;
-	while (len--)
-		*token++ = *start++;
-	*token = '\0';
-	return (0);
-}
-
-static int	allocate_and_copy_tokens(char **tokens,
-									const char *s,
-									char delimiter,
-									size_t token_count)
-{
-	char		**current_token;
-	const char	*start;
-	size_t		len;
-
-	current_token = tokens;
-	while (*s && current_token < tokens + token_count)
-	{
-		while (*s == delimiter)
-			s++;
-		start = s;
-		while (*s && *s != delimiter)
-			s++;
-		if (start != s)
-		{
-			len = s - start;
-			if (allocate_and_copy_token(tokens, current_token, start, len))
-				return (1);
-			current_token++;
-		}
-	}
-	return (0);
-}
-
-static int	count_segments(const char *str, char delimiter)
-{
-	size_t	segment;
-	int		in_segment;
-
-	segment = 0;
-	in_segment = 0;
-	while (*str)
-	{
-		if (*str == delimiter)
-			in_segment = 0;
-		else if (!in_segment)
-		{
-			in_segment = 1;
-			segment++;
-		}
-		str++;
-	}
-	return (segment);
-}
-
+#ifdef SPLIT_OPT
 
 char	**ft_split(char const *s, char c)
 {
@@ -129,9 +60,9 @@ char	**ft_split(char const *s, char c)
 		return (free(token_v), NULL);
 	return (token_v);
 }
-# else
+#else
 
-char **ft_split(char const *str, char c)
+char	**ft_split(char const *str, char c)
 {
 	char	**out;
 	int		i;
@@ -158,4 +89,31 @@ char **ft_split(char const *str, char c)
 	return (out);
 }
 
-# endif
+char	**ft_split_str(char *str, char *sep)
+{
+	char	**out;
+	int		i;
+	int		start;
+	int		occ;
+	int		end;
+
+	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
+	if (out == 0)
+		return (0);
+	i = 0;
+	occ = 0;
+	while (str[i] != 0)
+	{
+		start = find_block(&end, str + i, sep);
+		if (start == -1)
+			return (out);
+		out[occ] = malloc(end - start + 1);
+		if (out[occ] == 0)
+			return (free_list((void **)out, occ), NULL);
+		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
+		i += end;
+	}
+	return (out);
+}
+
+#endif

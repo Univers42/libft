@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tgetent.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:36:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:00:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:51:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	read_and_process_file(t_tgetent_ctx *ctx, char *bp,
 static void	finalize_entry(t_tgetent_ctx *ctx, char *bp)
 {
 	if (ctx->malloc_size)
-		ctx->bp = (char *)xrealloc(ctx->bp, ctx->bp1 - ctx->bp ,ctx->bp1 - ctx->bp + 1);
+		ctx->bp = (char *)xrealloc(ctx->bp, ctx->bp1 - ctx->bp,
+				ctx->bp1 - ctx->bp + 1);
 	if (ctx->bp)
 		access_glob()->term_entry = ctx->bp;
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tgetent2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:49:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:50:08 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 02:52:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static void	copy_strip_backslash(char **dest, char **src)
 /* ensure ctx->bp has enough capacity when ctx->malloc_size is set */
 static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buffer *buf)
 {
-	char	*tmp;
-	const size_t old_size = ctx->malloc_size;
+	const size_t	old_size = ctx->malloc_size;
+	char			*tmp;
 
 	ctx->malloc_size = ctx->bp1 - ctx->bp + buf->size;
-	tmp = (char *)xrealloc(ctx->bp, old_size ,ctx->malloc_size);
+	tmp = (char *)xrealloc(ctx->bp, old_size, ctx->malloc_size);
 	ctx->bp1 += tmp - ctx->bp;
 	ctx->bp = tmp;
 }

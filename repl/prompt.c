@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 18:45:44 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:19:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 {
 	t_dyn_str p;
 	t_dyn_str cwd;
-	t_vcs_info git;
 	char *user;
 	char *short_path;
 	char time_buf[32];
@@ -31,6 +30,12 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	int chrono_w;
 	int pad;
 
+	static char *cached_git_branch = NULL;
+	static int cached_git_dirty = 0;
+	static char *cached_cwd = NULL;
+	char *curr_cwd;
+	int need_refresh = 0;
+
 	(void)st_s;
 	dyn_str_init(&p);
 	ensure_locale();
@@ -38,7 +43,23 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	if (!user)
 		user = "inferno";
 	cap_cmd("pwd", &cwd);
-	git = get_git();
+	curr_cwd = cwd.buff;
+
+	// Only refresh git info if cwd changed
+	if (cached_cwd == NULL || strcmp(cached_cwd, curr_cwd) != 0)
+		need_refresh = 1;
+	if (need_refresh) {
+		t_vcs_info git = get_git();
+		if (cached_git_branch)
+			free(cached_git_branch);
+		cached_git_branch = git.data ? ft_strdup(git.data) : NULL;
+		cached_git_dirty = git.dirty;
+		if (cached_cwd)
+			free(cached_cwd);
+		cached_cwd = ft_strdup(curr_cwd);
+		if (git.data)
+			free(git.data);
+	}
 	cols = get_cols();
 	status = st_res->status;
 	short_path = shorten_path(cwd.buff, cols - 60);
@@ -74,20 +95,19 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	dyn_str_pushstr(&p, RESET);
 
 	/* Git segment */
-	if (git.ok)
+	if (cached_git_branch)
 	{
 		dyn_str_pushstr(&p, FG_CHARCOAL);
 		dyn_str_pushstr(&p, SEP_GIT);
 		dyn_str_pushstr(&p, RESET);
-		if (git.dirty)
+		if (cached_git_dirty)
 			dyn_str_pushstr(&p, FG_PURPLE);
 		else
 			dyn_str_pushstr(&p, FG_ASH);
 		dyn_str_pushstr(&p, GIT_ICON);
 		dyn_str_pushstr(&p, " ");
-		dyn_str_pushstr(&p, git.data);
+		dyn_str_pushstr(&p, cached_git_branch);
 		dyn_str_pushstr(&p, RESET);
-		// DIRTY circle removed
 	}
 
 	/* Status code if error */
@@ -173,8 +193,6 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 
 	free(cwd.buff);
 	free(short_path);
-	if (git.data)
-		free(git.data);
 	return (p);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/12/20 22:31:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 23:20:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include "ft_memory.h"
 #include "ft_string.h"
+#include "ft_debug.h"
 
 //#include "TDD/test.h"
 
@@ -62,33 +63,34 @@ char	**ft_split(char const *s, char c)
 }
 #else
 
+# define START	0
+# define END	1
+
 char	**ft_split(char const *str, char c)
 {
 	char	**out;
 	int		i;
-	int		start;
 	int		occ;
-	int		end;
-	char	sep[2]; // <- add NUL-terminated separator
+	int		sentinel[2];
+	char	sep[2];
 
+	ft_assert(str);
 	sep[0] = c;
 	sep[1] = '\0';
-
 	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
-	if (out == 0)
-		return (0);
 	i = 0;
 	occ = 0;
 	while (str[i] != 0)
 	{
-		start = find_block(&end, str + i, sep);
-		if (start == -1)
+		sentinel[START] = find_block(&sentinel[END], str + i, sep);
+		if (sentinel[START] == -1)
 			return (out);
-		out[occ] = malloc(end - start + 1);
+		out[occ] = malloc(sentinel[END] - sentinel[START] + 1);
 		if (out[occ] == 0)
 			return (free_list((void **)out, occ), NULL);
-		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
-		i += end;
+		ft_strlcpy(out[occ++], str + i + sentinel[START],
+			sentinel[END] - sentinel[START] + 1);
+		i += sentinel[END];
 	}
 	return (out);
 }

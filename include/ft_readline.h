@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 02:51:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:51:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:54:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_status
 } t_status;
 
 // Callback function types for customization
-typedef t_dyn_str (*t_prompt_gen_fn)(t_status *, char **);				 // For generating prompts
+typedef t_dyn_str (*t_prompt_gen_fn)(t_status *, char **); // For generating prompts
 typedef bool (*t_process_input_fn)(const char *input, t_status *status); // For processing input (return true to exit)
 typedef void (*t_cleanup_fn)(void *user_data);							 // For custom cleanup
 
@@ -92,7 +92,7 @@ typedef struct s_repl_config
 	const char *dquote_prompt;	   // Default double-quote prompt string
 	const char *squote_prompt;	   // Default single-quote prompt string
 	// Function pointers for customization
-	t_prompt_gen_fn prompt_gen;		  // Custom prompt generator (if NULL, use basic_prompt)
+	t_prompt_gen_fn prompt_gen;		  // Custom prompt generator (if NULL, use prompt_normal)
 	t_process_input_fn process_input; // Custom input processor (if NULL, echo and check for "exit")
 	t_cleanup_fn cleanup;			  // Custom cleanup function
 	// REPL behavior flags
@@ -100,12 +100,18 @@ typedef struct s_repl_config
 	bool handle_signals;		  // Whether to handle Ctrl+C/D
 	bool enable_history;		  // Whether to enable history management
 	bool accumulate_continuation; // Whether to handle backslash continuation
+
+	/* New runtime flags to tune prompt behaviour */
+	bool enable_vcs;			  // show git branch/dirty in default prompt
+	bool enable_chrono;			  // show chrono in prompt
+	bool wrap_prompt_nonprint;	  // automatically wrap ANSI sequences for readline
+
 	// User data for callbacks
 	void *user_data; // Passed to callbacks
 	void *(*fn)(void *data);
 } t_repl_config;
 
-typedef struct s_stream_dft_data
+typedef struct s_api_readline
 {
 	t_dyn_str input;
 	t_dyn_str cwd;
@@ -119,7 +125,8 @@ typedef struct s_stream_dft_data
 	t_status last_cmd_status_res;
 	bool should_exit;
 	t_rl rl;
-} t_stream_dft_data;
+	t_prompt_gen_fn prompt_gen;
+}	t_api_readline;
 
 #ifdef __cplusplus
 extern "C"
@@ -180,6 +187,14 @@ extern "C"
 						 char **last_cmd_status_s, int *input_method,
 						 char **context, char **base_context, bool *should_exit, t_deque *out_tokens);
 	int repl_run(t_repl_config *config);
+	// API: Set and fetch current REPL state (singleton pattern)
+	void set_repl_state(t_api_readline *state);
+	void get_repl_state(t_api_readline *out);
+
+	/* API: store/get the active repl configuration (singleton) */
+	void set_repl_config(t_repl_config *conf);
+	t_repl_config *get_repl_config(void);
+
 #ifdef __cplusplus
 }
 #endif

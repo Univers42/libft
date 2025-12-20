@@ -6,11 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 20:19:10 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 20:54:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+#include "ft_readline.h" /* access get_repl_config() */
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -35,6 +36,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	static char *cached_cwd = NULL;
 	char *curr_cwd;
 	int need_refresh = 0;
+	t_repl_config *conf = get_repl_config();
 
 	(void)st_s;
 	dyn_str_init(&p);
@@ -45,10 +47,11 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	cap_cmd("pwd", &cwd);
 	curr_cwd = cwd.buff;
 
-	// Only refresh git info if cwd changed
-	if (cached_cwd == NULL || strcmp(cached_cwd, curr_cwd) != 0)
+	// Only refresh git info if cwd changed AND vcs enabled
+	if ((conf == NULL || conf->enable_vcs) && (cached_cwd == NULL || strcmp(cached_cwd, curr_cwd) != 0))
 		need_refresh = 1;
-	if (need_refresh) {
+	if (need_refresh && (conf == NULL || conf->enable_vcs))
+	{
 		t_vcs_info git = get_git();
 		if (cached_git_branch)
 			free(cached_git_branch);
@@ -130,24 +133,28 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	}
 
 	/* ══════════════════════════════════════════════════════════════════════
-	   RIGHT-ALIGNED CHRONO (always show execution time)
+	   RIGHT-ALIGNED CHRONO (only if enabled)
 	   ══════════════════════════════════════════════════════════════════════ */
-	fmt_time(time_buf, sizeof(time_buf), get_chrono()->last_ms);
-	line_w = vis_width(p.buff);
-	chrono_w = 3 + (int)ft_strlen(time_buf); /* "⏱ " + time */
-	pad = cols - line_w - chrono_w - 1;
-	if (pad < 2)
-		pad = 2;
-	while (pad-- > 0)
-		dyn_str_push(&p, ' ');
-	if (get_chrono()->last_ms >= 100)
-		dyn_str_pushstr(&p, FG_WARN);
-	else
-		dyn_str_pushstr(&p, FG_DIM);
-	dyn_str_pushstr(&p, TIMER_ICON);
-	dyn_str_pushstr(&p, " ");
-	dyn_str_pushstr(&p, time_buf);
-	dyn_str_pushstr(&p, RESET);
+	if (conf == NULL || conf->enable_chrono)
+	{
+		fmt_time(time_buf, sizeof(time_buf), get_chrono()->last_ms);
+		line_w = vis_width(p.buff);
+		chrono_w = 3 + (int)ft_strlen(time_buf); /* "⏱ " + time */
+		pad = cols - line_w - chrono_w - 1;
+		if (pad < 2)
+			pad = 2;
+		while (pad-- > 0)
+			dyn_str_push(&p, ' ');
+		if (get_chrono()->last_ms >= 100)
+			dyn_str_pushstr(&p, FG_WARN);
+		else
+			dyn_str_pushstr(&p, FG_DIM);
+		dyn_str_pushstr(&p, TIMER_ICON);
+		dyn_str_pushstr(&p, " ");
+		dyn_str_pushstr(&p, time_buf);
+		dyn_str_pushstr(&p, RESET);
+	}
+	// else: skip chrono entirely (no padding added)
 
 	/* ══════════════════════════════════════════════════════════════════════
 	   LINE 2: status circle (color by ultimate state)

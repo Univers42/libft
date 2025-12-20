@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 02:51:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 20:54:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 21:55:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include "internals/parser.h"
 #include "ft_time.h"
+#include "internals/trap.h" /* for t_sig_handler, t_sigaction, NSIG, etc. */
 /* Key codes: printable chars returned as their ASCII code (>0).
    Special keys are negative constants. */
 typedef enum e_rl_key
@@ -105,6 +106,18 @@ typedef struct s_repl_config
 	bool enable_vcs;			  // show git branch/dirty in default prompt
 	bool enable_chrono;			  // show chrono in prompt
 	bool wrap_prompt_nonprint;	  // automatically wrap ANSI sequences for readline
+	bool enable_unicode_prompt;   // enable extra handling for combining / zero-width chars in prompts
+
+	/* New: optional signal configuration callbacks.
+	   - setup_signals: if provided, called during repl init to install user signal handlers.
+	   - restore_signals: if provided, called during repl teardown to restore previous handlers.
+	   If NULL, the REPL uses its default signal behavior governed by handle_signals. */
+	void (*setup_signals)(void);
+	void (*restore_signals)(void);
+
+	/* Per-signal overrides: if non-NULL, REPL will install this handler for that signal.
+	   Use SIG_IGN or SIG_DFL to request ignore/default. */
+	t_sig_handler sig_actions[NSIG];
 
 	// User data for callbacks
 	void *user_data; // Passed to callbacks
@@ -126,6 +139,9 @@ typedef struct s_api_readline
 	bool should_exit;
 	t_rl rl;
 	t_prompt_gen_fn prompt_gen;
+
+	/* saved sigactions corresponding to any per-signal overrides applied */
+	t_sigaction *saved_sigactions;
 }	t_api_readline;
 
 #ifdef __cplusplus
@@ -176,6 +192,8 @@ extern "C"
 	t_dyn_str encode_cmd_hist(char *cmd);
 	bool worthy_of_being_remembered(t_hist *hist, t_rl *rl);
 	void manage_history(t_hist *hist, t_rl *rl);
+	/* New: manage history from the input buffer (preferred) */
+	void manage_history_input(t_hist *hist, t_rl *rl, t_dyn_str *input);
 	void init_history(t_hist *hist, t_vec *env);
 	void free_hist(t_hist *hist);
 	bool is_empty_token_list(t_deque *tokens);

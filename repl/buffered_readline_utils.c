@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffered_readline_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:22:41 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/11 16:16:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:44:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ int get_more_input_notty(t_rl *rl)
 	int status;
 
 	status = 1;
-	set_unwind_sig_norestart();
+	/* Respect REPL configuration for signal handling */
+	{
+		t_repl_config *rc = get_repl_config();
+		if (rc == NULL || rc->handle_signals)
+			set_unwind_sig_norestart();
+	}
 	while (1)
 	{
 		ret = read(0, buff, sizeof(buff));
@@ -78,7 +83,12 @@ int get_more_input_notty(t_rl *rl)
 		if (ft_strnchr(buff, '\n', ret))
 			break;
 	}
-	set_unwind_sig();
+	/* Restore unwind handlers only if we installed them */
+	{
+		t_repl_config *rc = get_repl_config();
+		if (rc == NULL || rc->handle_signals)
+			set_unwind_sig();
+	}
 	buff_readline_update(rl);
 	return (status);
 }

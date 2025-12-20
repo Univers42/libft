@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:52:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 20:54:05 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 21:51:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,20 @@
 #include "ipc.h"
 #include "lexer.h"
 #include <ctype.h> // new include
+#include "ft_wctype.h" // for ft_mbrtowc / ft_wcwidth
+#include <signal.h> // add if not present
+#include "trap.h"
 
 /* forward declarations */
-static char *wrap_nonprint(const char *s); // <-- add forward declaration
+static char *wrap_nonprint(const char *s);
+static char *wrap_combining(const char *s); // NEW
+
+/* Parent-level SIGINT handler: keep the REPL process alive when child/readline gets Ctrl+C */
+static void repl_parent_sigint(int sig)
+{
+	(void)sig;
+	/* no-op: interrupt is handled by child/readline, parent should continue */
+}
 
 /* singleton for config */
 static t_repl_config **repl_conf_singleton(void)
@@ -122,7 +133,21 @@ static void init_repl(t_api_readline *meta, char **argv, char **envp, t_repl_con
 
 	(void)ctx;
 	(void)conf;
-	set_unwind_sig();
+
+	/* Prefer user-provided setup_signals() if present */
+	if (conf && conf->setup_signals)
+		conf->setup_signals();
+	else if (!conf || conf->handle_signals)
+	{
+		/* default: install parent-level SIGINT handler and unwind handlers */
+		struct sigaction sa = {0};
+		sa.sa_handler = repl_parent_sigint;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &sa, NULL);
+		set_unwind_sig();
+	}
+
 	*meta = (t_api_readline){0};
 	meta->pid = getpid_hack();
 	meta->context = ft_strdup(argv[0]);
@@ -131,7 +156,13 @@ static void init_repl(t_api_readline *meta, char **argv, char **envp, t_repl_con
 	meta->last_cmd_status_res = res_status(0);
 	init_cwd(&meta->cwd);
 	meta->env = env_to_vec_env(&meta->cwd, envp);
-	init_history(&meta->hist, &meta->env);
+
+	/* Initialize history only if enabled in config (defaults = enabled when conf==NULL) */
+	if (!conf || conf->enable_history)
+		init_history(&meta->hist, &meta->env);
+	else
+		meta->hist = (t_hist){0}; /* ensure zeroed when history disabled */
+
 	/* expose config to other modules (prompt) */
 	set_repl_config(conf);
 	set_repl_state(meta);
@@ -233,6 +264,89 @@ static char *wrap_nonprint(const char *s)
 	return out;
 }
 
+/* Wrap zero-width (combining) UTF‑8 sequences with \001...\002 so readline
+   does not include them in its byte-length calculations (avoids cursor drift).
+   If prompt already contains \001, or no combining chars found, returns strdup(s). */
+static char *wrap_combining(const char *s)
+{
+	size_t len = ft_strlen(s);
+	size_t i = 0;
+	size_t comb_count = 0;
+	mbstate_t st;
+	wchar_t wc;
+	size_t r;
+
+	/* if already contains readline markers, do nothing */
+	for (i = 0; i < len; ++i)
+		if (s[i] == '\001')
+			return ft_strdup(s);
+
+	/* count zero-width codepoints */
+	ft_memset(&st, 0, sizeof(st));
+	i = 0;
+	while (i < len)
+	{
+		r = ft_mbrtowc(&wc, s + i, MB_CUR_MAX, &st);
+		if (r == (size_t)-1 || r == (size_t)-2 || r == 0)
+		{
+			/* treat as single byte to avoid lockups */
+			i++;
+			ft_memset(&st, 0, sizeof(st));
+			continue;
+		}
+		if (ft_wcwidth(wc) == 0)
+			comb_count++;
+		i += r;
+	}
+	if (comb_count == 0)
+		return ft_strdup(s);
+
+	/* allocate new buffer: original + 2 markers per combining sequence + null */
+	size_t new_sz = len + comb_count * 2 + 1;
+	char *out = malloc(new_sz);
+	if (!out)
+		return ft_strdup(s);
+
+	ft_memset(&st, 0, sizeof(st));
+	i = 0;
+	size_t o = 0;
+	while (i < len)
+	{
+		r = ft_mbrtowc(&wc, s + i, MB_CUR_MAX, &st);
+		if (r == (size_t)-1 || r == (size_t)-2 || r == 0)
+		{
+			out[o++] = s[i++];
+			ft_memset(&st, 0, sizeof(st));
+			continue;
+		}
+		if (ft_wcwidth(wc) == 0)
+		{
+			out[o++] = '\001';
+			for (size_t k = 0; k < r; ++k)
+				out[o++] = s[i + k];
+			out[o++] = '\002';
+		}
+		else
+		{
+			for (size_t k = 0; k < r; ++k)
+				out[o++] = s[i + k];
+		}
+		i += r;
+	}
+	out[o] = '\0';
+	return out;
+}
+
+/* Wrap helper that respects config flag */
+static char *wrap_combining_if_enabled(const char *s)
+{
+	t_repl_config *conf = get_repl_config();
+	if (conf && !conf->enable_unicode_prompt)
+		return ft_strdup(s);
+	/* default: enable when conf == NULL for backwards compat */
+	return wrap_combining(s);
+}
+
 static void parse_input(t_api_readline *meta)
 {
 	char *prompt;
@@ -240,6 +354,11 @@ static void parse_input(t_api_readline *meta)
 	t_deque tt;
 
 	parser = (t_parse){.st = ST_INIT, .stack = {0}};
+
+	/* Ensure locale is set before generating/wrapping prompts so
+	   ft_mbrtowc / ft_wcwidth see the correct encoding (fixes unicode cursor drift) */
+	ensure_locale();
+
 	// Use user custom prompt if provided
 	t_dyn_str prompt_dyn;
 	if (meta->prompt_gen)
@@ -248,11 +367,15 @@ static void parse_input(t_api_readline *meta)
 		prompt_dyn = prompt_normal(&meta->last_cmd_status_res, &meta->last_cmd_status_s);
 
 	/* wrap ANSI sequences so readline sees correct printable length.
-	   We replace prompt_dyn.buff with the wrapped buffer; get_more_tokens
-	   will free the buffer (consistent with previous lifecycle). */
+	   Then optionally wrap zero-width combining sequences (if enabled). */
 	char *wrapped = wrap_nonprint_if_enabled(prompt_dyn.buff);
 	free(prompt_dyn.buff);
 	prompt_dyn.buff = wrapped;
+
+	/* additional unicode combining handling */
+	char *wrapped2 = wrap_combining_if_enabled(prompt_dyn.buff);
+	free(prompt_dyn.buff);
+	prompt_dyn.buff = wrapped2;
 
 	prompt = prompt_dyn.buff;
 	deque_init(&tt, 64, sizeof(t_token), NULL);
@@ -277,11 +400,24 @@ void repl(t_repl_config *conf, char **argv, char **envp)
 		dyn_str_init(&meta.input);
 		get_g_sig()->should_unwind = 0;
 		parse_input(&meta);
-		if (meta.rl.cursor > 1)
-			manage_history(&meta.hist, &meta.rl);
+		/* manage history only when enabled in configuration */
+		{
+			t_repl_config *rc = get_repl_config();
+			if ((rc == NULL || rc->enable_history))
+				manage_history_input(&meta.hist, &meta.rl, &meta.input);
+		}
 		buff_readline_reset(&meta.rl);
 		free(meta.input.buff);
 		meta.input = (t_dyn_str){0};
+	}
+	/* restore signal handlers: prefer user restore_signals(), otherwise
+	   restore default if we used default handling */
+	if (conf && conf->restore_signals)
+		conf->restore_signals();
+	else if (!conf || conf->handle_signals)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	free_env(&meta.env);
 	free_all_state(&meta);

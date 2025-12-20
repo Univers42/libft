@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   buffered_readline_readline.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:27:10 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/19 03:17:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:44:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 #include <stdio.h>
-
+#include <signal.h>
 #include <readline/readline.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -72,12 +72,26 @@ int get_more_input_readline(t_rl *l, char *prompt)
 {
 	int pp[2];
 	int pid;
+	struct sigaction old_sigint, old_sigquit, ign;
+	t_repl_config *rc;
+
+	rc = get_repl_config();
+	/* If REPL handles signals, protect parent from SIGINT while child runs */
+	if (rc == NULL || rc->handle_signals)
+	{
+		ft_memset(&ign, 0, sizeof(ign));
+		ign.sa_handler = SIG_IGN;
+		sigemptyset(&ign.sa_mask);
+		sigaction(SIGINT, &ign, &old_sigint);
+		sigaction(SIGQUIT, &ign, &old_sigquit);
+	}
 
 	if (pipe(pp))
 		critical_error_errno_context("pipe");
 	pid = fork();
 	if (pid == 0)
 	{
+		/* child restores desired handlers for readline */
 		readline_bg_signals();
 		close(pp[0]);
 		bg_readline(pp[1], prompt);
@@ -86,7 +100,14 @@ int get_more_input_readline(t_rl *l, char *prompt)
 		critical_error_errno_context("fork");
 	else
 	{
-		return (attach_input_readline(l, pp, pid));
+		int ret = attach_input_readline(l, pp, pid);
+		/* restore parent's original signal handlers if we changed them */
+		if (rc == NULL || rc->handle_signals)
+		{
+			sigaction(SIGINT, &old_sigint, NULL);
+			sigaction(SIGQUIT, &old_sigquit, NULL);
+		}
+		return (ret);
 	}
 	ft_assert("Unreachable" == 0);
 	return (0);

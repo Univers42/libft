@@ -13,16 +13,17 @@ obj/./yacc/collec_handlers/handlers5.o: yacc/collec_handlers/handlers5.c \
  include/ft_ctype.h include/internals/array.h include/internals/ft_hash.h \
  include/internals/lexer.h include/configs.h include/ft_colors.h \
  include/ft_limits.h include/ft_readline.h include/ds.h \
- include/internals/dyn_string.h include/ft_time.h include/ft_render.h \
- include/ft_colors.h include/ft_sort.h include/ft_debug.h \
- include/ft_stdio.h include/internals/output.h include/internals/error.h \
+ include/internals/dyn_string.h include/ft_time.h \
+ include/internals/trap.h include/ft_render.h include/ft_colors.h \
+ include/ft_sort.h include/ft_debug.h include/ft_stdio.h \
+ include/internals/output.h include/internals/error.h \
  include/internals/input.h include/internals/get_next_line.h \
  include/ft_stdio.h include/internals/lseek.h include/internals/tee.h \
  include/internals/format.h include/internals/lifoba.h \
  include/internals/output.h include/ft_math.h include/ft_time.h \
  include/ft_wctype.h include/glob.h include/ipc.h \
- include/internals/trap.h include/internals/pipe.h include/system.h \
- include/var.h include/internals/private_var.h
+ include/internals/pipe.h include/system.h include/var.h \
+ include/internals/private_var.h
 include/internals/lexer.h:
 libft.h:
 include/alias.h:
@@ -63,6 +64,7 @@ include/ft_readline.h:
 include/ds.h:
 include/internals/dyn_string.h:
 include/ft_time.h:
+include/internals/trap.h:
 include/ft_render.h:
 include/ft_colors.h:
 include/ft_sort.h:
@@ -83,7 +85,6 @@ include/ft_time.h:
 include/ft_wctype.h:
 include/glob.h:
 include/ipc.h:
-include/internals/trap.h:
 include/internals/pipe.h:
 include/system.h:
 include/var.h:

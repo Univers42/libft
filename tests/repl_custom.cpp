@@ -200,20 +200,26 @@ int main(int argc, char **argv, char **envp)
 	// Setup config for custom prompt and behavior
 	t_repl_config config = {};
 	// assign one prompt generator (pick either)
-	config.prompt_gen = my_custom_prompt;
-	// config.prompt_gen = my_unicode_prompt; // alternative: enable to try unicode prompt
+	config.prompt_gen = my_unicode_prompt;
 
 	// Control features:
 	config.enable_vcs = false;           // disable git queries in default prompt (faster)
 	config.enable_chrono = true;         // show chrono in prompt
 	config.wrap_prompt_nonprint = true;  // automatically wrap ANSI escapes with \001...\002
 	config.enable_history = true;        // enable history management
-	config.handle_signals = true;
+	config.handle_signals = true;		 // enable default REPL signal behavior
 	config.input_method = INP_READLINE;
 	config.base_context = argv[0];
 
+	/* Examples: override specific signals (optional)
+	   - Use SIG_IGN, SIG_DFL, or provide a function pointer (t_sig_handler) here.
+	   - Defaults: leave entries NULL to keep REPL default behavior.
+	*/
+	config.sig_actions[SIGINT]  = SIG_IGN; // ignore Ctrl+C
+	config.sig_actions[SIGQUIT] = SIG_DFL; // Ctrl+\ default
+	//config.sig_actions[SIGTERM] = my_custom_term_handler; // custom handler
+
 	// t_repl_config has many fields; leave env/context NULL to let REPL initialize them
 	repl(&config, argv, envp);
-
 	return 0;
 }

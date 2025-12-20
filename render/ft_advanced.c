@@ -6,13 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 03:29:10 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 03:29:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_render.h"
 #include "ft_colors.h"
 #include "ft_stdio.h"
+#include "ft_string.h"
 
 void	ft_print_notification(const char *title, const char *message,
 			const char *type)
@@ -22,9 +23,9 @@ void	ft_print_notification(const char *title, const char *message,
 	if (!title || !message || !type)
 		return ;
 	color = ASCII_GREEN;
-	if (strcmp(type, "error") == 0)
+	if (ft_strcmp(type, "error") == 0)
 		color = ASCII_RED;
-	else if (strcmp(type, "warning") == 0)
+	else if (ft_strcmp(type, "warning") == 0)
 		color = ASCII_YELLOW;
 	ft_printf("%s[%s] %s: %s%s\n", color, type, title, message, RESET_TERM);
 }

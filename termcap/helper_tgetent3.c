@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tgetent3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:51:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:51:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	apply_fallback(char *bp, const char *name)
 	len = ft_strlen(fb);
 	if (!bp)
 	{
-		dst = (char *)xmalloc(len + 1);
+		dst = (char *)malloc(len + 1);
 		ft_strcpy(dst, fb);
 		access_glob()->term_entry = dst;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 03:53:59 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:54:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static t_var	*build_and_set(t_dyn_str *key, t_dyn_str *val, int flags)
 	t_var *vp;
 
 	if (val->buff)
-		name_eq = xmalloc((size_t)key->len + val->len + 2);
+		name_eq = malloc((size_t)key->len + val->len + 2);
 	else
-		name_eq = xmalloc((size_t)key->len + 1);
+		name_eq = malloc((size_t)key->len + 1);
 	ft_memcpy(name_eq, key->buff, key->len);
 	p = name_eq + key->len;
 	if (val->buff)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dyn_str_double.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:35:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 02:53:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	str_double(void)
 	newcap = 64;
 	if (v->cap != 0)
 		newcap = v->cap * 2;
-	tmp = xmalloc(newcap);
+	tmp = malloc(newcap);
 	if (v->buff && v->len)
 		memcpy(tmp, v->buff, v->len);
 	dyn_str_replace_buff(v, tmp, newcap);
@@ -58,7 +58,7 @@ int	dyn_str_double(t_dyn_str *s)
 	newcap = 64;
 	if (s->cap)
 		newcap = s->cap * 2;
-	tmp = xmalloc(newcap);
+	tmp = malloc(newcap);
 	if (s->buff && s->len)
 		ft_memcpy(tmp, s->buff, s->len);
 	dyn_str_replace_buff(s, tmp, newcap);

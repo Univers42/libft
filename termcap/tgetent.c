@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:36:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 02:51:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	read_and_process_file(t_tgetent_ctx *ctx, char *bp,
 		return (apply_fallback(bp, name));
 	}
 	buf.size = 2048;
-	buf.beg = (char *)xmalloc(buf.size + 1);
+	buf.beg = (char *)malloc(buf.size + 1);
 	buf.ptr = buf.beg;
 	buf.ateof = 0;
 	buf.full = 0;

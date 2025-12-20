@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:15:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 17:05:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool hash_set(t_hash *h, const void *key, void *value)
         }
         entry = entry->next;
     }
-    new_entry = xmalloc(sizeof(*new_entry));
+    new_entry = malloc(sizeof(*new_entry));
     if (!new_entry)
         return (false);
     new_entry->key = (void *)key;

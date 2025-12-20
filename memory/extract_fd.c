@@ -17,7 +17,7 @@ char *extract_fd(int fd)
 
     cap = EXTRACT_CHUNK;
     len = 0;
-    acc = (char *)xmalloc(cap);
+    acc = (char *)malloc(cap);
     if (!acc)
         return (NULL);
     while ((r = read(fd, buf, sizeof(buf))) > 0)

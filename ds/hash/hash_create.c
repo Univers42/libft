@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:15:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 17:05:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int hash_create(t_hash *h, const t_hash_config *config)
 {
     if (!h || !config || config->size == 0 || !config->hash_fn || !config->cmp_fn)
         return (-1);
-    h->buckets = xmalloc(sizeof(t_hash_entry *) * config->size);
+    h->buckets = malloc(sizeof(t_hash_entry *) * config->size);
     if (!h->buckets)
         return (-1);
     ft_memset(h->buckets, 0, sizeof(t_hash_entry *) * config->size);

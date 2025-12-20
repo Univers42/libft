@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mklocal.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:03:29 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void mklocal(char *name, int flags)
 	if (frame == NULL)
 	{
 		/* Lazily create a first localvar frame if none exists yet */
-		frame = xmalloc(sizeof(*frame));
+		frame = malloc(sizeof(*frame));
 		frame->lv = NULL;
 		frame->next = NULL;
 		state->localvar_stack = frame;
 	}
-	lvp = xmalloc(sizeof(*lvp));
+	lvp = malloc(sizeof(*lvp));
 	/* Default initialize fields */
 	lvp->vp = NULL;
 	lvp->text = NULL;
@@ -76,7 +76,7 @@ static char *snapshot_opt(t_localvar *lvp)
 		return (NULL);
 	}
 	len = ft_strlen(opt_list);
-	p = xmalloc(len + 1);
+	p = malloc(len + 1);
 	ft_memcpy(p, opt_list, len + 1);
 	lvp->text = p;
 	lvp->flags = 0;

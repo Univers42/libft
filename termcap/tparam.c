@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tparam.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:47 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:01:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*tparam(const char *fmt, char *out, int size, int *args)
 	if (out)
 		ctx.buf = out;
 	else
-		ctx.buf = (char *)xmalloc(size);
+		ctx.buf = (char *)malloc(size);
 	ctx.op = ctx.buf;
 	process_tparam_loop(&ctx);
 	return (ctx.buf);

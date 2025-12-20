@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_to_assign.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:48:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 	if (a == 0 || array_empty (a))
 // 		return((char *)NULL);
 
-// 	result = (char *)xmalloc (rsize = 128);
+// 	result = (char *)malloc (rsize = 128);
 // 	result[0] = '(';
 // 	rlen = 1;
 

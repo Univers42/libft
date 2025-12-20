@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tgetent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:44:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	copy_env_direct_to_ctx(t_tgetent_ctx *ctx, char *bp, char *termcap_name)
 	else
 	{
 		ctx->malloc_size = (int)(strlen(termcap_name) + 1);
-		ctx->bp = (char *)xmalloc(ctx->malloc_size);
+		ctx->bp = (char *)malloc(ctx->malloc_size);
 		strcpy(ctx->bp, termcap_name);
 	}
 	ctx->tcenv = termcap_name;
@@ -81,7 +81,7 @@ int	init_buffers(t_tgetent_ctx *ctx, t_buffer *buf)
 			ctx->malloc_size = (int)(strlen(ctx->tcenv) + 1);
 		else
 			ctx->malloc_size = buf->size;
-		ctx->bp = (char *)xmalloc(ctx->malloc_size);
+		ctx->bp = (char *)malloc(ctx->malloc_size);
 	}
 	ctx->bp1 = ctx->bp;
 	if (ctx->indirect)

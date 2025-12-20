@@ -69,15 +69,19 @@ char	**ft_split(char const *str, char c)
 	int		start;
 	int		occ;
 	int		end;
+	char	sep[2]; // <- add NUL-terminated separator
 
-	out = xcalloc((num_blocks(str, &c) + 1), sizeof(char *));
+	sep[0] = c;
+	sep[1] = '\0';
+
+	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
 	if (out == 0)
 		return (0);
 	i = 0;
 	occ = 0;
 	while (str[i] != 0)
 	{
-		start = find_block(&end, str + i, &c);
+		start = find_block(&end, str + i, sep);
 		if (start == -1)
 			return (out);
 		out[occ] = malloc(end - start + 1);

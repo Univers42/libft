@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:00:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 03:50:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void push_file(void)
     t_parse_file *pf;
 
     in = get_input();
-    pf = (t_parse_file *)xmalloc(sizeof(t_parse_file));
+    pf = (t_parse_file *)malloc(sizeof(t_parse_file));
     ft_memset(pf, 0, sizeof(*pf));
     pf->prev = in->parsefile;
     pf->linno = 1;

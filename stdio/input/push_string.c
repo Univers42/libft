@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_string.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 23:01:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 03:57:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void pushstring(char *s, void *ap)
     in = get_input();
     pf = get_input()->parsefile;
     len = ft_strlen(s);
-    sp = (t_block_str *)xmalloc(sizeof(t_block_str));
+    sp = (t_block_str *)malloc(sizeof(t_block_str));
     sp->prev = in->parsefile->strpush;
     sp->prev_string = in->parsefile->nextc;
     sp->prevnleft = in->parsefile->nleft;

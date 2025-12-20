@@ -68,6 +68,12 @@ void get_repl_state(t_api_readline *out)
 		*out = *state;
 }
 
+/* New: return pointer to the active repl state (not a copy). */
+t_api_readline *get_repl_state_ptr(void)
+{
+	return *repl_state_singleton();
+}
+
 static void free_all_state(t_api_readline *shell)
 {
 	free(shell->input.buff);
@@ -100,8 +106,23 @@ static char *getpid_hack(void)
 	dyn_str_init(&file);
 	dyn_str_append_fd(&file, fd);
 	close(fd);
-	temp = ft_split(file.buff, ' ');
+
+	/* Ensure we pass a NUL-terminated C string to ft_split to avoid
+	   any reads of uninitialized bytes inside the splitter. */
+	char *cstr = ft_strdup(file.buff ? file.buff : "");
+	/* free dynamic buffer early (we now have a stable NUL-terminated copy) */
 	free(file.buff);
+	file.buff = NULL;
+
+	temp = ft_split(cstr, ' ');
+	free(cstr);
+	/* handle unexpected split result */
+	if (!temp || !temp[0])
+	{
+		if (temp)
+			free_tab(temp);
+		return ft_strdup("0");
+	}
 	ret = ft_strdup(temp[0]);
 	free_tab(temp);
 	return (ret);
@@ -149,6 +170,15 @@ static void init_repl(t_api_readline *meta, char **argv, char **envp, t_repl_con
 	}
 
 	*meta = (t_api_readline){0};
+
+	/* Initialize readline buffer/state so subsequent reads are safe */
+	buff_readline_init(&meta->rl);
+	meta->rl.cursor = 0;
+	meta->rl.lineno = 1;
+	meta->rl.has_finished = false;
+	meta->rl.has_line = false;
+	meta->rl.should_update_ctx = true;
+
 	meta->pid = getpid_hack();
 	meta->context = ft_strdup(argv[0]);
 	meta->base_context = ft_strdup(argv[0]);

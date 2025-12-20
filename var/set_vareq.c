@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_vareq.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:44:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:05:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static t_var *variable_not_found(char *s, int *pflags, t_var **vpp)
 			xfree(s);
 		return (NULL);
 	}
-	vp = xmalloc(sizeof(*vp));
+	vp = malloc(sizeof(*vp));
 	/* Initialize fields to safe defaults and link into list */
 	vp->next = *vpp;
 	vp->func = NULL;

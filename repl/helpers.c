@@ -55,6 +55,21 @@ static void	default_signal_handlers(void)
 void forward_exit_status(t_status res)
 {
 	ft_assert(res.status != -1);
+
+	/* Free small REPL-owned allocations (avoid "still reachable" after valgrind) */
+	{
+		t_api_readline *state = get_repl_state_ptr();
+		if (state)
+		{
+			if (state->last_cmd_status_s)
+			{
+				free(state->last_cmd_status_s);
+				state->last_cmd_status_s = NULL;
+			}
+			/* do not free entire state here — main cleanup runs elsewhere on normal exit */
+		}
+	}
+
 	if (res.c_c)
 	{
 		default_signal_handlers();

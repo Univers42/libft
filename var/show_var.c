@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_var.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:09:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:03:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char **list_vars(int on, int off, char ***end)
 	}
 
 	/* Allocate result (+1 for NULL sentinel) */
-	arr = xmalloc((total + 1) * sizeof(char *));
+	arr = malloc((total + 1) * sizeof(char *));
 	if (!arr)
 		return (NULL);
 

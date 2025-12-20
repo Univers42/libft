@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tgetst1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:50:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:00:53 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*tgetst1(char *ptr, char **area)
 	if (!area)
 	{
 		size = compute_size(ptr);
-		ret = (char *)xmalloc(size);
+		ret = (char *)malloc(size);
 	}
 	else
 		ret = *area;

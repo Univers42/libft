@@ -213,6 +213,9 @@ extern "C"
 	void set_repl_config(t_repl_config *conf);
 	t_repl_config *get_repl_config(void);
 
+	/* New: pointer accessor to the active repl state (may be NULL) */
+	t_api_readline *get_repl_state_ptr(void);
+
 #ifdef __cplusplus
 }
 #endif

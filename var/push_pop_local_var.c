@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_pop_local_var.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:43:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/11 22:05:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_localvar_list *push_local_vars(int push)
 	if (push)
 	{
 		intoff();
-		ll = xmalloc(sizeof(*ll));
+		ll = malloc(sizeof(*ll));
 		ll->lv = NULL;
 		ll->next = top;
 		state->localvar_stack = ll;

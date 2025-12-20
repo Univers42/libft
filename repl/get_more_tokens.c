@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_more_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:43:56 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/11 13:53:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:11:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdbool.h>
+#include "ft_wctype.h" // add for ft_mbrtowc and ft_wcwidth
 
 static int readline_cmd(t_rl *rl, char **prompt, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
 {
@@ -69,6 +70,37 @@ static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res,
 	}
 }
 
+/* sanitize input buffer: replace invalid UTF-8 leading/continuation with '?' so
+   downstream mbrtowc/vis_width/tokenizer do not loop on invalid bytes */
+static void sanitize_input_utf8(t_dyn_str *input)
+{
+	mbstate_t st;
+	wchar_t wc;
+	size_t r;
+	size_t i = 0;
+	ft_memset(&st, 0, sizeof(st));
+	while (i < input->len)
+	{
+		r = ft_mbrtowc(&wc, input->buff + i, (size_t)(input->len - i), &st);
+		if (r == (size_t)-1)
+		{
+			/* invalid sequence: replace single byte and continue */
+			input->buff[i] = '?';
+			ft_memset(&st, 0, sizeof(st));
+			i++;
+			continue;
+		}
+		if (r == (size_t)-2)
+		{
+			/* truncated sequence at end: leave as-is */
+			break;
+		}
+		if (r == 0)
+			break;
+		i += r;
+	}
+}
+
 void get_more_tokens(t_rl *rl,
 					 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
 					 char **last_cmd_status_s, int *input_method,
@@ -115,6 +147,8 @@ void get_more_tokens(t_rl *rl,
 			return;
 		}
 		extend_bs(rl, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit);
+		/* sanitize input so invalid UTF-8 bytes don't cause downstream loops */
+		sanitize_input_utf8(input);
 		/* Tokenize into the (possibly caller-provided) deque */
 		next_prompt = tokenizer(input->buff, out_tokens);
 		free(curr_prompt);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 18:53:13 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 02:50:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:11:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,11 @@ static wchar_t	asm_codepoint(size_t needed, const unsigned char *s)
 	return (wc);
 }
 
-static int	determine_utf8_seq_len(unsigned char c, size_t *needed, size_t n)
-{
-	if ((c & 0xE0) == 0xC0)
-		*needed = 2;
-	else if ((c & 0xF0) == 0xE0)
-		*needed = 3;
-	else if ((c & 0xF8) == 0xF0)
-		*needed = 4;
-	else
-		return (invalid("invalid_first_byte", -1));
-	if (*needed > n)
-		return (invalid("invalid_second_byte", -2));
-	return (0);
-}
-
 size_t	ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 {
 	unsigned char	c;
 	size_t			i;
 	size_t			needed;
-	int				st;
 
 	ft_assert(s && n);
 	if (ps)
@@ -83,13 +67,36 @@ size_t	ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 			*pwc = (wchar_t)c;
 		return (1);
 	}
-	st = determine_utf8_seq_len(c, &needed, n);
-	if (st < 0)
-		return ((size_t)st);
-	i = 0;
-	while (++i < needed)
+	/* determine sequence length from leading byte; if it's not a valid leading
+	   byte, treat it as a single byte (avoid returning error that may loop callers) */
+	if ((c & 0xE0) == 0xC0)
+		needed = 2;
+	else if ((c & 0xF0) == 0xE0)
+		needed = 3;
+	else if ((c & 0xF8) == 0xF0)
+		needed = 4;
+	else
+	{
+		/* invalid leading byte: treat as single-byte */
+		if (pwc)
+			*pwc = (wchar_t)c;
+		return (1);
+	}
+	/* truncated sequence: signal incomplete so caller can provide more bytes */
+	if (needed > n)
+		return ((size_t)-2);
+	/* validate continuation bytes; on invalid continuation, consume first byte */
+	for (i = 1; i < needed; ++i)
+	{
 		if (((unsigned char)s[i] & 0xC0) != 0x80)
-			return (SIZE_MAX);
+		{
+			/* invalid continuation: treat first byte as single-byte */
+			if (pwc)
+				*pwc = (wchar_t)c;
+			return (1);
+		}
+	}
+	/* assemble codepoint */
 	if (pwc)
 		*pwc = asm_codepoint(needed, (const unsigned char *)s);
 	return (needed);

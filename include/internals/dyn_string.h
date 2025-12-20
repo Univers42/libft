@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 23:21:11 by dlesieur          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/20 16:25:24 by marvin           ###   ########.fr       */
-=======
-/*   Updated: 2025/12/20 00:55:38 by marvin           ###   ########.fr       */
->>>>>>> origin/refactor
+/*   Created: 2025/12/20 17:11:14 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/20 17:11:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +71,5 @@ void    dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap);
 bool    dyn_str_check_at(t_dyn_str *s, size_t pos, int (*fn)(int), const char *cmp);
 void	dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap);
 void	dyn_str_append_fd(t_dyn_str *str, int fd);
-<<<<<<< HEAD
-
-=======
 void	dyn_str_update_pos(t_dyn_str *v, size_t val);
->>>>>>> origin/refactor
 #endif

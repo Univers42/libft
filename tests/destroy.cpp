@@ -15,9 +15,8 @@ extern "C"
 {
 	#include "libft.h"
 	#include <stdio.h>
+	#include <stdlib.h>
 	#include <string.h>
-}
-
 typedef struct Pair
 {
     char *k;
@@ -29,25 +28,6 @@ typedef struct Node
     int  val;
     char *name;
 } Node;
-
-static void free_pair(void *p)
-{
-    Pair *pp = p;
-    if (!pp)
-        return;
-    free(pp->k);
-    free(pp->v);
-    free(pp);
-}
-
-static void free_node(void *p)
-{
-    Node *n = p;
-    if (!n)
-        return;
-    free(n->name);
-    free(n);
-}
 
 typedef struct Address
 {
@@ -63,10 +43,33 @@ typedef struct Employee
 	char	**tags;
 	size_t tag_count;
 }	Employee;
+}
+
+
+static void free_pair(void *p)
+{
+    Pair *pp = (Pair *)p;
+    if (!pp)
+        return;
+    free(pp->k);
+    free(pp->v);
+    free(pp);
+}
+
+static void free_node(void *p)
+{
+    Node *n = (Node *)p;
+    if (!n)
+        return;
+    free(n->name);
+    free(n);
+}
+
+
 
 static void free_employee(void *p)
 {
-	Employee *e = p;
+	Employee *e = (Employee *)p;
 	if (!e)
 		return ;
 	free(e->name);
@@ -104,7 +107,7 @@ static void free_employee(void *p)
 int main(void)
 {
     /* Raw buffer (no per-element cleanup) */
-	char *buffer = malloc(100);
+	char *buffer = (char *)malloc(100);
     if (!buffer)
     {
         perror("malloc");
@@ -117,7 +120,7 @@ int main(void)
 	/* Array of C-strings (char **) */
 	{
     	size_t str_count = 3;
-    	char **arr = malloc(str_count * sizeof(char *));
+    	char **arr = (char **)malloc(str_count * sizeof(char *));
     	if (!arr)
     	{
     	    perror("malloc");
@@ -133,7 +136,7 @@ int main(void)
 	/* Linked-list-like nodes but stored as array of pointers */
 	{
     	size_t node_count = 2;
-    	Node **nodes = malloc(node_count * sizeof(Node *));
+    	Node **nodes = (Node **)malloc(node_count * sizeof(Node *));
     	if (!nodes)
     	{
     	    perror("malloc");
@@ -141,7 +144,7 @@ int main(void)
     	}
     	for (size_t i = 0; i < node_count; ++i)
     	{
-    	    nodes[i] = malloc(sizeof(Node));
+    	    nodes[i] = (Node *)malloc(sizeof(Node));
     	    if (nodes[i])
     	    {
     	        nodes[i]->val = (int)i;
@@ -155,7 +158,7 @@ int main(void)
 	/* Map: array of pointers to Pair structs (key/value are separately malloc'd) */
     {
     	size_t map_n = 2;
-    	Pair **map = malloc(map_n * sizeof(Pair *));
+    	Pair **map = (Pair **)malloc(map_n * sizeof(Pair *));
     	if (!map)
     	{
     	    perror("malloc");
@@ -163,7 +166,7 @@ int main(void)
     	}
     	for (size_t i = 0; i < map_n; ++i)
     	{
-    	    map[i] = malloc(sizeof(Pair));
+    	    map[i] = (Pair *)malloc(sizeof(Pair));
     	    if (map[i])
     	    {
     	        map[i]->k = strdup("key");
@@ -178,24 +181,24 @@ int main(void)
 	 */
 	{
 		size_t n = 3;
-		Employee **emps = malloc(n * sizeof(Employee *));
+		Employee **emps = (Employee **)malloc(n * sizeof(Employee *));
 
 		if (!emps)
 			return (1);
 		for (size_t i = 0; i < n; i++)
 		{
-			emps[i] = malloc(sizeof(Employee));
+			emps[i] = (Employee *)malloc(sizeof(Employee));
 			if (!emps[i])
 			{
 				destroy(emps, i, sizeof(void *), free_employee);
 				return (1);
 			}
 			emps[i]->name = strdup("Dylan");
-			emps[i]->addr = calloc(1, sizeof(Address)); // zero-initialize Address (all fields NULL)
+			emps[i]->addr = (Address *)calloc(1, sizeof(Address)); // zero-initialize Address (all fields NULL)
 			emps[i]->addr->street = strdup("123 Example St");
 			emps[i]->addr->city   = strdup("Example City");
 			emps[i]->tag_count = 2;
-			emps[i]->tags = malloc(emps[i]->tag_count * sizeof(char *));
+			emps[i]->tags = (char **)malloc(emps[i]->tag_count * sizeof(char *));
 			emps[i]->tags[0] = strdup("engineer");
 			emps[i]->tags[1] = strdup("remote");
 		}

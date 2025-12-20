@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:16:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 18:53:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:56:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,8 +205,20 @@ static void parse_input(t_app *shell)
 	prompt = prompt_normal(&shell->last_cmd_status_res, &shell->last_cmd_status_s).buff;
 	/* Do NOT start chrono here; no exec happens in this test harness */
 	/* get tokens / read input */
-	get_more_tokens(&shell->rl, &prompt, &shell->input, &shell->last_cmd_status_res, &shell->last_cmd_status_s,
-					&shell->input_method, &shell->context, &shell->base_context, &shell->should_exit, (t_deque *)NULL);
+	{
+		t_getmore_ctx gm_ctx = {
+			.prompt = &prompt,
+			.input = &shell->input,
+			.last_cmd_status_res = &shell->last_cmd_status_res,
+			.last_cmd_status_s = &shell->last_cmd_status_s,
+			.input_method = &shell->input_method,
+			.context = &shell->context,
+			.base_context = &shell->base_context,
+			.should_exit = &shell->should_exit,
+			.out_tokens = NULL /* use NULL if caller has no deque to receive tokens */
+		};
+		get_more_tokens(&shell->rl, &gm_ctx);
+	}
 
 	/* Chrono is driven by executor in real shell; keep untouched here */
 
@@ -217,12 +229,28 @@ static void parse_input(t_app *shell)
 	shell->should_exit |= ((get_g_sig()->should_unwind && shell->input_method != INP_READLINE) || shell->rl.has_finished);
 }
 
+/* print a one-time styled welcome banner with GitHub link */
+static void print_welcome_once(void)
+{
+	const char *user = getenv("USER");
+	if (!user)
+		user = "friend";
+	printf("\n\033[1;36m🔷 Welcome %s to UNICODE-SHELL (sh42)\033[0m\n", user);
+	printf("\033[0;37mThis shell is a work in progress — improvements are ongoing.\n");
+	printf("Contribute or report issues: \033[1;34mhttps://github.com/Univers42/sh42.git\033[0m\n\n");
+	fflush(stdout);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_app shell;
 
 	(void)argc;
 	init_app(&shell, argv, envp);
+
+	/* show welcome once */
+	print_welcome_once();
+
 	while (!shell.should_exit)
 	{
 		dyn_str_init(&shell.input);

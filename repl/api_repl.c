@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:52:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 21:51:11 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:31:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,20 @@ static void parse_input(t_api_readline *meta)
 
 	prompt = prompt_dyn.buff;
 	deque_init(&tt, 64, sizeof(t_token), NULL);
-	get_more_tokens(&meta->rl, &prompt, &meta->input, &meta->last_cmd_status_res, &meta->last_cmd_status_s, &meta->input_method, &meta->context, &meta->base_context, &meta->should_exit, &tt);
+
+	/* build get_more context and call refactored function */
+	t_getmore_ctx gm_ctx = {
+		.prompt = &prompt,
+		.input = &meta->input,
+		.last_cmd_status_res = &meta->last_cmd_status_res,
+		.last_cmd_status_s = &meta->last_cmd_status_s,
+		.input_method = &meta->input_method,
+		.context = &meta->context,
+		.base_context = &meta->base_context,
+		.should_exit = &meta->should_exit,
+		.out_tokens = &tt
+	};
+	get_more_tokens(&meta->rl, &gm_ctx);
 	if (get_g_sig()->should_unwind)
 		set_cmd_status(&meta->last_cmd_status_res, (t_status){.status = CANCELED, .pid = -1, .c_c = true}, &meta->last_cmd_status_s);
 	free(parser.stack.buff);

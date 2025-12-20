@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 02:51:12 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 21:55:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:40:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,31 @@ typedef struct s_api_readline
 	t_sigaction *saved_sigactions;
 }	t_api_readline;
 
+/* New: small context structs to reduce long argument lists */
+typedef struct s_xreadline_ctx
+{
+	t_dyn_str *ret;
+	char *prompt;
+	t_status *last_cmd_status_res;
+	char **last_cmd_status_s;
+	int *input_method;
+	char **context;
+	char **base_context;
+} t_xreadline_ctx;
+
+typedef struct s_getmore_ctx
+{
+	char **prompt; /* pointer to current prompt string (owned by caller) */
+	t_dyn_str *input;
+	t_status *last_cmd_status_res;
+	char **last_cmd_status_s;
+	int *input_method;
+	char **context;
+	char **base_context;
+	bool *should_exit;
+	t_deque *out_tokens;
+} t_getmore_ctx;
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -199,11 +224,8 @@ extern "C"
 	bool is_empty_token_list(t_deque *tokens);
 	t_dyn_str prompt_more_input(t_parse *parser);
 	t_dyn_str prompt_normal(t_status *last_cmd_status_res, char **last_cmd_status_s);
-	int xreadline(t_rl *rl, t_dyn_str *ret, char *prompt, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context);
-	void get_more_tokens(t_rl *rl,
-						 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
-						 char **last_cmd_status_s, int *input_method,
-						 char **context, char **base_context, bool *should_exit, t_deque *out_tokens);
+	int xreadline(t_rl *rl, t_xreadline_ctx *ctx);
+	void get_more_tokens(t_rl *rl, t_getmore_ctx *ctx);
 	int repl_run(t_repl_config *config);
 	// API: Set and fetch current REPL state (singleton pattern)
 	void set_repl_state(t_api_readline *state);

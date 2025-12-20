@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   xreadline.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 07:23:53 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/09 02:49:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:37:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,33 @@ static int return_new_line(t_rl *rl, t_dyn_str *ret, char **context, char **base
 	return (4);
 }
 
-int xreadline(t_rl *rl, t_dyn_str *ret, char *prompt, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context)
+int xreadline(t_rl *rl, t_xreadline_ctx *ctx)
 {
 	int code;
 
+	if (!ctx)
+		return (0);
 	if (rl->has_finished)
 		return (0);
 	if (!rl->has_line)
 	{
-		if (*input_method == INP_ARG || *input_method == INP_FILE)
+		if (*ctx->input_method == INP_ARG || *ctx->input_method == INP_FILE)
 			return (rl->has_finished = true, 0);
-		if (*input_method == INP_STDIN_NOTTY)
+		if (*ctx->input_method == INP_STDIN_NOTTY)
 			code = get_more_input_notty(rl);
 		else
-			code = get_more_input_readline(rl, prompt);
+			code = get_more_input_readline(rl, ctx->prompt);
 		if (code == 1)
 			return (rl->has_finished = true, 0);
 		if (code == 2)
 		{
 			g_should_unwind = SIGINT;
-			set_cmd_status(last_cmd_status_res, (t_status){.status = CANCELED, .c_c = true}, last_cmd_status_s);
+			set_cmd_status(ctx->last_cmd_status_res, (t_status){.status = CANCELED, .c_c = true}, ctx->last_cmd_status_s);
 			return (2);
 		}
-		if (*input_method == INP_READLINE)
+		if (*ctx->input_method == INP_READLINE)
 			dyn_str_push(&rl->str, '\n');
 		rl->has_line = true;
 	}
-	return (return_new_line(rl, ret, context, base_context));
+	return (return_new_line(rl, ctx->ret, ctx->context, ctx->base_context));
 }

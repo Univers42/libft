@@ -6,29 +6,36 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:43:56 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 22:11:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:56:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdbool.h>
 #include "ft_wctype.h" // add for ft_mbrtowc and ft_wcwidth
+#include "ft_readline.h" // for new ctx types
 
-static int readline_cmd(t_rl *rl, char **prompt, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
+static int readline_cmd(t_rl *rl, t_getmore_ctx *ctx)
 {
 	int stat;
+	t_xreadline_ctx xctx;
 
-	/* prompt memory is managed by caller */
-	stat = xreadline(rl, input, *prompt,
-					 last_cmd_status_res,
-					 last_cmd_status_s, input_method,
-					 context, base_context);
+	/* build small xreadline context from getmore context */
+	xctx.ret = ctx->input;
+	xctx.prompt = *ctx->prompt;
+	xctx.last_cmd_status_res = ctx->last_cmd_status_res;
+	xctx.last_cmd_status_s = ctx->last_cmd_status_s;
+	xctx.input_method = ctx->input_method;
+	xctx.context = ctx->context;
+	xctx.base_context = ctx->base_context;
+
+	stat = xreadline(rl, &xctx);
 	if (stat == 0)
 		return (1);
 	if (stat == 2)
 	{
-		if (*input_method != INP_READLINE)
-			*should_exit = true;
+		if (*ctx->input_method != INP_READLINE)
+			*ctx->should_exit = true;
 		return (2);
 	}
 	return (0);
@@ -56,17 +63,31 @@ bool ends_with_bs_nl(t_dyn_str s)
 	return (unterminated);
 }
 
-static void extend_bs(t_rl *rl, t_dyn_str *input, t_status *last_cmd_status_res, char **last_cmd_status_s, int *input_method, char **context, char **base_context, bool *should_exit)
+static void extend_bs(t_rl *rl, t_getmore_ctx *ctx)
 {
-	char *prompt;
+	char *tmp_prompt;
+	char *old_prompt;
 
-	while (ends_with_bs_nl(*input))
+	while (ends_with_bs_nl(*ctx->input))
 	{
-		dyn_str_pop(input);
-		dyn_str_pop(input);
-		prompt = ft_strdup("> ");
-		if (readline_cmd(rl, &prompt, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit))
+		dyn_str_pop(ctx->input);
+		dyn_str_pop(ctx->input);
+		tmp_prompt = ft_strdup("> ");
+		if (!tmp_prompt)
 			return;
+		/* swap in the temporary prompt for the duration of the call */
+		old_prompt = *ctx->prompt;
+		*ctx->prompt = tmp_prompt;
+		if (readline_cmd(rl, ctx))
+		{
+			/* restore and free temp before returning */
+			*ctx->prompt = old_prompt;
+			free(tmp_prompt);
+			return;
+		}
+		/* restore and free temp */
+		*ctx->prompt = old_prompt;
+		free(tmp_prompt);
 	}
 }
 
@@ -101,63 +122,62 @@ static void sanitize_input_utf8(t_dyn_str *input)
 	}
 }
 
-void get_more_tokens(t_rl *rl,
-					 char **prompt, t_dyn_str *input, t_status *last_cmd_status_res,
-					 char **last_cmd_status_s, int *input_method,
-					 char **context, char **base_context, bool *should_exit, t_deque *out_tokens)
+void get_more_tokens(t_rl *rl, t_getmore_ctx *ctx)
 {
 	int stat;
 	char *curr_prompt;
 	char *next_prompt;
 	t_deque tt;
+	t_deque *tokens = NULL;
 	bool created_local = false;
 	char looking_for = '\0';
 
 	/* Only create a temporary deque if caller did not provide one. */
-	if (!out_tokens)
+	if (!ctx->out_tokens)
 	{
 		deque_init(&tt, 64, sizeof(t_token), NULL);
-		out_tokens = &tt;
+		tokens = &tt;
 		created_local = true;
 	}
-	while (prompt && *prompt)
+	else
+		tokens = ctx->out_tokens;
+
+	while (ctx->prompt && *ctx->prompt)
 	{
-		curr_prompt = *prompt;
-		stat = readline_cmd(rl, prompt, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit);
+		curr_prompt = *ctx->prompt;
+		stat = readline_cmd(rl, ctx);
 		if (stat == 1)
 		{
-			if (looking_for && input->len)
-				ft_eprintf("%s: unexpected EOF while looking for "
-						   "matching `%c'\n",
-						   (context && *context) ? *context : "input", looking_for);
-			else if (input->len)
-				ft_eprintf("%s: syntax error: unexpected end of file\n", (context && *context) ? *context : "input");
-			if (*input_method == INP_READLINE)
+			if (looking_for && ctx->input->len)
+				ft_eprintf("%s: unexpected EOF while looking for matching `%c'\n",
+						   (ctx->context && *ctx->context) ? *ctx->context : "input", looking_for);
+			else if (ctx->input->len)
+				ft_eprintf("%s: syntax error: unexpected end of file\n", (ctx->context && *ctx->context) ? *ctx->context : "input");
+			if (*ctx->input_method == INP_READLINE)
 				ft_eprintf("exit\n");
-			if (!last_cmd_status_res->status && input->len)
-				set_cmd_status(last_cmd_status_res, (t_status){.status = SYNTAX_ERR}, last_cmd_status_s);
-			*should_exit = true;
+			if (!ctx->last_cmd_status_res->status && ctx->input->len)
+				set_cmd_status(ctx->last_cmd_status_res, (t_status){.status = SYNTAX_ERR}, ctx->last_cmd_status_s);
+			*ctx->should_exit = true;
 		}
 		if (stat)
 		{
 			free(curr_prompt);
-			/* If we created a local deque, free its buffer */
-			if (created_local && out_tokens && out_tokens->buf)
-				free(out_tokens->buf);
+			if (created_local && tokens && tokens->buf)
+				free(tokens->buf);
 			return;
 		}
-		extend_bs(rl, input, last_cmd_status_res, last_cmd_status_s, input_method, context, base_context, should_exit);
+		extend_bs(rl, ctx);
 		/* sanitize input so invalid UTF-8 bytes don't cause downstream loops */
-		sanitize_input_utf8(input);
+		sanitize_input_utf8(ctx->input);
 		/* Tokenize into the (possibly caller-provided) deque */
-		next_prompt = tokenizer(input->buff, out_tokens);
+		next_prompt = tokenizer(ctx->input->buff, tokens);
 		free(curr_prompt);
 		if (next_prompt)
-			*prompt = ft_strdup(next_prompt);
+			*ctx->prompt = ft_strdup(next_prompt);
 		else
-			*prompt = NULL;
+			*ctx->prompt = NULL;
 	}
 	/* Free local deque buffer if we created it here */
-	if (created_local && out_tokens && out_tokens->buf)
-		free(out_tokens->buf);
+	if (created_local && tokens && tokens->buf)
+		free(tokens->buf);
 }

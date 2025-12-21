@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 10:27:10 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 22:11:16 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:27:02 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/20 23:27:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "ft_readline.h"
 #include <stdio.h>
@@ -76,7 +77,7 @@ int get_more_input_readline(t_rl *l, char *prompt)
 	t_repl_config *rc;
 
 	rc = get_repl_config();
-	/* If REPL handles signals, protect parent from SIGINT while child runs */
+	
 	if (rc == NULL || rc->handle_signals)
 	{
 		ft_memset(&ign, 0, sizeof(ign));
@@ -91,7 +92,7 @@ int get_more_input_readline(t_rl *l, char *prompt)
 	pid = fork();
 	if (pid == 0)
 	{
-		/* child restores desired handlers for readline */
+		
 		readline_bg_signals();
 		close(pp[0]);
 		bg_readline(pp[1], prompt);
@@ -101,7 +102,7 @@ int get_more_input_readline(t_rl *l, char *prompt)
 	else
 	{
 		int ret = attach_input_readline(l, pp, pid);
-		/* restore parent's original signal handlers if we changed them */
+		
 		if (rc == NULL || rc->handle_signals)
 		{
 			sigaction(SIGINT, &old_sigint, NULL);

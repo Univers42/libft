@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:53:38 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 22:31:04 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:27:22 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/20 23:27:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void free_tab(char **tab)
 	free(tab);
 }
 
-// 0 on success
+
 int	write_to_file(char *str, int fd)
 {
 	int	wrote_total;
@@ -56,7 +56,7 @@ void forward_exit_status(t_status res)
 {
 	ft_assert(res.status != -1);
 
-	/* Free small REPL-owned allocations (avoid "still reachable" after valgrind) */
+	
 	{
 		t_api_readline *state = get_repl_state_ptr();
 		if (state)
@@ -66,7 +66,7 @@ void forward_exit_status(t_status res)
 				free(state->last_cmd_status_s);
 				state->last_cmd_status_s = NULL;
 			}
-			/* do not free entire state here — main cleanup runs elsewhere on normal exit */
+			
 		}
 	}
 

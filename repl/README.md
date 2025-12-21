@@ -73,16 +73,16 @@ int main() {
     char *base_context = "shell";
 
     buff_readline_init(&rl);
-    init_history(&hist, /* env vector */);
+    init_history(&hist, );
     dyn_str_init(&input);
 
     while (true) {
         char *prompt = prompt_normal(&status, &status_str).buff;
         int ret = xreadline(&rl, &input, prompt, &status, &status_str, &input_method, &context, &base_context);
         free(prompt);
-        if (ret == 0) break; // EOF
-        if (ret == 2) continue; // Interrupt
-        // Process input...
+        if (ret == 0) break; 
+        if (ret == 2) continue; 
+        
         manage_history(&hist, &rl);
     }
 

@@ -5,18 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 07:35:12 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 20:54:02 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:27:57 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/20 23:28:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-#include "ft_readline.h" /* access get_repl_config() */
-
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   BUILD PROMPT
-   ═══════════════════════════════════════════════════════════════════════════ */
+#include "ft_readline.h" 
 
 t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 {
@@ -47,7 +42,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	cap_cmd("pwd", &cwd);
 	curr_cwd = cwd.buff;
 
-	// Only refresh git info if cwd changed AND vcs enabled
+	
 	if ((conf == NULL || conf->enable_vcs) && (cached_cwd == NULL || strcmp(cached_cwd, curr_cwd) != 0))
 		need_refresh = 1;
 	if (need_refresh && (conf == NULL || conf->enable_vcs))
@@ -71,12 +66,12 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	   LINE 1: ╭─  user ═══  path ║  branch ●
 	   ══════════════════════════════════════════════════════════════════════ */
 
-	/* Opening decoration */
+	
 	dyn_str_pushstr(&p, FG_CHARCOAL);
 	dyn_str_pushstr(&p, "╭─");
 	dyn_str_pushstr(&p, RESET);
 
-	/* User segment */
+	
 	dyn_str_pushstr(&p, " ");
 	dyn_str_pushstr(&p, FG_MOLTEN);
 	dyn_str_pushstr(&p, USER_ICON);
@@ -85,19 +80,19 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	dyn_str_pushstr(&p, user);
 	dyn_str_pushstr(&p, RESET);
 
-	/* Separator */
+	
 	dyn_str_pushstr(&p, FG_CHARCOAL);
 	dyn_str_pushstr(&p, SEP_L);
 	dyn_str_pushstr(&p, RESET);
 
-	/* Path segment */
+	
 	dyn_str_pushstr(&p, FG_EMBER);
 	dyn_str_pushstr(&p, DIR_ICON);
 	dyn_str_pushstr(&p, " ");
 	dyn_str_pushstr(&p, short_path);
 	dyn_str_pushstr(&p, RESET);
 
-	/* Git segment */
+	
 	if (cached_git_branch)
 	{
 		dyn_str_pushstr(&p, FG_CHARCOAL);
@@ -113,7 +108,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 		dyn_str_pushstr(&p, RESET);
 	}
 
-	/* Status code if error */
+	
 	if (status != 0)
 	{
 		dyn_str_pushstr(&p, " ");
@@ -139,7 +134,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	{
 		fmt_time(time_buf, sizeof(time_buf), get_chrono()->last_ms);
 		line_w = vis_width(p.buff);
-		chrono_w = 3 + (int)ft_strlen(time_buf); /* "⏱ " + time */
+		chrono_w = 3 + (int)ft_strlen(time_buf); 
 		pad = cols - line_w - chrono_w - 1;
 		if (pad < 2)
 			pad = 2;
@@ -154,7 +149,7 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 		dyn_str_pushstr(&p, time_buf);
 		dyn_str_pushstr(&p, RESET);
 	}
-	// else: skip chrono entirely (no padding added)
+	
 
 	/* ══════════════════════════════════════════════════════════════════════
 	   LINE 2: status circle (color by ultimate state)
@@ -164,34 +159,34 @@ t_dyn_str prompt_normal(t_status *st_res, char **st_s)
 	dyn_str_pushstr(&p, "╰─");
 	dyn_str_pushstr(&p, RESET);
 
-	// Status color logic - priority: signal > exit_code > success
+	
 	if (st_res->c_c)
 	{
-		dyn_str_pushstr(&p, FG_PURPLE); // signal (Ctrl+C, etc.)
+		dyn_str_pushstr(&p, FG_PURPLE); 
 		dyn_str_pushstr(&p, BOLD);
 		dyn_str_pushstr(&p, " ●");
 	}
 	else if (status == 0)
 	{
-		dyn_str_pushstr(&p, FG_SUCCESS); // green = success
+		dyn_str_pushstr(&p, FG_SUCCESS); 
 		dyn_str_pushstr(&p, BOLD);
 		dyn_str_pushstr(&p, " ●");
 	}
 	else if (status == 1)
 	{
-		dyn_str_pushstr(&p, FG_BLUE); // blue = generic error
+		dyn_str_pushstr(&p, FG_BLUE); 
 		dyn_str_pushstr(&p, BOLD);
 		dyn_str_pushstr(&p, " ●");
 	}
 	else if (status >= 128)
 	{
-		dyn_str_pushstr(&p, FG_WARN); // yellow = signal termination
+		dyn_str_pushstr(&p, FG_WARN); 
 		dyn_str_pushstr(&p, BOLD);
 		dyn_str_pushstr(&p, " ●");
 	}
 	else
 	{
-		dyn_str_pushstr(&p, FG_FIRE); // red = other error
+		dyn_str_pushstr(&p, FG_FIRE); 
 		dyn_str_pushstr(&p, BOLD);
 		dyn_str_pushstr(&p, " ●");
 	}

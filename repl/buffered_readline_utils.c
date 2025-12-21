@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 07:22:41 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 21:44:07 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:27:10 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/20 23:27:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "trap.h"
-#include <stdio.h> // add for snprintf
+#include <stdio.h> 
 
 void buff_readline_update(t_rl *l)
 {
@@ -61,7 +61,7 @@ int get_more_input_notty(t_rl *rl)
 	int status;
 
 	status = 1;
-	/* Respect REPL configuration for signal handling */
+	
 	{
 		t_repl_config *rc = get_repl_config();
 		if (rc == NULL || rc->handle_signals)
@@ -83,7 +83,7 @@ int get_more_input_notty(t_rl *rl)
 		if (ft_strnchr(buff, '\n', ret))
 			break;
 	}
-	/* Restore unwind handlers only if we installed them */
+	
 	{
 		t_repl_config *rc = get_repl_config();
 		if (rc == NULL || rc->handle_signals)

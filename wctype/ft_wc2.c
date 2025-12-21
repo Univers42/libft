@@ -1,17 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wcwidth.c                                       :+:      :+:    :+:   */
+/*   ft_walnum.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 18:57:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 02:22:49 by marvin           ###   ########.fr       */
+/*   Created: 2025/11/07 16:34:52 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/20 23:09:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_wctype.h"
-#include "wchar.h"
+
+int	ft_iswalnum(wint_t wc)
+{
+	return (ft_iswalpha(wc) || ft_iswdigit(wc));
+}
+
+int	ft_iswalpha(wint_t wc)
+{
+	return ((wc >= L'A' && wc <= L'Z') || (wc >= L'a' && wc <= L'z'));
+}
+
+int	ft_iswdigit(wint_t wc)
+{
+	return (wc >= L'0' && wc <= L'9');
+}
 
 /**
  * lightweight implementation . if we want full implementation

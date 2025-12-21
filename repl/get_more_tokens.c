@@ -5,22 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 11:43:56 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 22:56:04 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:27:16 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/21 02:06:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "libft.h"
 #include <stdbool.h>
-#include "ft_wctype.h" // add for ft_mbrtowc and ft_wcwidth
-#include "ft_readline.h" // for new ctx types
+#include "ft_wctype.h" 
+#include "ft_readline.h" 
 
-static int readline_cmd(t_rl *rl, t_getmore_ctx *ctx)
+int readline_cmd(t_rl *rl, t_getmore_ctx *ctx)
 {
 	int stat;
 	t_xreadline_ctx xctx;
 
-	/* build small xreadline context from getmore context */
+	
 	xctx.ret = ctx->input;
 	xctx.prompt = *ctx->prompt;
 	xctx.last_cmd_status_res = ctx->last_cmd_status_res;
@@ -63,7 +64,7 @@ bool ends_with_bs_nl(t_dyn_str s)
 	return (unterminated);
 }
 
-static void extend_bs(t_rl *rl, t_getmore_ctx *ctx)
+void extend_bs(t_rl *rl, t_getmore_ctx *ctx)
 {
 	char *tmp_prompt;
 	char *old_prompt;
@@ -75,17 +76,17 @@ static void extend_bs(t_rl *rl, t_getmore_ctx *ctx)
 		tmp_prompt = ft_strdup("> ");
 		if (!tmp_prompt)
 			return;
-		/* swap in the temporary prompt for the duration of the call */
+		
 		old_prompt = *ctx->prompt;
 		*ctx->prompt = tmp_prompt;
 		if (readline_cmd(rl, ctx))
 		{
-			/* restore and free temp before returning */
+			
 			*ctx->prompt = old_prompt;
 			free(tmp_prompt);
 			return;
 		}
-		/* restore and free temp */
+		
 		*ctx->prompt = old_prompt;
 		free(tmp_prompt);
 	}
@@ -93,7 +94,7 @@ static void extend_bs(t_rl *rl, t_getmore_ctx *ctx)
 
 /* sanitize input buffer: replace invalid UTF-8 leading/continuation with '?' so
    downstream mbrtowc/vis_width/tokenizer do not loop on invalid bytes */
-static void sanitize_input_utf8(t_dyn_str *input)
+void sanitize_input_utf8(t_dyn_str *input)
 {
 	mbstate_t st;
 	wchar_t wc;
@@ -105,7 +106,7 @@ static void sanitize_input_utf8(t_dyn_str *input)
 		r = ft_mbrtowc(&wc, input->buff + i, (size_t)(input->len - i), &st);
 		if (r == (size_t)-1)
 		{
-			/* invalid sequence: replace single byte and continue */
+			
 			input->buff[i] = '?';
 			ft_memset(&st, 0, sizeof(st));
 			i++;
@@ -113,7 +114,7 @@ static void sanitize_input_utf8(t_dyn_str *input)
 		}
 		if (r == (size_t)-2)
 		{
-			/* truncated sequence at end: leave as-is */
+			
 			break;
 		}
 		if (r == 0)
@@ -132,7 +133,7 @@ void get_more_tokens(t_rl *rl, t_getmore_ctx *ctx)
 	bool created_local = false;
 	char looking_for = '\0';
 
-	/* Only create a temporary deque if caller did not provide one. */
+	
 	if (!ctx->out_tokens)
 	{
 		deque_init(&tt, 64, sizeof(t_token), NULL);
@@ -167,9 +168,9 @@ void get_more_tokens(t_rl *rl, t_getmore_ctx *ctx)
 			return;
 		}
 		extend_bs(rl, ctx);
-		/* sanitize input so invalid UTF-8 bytes don't cause downstream loops */
+		
 		sanitize_input_utf8(ctx->input);
-		/* Tokenize into the (possibly caller-provided) deque */
+		
 		next_prompt = tokenizer(ctx->input->buff, tokens);
 		free(curr_prompt);
 		if (next_prompt)
@@ -177,7 +178,7 @@ void get_more_tokens(t_rl *rl, t_getmore_ctx *ctx)
 		else
 			*ctx->prompt = NULL;
 	}
-	/* Free local deque buffer if we created it here */
+	
 	if (created_local && tokens && tokens->buf)
 		free(tokens->buf);
 }

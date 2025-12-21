@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/12/20 23:20:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/20 23:29:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**ft_split(char const *str, char c)
 	int		sentinel[2];
 	char	sep[2];
 
-	ft_assert(str);
+	ft_assert(str != NULL);
 	sep[0] = c;
 	sep[1] = '\0';
 	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));

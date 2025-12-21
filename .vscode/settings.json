@@ -40,5 +40,6 @@
     "ft_limits.h": "c",
     "string.h": "c",
     "ft_termcap.h": "c"
-  }
+},
+"C_Cpp.errorSquiggles": "disabled"
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 07:23:53 by anddokhn          #+#    #+#             */
-/*   Updated: 2025/12/20 22:37:11 by marvin           ###   ########.fr       */
+/*   Created: 2025/12/20 23:28:14 by marvin            #+#    #+#             */
+/*   Updated: 2025/12/21 03:36:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-uint32_t g_should_unwind = 0;
-
-static int return_last_line(t_rl *rl, t_dyn_str *ret)
+static int	return_last_line(t_rl *rl, t_dyn_str *ret)
 {
-	int len;
+	int	len;
 
 	len = rl->str.len - rl->cursor;
 	dyn_str_pushnstr(ret, rl->str.buff + rl->cursor, len);
@@ -32,10 +30,11 @@ static int return_last_line(t_rl *rl, t_dyn_str *ret)
 	return (4);
 }
 
-static int return_new_line(t_rl *rl, t_dyn_str *ret, char **context, char **base_context)
+static int	return_new_line(t_rl *rl, t_dyn_str *ret,
+				char **context, char **base_context)
 {
-	char *temp;
-	int len;
+	char	*temp;
+	int		len;
 
 	rl->lineno++;
 	update_context(rl, context, base_context);
@@ -52,13 +51,11 @@ static int return_new_line(t_rl *rl, t_dyn_str *ret, char **context, char **base
 	return (4);
 }
 
-int xreadline(t_rl *rl, t_xreadline_ctx *ctx)
+int	xreadline(t_rl *rl, t_xreadline_ctx *ctx)
 {
-	int code;
+	int	code;
 
-	if (!ctx)
-		return (0);
-	if (rl->has_finished)
+	if (!ctx || !rl || rl->has_finished)
 		return (0);
 	if (!rl->has_line)
 	{
@@ -71,11 +68,11 @@ int xreadline(t_rl *rl, t_xreadline_ctx *ctx)
 		if (code == 1)
 			return (rl->has_finished = true, 0);
 		if (code == 2)
-		{
-			g_should_unwind = SIGINT;
-			set_cmd_status(ctx->last_cmd_status_res, (t_status){.status = CANCELED, .c_c = true}, ctx->last_cmd_status_s);
-			return (2);
-		}
+			return (get_g_sig()->should_unwind = SIGINT,
+				set_cmd_status(ctx->last_cmd_status_res,
+					(t_status){.status = CANCELED, .c_c = true},
+				ctx->last_cmd_status_s),
+				2);
 		if (*ctx->input_method == INP_READLINE)
 			dyn_str_push(&rl->str, '\n');
 		rl->has_line = true;

@@ -1,1 +1,4 @@
 - [] : Error of unicode when not recognized in input the program run infinitely, this behavior is not protected yet
+but ñ into double quote string work fine
+bq is not working with unicode
+sq is working

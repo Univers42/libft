@@ -1,0 +1,1 @@
+- [] : Error of unicode when not recognized in input the program run infinitely, this behavior is not protected yet

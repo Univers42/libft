@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   system.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:04:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:50:07 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 02:29:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include "ft_wctype.h"
 
 //Those functions has to be maybe placed into the libarena implementation
 // it's more related to mmemory management, for strings or data structures
@@ -55,7 +56,7 @@ static inline void ensure_locale(void)
 
 	if (!done)
 	{
-		setlocale(LC_CTYPE, "");
+		ft_setlocale(LC_CTYPE, "");
 		done = 1;
 	}
 }

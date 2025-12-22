@@ -5,5 +5,5 @@ id,first_name,last_name,age,salary,department,notes
 4,Alice,Williams,35,88000.25,HR,"Handles recruitment"
 5,Chloé,Åström,291564545,71000.00,Design,"International — Malmö office"
 6,,Unknown,534564,0.00,Contract,"Missing first name and age"
-7,"O'Connor","Mc,Test",31,60000.00,DevOps,"Contains comma and apostrophe"
+7,"O'Connñññññññor","Mc,Test",31,6000000000000.00,DevOps,"Contains comma and apostrophe"
 8,"Quoted ""Field""","Example",45,120000.00,Management,"Field with embedded quotes"

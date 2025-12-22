@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wctype.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:24:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 19:06:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 02:58:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 # define FT_WCTYPE_H
 
 # include <wchar.h>
+
+#define FT_LC_ALL		0
+#define FT_LC_COLLATE	1
+#define FT_LC_CTYPE		2
+#define FT_LC_MONETARY	3
+#define FT_LC_NUMERIC	4
+#define FT_LC_TIME		5
+#define FT_LC_MESSAGES	6
+#define FT_CAT_COUNT	7
 
 typedef enum e_wctype
 {
@@ -31,6 +40,11 @@ typedef enum e_wctype
 	FT_WCTYPE_XDIGIT,
 	FT_WCTYPE_NONE
 }	t_wctype;
+
+typedef struct s_locale_data
+{
+	char	*locales[FT_CAT_COUNT];
+}	t_locale_data;
 
 /* classification prototypes */
 int			ft_iswalnum(wint_t wc);
@@ -53,7 +67,9 @@ int			ft_towupper(wint_t wc);
 /* meta helpers */
 int			ft_iswctype(wint_t wc, t_wctype desc);
 t_wctype	ft_wctype(const wchar_t *name);
-size_t ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps);
-
-int     ft_wcwidth(wchar_t wc);
+size_t		ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps);
+void		ft_locale_cleanup(void);
+char		*ft_setlocale(int category, const char *locale);
+size_t      ft_mb_cur_max(void);
+int			ft_wcwidth(wchar_t wc);
 #endif

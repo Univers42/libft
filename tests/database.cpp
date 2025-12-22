@@ -10,19 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "database.h"
+#include <sys/wait.h>
+#include <errno.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include "database.h"
+#include "pipe.h"
+#include "lifoba.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 // ============= EXAMPLE USAGE =============
 
 void create_sample_database(t_database *db) {
     // Add columns
     db_add_column(db, "ID", TYPE_INT, ALIGN_RIGHT);
-    db_add_column(db, "First Name", TYPE_STR, ALIGN_LEFT);
-    db_add_column(db, "Last Name", TYPE_STR, ALIGN_LEFT);
+    db_add_column(db, "First Name", TYPE_STRING, ALIGN_LEFT);
+    db_add_column(db, "Last Name", TYPE_STRING, ALIGN_LEFT);
     db_add_column(db, "Age", TYPE_INT, ALIGN_RIGHT);
     db_add_column(db, "Salary", TYPE_FLOAT, ALIGN_RIGHT);
-    db_add_column(db, "Department", TYPE_STR, ALIGN_LEFT);
+    db_add_column(db, "Department", TYPE_STRING, ALIGN_LEFT);
     
     // Add rows with labels
     const char *row1[] = {"1", "John", "Doe", "30", "75000.50", "Engineering"};

@@ -304,13 +304,6 @@ typedef struct s_type_info
 	bool is_signed;
 } t_type_info;
 
-typedef enum e_alignment
-{
-	ALIGN_LEFT,
-	ALIGN_CENTER,
-	ALIGN_RIGHT
-} t_alignment;
-
 typedef enum e_resize
 {
 	RESIZE_INCREASE,

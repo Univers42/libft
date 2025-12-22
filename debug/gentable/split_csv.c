@@ -13,7 +13,8 @@
 #include "database.h"
 
 // Proper CSV split function that handles quoted fields and escaped quotes ("")
-static char **ft_split(const char *str, char delimiter) {
+char **csv_split(const char *str, char delimiter)
+{
     char **result = NULL;
     size_t count = 0;
     const char *p = str;
@@ -46,7 +47,7 @@ static char **ft_split(const char *str, char delimiter) {
     }
     count++;
 
-    result = calloc(count + 1, sizeof(char *));
+    result = xcalloc(count + 1, sizeof(char *));
     if (!result)
         return NULL;
     p = str;
@@ -54,8 +55,8 @@ static char **ft_split(const char *str, char delimiter) {
     while (idx < count) {
         bool was_quoted = false;
         size_t write_pos = 0;
-        size_t buf_cap = strlen(p) + 1;
-        char *field = calloc(buf_cap + 1, 1);
+        size_t buf_cap = ft_strlen(p) + 1;
+        char *field = xcalloc(buf_cap + 1, 1);
         if (!field) {
             free_split(result);
             return NULL;
@@ -104,7 +105,8 @@ static char **ft_split(const char *str, char delimiter) {
     return result;
 }
 
-static void free_split(char **arr) {
+void free_split(char **arr)
+{
     size_t i;
     if (!arr) return;
     for (i = 0; arr[i]; i++) {
@@ -113,7 +115,8 @@ static void free_split(char **arr) {
     free(arr);
 }
 
-static char *trim_whitespace(char *str) {
+char *trim_whitespace(char *str)
+{
     char *end;
     while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r') str++;
     if (*str == 0) return str;

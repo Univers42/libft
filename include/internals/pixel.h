@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pixel.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:07:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:24:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 02:21:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_color
 	int			z_val;
 	float		zf_val;
 	uint32_t	hex_color;
-	union
+	struct
 	{
 		uint8_t	r;
 		uint8_t	g;

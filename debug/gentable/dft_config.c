@@ -14,21 +14,25 @@
 
 // ============= DEFAULT CONFIGURATIONS =============
 
-static t_format_style	default_style(void)
+t_format_style	default_style(void)
 {
     t_format_style	style;
 
     style.number_align = ALIGN_RIGHT;
     style.string_align = ALIGN_LEFT;
-    style.title = make_color(0, 255, 255);      // Cyan
-    style.header = make_color(255, 255, 255);   // White
-    style.footer = make_color(200, 200, 200);   // Light gray
-    style.even_row = make_color(220, 220, 255); // Light blue
-    style.odd_row = make_color(255, 255, 255);  // White
+    /* Title: warm accent */
+    style.title = make_color(220, 220, 100);      // warm yellow
+    /* Header: visible blue for headers */
+    style.header = make_color(144, 144, 144);      // DodgerBlue
+    /* Footer: subtle gray */
+    style.footer = make_color(10, 255, 150);     // medium gray
+    /* Alternating rows: light subtle tint for even rows, white for odd rows */
+    style.even_row = make_color(250, 250, 255);   // very light blue-ish / near-white
+    style.odd_row = make_color(255, 255, 255);    // pure white
     return (style);
 }
 
-static t_display_config default_config(void)
+t_display_config default_config(void)
 {
     t_display_config	cfg;
 

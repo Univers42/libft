@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   print_table.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 01:12:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/12/22 01:12:29 by marvin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "database.h"
 
 /* copy from src to dst up to max_display_width display columns, preserving UTF-8 char boundaries */
@@ -113,7 +101,12 @@ void db_render(t_database *db)
 	{
 		ft_printf("%s", SYMBOL_UNICODE_BAR);
 		if (db->config.show_left_attributes) {
-			format_cell(cell_buf, "Attribute", label_width, ALIGN_CENTER, sizeof(cell_buf));
+			{
+				t_pad_ctx ctx = { .buf = cell_buf, .text = "Attribute",
+					.width = label_width, .align = ALIGN_CENTER,
+					.bufsize = sizeof(cell_buf), .dlen = 0 };
+				format_cell(&ctx);
+			}
 			if (db->config.use_bold_header)
 				ft_printf(ASCII_BOLD);
 			print_rgb_color(db->style.header);
@@ -123,7 +116,12 @@ void db_render(t_database *db)
 		}
 		
 		for (i = 0; i < db->ncols; i++) {
-			format_cell(cell_buf, db->cols[i].name, widths[i], ALIGN_CENTER, sizeof(cell_buf));
+			{
+				t_pad_ctx ctx = { .buf = cell_buf, .text = db->cols[i].name,
+					.width = widths[i], .align = ALIGN_CENTER,
+					.bufsize = sizeof(cell_buf), .dlen = 0 };
+				format_cell(&ctx);
+			}
 			if (db->config.use_bold_header)
 				ft_printf(ASCII_BOLD);
 			print_rgb_color(db->style.header);
@@ -142,7 +140,12 @@ void db_render(t_database *db)
 		if (db->config.show_left_attributes)
 		{
 			const char *label = db->rows[i].label ? db->rows[i].label : "";
-			format_cell(cell_buf, label, label_width, ALIGN_LEFT, sizeof(cell_buf));
+			{
+				t_pad_ctx ctx = { .buf = cell_buf, .text = label,
+					.width = label_width, .align = ALIGN_LEFT,
+					.bufsize = sizeof(cell_buf), .dlen = 0 };
+				format_cell(&ctx);
+			}
 			if (db->config.alternating_colors)
 				print_rgb_color(i % 2 == 0 ? db->style.even_row : db->style.odd_row);
 			ft_printf(" %s ", cell_buf);
@@ -161,7 +164,12 @@ void db_render(t_database *db)
 			const char *cell_data = "";
 			if (j < db->rows[i].ncols && db->rows[i].data[j])
 				cell_data = db->rows[i].data[j];
-			format_cell(cell_buf, cell_data, widths[j], align, sizeof(cell_buf));
+			{
+				t_pad_ctx ctx = { .buf = cell_buf, .text = cell_data,
+					.width = widths[j], .align = align,
+					.bufsize = sizeof(cell_buf), .dlen = 0 };
+				format_cell(&ctx);
+			}
 			if (db->config.alternating_colors)
 				print_rgb_color(i % 2 == 0 ? db->style.even_row : db->style.odd_row);
 			ft_printf(" %s ", cell_buf);

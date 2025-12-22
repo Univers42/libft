@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 00:55:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 14:16:17 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 04:30:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "internals/get_next_line.h"
+#include "ft_string.h"
+#include "ft_memory.h"
 
-t_state append_from_buffer(t_file *scan, t_dynstr *line)
+t_state	append_from_buffer(t_file *scan, t_dynstr *line)
 {
-	char *nl;
-	size_t chunk;
-	size_t avail;
+	char	*nl;
+	size_t	chunk;
+	size_t	avail;
 
 	avail = (size_t)(scan->end - scan->cur);
 	nl = ft_strnchr(scan->cur, '\n', avail);
@@ -24,8 +26,35 @@ t_state append_from_buffer(t_file *scan, t_dynstr *line)
 		chunk = (size_t)(nl - scan->cur + 1);
 	else
 		chunk = avail;
-	if (ensure_cap(&line->buf, &line->cap, line->size + chunk + 1) == ST_ERR_ALLOC)
+
+	/* allocate/ensure capacity locally (robust fallback to plain realloc) */
+	{
+		size_t need = line->size + chunk + 1;
+		if (need > line->cap)
+		{
+			size_t newcap = line->cap ? line->cap * 2 : 128;
+			while (newcap < need)
+			{
+				/* guard overflow */
+				if (newcap > (SIZE_MAX / 2))
+				{
+					newcap = need;
+					break;
+				}
+				newcap *= 2;
+			}
+			char *n = realloc(line->buf, newcap);
+			if (!n)
+				return (ST_ERR_ALLOC);
+			line->buf = n;
+			line->cap = newcap;
+		}
+	}
+
+	/* defensive: ensure buffer valid */
+	if (!line->buf)
 		return (ST_ERR_ALLOC);
+
 	ft_memmove(line->buf + line->size, scan->cur, chunk);
 	line->size += chunk;
 	line->buf[line->size] = '\0';
@@ -33,9 +62,9 @@ t_state append_from_buffer(t_file *scan, t_dynstr *line)
 	return (nl != NULL);
 }
 
-t_state refill(t_file *scan, int fd)
+t_state	refill(t_file *scan, int fd)
 {
-	ssize_t readn;
+	ssize_t	readn;
 
 	readn = read(fd, scan->buf, BUFFER_SIZE);
 	if (readn <= 0)
@@ -45,9 +74,9 @@ t_state refill(t_file *scan, int fd)
 	return (ST_FILLED);
 }
 
-t_state scan_nl(t_file *scan, t_dynstr *line, int fd)
+t_state	scan_nl(t_file *scan, t_dynstr *line, int fd)
 {
-	t_state st;
+	t_state	st;
 
 	while (ST_SCANNING)
 	{
@@ -65,26 +94,27 @@ t_state scan_nl(t_file *scan, t_dynstr *line, int fd)
 		if (st == ST_ERR_ALLOC)
 			return (ST_ERR_ALLOC);
 		if (st)
-			break;
+			break ;
 	}
 	return (ST_FOUND_NL);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static t_file scan;
-	t_dynstr line;
-	t_state st;
+	static t_file	*scan = NULL;
+	t_dynstr		line;
+	t_state			st;
 
-	line = (t_dynstr){NULL, 0, 0};
+	/* zero-init dynamic string */
+	line.buf = NULL;
+	line.size = 0;
+	line.cap = 0;
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (scan.cur == NULL || scan.end == NULL)
-	{
-		scan.cur = scan.buf;
-		scan.end = scan.buf;
-	}
-	st = scan_nl(&scan, &line, fd);
+	/* ensure scanner instance (allocates if NULL) */
+	init(&scan);
+	st = scan_nl(scan, &line, fd);
 	if (st == ST_ERR_ALLOC || st == ST_FILE_NOT_FOUND)
 		return (reset(&line, &scan));
 	if (st == ST_EOF)
@@ -98,24 +128,28 @@ char *get_next_line(int fd)
 	return (line.buf);
 }
 
-char *get_next_line_bonus(int fd)
+char	*get_next_line_bonus(int fd)
 {
-	static t_file *scan[FD_MAX] = {0};
-	t_dynstr line;
-	t_state st;
+	static t_file	*scan[FD_MAX] = {0};
+	t_dynstr		line;
+	t_state			st;
 
-	line = (t_dynstr){NULL, 0, 0};
+	/* zero-init dynamic string */
+	line.buf = NULL;
+	line.size = 0;
+	line.cap = 0;
+
 	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	init(&scan[fd]);
 	st = scan_nl(scan[fd], &line, fd);
 	if (st == ST_ERR_ALLOC || st == ST_FILE_NOT_FOUND)
-		return (reset(&line, scan[fd]));
+		return (reset(&line, &scan[fd]));
 	if (st == ST_EOF)
 	{
 		if (line.size > 0)
 			return (line.buf);
-		return (reset(&line, scan[fd]));
+		return (reset(&line, &scan[fd]));
 	}
 	if (line.size == 0)
 		return (reset(&line, NULL));

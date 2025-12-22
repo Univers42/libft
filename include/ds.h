@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:59:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 15:27:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/22 04:04:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # include "internals/ft_vector.h"
 # include "internals/array.h"
 # include "internals/ft_hash.h"
+# include "dyn_string.h"
 
 #endif

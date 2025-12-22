@@ -88,6 +88,17 @@ typedef struct s_database
     t_display_config	config;
 } t_database;
 
+/* padding/truncation context used by formatting helpers */
+typedef struct s_pad_ctx
+{
+	char		*buf;
+	const char	*text;
+	size_t		width;
+	t_align		align;
+	size_t		bufsize;
+	int			dlen;
+}	t_pad_ctx;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -98,10 +109,8 @@ void				db_set_footer(t_database *db, const char *footer);
 void				db_free(t_database *db);
 t_format_style		default_style(void);
 t_display_config	default_config(void);
-void				compute_padding_if_not_too_long(char *buf, const char *text,
-						size_t width, t_align align, size_t bufsize, int dlen);
-void				format_cell(char *buf, const char *text, size_t width,
-						t_align align, size_t bufsize);
+void				compute_padding_if_not_too_long(t_pad_ctx *ctx);
+void				format_cell(t_pad_ctx *ctx);
 void				print_rgb_color(t_color c);
 t_color				make_color(uint8_t r, uint8_t g, uint8_t b);
 void				utf8_truncate_by_display_width(const char *src,
@@ -124,6 +133,11 @@ void				calculate_column_widths(t_database *db, size_t *widths, size_t *label_wi
 int					display_width(const char *s);
 void				utf8_truncate_by_display_width(const char *src, size_t max_display,
 						char *dst, size_t dst_size);
+void				pad_center(char *buf, const char *text, size_t pad, size_t bufsize);
+void				pad_right(char *buf, const char *text, size_t pad, size_t bufsize);
+void				pad_left(char *buf, const char *text, size_t pad, size_t bufsize);
+void				format_cell(t_pad_ctx *ctx);
+void				compute_padding_if_not_too_long(t_pad_ctx *ctx);
 #ifdef __cplusplus
 }
 #endif

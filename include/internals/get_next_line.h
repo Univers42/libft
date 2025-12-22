@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 02:57:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 14:16:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 04:30:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_file
 	char buf[BUFFER_SIZE];
 	char *cur;
 	char *end;
+	/* new: indicate this scanner instance was heap-allocated by init() */
+	int  owned;
 } t_file;
 
 typedef struct s_dynstr
@@ -64,10 +66,11 @@ static inline void init(t_file **scan)
 			return;
 		(*scan)->cur = (*scan)->buf;
 		(*scan)->end = (*scan)->buf;
+		(*scan)->owned = 1; /* mark as owned (heap-allocated) */
 	}
 }
 
-static inline char *reset(t_dynstr *line, t_file *scan)
+static inline char *reset(t_dynstr *line, t_file **pscan)
 {
 	if (line)
 	{
@@ -76,10 +79,19 @@ static inline char *reset(t_dynstr *line, t_file *scan)
 		line->size = 0;
 		line->cap = 0;
 	}
-	if (scan)
+	if (pscan && *pscan)
 	{
-		scan->cur = scan->buf;
-		scan->end = scan->buf;
+		/* if the scanner was heap-allocated, free it and clear caller pointer */
+		if ((*pscan)->owned)
+		{
+			free(*pscan);
+			*pscan = NULL;
+		}
+		else
+		{
+			(*pscan)->cur = (*pscan)->buf;
+			(*pscan)->end = (*pscan)->buf;
+		}
 	}
 	return (NULL);
 }

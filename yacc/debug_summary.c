@@ -61,7 +61,6 @@ void	print_token_summary(t_deque *tokens)
 	const int	total = (int)tokens->len;
 	t_token		*curr;
 	int			type_counts[TOKEN_SENTINEL];
-	t_dyn_str	lexem;
 	int			i;
 
 	ft_memset(type_counts, 0, sizeof(type_counts));
@@ -73,7 +72,7 @@ void	print_token_summary(t_deque *tokens)
 			type_counts[curr->type]++;
 	}
 	helper_summary(total);
-	help_process_summary(lexem, type_counts);
+	help_process_summary((t_dyn_str){0}, type_counts);
 	printf(ASCII_MAGENTA "╚════════════════════════════════╩═══════╝\n"
 		RESET_TERM);
 	printf("\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memory.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 16:52:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/22 18:18:31 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ extern "C"
 		size_t	i;
 		char	*ptr;
 		void	*next;
+		void	*tmp;
 	
 		if (!data)
 			return ;
@@ -105,7 +106,8 @@ extern "C"
 			i = -1;
 			while (++i < count)
 			{
-				next = *(void **)(ptr + i * elem_size);
+				ft_memcpy(&tmp, ptr + i * elem_size, sizeof(tmp));
+				next = tmp;
 				if (next)
 					free_elem(next);
 			}

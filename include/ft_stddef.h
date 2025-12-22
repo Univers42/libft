@@ -68,6 +68,22 @@ typedef int (*ft_ctype)(int);
 #define ESC_BS '\\'	 /* backslash */
 #define ESC_NUL '\0' /* NUL byte */
 
+#define SYMBOL_UNICODE_BAR "┃"
+#define SYMBOL_UNICODE_HEADER_TOP_LEFT "┏"
+#define SYMBOL_UNICODE_HEADER_TOP_RIGHT "┓"
+#define SYMBOL_UNICODE_HEADER_BOTTOM_LEFT "┗"
+#define SYMBOL_UNICODE_HEADER_BOTTOM_RIGHT "┛"
+#define SYMBOL_UNICODE_HEADER_T_JOINT "┳"
+#define SYMBOL_UNICODE_FOOTER_T_JOINT "┻"
+#define SYMBOL_UNICODE_HEADER_CROSS "╋"
+#define SYMBOL_UNICODE_HEADER_HORIZONTAL_LINE "━"
+#define SYMBOL_UNICODE_VERTICAL_T_LEFT "┣"
+#define SYMBOL_UNICODE_VERTICAL_T_RIGHT "┫"
+
+#define INITIAL_CAPACITY 10
+#define GROWTH_FACTOR 2
+#define MAX_LINE_LENGTH 4096
+
 #define SNL_FMT "%s\n"
 #define ILL_NUM "Illegal number: %s"
 #define HOME_STR "HOME"
@@ -263,6 +279,15 @@ typedef enum e_type
 	TYPE_FLOAT_PTR,
 	TYPE_DOUBLE_PTR
 } t_type;
+
+
+typedef enum e_align {
+    ALIGN_LEFT,
+    ALIGN_RIGHT,
+    ALIGN_CENTER
+} t_align;
+
+
 
 typedef enum e_direction
 {

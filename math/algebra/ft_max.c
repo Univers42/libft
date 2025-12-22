@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 18:02:14 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 16:05:54 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 01:06:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ int	ft_max(int a, int b)
 size_t	ft_max2(size_t a, size_t b)
 {
 	return ((a < b) * b + (a >= b) * a);
+}
+
+size_t max_size(size_t a, size_t b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }
 
 //int main(int argc, char **argv)

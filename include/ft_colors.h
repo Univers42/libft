@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 17:21:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/22 01:00:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 // Reset
 # define RESET_TERM						"\033[0m"
+# define ASCII_RESET					"\033[0m"
+
 // Regular colors
 # define ASCII_BLACK					"\033[0;30m"
 # define ASCII_GREY     				"\033[0;37m"
@@ -25,11 +27,13 @@
 # define ASCII_MAGENTA					"\033[0;35m"
 # define ASCII_CYAN						"\033[0;36m"
 # define ASCII_WHITE					"\033[0;37m"
+# define ASCII_BOLD						"\033[1m"
+
 // Bright colors
 # define BRIGHT_BLACK_TERM				"\033[1;30m"
 # define BRIGHT_RED_TERM				"\033[1;31m"
 # define BRIGHT_GREEN_TERM				"\033[1;32m"
-# define BRIGHT_ ASCII_YELLOW			"\033[1;33m"
+# define BRIGHT_ASCII_YELLOW			"\033[1;33m"
 # define BRIGHT_BLUE_TERM				"\033[1;34m"
 # define BRIGHT_MAGENTA_TERM			"\033[1;35m"
 # define BRIGHT_CYAN_TERM				"\033[1;36m"

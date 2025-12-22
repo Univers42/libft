@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algebra.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 23:38:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 01:06:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ uint8_t		xtr_g(int c);
 uint8_t		xtr_b(int c);
 float		ease_in_out(float t);
 ssize_t		ft_smod(ssize_t a, ssize_t b);
+size_t		max_size(size_t a, size_t b);
 
 #endif

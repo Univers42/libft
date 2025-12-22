@@ -166,20 +166,75 @@ void db_render(t_database *db)
 				align = db->style.number_align;
 			else
 				align = db->style.string_align;
-			const char *cell_data = "";
+			const char *orig_cell = "";
 			if (j < db->rows[i].ncols && db->rows[i].data[j])
-				cell_data = db->rows[i].data[j];
+				orig_cell = db->rows[i].data[j];
+			char *plain_cell = NULL;
+			char prefix_buf[64] = "";
+			char suffix_buf[64] = "";
+			if (strchr(orig_cell, '\x1b'))
 			{
-				t_pad_ctx ctx = { .buf = cell_buf, .text = cell_data,
+				/* extract visible text by removing ANSI \x1b[...m sequences */
+				const char *p = orig_cell;
+				const char *first_esc = strchr(p, '\x1b');
+				if (first_esc)
+				{
+					const char *m = strchr(first_esc, 'm');
+					if (m && (m - first_esc) < (int)sizeof(prefix_buf))
+					{
+						memcpy(prefix_buf, first_esc, m - first_esc + 1);
+						prefix_buf[m - first_esc + 1] = '\0';
+					}
+				}
+				const char *last_esc = strrchr(p, '\x1b');
+				if (last_esc && last_esc != first_esc)
+				{
+					const char *m2 = strchr(last_esc, 'm');
+					if (m2 && (m2 - last_esc) < (int)sizeof(suffix_buf))
+					{
+						memcpy(suffix_buf, last_esc, m2 - last_esc + 1);
+						suffix_buf[m2 - last_esc + 1] = '\0';
+					}
+				}
+				if (suffix_buf[0] == '\0')
+					strcpy(suffix_buf, "\033[0m");
+				plain_cell = malloc(strlen(orig_cell) + 1);
+				if (!plain_cell) plain_cell = ft_strdup("");
+				char *w = plain_cell;
+				while (*p)
+				{
+					if (*p == '\x1b' && p[1] == '[')
+					{
+						p += 2;
+						while (*p && *p != 'm') p++;
+						if (*p == 'm') p++;
+						continue;
+					}
+					*w++ = *p++;
+				}
+				*w = '\0';
+			}
+			else
+			{
+				plain_cell = ft_strdup(orig_cell);
+			}
+			{
+				t_pad_ctx ctx = { .buf = cell_buf, .text = plain_cell,
 					.width = widths[j], .align = align,
 					.bufsize = sizeof(cell_buf), .dlen = 0 };
 				format_cell(&ctx);
 			}
+			if (plain_cell)
+				free(plain_cell);
 			if (db->config.alternating_colors)
 				print_rgb_color(i % 2 == 0 ? db->style.even_row : db->style.odd_row);
 			/* background for data cell */
 			print_rgb_bg_color(i % 2 == 0 ? db->style.background_body : db->style.background_cell);
+			if (prefix_buf[0])
+				ft_printf("%s", prefix_buf);
 			ft_printf(" %s ", cell_buf);
+			if (suffix_buf[0])
+				ft_printf("%s", suffix_buf);
 			ft_printf(ASCII_RESET);
 			ft_printf("%s", SYMBOL_UNICODE_BAR);
 		}

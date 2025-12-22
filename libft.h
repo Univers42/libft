@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 19:24:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:51:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # endif
 
 # include "alias.h"
-# include "analyzer.h"
+//# include "analyzer.h"
 # include "configs.h"
 # include "ds.h"
 # include "ft_colors.h"
@@ -51,7 +51,7 @@
 # include "ipc.h"
 # include "system.h"
 # include "var.h"
-
+# include "database.h"
 
 # include <immintrin.h>
 # include <unistd.h>

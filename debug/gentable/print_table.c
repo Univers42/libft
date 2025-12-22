@@ -109,6 +109,8 @@ void db_render(t_database *db)
 			}
 			if (db->config.use_bold_header)
 				ft_printf(ASCII_BOLD);
+			/* background for header attribute */
+			print_rgb_bg_color(db->style.background_header);
 			print_rgb_color(db->style.header);
 			ft_printf(" %s ", cell_buf);
 			ft_printf(ASCII_RESET);
@@ -124,6 +126,8 @@ void db_render(t_database *db)
 			}
 			if (db->config.use_bold_header)
 				ft_printf(ASCII_BOLD);
+			/* background for header cells */
+			print_rgb_bg_color(db->style.background_header);
 			print_rgb_color(db->style.header);
 			ft_printf(" %s ", cell_buf);
 			ft_printf(ASCII_RESET);
@@ -148,9 +152,10 @@ void db_render(t_database *db)
 			}
 			if (db->config.alternating_colors)
 				print_rgb_color(i % 2 == 0 ? db->style.even_row : db->style.odd_row);
+			/* background for left attribute cell */
+			print_rgb_bg_color(i % 2 == 0 ? db->style.background_body : db->style.background_cell);
 			ft_printf(" %s ", cell_buf);
-			if (db->config.alternating_colors)
-				ft_printf(ASCII_RESET);
+			ft_printf(ASCII_RESET);
 			ft_printf("%s", SYMBOL_UNICODE_BAR);
 		}
 		for (j = 0; j < db->ncols; j++)
@@ -172,9 +177,10 @@ void db_render(t_database *db)
 			}
 			if (db->config.alternating_colors)
 				print_rgb_color(i % 2 == 0 ? db->style.even_row : db->style.odd_row);
+			/* background for data cell */
+			print_rgb_bg_color(i % 2 == 0 ? db->style.background_body : db->style.background_cell);
 			ft_printf(" %s ", cell_buf);
-			if (db->config.alternating_colors)
-				ft_printf(ASCII_RESET);
+			ft_printf(ASCII_RESET);
 			ft_printf("%s", SYMBOL_UNICODE_BAR);
 		}
 		ft_printf("\n");

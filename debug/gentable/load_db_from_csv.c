@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "ft_debug.h"
 #include "ft_stddef.h"
+#include <ctype.h>
 
 static int	open_read_fd(const char *filename)
 {
@@ -87,6 +88,165 @@ static int	acc_is_balanced(const char *acc)
 	return (1);
 }
 
+static char *strip_outer_quotes(const char *s)
+{
+    size_t len;
+    char *tmp;
+
+    if (!s)
+        return NULL;
+    len = strlen(s);
+    if (len >= 2 && s[0] == '"' && s[len - 1] == '"')
+    {
+        tmp = ft_strdup(s + 1);
+        if (!tmp) return NULL;
+        tmp[len - 2] = '\0';
+        /* collapse doubled quotes -> single quote */
+        char *r = tmp;
+        char *w = tmp;
+        while (*r)
+        {
+            if (r[0] == '"' && r[1] == '"')
+            {
+                *w++ = '"';
+                r += 2;
+                continue;
+            }
+            *w++ = *r++;
+        }
+        *w = '\0';
+        return tmp;
+    }
+    return ft_strdup(s);
+}
+
+static void classify_columns_from_row(char **fields, size_t field_count, t_database *db)
+{
+    size_t j;
+
+    if (!db || !fields)
+        return;
+    int offset = 0;
+    if (db->config.auto_increment_id && db->ncols == field_count + 1 && db->cols[0].name && strcasecmp(db->cols[0].name, "id") == 0)
+        offset = 1;
+
+    for (j = 0; j < field_count; ++j)
+    {
+        char *src = strip_outer_quotes(fields[j]);
+        if (!src)
+        {
+            db->cols[j + offset].format = TYPE_STRING;
+            continue;
+        }
+        /* trim spaces */
+        char *p = src;
+        while (*p && isspace((unsigned char)*p)) p++;
+        char *end = src + strlen(src) - 1;
+        while (end > p && isspace((unsigned char)*end)) *end-- = '\0';
+
+        if (*p == '\0')
+        {
+            db->cols[j + offset].format = TYPE_STRING;
+            free(src);
+            continue;
+        }
+
+        /* normalize numbers: handle thousands separators and comma vs dot decimals */
+        int commas = 0, dots = 0;
+        for (char *q = p; *q; ++q)
+        {
+            if (*q == ',') commas++;
+            else if (*q == '.') dots++;
+        }
+        char *norm = NULL;
+        if (commas > 0 && dots == 0)
+        {
+            /* could be either thousand separators or comma decimal; if single comma, assume decimal */
+            if (commas == 1)
+            {
+                norm = malloc(strlen(p) + 1);
+                if (norm) {
+                    strcpy(norm, p);
+                    for (char *q = norm; *q; ++q) if (*q == ',') *q = '.';
+                }
+            }
+            else
+            {
+                /* multiple commas: treat as thousand separators -> remove commas */
+                norm = malloc(strlen(p) + 1);
+                if (norm) {
+                    char *w = norm;
+                    for (char *q = p; *q; ++q) if (*q != ',') *w++ = *q;
+                    *w = '\0';
+                }
+            }
+        }
+        else if (dots > 0 && commas > 0)
+        {
+            /* mixed: decide by last occurrence */
+            char *last_dot = strrchr(p, '.');
+            char *last_comma = strrchr(p, ',');
+            if (last_dot && last_comma)
+            {
+                if (last_dot > last_comma)
+                {
+                    /* dot decimal, remove commas */
+                    norm = malloc(strlen(p) + 1);
+                    if (norm) {
+                        char *w = norm;
+                        for (char *q = p; *q; ++q) if (*q != ',') *w++ = *q;
+                        *w = '\0';
+                    }
+                }
+                else
+                {
+                    /* comma decimal: replace last comma with dot and remove other commas */
+                    norm = strdup(p);
+                    if (norm) {
+                        char *last = strrchr(norm, ',');
+                        if (last) *last = '.';
+                        char *w = norm;
+                        for (char *q = norm; *q; ++q) if (*q != ',') *w++ = *q;
+                        *w = '\0';
+                    }
+                }
+            }
+        }
+        else
+        {
+            norm = strdup(p);
+        }
+
+        bool is_numeric = false;
+        if (norm)
+        {
+            char *endptr = NULL;
+            errno = 0;
+            double v = strtod(norm, &endptr);
+            (void)v;
+            if (endptr && *endptr == '\0' && errno == 0)
+            {
+                /* decide int vs float */
+                if (strchr(norm, '.') || strchr(norm, 'e') || strchr(norm, 'E'))
+                    db->cols[j + offset].format = TYPE_FLOAT;
+                else
+                    db->cols[j + offset].format = TYPE_INT;
+                is_numeric = true;
+            }
+            else
+            {
+                db->cols[j + offset].format = TYPE_STRING;
+            }
+            free(norm);
+        }
+        else
+        {
+            db->cols[j + offset].format = TYPE_STRING;
+        }
+        free(src);
+    }
+}
+
 static int	process_record(t_database *db, char *acc, int *first_line)
 {
 	char	**fields;
@@ -129,10 +289,10 @@ static int	process_record(t_database *db, char *acc, int *first_line)
 	}
 	else
 	{
-		/* if we inserted an 'id' column at the front earlier, the db->ncols will be
-		   one greater than the number of fields. In that case we need to prepend an
-		   empty value so that the CSV fields align with the columns (the id will be
-		   generated later when auto_increment_id is enabled). */
+		/* on the very first data row, classify column formats early so alignment applies */
+		if (db->nrows == 0)
+			classify_columns_from_row(fields, field_count, db);
+		/* handle possible prepending of id placeholder */
 		if (db->config.auto_increment_id && db->ncols == field_count + 1 && db->cols[0].name && strcasecmp(db->cols[0].name, "id") == 0)
 		{
 			char **new_fields;
@@ -144,15 +304,11 @@ static int	process_record(t_database *db, char *acc, int *first_line)
 				free_split(fields);
 				return (-1);
 			}
-			/* first element is empty string placeholder */
 			new_fields[0] = ft_strdup("");
 			for (j = 0; j < field_count; ++j)
 				new_fields[j + 1] = fields[j];
 			new_fields[field_count + 1] = NULL;
-
 			db_add_row_with_label(db, NULL, (const char **)new_fields, field_count + 1);
-
-			/* free temporary placeholder; original field strings are freed by free_split below */
 			free(new_fields[0]);
 			free(new_fields);
 			free_split(fields);
@@ -259,6 +415,25 @@ static void infer_column_types(t_database *db)
     }
 }
 
+static const char *format_name(int fmt)
+{
+    if (fmt == TYPE_INT) return "INT";
+    if (fmt == TYPE_FLOAT) return "FLOAT";
+    return "STRING";
+}
+
+static void print_column_formats(t_database *db)
+{
+    size_t j;
+    if (!db) return;
+    printf("Detected column formats:\n");
+    for (j = 0; j < db->ncols; ++j)
+    {
+        const char *name = db->cols[j].name ? db->cols[j].name : "(null)";
+        printf("  %zu: %s -> %s\n", j, name, format_name(db->cols[j].format));
+    }
+}
+
 int	db_load_from_csv(t_database *db, const char *filename)
 {
     int		fd;
@@ -278,6 +453,8 @@ int	db_load_from_csv(t_database *db, const char *filename)
     close(fd);
     /* after loading, infer column types so alignment rules apply */
     infer_column_types(db);
+    /* debug: print detected formats */
+    print_column_formats(db);
     if (filename)
         printf("Loaded %zu rows from '%s'\n", db->nrows, filename);
     else

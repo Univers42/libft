@@ -41,6 +41,11 @@ typedef struct	s_format_style
     t_color	footer;
     t_color	even_row;
     t_color	odd_row;
+    /* background colors */
+    t_color	background_header;
+    t_color	background_cell;
+    t_color	background_body;
+    t_color	background_footer;
 }	t_format_style;
 
 // Display configuration flags
@@ -114,7 +119,9 @@ t_display_config	default_config(void);
 void				compute_padding_if_not_too_long(t_pad_ctx *ctx);
 void				format_cell(t_pad_ctx *ctx);
 void				print_rgb_color(t_color c);
+void				print_rgb_bg_color(t_color c);
 t_color				make_color(uint8_t r, uint8_t g, uint8_t b);
+t_color				make_background(uint8_t r, uint8_t g, uint8_t b);
 void				utf8_truncate_by_display_width(const char *src,
 						size_t max_display, char *dst, size_t dst_size);
 void				print_separator(size_t *widths, size_t ncols, size_t label_width,

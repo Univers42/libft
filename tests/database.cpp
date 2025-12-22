@@ -92,6 +92,11 @@ int main(int argc, char **argv) {
             custom_style.footer = make_color(0,0,255);
             custom_style.number_align = ALIGN_RIGHT;
             custom_style.string_align = ALIGN_LEFT;
+            /* background colors */
+            custom_style.background_header = make_background(50, 0, 50);   /* deep magenta */
+            custom_style.background_cell = make_background(20, 20, 60);    /* dark blue */
+            custom_style.background_body = make_background(30, 30, 80);    /* navy-ish */
+            custom_style.background_footer = make_background(5, 100, 5);   /* dark green */
             db_set_style(db, custom_style);
             db_set_config(db, cfg);
         }
@@ -157,6 +162,11 @@ int main(int argc, char **argv) {
         custom_style.header = make_color(100, 255, 100);   // Light green
         custom_style.even_row = make_color(255, 255, 200); // Light yellow
         custom_style.odd_row = make_color(200, 255, 255);  // Light cyan
+        /* background colors for interactive demo */
+        custom_style.background_header = make_background(0, 120, 180);  /* cyan header */
+        custom_style.background_cell = make_background(250, 240, 230);  /* warm light */
+        custom_style.background_body = make_background(255, 255, 255);  /* white body */
+        custom_style.background_footer = make_background(60, 10, 10);   /* dark red footer */
         db_set_style(db, custom_style);
         db_render(db);
         
@@ -190,6 +200,13 @@ int main(int argc, char **argv) {
                 db_add_row_with_label(db2, "r3", a3, 3);
 
                 db_set_footer(db2, "Auto-generated IDs");
+                /* also set demo backgrounds */
+                t_format_style demo_style = db2->style;
+                demo_style.background_header = make_background(120, 0, 0);   /* crimson header */
+                demo_style.background_cell = make_background(245, 245, 255);  /* soft blue cells */
+                demo_style.background_body = make_background(250, 250, 250);  /* near-white body */
+                demo_style.background_footer = make_background(0, 80, 40);    /* forest footer */
+                db_set_style(db2, demo_style);
                 db_render(db2);
 
                 printf("Generated IDs: %s, %s, %s\n",

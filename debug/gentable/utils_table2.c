@@ -1,4 +1,5 @@
 #include "database.h"
+#include "libft.h"
 
 void	calculate_column_widths(t_database *db, size_t *widths, size_t *label_width)
 {

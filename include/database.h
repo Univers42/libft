@@ -54,6 +54,7 @@ typedef struct s_display_config
     bool	alternating_colors;
     bool	use_bold_header;
     char	col_separator;
+    bool	auto_increment_id;
 }	t_display_config;
 
 // Column definition
@@ -68,6 +69,7 @@ typedef struct s_col
 // Row structure
 typedef struct s_row
 {
+    int     id;
     char	*label;  // Optional row label/attribute
     char	**data;
     size_t	ncols;
@@ -129,6 +131,14 @@ int					db_add_row_with_label(t_database *db, const char *label,
 						const char **values, size_t nvalues);
 int					db_add_row(t_database *db, ...);
 int					db_load_from_csv(t_database *db, const char *filename);
+
+/* management helpers */
+int				db_set_cell(t_database *db, size_t row, size_t col, const char *value);
+int				db_map_column(t_database *db, size_t col_idx, char (*f)(unsigned int, char));
+int				add_value_idx_column(t_database *db, t_col *col, int idx, int val);
+int				add_value(t_database *db, int lineno, t_col *col, char *value);
+bool				is_id_already_existing(t_database *db, const char *id_value, size_t id_col);
+int				db_next_auto_id(t_database *db);
 void				calculate_column_widths(t_database *db, size_t *widths, size_t *label_width);
 int					display_width(const char *s);
 void				utf8_truncate_by_display_width(const char *src, size_t max_display,

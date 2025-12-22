@@ -21,6 +21,8 @@ int	db_add_row(t_database *db, ...)
 	if (!db->rows[db->nrows].data)
 		return (-1);
 	db->rows[db->nrows].ncols = db->ncols;
+	// initialize id to -1 (unset)
+	db->rows[db->nrows].id = -1;
 	va_start(args, db);
 	for (i = 0; i < db->ncols; ++i)
 	{
@@ -28,6 +30,20 @@ int	db_add_row(t_database *db, ...)
 		db->rows[db->nrows].data[i] = value ? ft_strdup(value) : ft_strdup("");
 	}
 	va_end(args);
+	// try to set id from first column if available
+	if (db->config.auto_increment_id && db->ncols > 0)
+	{
+		int newid = db_next_auto_id(db);
+		char *s = ft_itoa(newid);
+		if (s)
+		{
+			free(db->rows[db->nrows].data[0]);
+			db->rows[db->nrows].data[0] = s;
+			db->rows[db->nrows].id = newid;
+		}
+	}
+	else if (db->ncols > 0 && db->rows[db->nrows].data[0] && db->rows[db->nrows].data[0][0] != '\0')
+		db->rows[db->nrows].id = ft_atoi(db->rows[db->nrows].data[0]);
 	db->nrows++;
 	return (0);
 }

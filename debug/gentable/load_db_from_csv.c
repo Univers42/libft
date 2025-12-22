@@ -101,6 +101,24 @@ static int	process_record(t_database *db, char *acc, int *first_line)
 		field_count++;
 	if (*first_line)
 	{
+		// if auto-increment requested, check whether the CSV headers already contain an 'id' column
+		bool has_id = false;
+		size_t k = 0;
+		while (fields[k])
+		{
+			char *t = trim_whitespace(fields[k]);
+			if (t && strcasecmp(t, "id") == 0)
+			{
+				has_id = true;
+				break;
+			}
+			k++;
+		}
+		if (db->config.auto_increment_id && !has_id)
+		{
+			// create an id column at the front
+			db_add_column(db, "id", TYPE_INT, ALIGN_RIGHT);
+		}
 		i = -1;
 		while (++i < field_count)
 		{
@@ -110,7 +128,41 @@ static int	process_record(t_database *db, char *acc, int *first_line)
 		*first_line = 0;
 	}
 	else
-		db_add_row_with_label(db, NULL, (const char **)fields, field_count);
+	{
+		/* if we inserted an 'id' column at the front earlier, the db->ncols will be
+		   one greater than the number of fields. In that case we need to prepend an
+		   empty value so that the CSV fields align with the columns (the id will be
+		   generated later when auto_increment_id is enabled). */
+		if (db->config.auto_increment_id && db->ncols == field_count + 1 && db->cols[0].name && strcasecmp(db->cols[0].name, "id") == 0)
+		{
+			char **new_fields;
+			size_t j;
+
+			new_fields = malloc((field_count + 2) * sizeof(char *));
+			if (!new_fields)
+			{
+				free_split(fields);
+				return (-1);
+			}
+			/* first element is empty string placeholder */
+			new_fields[0] = ft_strdup("");
+			for (j = 0; j < field_count; ++j)
+				new_fields[j + 1] = fields[j];
+			new_fields[field_count + 1] = NULL;
+
+			db_add_row_with_label(db, NULL, (const char **)new_fields, field_count + 1);
+
+			/* free temporary placeholder; original field strings are freed by free_split below */
+			free(new_fields[0]);
+			free(new_fields);
+			free_split(fields);
+			return (0);
+		}
+		else
+		{
+			db_add_row_with_label(db, NULL, (const char **)fields, field_count);
+		}
+	}
 	free_split(fields);
 	return (0);
 }
@@ -156,26 +208,79 @@ static int	process_file(int fd, t_database *db)
 	return (0);
 }
 
+static void infer_column_types(t_database *db)
+{
+    size_t j, i;
+    if (!db)
+        return;
+    for (j = 0; j < db->ncols; ++j)
+    {
+        bool any_float = false;
+        bool any_non_numeric = false;
+        for (i = 0; i < db->nrows; ++i)
+        {
+            if (!db->rows[i].data) continue;
+            if (j >= db->rows[i].ncols) continue;
+            char *s = db->rows[i].data[j];
+            if (!s || s[0] == '\0') continue;
+            char *p = s;
+            bool has_digit = false;
+            bool has_dot = false;
+            bool has_alpha = false;
+            // allow leading +/-
+            if (*p == '+' || *p == '-') p++;
+            while (*p)
+            {
+                if (*p >= '0' && *p <= '9') has_digit = true;
+                else if (*p == '.' || *p == ',') has_dot = true;
+                else if ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z')) has_alpha = true;
+                else if (*p == 'e' || *p == 'E') has_dot = true; // treat exponent as float
+                p++;
+            }
+            if (has_alpha)
+            {
+                any_non_numeric = true;
+                break;
+            }
+            if (has_dot)
+                any_float = true;
+            else if (!has_digit)
+            {
+                any_non_numeric = true;
+                break;
+            }
+        }
+        if (any_non_numeric)
+            db->cols[j].format = TYPE_STRING;
+        else if (any_float)
+            db->cols[j].format = TYPE_FLOAT;
+        else
+            db->cols[j].format = TYPE_INT;
+    }
+}
+
 int	db_load_from_csv(t_database *db, const char *filename)
 {
-	int		fd;
-	int		rc;
+    int		fd;
+    int		rc;
 
-	ft_assert(db && filename);
-	fd = open_read_fd(filename);
-	if (fd < 0)
-	{
-		if (filename)
-			printf("Error: Could not open file '%s'\n", filename);
-		else
-			printf("Error: Could not open file '(null)'\n");
-		return (-1);
-	}
-	rc = process_file(fd, db);
-	close(fd);
-	if (filename)
-		printf("Loaded %zu rows from '%s'\n", db->nrows, filename);
-	else
-		printf("Loaded %zu rows from '(null)'\n", db->nrows);
-	return (rc);
+    ft_assert(db && filename);
+    fd = open_read_fd(filename);
+    if (fd < 0)
+    {
+        if (filename)
+            printf("Error: Could not open file '%s'\n", filename);
+        else
+            printf("Error: Could not open file '(null)'\n");
+        return (-1);
+    }
+    rc = process_file(fd, db);
+    close(fd);
+    /* after loading, infer column types so alignment rules apply */
+    infer_column_types(db);
+    if (filename)
+        printf("Loaded %zu rows from '%s'\n", db->nrows, filename);
+    else
+        printf("Loaded %zu rows from '(null)'\n", db->nrows);
+    return (rc);
 }

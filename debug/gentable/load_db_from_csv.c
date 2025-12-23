@@ -217,7 +217,6 @@ static void classify_columns_from_row(char **fields, size_t field_count, t_datab
             norm = strdup(p);
         }
 
-        bool is_numeric = false;
         if (norm)
         {
             char *endptr = NULL;
@@ -231,7 +230,6 @@ static void classify_columns_from_row(char **fields, size_t field_count, t_datab
                     db->cols[j + offset].format = TYPE_FLOAT;
                 else
                     db->cols[j + offset].format = TYPE_INT;
-                is_numeric = true;
             }
             else
             {

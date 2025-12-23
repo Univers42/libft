@@ -6,6 +6,8 @@ int	main(int argc, char const *argv[])
 {
 	int	pid;
 
+	(void)argc;
+	(void)argv;
 	pid = fork();
 	open("infile", O_RDONLY);
 	while (1)

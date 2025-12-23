@@ -1,0 +1,4 @@
+obj/./ds/array/element_value.o: ds/array/element_value.c \
+  include/internals/array.h
+
+include/internals/array.h:

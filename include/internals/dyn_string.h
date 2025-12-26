@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dyn_string.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:11:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/12/20 17:11:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/27 00:25:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,6 @@ bool    dyn_str_check_at(t_dyn_str *s, size_t pos, int (*fn)(int), const char *c
 void	dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap);
 void	dyn_str_append_fd(t_dyn_str *str, int fd);
 void	dyn_str_update_pos(t_dyn_str *v, size_t val);
+bool	dyn_str_write_file(t_dyn_str buff, char *fname);
+
 #endif

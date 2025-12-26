@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lerp_chan.c                                        :+:      :+:    :+:   */
+/*   shapes1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 03:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/26 21:04:49 by dlesieur         ###   ########.fr       */
+/*   Created: 2025/12/26 21:29:51 by dlesieur          #+#    #+#             */
+/*   Updated: 2025/12/26 21:32:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
 #include "algebra.h"
+#include "matrices.h"
+#include "geometry.h"
 
-uint32_t	lerp_chan(uint32_t a, uint32_t b, float t)
+t_fvec3	cylinder_norm(t_cylinder cy, t_fvec3 pos, t_collision coll)
 {
-	return ((uint32_t)(a + (b - a) * t));
-}
+	float	t;
 
-float	ft_lerp(float a, float b, float t)
-{
-	return (a * t + b * (1.0f - t));
-}
-
-float	lerp(float x, float a, float b)
-{
-	return ((1 - x) * a + x * b);
+	if (coll.disk_collision)
+		return (cy.dir);
+	t = fvec3_dot(cy.dir, fvec3_sub(pos, cy.b));
+	return (fvec3_norm(fvec3_sub(fvec3_sub(pos, fvec3_scale(cy.dir, t)),
+			cy.b)));
 }

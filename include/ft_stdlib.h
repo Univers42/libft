@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 23:37:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/26 21:03:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdbool.h>
 #include "internals/strto.h"
 #include <stddef.h>
+#include "internals/xoroshiro123plusplus.h"
+
 #ifdef __cplusplus
 extern "C"
 {

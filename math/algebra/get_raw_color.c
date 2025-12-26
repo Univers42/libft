@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 03:24:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/08/09 19:41:36 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/26 21:14:36 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,9 @@ uint8_t	xtr_g(int c)
 uint8_t	xtr_b(int c)
 {
 	return ((uint8_t)(c & 0xFF));
+}
+
+uint8_t	xtr_a(uint32_t c)
+{
+    return ((uint8_t)(c >> 24));
 }

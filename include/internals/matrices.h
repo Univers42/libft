@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:37:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:15:04 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/26 23:44:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,42 @@
 # include <math.h>
 # include "pixel.h"
 
-// 4x4 Matrix and 4D Vector for general 3D transformations
+# define D3 3
+# define D2 2
+
+enum e_coordinate
+{
+	COORD_X,
+	COORD_Y,
+	COORD_Z,
+	COORD_W,
+	COORD_TOTAL
+};
+
 typedef struct s_mat4
 {
-	float	m[4][4];
+	float	m[COORD_TOTAL][COORD_TOTAL];
 }			t_mat4;
 
 typedef struct s_vec4
 {
-	float	v[4];
+	float	v[COORD_TOTAL];
 }			t_vec4;
+
+typedef struct s_fvec2
+{
+	float	x;
+	float	y;
+	float	coord[COORD_TOTAL - 2];
+}	t_fvec2;
+
+typedef struct s_fvec3
+{
+	float	x;
+	float	y;
+	float	z;
+	float	coord[COORD_TOTAL - 1]
+}	t_fvec3;
 
 // Identity and zero
 void	matrix_identity(t_mat4 *out);
@@ -48,4 +74,26 @@ void	matrix_rotate(t_mat4 *out, float angle_rad, t_fpoint3 p);
 // Quaternion to matrix
 void	matrix_from_quaternion(t_mat4 *out, t_fpoint4 q);
 void	matrix_init(float (*matrix)[3]);
+
+t_fvec3	fvec3_scale(t_fvec3 v, float scalar);
+t_fvec3	norm(t_fvec3 v);
+float	fvec3_len_sq(t_fvec3 v);
+t_fvec3	fvec3_invert(t_fvec3 v);
+t_fvec3	fvec3_scale(t_fvec3 v, float scalar);
+t_fvec3	vec3_rotate_yaw_pitch(t_fvec3 v, float yaw, float pitch);
+t_fvec2	vec2_rotate(t_fvec2 v, float angle);
+float	fvec3_dot(t_fvec3 a, t_fvec3 b);
+float	fvec3_idx(t_fvec3 v, int idx);
+t_fvec3	fvec3_sub(t_fvec3 a, t_fvec3 b);
+t_fvec3	fvec3_cross(t_fvec3 a, t_fvec3 b);
+t_fvec3	fvec3_add(t_fvec3 a, t_fvec3 b);
+t_fvec3	fvec3_mul(t_fvec3 a, t_fvec3 b);
+void sub3(const float a[3], const float b[3], float out[3]);
+float dot3(const float a[3], const float b[3]);
+void cross3(const float a[3], const float b[3], float out[3]);
+void sub3(const float a[3], const float b[3], float out[3]);
+float len3(const float v[3]);
+void normalize3(const float v[3], float out[3]);
+void normalize3(const float v[3], float out[3]);
+
 #endif // MATRICES_H

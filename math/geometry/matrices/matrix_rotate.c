@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:38:16 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/04 00:07:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2025/12/26 20:06:54 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,44 @@ void	matrix_rotate(t_mat4 *out, float angle_rad, t_fpoint3 axis)
 	out->m[2][0] = v[2] * v[0] * v[6] - v[1] * v[4];
 	out->m[2][1] = v[2] * v[1] * v[6] + v[0] * v[4];
 	out->m[2][2] = v[5] + v[2] * v[2] * v[6];
+}
+
+t_fvec2	vec2_rotate(t_fvec2 v, float angle)
+{
+	float	s;
+	float	c;
+	t_fvec2	ret;
+
+	s = sin(angle);
+	c = cos(angle);
+	ret.x = v.x * c + v.y * s;
+	ret.y = v.x * s - v.y * c;
+	return (ret);
+}
+
+/**
+ * Yaw and pitch are therms from 3D geometry and computer
+ * graphics that describe rotations around specific axes
+ * yaw: Rotation around the vertical (Y) axis ( like turning our head
+ * left/right)
+ * **Pitch**: rotation around the lateral (X) axis (like nodding)
+ * our head up/down
+ */
+t_fvec3	vec3_rotate_yaw_pitch(t_fvec3 v, float yaw, float pitch)
+{
+    t_fvec2	vec_yaw;
+    t_fvec2	vec_pitch;
+
+    vec_yaw.x = v.x;
+    vec_yaw.y = v.y;
+    vec_yaw = vec2_rotate(vec_yaw, yaw);
+    v.x = vec_yaw.x;
+    v.y = vec_yaw.y;
+    vec_pitch.x = v.z;
+    vec_pitch.y = v.y;
+    vec_pitch = vec2_rotate(vec_pitch, pitch);
+    v.z = vec_pitch.x;
+    v.y = vec_pitch.y;
+
+    return (v);
 }

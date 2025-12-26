@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algebra.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:10:27 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 01:06:42 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/26 23:50:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdint.h>
 # include <sys/types.h>
+# include "ft_stdlib.h"
+
 // Define M_PI if not already defined
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
@@ -52,5 +54,24 @@ uint8_t		xtr_b(int c);
 float		ease_in_out(float t);
 ssize_t		ft_smod(ssize_t a, ssize_t b);
 size_t		max_size(size_t a, size_t b);
+float		ft_lerp(float a, float b, float t);
+int			iclamp(int x, int min, int max);
+float		fclamp(float x, float min, float max);
+double		dclamp(double x, double min, double max);
+uint8_t		xtr_a(uint32_t c);
 
+/**
+ * generates a random floating-point number between 0 and 1 (inclusive of 0,
+ * exclusive of 1)
+ * This ufnction use the xoroshiro128++ algorithm (a fast, high-quality
+ * pseudorandom number generator)
+ * Dividing by `(float)UINT64_MAX` scales the integer result to the range [0,1]
+ * as a float
+ */
+static inline float	rand_float(t_rand_state *rand_state)
+{
+	return (xoroshiro128plusplus(rand_state) / (float)UINT64_MAX);
+}
+
+int	ft_isnan(double x);
 #endif

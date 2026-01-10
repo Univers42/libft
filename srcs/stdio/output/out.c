@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   out.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:51:10 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/03 23:42:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:06:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "output.h"
-#include "format.h"
+#include "../format/format.h"
 #include <stdarg.h>
 
 void    out1fmt(const char *fmt, ...)

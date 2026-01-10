@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_math.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:01:10 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:16:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:45:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MATH_H
 # define FT_MATH_H
 
-# include "algebra.h"
-# include "geometry.h"
+# include "../srcs/math/algebra/algebra.h"
+//# include "../srcs/math/geometry/geometry.h"
 
 #endif

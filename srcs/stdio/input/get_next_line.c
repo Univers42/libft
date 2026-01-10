@@ -6,11 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 00:55:37 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 04:30:39 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 21:02:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "internals/get_next_line.h"
+#include "get_next_line.h"
 #include "ft_string.h"
 #include "ft_memory.h"
 

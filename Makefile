@@ -15,7 +15,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
-SRCS = $(shell find ./lower_level_api -name "*.c")
+SRCS = $(shell find ./srcs -name "*.c")
 INCS = -I./include -I. -I./include/internals
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

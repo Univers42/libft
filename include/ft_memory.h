@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memory.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:28:23 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 18:18:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:41:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "ft_stddef.h"
 #include <stdlib.h>
 #include <stdbool.h>
-#include "lifoba.h"
 #include <errno.h>
-# include "pool.h"
-# include "slab.h"
-# include "arena.h"
+#include "../srcs/memory/memalloc/lifoba/lifoba.h"
+#include "../srcs/memory/memalloc/pool/pool.h"
+#include "../srcs/memory/memalloc/slab/slab.h"
+#include "../srcs/memory/memalloc/arena/arena.h"
 
 #ifdef __cplusplus
 extern "C"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 20:51:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:50:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,13 @@
 #  define _BSD_SOURCE
 # endif
 
-# include "alias.h"
 //# include "analyzer.h"
-# include "configs.h"
 # include "ds.h"
 # include "ft_colors.h"
 # include "ft_ctype.h"
 # include "ft_debug.h"
-# include "ft_limits.h"
 # include "ft_math.h"
 # include "ft_memory.h"
-# include "ft_readline.h"
 # include "ft_render.h"
 # include "ft_sort.h"
 # include "ft_stddef.h"
@@ -47,11 +43,8 @@
 # include "ft_time.h"
 # include "ft_wctype.h"
 //# include "get.h" //!PROTOTYPE NOT WORKING
-# include "glob.h"
 # include "ipc.h"
 # include "system.h"
-# include "var.h"
-# include "database.h"
 
 # include <immintrin.h>
 # include <unistd.h>

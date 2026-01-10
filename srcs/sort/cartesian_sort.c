@@ -6,13 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:13:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 03:28:15 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 21:00:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
+# include "ds.h"
 
-static t_sort_node	*create_node(int value, int index)
+static t_sort_node	*create_nod(int value, int index)
 {
 	t_sort_node	*node;
 
@@ -29,12 +30,12 @@ static t_sort_node	*create_node(int value, int index)
 static t_sort_node	*insert_cartesian(t_sort_node *root, int value, int index)
 {
 	if (!root)
-		return (create_node(value, index));
+		return (create_nod(value, index));
 	if (index < root->index)
 	{
 		if (value > root->value)
 		{
-			root->left = create_node(value, index);
+			root->left = create_nod(value, index);
 			root->left->right = root;
 			return (root->left);
 		}

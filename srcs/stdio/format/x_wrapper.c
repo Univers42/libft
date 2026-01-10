@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   x_wrapper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:41:47 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:01:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
-#include "output.h"
+#include "../output/output.h"
 #include <stdlib.h>
 
 int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap)

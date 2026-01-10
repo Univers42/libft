@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_union_insert.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:37:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 14:05:28 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:11:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include "bitmap.h"
+#include "ds.h"
 #include "ft_memory.h"
 #include "ft_stdio.h"
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stprintf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:22:26 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/01 01:33:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:06:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "format.h"
+#include "../format/format.h"
 
 // Helper to get log state string
 static const char *log_state_str(t_state state)

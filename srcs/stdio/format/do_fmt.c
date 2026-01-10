@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   do_fmt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 16:03:06 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 02:09:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:00:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "format.h"
-# include "output.h"
+# include "../output/output.h"
 
 void	do_format(t_out *dest, const char *f, va_list ap)
 {

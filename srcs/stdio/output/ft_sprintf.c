@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syzygy <syzygy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 15:21:26 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/21 15:21:46 by syzygy           ###   ########.fr       */
+/*   Updated: 2026/01/10 21:06:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "format.h"
+#include "../format/format.h"
 
 int	ft_sprintf(char *dst, const char *format, ...)
 {

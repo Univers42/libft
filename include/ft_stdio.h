@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stdio.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:30:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 23:35:18 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:47:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ extern "C"
 {
 #endif
 
-#include "internals/output.h"
-#include "internals/input.h"
-#include "internals/format.h"
+#include "../srcs/stdio/output/output.h"
+# include "../srcs/stdio/output/error.h"
+#include "../srcs/stdio/input/input.h"
+#include "../srcs/stdio/format/format.h"
 
     typedef int (*t_ops)(int, int);
 

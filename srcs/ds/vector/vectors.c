@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 # include "ft_vector.h"
+# include "ft_memory.h"
+# include "ft_string.h"
+
 
 // for debug printing
 
@@ -90,7 +93,7 @@ bool	vec_ensure_space_n(t_vec *v, size_t n)
         return (false);
     if (v->ctx != NULL)
     {
-        memcpy(new_buff, v->ctx, v->len * es);
+        ft_memcpy(new_buff, v->ctx, v->len * es);
         free(v->ctx);
     }
     v->ctx = new_buff;
@@ -114,7 +117,7 @@ bool	vec_push(t_vec *v, const void *el)
 #endif
     if (!vec_ensure_space(v))
         return (false);
-    memcpy((char *)v->ctx + v->len * v->elem_size, el, v->elem_size);
+    ft_memcpy((char *)v->ctx + v->len * v->elem_size, el, v->elem_size);
     v->len++;
     return (true);
 }
@@ -140,7 +143,7 @@ bool	vec_push_nstr(t_vec *v, const char *str, size_t n)
     if (!vec_ensure_space_n(v, n + 1))
         return (false);
     if (n > 0)
-        memcpy((char *)v->ctx + v->len, str, n);
+        ft_memcpy((char *)v->ctx + v->len, str, n);
     v->len += n;
     ((char *)v->ctx)[v->len] = '\0';
     return (true);

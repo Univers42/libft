@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 22:59:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 23:50:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 22:25:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
-#include "lseek.h"
 #include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -61,7 +60,7 @@ void input_init(void)
 	}
 	else
 	{
-		pos = ft_lseek(0, 0, SEEK_CUR);
+		pos = lseek(0, 0, SEEK_CUR);
 		in->stdin_state.seekable = (pos >= 0) ? 1 : 0;
 		in->stdin_state.canon = 0;
 	}

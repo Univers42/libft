@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lseek.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 19:07:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/23 22:54:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 22:25:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lseek.h"
 #include <unistd.h>
 #include <errno.h>
 

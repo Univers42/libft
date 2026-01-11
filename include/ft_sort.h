@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sort.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:18:06 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 18:26:39 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/11 00:33:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,6 @@ void ft_qsort(void *base, size_t nmemb, size_t size,
 			  int (*compar)(const void *, const void *));
 
 // Cycle sort helpers
+void	ft_quicksort(t_vec *vec);
 
 #endif

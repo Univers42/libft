@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:32:19 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:46:27 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 23:10:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_memory.h"
 #include <stdbool.h>
 #include "../srcs/std/strto/strto.h"
+# include "../srcs/std/prng.h"
 
 #include <stddef.h>
 #ifdef __cplusplus

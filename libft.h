@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:50:47 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 22:47:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <dirent.h>
+# include <stdbool.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <signal.h>
 
 # ifdef TESTER
 #  include "tester.hpp"

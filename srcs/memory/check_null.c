@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_null.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 19:52:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 16:44:00 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/11 01:16:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 void out_of_space(void)
 {
 	//sh_error("Out of space");
-	ft_dprintf(STDERR_FILENO, "Out of space");
+	dprintf(STDERR_FILENO, "Out of space");
 # if DEBUG
 	ft_abort();
 #else

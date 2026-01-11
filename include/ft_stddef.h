@@ -16,25 +16,23 @@
 #include <sys/time.h>
 #include <stdbool.h>
 
-typedef void *t_addr;
-typedef void *t_ptr;
+typedef void*				t_addr;
+typedef void*				t_ptr;
 
-typedef long t_ssize;
-typedef unsigned long int t_size;
-typedef char *t_string;
+typedef long				t_ssize;
+typedef unsigned long int	t_size;
 // maps
-typedef char **t_strings;
-typedef unsigned char t_uint8;
+typedef unsigned char		t_uint8;
 // used for inter-thread or signal communication
-typedef volatile int t_sig_atomic;
-typedef int *t_array;
+typedef volatile int		t_sig_atomic;
+typedef int*				t_array;
 // Good name for char** typedef:
-typedef float t_weight;
-typedef double t_prec;
-typedef int t_qty;
-typedef int t_flag;
-typedef uint64_t t_time;
-typedef int (*ft_ctype)(int);
+typedef float				t_weight;
+typedef double				t_prec;
+typedef int					t_qty;
+typedef int					t_flag;
+typedef uint64_t			t_time;
+typedef int					(*ft_ctype)(int);
 
 # define CHAR_SIZE 1
 #define STDOUT_FILENO 1
@@ -236,11 +234,6 @@ typedef enum e_endianness
 	FT_BIG_ENDIAN
 } t_endianness;
 
-typedef enum e_option
-{
-	OPTION_OFF,
-	OPTION_ON
-} t_option;
 
 typedef enum e_mode
 {

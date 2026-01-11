@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:16 by syzygy            #+#    #+#             */
-/*   Updated: 2026/01/10 20:21:32 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 21:14:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include "get_next_line.h"
-#include "lseek.h"
 
 /* Ensure a reasonable maximum for multibyte characters used by the input code */
 #ifndef PUNGETC_MAX

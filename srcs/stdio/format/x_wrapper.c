@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:10:30 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 21:01:48 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/11 00:16:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include "../output/output.h"
 #include <stdlib.h>
 
-int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap)
-{
-	int ret;
-
-	intoff();
-	ret = ft_vsnprintf(outbuf, length, fmt, ap);
-	inton();
-	return (ret);
-}
+//int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap)
+//{
+//	int ret;
+//
+//	intoff();
+//	ret = ft_vsnprintf(outbuf, length, fmt, ap);
+//	inton();
+//	return (ret);
+//}
 
 // void	exwarning(const char *msg, va_list ap)
 // {

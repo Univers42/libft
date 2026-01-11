@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_assert.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 15:58:24 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/11 01:13:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,22 +170,22 @@ static void parse_and_print_frame(int idx, char *symbol, void *addr)
 	}
 
 	/* Print formatted frame with better visual hierarchy */
-	ft_dprintf(STDERR_FILENO,
+	dprintf(STDERR_FILENO,
 			   "  " BOLD CYAN "│" RESET " " DIM "#%02d" RESET " " BOLD "[%p]" RESET,
 			   idx, addr);
 
 	if (func_name[0] != '\0')
-		ft_dprintf(STDERR_FILENO, " " BOLD GREEN "→ %s" RESET, func_name);
+		dprintf(STDERR_FILENO, " " BOLD GREEN "→ %s" RESET, func_name);
 	else
-		ft_dprintf(STDERR_FILENO, " " DIM YELLOW "→ <unknown>" RESET);
+		dprintf(STDERR_FILENO, " " DIM YELLOW "→ <unknown>" RESET);
 
 	if (offset[0] != '\0')
-		ft_dprintf(STDERR_FILENO, " " DIM "+%s" RESET, offset);
+		dprintf(STDERR_FILENO, " " DIM "+%s" RESET, offset);
 
 	if (binary_name[0] != '\0')
-		ft_dprintf(STDERR_FILENO, "\n      " BOLD CYAN "│" RESET " " DIM "in " BLUE "%s" RESET, binary_name);
+		dprintf(STDERR_FILENO, "\n      " BOLD CYAN "│" RESET " " DIM "in " BLUE "%s" RESET, binary_name);
 
-	ft_dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, "\n");
 }
 
 /* Always print backtrace with enhanced formatting */
@@ -201,11 +201,11 @@ static void print_backtrace(void)
 	pid = getpid();
 
 	/* Header */
-	ft_dprintf(STDERR_FILENO, "\n");
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ╔════════════════════════════════════════════════════════════╗\n" RESET);
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ║" RESET " " BOLD WHITE "🔍 STACK BACKTRACE" RESET " " DIM "(PID: %d, %d frames)" RESET "                " BOLD RED "║\n" RESET, pid, n);
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ╚════════════════════════════════════════════════════════════╝\n" RESET);
-	ft_dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, BOLD RED "  ╔════════════════════════════════════════════════════════════╗\n" RESET);
+	dprintf(STDERR_FILENO, BOLD RED "  ║" RESET " " BOLD WHITE "🔍 STACK BACKTRACE" RESET " " DIM "(PID: %d, %d frames)" RESET "                " BOLD RED "║\n" RESET, pid, n);
+	dprintf(STDERR_FILENO, BOLD RED "  ╚════════════════════════════════════════════════════════════╝\n" RESET);
+	dprintf(STDERR_FILENO, "\n");
 
 	/* Get human-readable symbols */
 	symbols = backtrace_symbols(buf, n);
@@ -216,18 +216,18 @@ static void print_backtrace(void)
 		if (symbols && symbols[i])
 			parse_and_print_frame(i, symbols[i], buf[i]);
 		else
-			ft_dprintf(STDERR_FILENO, "  " BOLD CYAN "│" RESET " " DIM "#%02d" RESET " [%p]\n", i, buf[i]);
+			dprintf(STDERR_FILENO, "  " BOLD CYAN "│" RESET " " DIM "#%02d" RESET " [%p]\n", i, buf[i]);
 	}
 
 	/* Footer */
-	ft_dprintf(STDERR_FILENO, "\n");
-	ft_dprintf(STDERR_FILENO, "  " BOLD CYAN "└─" RESET " " DIM "End of backtrace" RESET "\n");
+	dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, "  " BOLD CYAN "└─" RESET " " DIM "End of backtrace" RESET "\n");
 
 	/* Free symbols (allocated by backtrace_symbols) */
 	if (symbols)
 		free(symbols);
 
-	ft_dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, "\n");
 }
 
 void ft_abort(void)
@@ -239,13 +239,13 @@ void ft_abort(void)
 
 static void xabort(void)
 {
-	ft_dprintf(STDERR_FILENO, "\n");
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" RESET);
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ┃" RESET " " BOLD WHITE "⚠️  ASSERTION FAILURE DETECTED" RESET "                          " BOLD RED "┃\n" RESET);
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n" RESET);
+	dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, BOLD RED "  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" RESET);
+	dprintf(STDERR_FILENO, BOLD RED "  ┃" RESET " " BOLD WHITE "⚠️  ASSERTION FAILURE DETECTED" RESET "                          " BOLD RED "┃\n" RESET);
+	dprintf(STDERR_FILENO, BOLD RED "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n" RESET);
 	print_backtrace();
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ▸ " RESET BOLD "Process terminated via SIGABRT\n" RESET);
-	ft_dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, BOLD RED "  ▸ " RESET BOLD "Process terminated via SIGABRT\n" RESET);
+	dprintf(STDERR_FILENO, "\n");
 	ft_abort();
 }
 
@@ -258,23 +258,23 @@ void ft_assert(int cond)
 		return;
 
 	/* Header banner */
-	ft_dprintf(STDERR_FILENO, "\n");
-	ft_dprintf(STDERR_FILENO, BOLD YELLOW "  ═══════════════════════════════════════════════════════════\n" RESET);
-	ft_dprintf(STDERR_FILENO, BOLD RED "  ✗ ASSERTION FAILED" RESET "\n");
-	ft_dprintf(STDERR_FILENO, BOLD YELLOW "  ───────────────────────────────────────────────────────────\n" RESET);
+	dprintf(STDERR_FILENO, "\n");
+	dprintf(STDERR_FILENO, BOLD YELLOW "  ═══════════════════════════════════════════════════════════\n" RESET);
+	dprintf(STDERR_FILENO, BOLD RED "  ✗ ASSERTION FAILED" RESET "\n");
+	dprintf(STDERR_FILENO, BOLD YELLOW "  ───────────────────────────────────────────────────────────\n" RESET);
 
 	caller = __builtin_return_address(0);
 	if (ft_dladdr(caller, &info) && info.dli_sname)
-		ft_dprintf(STDERR_FILENO,
+		dprintf(STDERR_FILENO,
 				   "  " DIM "Function:  " RESET GREEN "%s" RESET "\n"
 				   "  " DIM "Object:    " RESET BLUE "%s" RESET "\n",
 				   (info.dli_sname ? info.dli_sname : "??"),
 				   (info.dli_fname ? info.dli_fname : "??"));
 	else
-		ft_dprintf(STDERR_FILENO,
+		dprintf(STDERR_FILENO,
 				   "  " DIM "Caller:    " RESET BOLD "%p" RESET "\n", caller);
 
-	ft_dprintf(STDERR_FILENO, BOLD YELLOW "  ═══════════════════════════════════════════════════════════\n" RESET);
+	dprintf(STDERR_FILENO, BOLD YELLOW "  ═══════════════════════════════════════════════════════════\n" RESET);
 
 	xabort();
 }

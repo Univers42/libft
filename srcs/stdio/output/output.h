@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:59:40 by syzygy            #+#    #+#             */
-/*   Updated: 2025/12/05 02:45:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/11 00:11:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,8 @@ void flush_all(void);
 int fmtstr(char *outbuf, size_t length, const char *fmt, ...);
 int ft_eprintf(const char *str, ...);
 char *ft_aseprintf(const char *str, ...);
+void	ft_eputmem(char *s, int n);
+void	ft_putmem(char *s, int n);
+void	ft_fdputmem(int fd, char *s, int n);
 
 #endif

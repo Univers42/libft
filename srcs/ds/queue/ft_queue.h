@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_queue.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/08 01:03:49 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 22:38:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ typedef struct s_queue
 
 typedef struct s_deque
 {
-	void *buf;											   // raw buffer (elem_size)
-	size_t cap;											   // capacity in elements
-	size_t len;											   // current number of elements
-	size_t elem_size;									   // sizeof in byte1
-	size_t head;										   // index of first element
-	size_t tail;										   // index one past last element
-	int (*cmp)(const void *a, const void *b, size_t size); // comp for search/remove (memcmp-like)
-	void	*ctx;											// optional user context
-} t_deque;
+	size_t	cap;
+	size_t	len;
+	size_t	start;
+	size_t	end;
+	size_t	elem_size;
+	void	*buff;
+}	t_deque;
 
 // Core functions
 t_queue *ft_queue_create(void);
@@ -62,14 +60,22 @@ void ft_queue_clear(t_queue *queue);
 
 // Advanced functions
 void ft_queue_print_addresses(t_queue *queue);
-void deque_ensure_space(t_deque *ret);
-void *deque_idx(t_deque *ret, int idx);
-int deque_init(t_deque *ret, size_t initial_cap, size_t elem_size, void *ctx);
-void *deque_pop_end(t_deque *ret);
-void *deque_pop_start(t_deque *ret);
-void deque_push_end(t_deque *ret, void *item);
-void deque_push_start(t_deque *ret, void *item);
-int deque_clone(t_deque *ret, const t_deque *proto);
-void    deque_clear(t_deque *ret);
+
+/* NOTE: change deque API to accept a generic pointer (void *) so callers
+   may pass either t_deque* or a wrapper deque_tt* whose first member is
+   an t_deque. This preserves existing call sites. */
+bool	deque_init(void *ret, int size, size_t elem_size);
+void	deque_ensure_space(void *ret);
+bool	deque_push_end(void *ret, const void *item);
+bool	deque_push_start(void *ret, const void *item);
+void	*deque_pop_end(void *ret);
+void	*deque_pop_start(void *ret);
+void	*deque_idx(void *ret, size_t idx);
+void	*deque_peek(void *ret);
+void	deque_peek_into(void *ret, void *out);
+void	deque_reset(void *ret);
+void	deque_clone(void *ret, const void *proto);
+void	deque_destroy(void *ret, void (*free_elem)(void *));
+void	deque_clear(void *ret, void (*free_elem)(void *));
 
 #endif

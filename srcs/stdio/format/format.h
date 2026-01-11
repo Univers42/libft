@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:58:02 by syzygy            #+#    #+#             */
-/*   Updated: 2026/01/10 20:49:24 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/10 23:44:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ static inline t_state_fd *get_state_fd(void)
 }
 
 /* Variadic / va_list formatting API */
-int ft_vdprintf(int fd, const char *format, va_list *ap);
-int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
-int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
-int ft_vsprintf(char *dst, const char *format, va_list *ap);
-int ft_veprintf(const char *str, va_list *args);
-char *ft_vaseprintf(const char *str, va_list *args);
+//int ft_vdprintf(int fd, const char *format, va_list *ap);
+//int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
+//int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
+//int ft_vsprintf(char *dst, const char *format, va_list *ap);
+//int ft_veprintf(const char *str, va_list *args);
+//char *ft_vaseprintf(const char *str, va_list *args);
 
 /* user-facing helpers (variadic) */
-int ft_dprintf(int fd, const char *format, ...);
-int ft_printf(const char *format, ...);
-int ft_snprintf(char *dst, size_t cap, const char *format, ...);
-int ft_sprintf(char *dst, const char *format, ...);
-int ft_aprintf(char **dst, const char *format, ...);
+//int ft_dprintf(int fd, const char *format, ...);
+//int ft_printf(const char *format, ...);
+//int ft_snprintf(char *dst, size_t cap, const char *format, ...);
+//int ft_sprintf(char *dst, const char *format, ...);
+//int ft_aprintf(char **dst, const char *format, ...);
 
 /* utility */
 size_t hex_len(size_t n);
@@ -213,21 +213,21 @@ void parser_write_char(t_format_parser *p);
 void alt_hex(t_format_parser *p, size_t len, bool upper, unsigned int value);
 
 /* Formatting/allocation helpers */
-int ft_vasprintf(char **strp, size_t size, const char *fmt, va_list ap);
-int ft_asprintf(char **sp, const char *f, ...);
-int xasprintf(char **sp, const char *f, ...);
-int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap);
+//int ft_vasprintf(char **strp, size_t size, const char *fmt, va_list ap);
+//int ft_asprintf(char **sp, const char *f, ...);
+//int xasprintf(char **sp, const char *f, ...);
+//int xvsnprintf(char *outbuf, size_t length, const char *fmt, va_list *ap);
 
 /* compatibility/delegates used throughout codebase */
-void do_format(t_out *dest, const char *f, va_list ap);
-void outmem(const char *p, size_t len, t_out *dest);
-void exverror(int cond, const char *msg, va_list ap);
-void sh_error(const char *msg, ...);
+//void do_format(t_out *dest, const char *f, va_list ap);
+//void outmem(const char *p, size_t len, t_out *dest);
+//void exverror(int cond, const char *msg, va_list ap);
+//void sh_error(const char *msg, ...);
 
-int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
-int ft_vsprintf(char *dst, const char *format, va_list *ap);
-int ft_vdprintf(int fd, const char *format, va_list *ap);
-int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
+//int ft_vsnprintf(char *dst, size_t cap, const char *format, va_list *ap);
+//int ft_vsprintf(char *dst, const char *format, va_list *ap);
+//int ft_vdprintf(int fd, const char *format, va_list *ap);
+//int ft_vlogprintf(t_state_fd *state, const char *format, va_list *ap);
 
 size_t hex_len(size_t n);
 size_t uint_len(unsigned int n);

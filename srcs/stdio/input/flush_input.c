@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   flush_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 22:47:25 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 00:44:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/10 22:25:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
-#include "lseek.h"
 #include <unistd.h>
 #include <string.h>
 
@@ -32,7 +31,7 @@ void flush_input(void)
 	intoff();
 	saved_int = error_saveint();
 	if (in->stdin_state.seekable && left)
-		(void)ft_lseek(0, -left, SEEK_CUR);
+		(void)lseek(0, -left, SEEK_CUR);
 	else
 	{
 		to_discard = 0;

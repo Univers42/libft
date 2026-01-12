@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/07 15:20:50 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/12 03:45:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,14 @@ extern "C"
 #define IGNORE_SIG ((char *)"<IGNORE_SIG>")
 #define BASH_NSIG_TOTAL 67
 
-	/* Standard signal handler types */
-	typedef void (*t_sig_handler)(int);
-	typedef unsigned int t_sigset;
-	typedef struct sigaction t_sigaction;
+#ifndef NSIG
+# define NSIG BASH_NSIG_TOTAL
+#endif
+
+/* Standard signal handler types */
+ typedef void (*t_sig_handler)(int);
+ typedef unsigned int t_sigset;
+ typedef struct sigaction t_sigaction;
 
 	/* Helper predicates */
 	static inline int spec_trap(int s)

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 02:05:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/11 19:48:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,20 @@ static inline int error_int_pending(void)
     return (int)st->intpending;
 }
 
-void sh_error(const char *msg, ...);
-void exerror(int cond, const char *msg, ...);
-void sh_warnx(const char *fmt, ...);
-void onint(void);
-void exraise(int e);
-void ft_error(const char *fmt, ...);
-void ft_warn(const char *fmt, ...);
-void set_exception_handler(void (*handler)(int));
-void set_error_fd(int fd);
-int get_error_fd(void);
-void	warning_error_errno(void);
-void	warning_error(const char *error);
-void	critical_error_errno_context(char *context);
-void	critical_error_errno(void);
-void	critical_error(char *error);
+void    sh_error(const char *msg, ...);
+void    exerror(int cond, const char *msg, ...);
+void    sh_warnx(const char *fmt, ...);
+void    onint(void);
+void    exraise(int e);
+void    ft_error(const char *fmt, ...);
+void    ft_warn(const char *fmt, ...);
+void    set_exception_handler(void (*handler)(int));
+void    set_error_fd(int fd);
+int     get_error_fd(void);
+// void	critical_error(char *error);
+// void	critical_error_errno(void);
+// void	critical_error_errno_context(char *context);
+// void	warning_error(char *error);
+// void	warning_error_errno(void);
 
 #endif /* ERROR_H */

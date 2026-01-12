@@ -13,7 +13,7 @@
 # voluntarily Makefile is simpler to debug quicker the problems on this libft..
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1
 NAME = libft.a
 SRCS = $(shell find ./srcs -name "*.c")
 INCS = -I./include -I. -I./include/internals

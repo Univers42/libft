@@ -37,6 +37,7 @@ int     is_name_char(int c);
 bool	is_custom_set(int c, const char *set);
 int     is_int_name(int c);
 bool    is_spechr(int c);
-bool    is_escapable(int c);
 bool	is_metachar(int c);
+bool	is_escapable(int c);
+
 #endif

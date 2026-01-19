@@ -72,4 +72,7 @@
 #  include "tester.hpp"
 # endif
 
+char	*ft_ltoa(long n);
+long	ft_atol(const char *str);
+
 #endif

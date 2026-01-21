@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:45:42 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/20 19:17:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ void vec_append_fd(int fd, t_vec *ret);
 void	vec_destroy(t_vec *v, void (*free_elem)(void *));
 bool	vec_ends_with_str(t_vec *v, const char *str);
 void	vec_clear(t_vec *v);
+void	vec_push_char(t_vec *v, char c);
+void 	vec_push_int(t_vec *v, int n);
 
 #endif

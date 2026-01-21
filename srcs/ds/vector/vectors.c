@@ -278,3 +278,24 @@ void	vec_clear(t_vec *v)
 	if (v->ctx && v->elem_size == 1)
 		((char *)v->ctx)[0] = '\0';
 }
+
+void	vec_push_char(t_vec *v, char c)
+{
+	if (v->elem_size == 0)
+		v->elem_size = 1;
+	if (!vec_ensure_space(v))
+		return ;
+	((char *)v->ctx)[v->len++] = c;
+	if (v->elem_size == 1 && v->len < v->cap)
+		((char *)v->ctx)[v->len] = '\0';
+}
+
+void 	vec_push_int(t_vec *v, int n)
+{
+	if (v->elem_size == 0)
+		v->elem_size = sizeof(int);
+	if (!vec_ensure_space(v))
+		return ;
+	*((int *)((char *)v->ctx + v->len * v->elem_size)) = n;
+	v->len++;
+}

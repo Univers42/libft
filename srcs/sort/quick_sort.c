@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ds.h"
-# include "ft_memory.h"
-# include "ft_debug.h"
-# include "ft_string.h"
-# include "ft_memory.h"
+#include "ds.h"
+#include "ft_memory.h"
+#include "ft_debug.h"
+#include "ft_string.h"
+#include "ft_memory.h"
 
 static void	swap_sort_point(char **p1, char **p2)
 {

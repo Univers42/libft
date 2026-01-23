@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cartesian_sort.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:13:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 21:00:17 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 16:32:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sort.h"
-# include "ds.h"
+#include "ds.h"
 
 static t_sort_node	*create_nod(int value, int index)
 {

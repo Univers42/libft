@@ -36,7 +36,8 @@ static inline void	prng_initialize_state(t_prng_state *state, uint32_t seed)
 	state->state_index = 0;
 }
 
-static inline uint32_t	random_uint32_inner(t_prng_state *state, int k, int j, int x)
+static inline uint32_t	random_uint32_inner(t_prng_state *state,
+							int k, int j, int x)
 {
 	uint32_t	*state_array;
 	uint32_t	xa;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:14:45 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/12/20 22:31:03 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 16:18:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 #include <sys/stat.h>
 #include "ft_memory.h"
 #include "ft_string.h"
+#define START 0
+#define END 1
 
-//#include "TDD/test.h"
+// #include "TDD/test.h"
 
 int	safe_alloc(char **token_v, size_t pos, size_t buffer);
 int	allocate_and_copy_token(char **tokens,
@@ -64,42 +66,38 @@ char	**ft_split(char const *s, char c)
 
 char	**ft_split(char const *str, char c)
 {
-	char	**out;
-	int		i;
-	int		start;
-	int		occ;
-	int		end;
-	char	sep[2]; // <- add NUL-terminated separator
+	char		**out;
+	int			i;
+	int			occ;
+	int			track[2];
+	const char	sep[2] = {c, '\0'};
 
-	sep[0] = c;
-	sep[1] = '\0';
-
-	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
+	out = xcalloc((num_blocks(str, (char *)sep) + 1), sizeof(char *));
 	if (out == 0)
 		return (0);
 	i = 0;
 	occ = 0;
 	while (str[i] != 0)
 	{
-		start = find_block(&end, str + i, sep);
-		if (start == -1)
+		track[START] = find_block(&track[END], str + i, (char *)sep);
+		if (track[START] == -1)
 			return (out);
-		out[occ] = malloc(end - start + 1);
+		out[occ] = malloc(track[END] - track[START] + 1);
 		if (out[occ] == 0)
 			return (free_list((void **)out, occ), NULL);
-		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
-		i += end;
+		ft_strlcpy(out[occ++], str + i + track[START],
+			track[END] - track[START] + 1);
+		i += track[END];
 	}
 	return (out);
 }
 
 char	**ft_split_str(char *str, char *sep)
 {
-	char	**out;
-	int		i;
-	int		start;
-	int		occ;
-	int		end;
+	char		**out;
+	int			i;
+	int			occ;
+	int			track[2];
 
 	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
 	if (out == 0)
@@ -108,14 +106,15 @@ char	**ft_split_str(char *str, char *sep)
 	occ = 0;
 	while (str[i] != 0)
 	{
-		start = find_block(&end, str + i, sep);
-		if (start == -1)
+		track[START] = find_block(&track[END], str + i, sep);
+		if (track[START] == -1)
 			return (out);
-		out[occ] = malloc(end - start + 1);
+		out[occ] = malloc(track[END] - track[START] + 1);
 		if (out[occ] == 0)
 			return (free_list((void **)out, occ), NULL);
-		ft_strlcpy(out[occ++], str + i + start, end - start + 1);
-		i += end;
+		ft_strlcpy(out[occ++], str + i + track[START],
+			track[END] - track[START] + 1);
+		i += track[END];
 	}
 	return (out);
 }

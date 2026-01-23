@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 20:19:36 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/05 02:18:26 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:06:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ char	*ensure_capacity(t_subctx *c, size_t need);
 int		handle_match(t_subctx *ctx, const char *string,
 			const char *rep, bool glob);
 char	*finalize_result(t_subctx *ctx, const char *string);
-int	append_c(t_subctx *ctx, char ch);
+int		append_c(t_subctx *ctx, char ch);
 #endif

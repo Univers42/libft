@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_null.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 19:52:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/11 01:16:47 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 20:22:33 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,24 @@
 #include <stdio.h>
 #include "ft_stdio.h"
 
-void out_of_space(void)
+#if DEBUG
+
+void	out_of_space(void)
 {
-	//sh_error("Out of space");
-	dprintf(STDERR_FILENO, "Out of space");
-# if DEBUG
+	ft_dprintf(STDERR_FILENO, "Out of space\n");
 	ft_abort();
+}
 #else
+
+void	out_of_space(void)
+{
+	ft_dprintf(STDERR_FILENO, "Out of space");
 	exit(ENOMEM);
-#endif
 }
 
-void *check_null(void *p)
+#endif
+
+void	*check_null(void *p)
 {
 	if (!p)
 		out_of_space();

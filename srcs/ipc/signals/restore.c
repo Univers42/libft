@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 00:52:56 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:01:03 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 19:31:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	restore_signal_trap(int i)
 	{
 		if (trapstr && ft_strcmp(trapstr, (char *)DEFAULT_SIG) != 0)
 			reinit_trap(i);
-		if (ft_strcmp(trapstr ,(char *)IGNORE_SIG) == 0
+		if (ft_strcmp(trapstr, (char *)IGNORE_SIG) == 0
 			&& (get_g_sig()->sigmodes[i] & SIG_NO_TRAP) == 0)
 			set_signal_handler(i, SIG_IGN);
 	}

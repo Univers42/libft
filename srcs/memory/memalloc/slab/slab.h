@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:26:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 20:19:41 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:29:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,5 @@ void			slab_stats(t_slab_allocator *slab);
 t_slab_chunk	*create_slab_chunk(t_slab_cache *cache);
 t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size);
 t_slab_block	*slab_get_block_at_ptr(t_slab_chunk *chunk,
-									t_slab_cache *cache, void *ptr);
-									
+					t_slab_cache *cache, void *ptr);			
 #endif

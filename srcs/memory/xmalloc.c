@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 19:31:01 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:32:52 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:09:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 #include <errno.h>
 #include <stdio.h>
 
-void *xmalloc(size_t nbytes)
+void	*xmalloc(size_t nbytes)
 {
-	void *ptr;
+	void	*ptr;
 
 	ptr = malloc(nbytes);
 	return (check_null(ptr));
 }
 
-void *xrealloc(void *p, size_t old, size_t newsize)
+void	*xrealloc(void *p, size_t old, size_t newsize)
 {
-	void *nptr;
-	size_t copy;
+	void	*nptr;
+	size_t	copy;
 
 	if (newsize == 0)
 		return (xfree(p), NULL);
@@ -43,14 +43,14 @@ void *xrealloc(void *p, size_t old, size_t newsize)
 
 bool	check_overflow(size_t n, size_t size)
 {
-    if (size != 0 && n > SIZE_MAX / size)
-        return (true);
-    return (false);
+	if (size != 0 && n > SIZE_MAX / size)
+		return (true);
+	return (false);
 }
 
-void    *xcalloc(size_t nmemb, size_t size)
+void	*xcalloc(size_t nmemb, size_t size)
 {
-	void    *ptr;
+	void	*ptr;
 
 	if (check_overflow(nmemb, size))
 		return (NULL);
@@ -61,10 +61,10 @@ void    *xcalloc(size_t nmemb, size_t size)
 	return (ptr);
 }
 
-void xfree(void *ptr)
+void	xfree(void *ptr)
 {
 	if (!ptr)
-		return;
+		return ;
 	free(ptr);
 }
 

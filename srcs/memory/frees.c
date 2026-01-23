@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:02:13 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:57:19 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 20:31:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdlib.h"
 
-void free_list(void **list, int size)
+void	free_list(void **list, int size)
 {
 	int	i;
 

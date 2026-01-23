@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 19:32:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 20:01:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:20:32 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ungrab_stack_str(void *s)
 char	**grab_stack_str(char *p)
 {
 	char			*base;
-	const size_t	bytes;
+	size_t			bytes;
 	char			**arr;
 	size_t			count;
 

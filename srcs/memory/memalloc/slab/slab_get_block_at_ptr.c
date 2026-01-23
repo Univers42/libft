@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 20:14:08 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 20:17:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:19:21 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define START 0
 #define PTR 1
 
-static t_slab_block	*slab_get_block_at_ptr(t_slab_chunk *chunk,
+t_slab_block	*slab_get_block_at_ptr(t_slab_chunk *chunk,
 									t_slab_cache *cache, void *ptr)
 {
 	char			*start;

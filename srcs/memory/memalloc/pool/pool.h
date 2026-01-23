@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pool.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:46:46 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:42:16 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 19:58:18 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct s_pool
 	t_pool_chunk	*chunks;
 }					t_pool;
 
-void			pool_init(t_pool *pool, size_t block_size, size_t blocks_per_chunk);
+void			pool_init(t_pool *pool, size_t block_size,
+					size_t blocks_per_chunk);
 void			pool_free(t_pool *pool, void *ptr);
 void			*pool_alloc(t_pool *pool);
 void			pool_stats(t_pool *pool);

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/17 03:04:33 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:16:57 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-static t_slab_block	*slab_get_block_at_ptr(t_slab_chunk *chunk,
-						t_slab_cache *cache, void *ptr)
-{
-	char		*start;
-	size_t		bsz;
-	size_t		offset;
-	uintptr_t	pstart;
-	uintptr_t	pptr;
-	t_slab_block	*blk;
-
-	start = chunk->memory;
-	bsz = sizeof(t_slab_block) + cache->block_size;
-	pstart = (uintptr_t)start;
-	pptr = (uintptr_t)ptr;
-	if (pptr < pstart
-		|| pptr >= pstart + chunk->total_blocks * bsz)
-		return (NULL);
-	offset = (size_t)((pptr - pstart) / bsz);
-	blk = (t_slab_block *)(pstart + offset * bsz);
-	if (blk->data != ptr)
-		return (NULL);
-	return (blk);
-}
+#define START 0
+#define PTR 1
 
 static int	slab_free_in_cache(t_slab_cache *cache, void *ptr)
 {

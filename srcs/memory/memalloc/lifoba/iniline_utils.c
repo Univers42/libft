@@ -6,14 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 18:58:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 15:37:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:01:42 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lifoba.h"
 
-void    ustputc(char *c, char *p)
+void	ustputc(char *c, char *p)
 {
-    *p++ = *c;
+	*p++ = *c;
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pool.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:55:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:57:52 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 20:10:11 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	*pool_alloc(t_pool *pool)
 
 static int	pool_free_in_chunk(t_pool *pool, t_pool_chunk *chunk, void *ptr)
 {
-	char			*start;
-	char			*end;
-	size_t			bsz;
+	char				*start;
+	char				*end;
+	size_t				bsz;
 	t_pool_block		*block;
-	uintptr_t		p;
+	uintptr_t			p;
 
 	bsz = sizeof(t_pool_block) + pool->block_size;
 	start = chunk->memory;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slab_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:58:07 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 20:10:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 static void	slab_build_free_list(t_slab_chunk *chunk, t_slab_cache *cache)
 {
-	uintptr_t	ptr;
-	size_t		 i;
+	uintptr_t		ptr;
+	size_t			i;
 	t_slab_block	*block;
-	size_t		 bsz;
+	size_t			bsz;
 
 	ptr = (uintptr_t)chunk->memory;
 	bsz = sizeof(t_slab_block) + cache->block_size;

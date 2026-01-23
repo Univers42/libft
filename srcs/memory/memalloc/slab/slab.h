@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slab.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:26:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 20:42:30 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 20:10:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ typedef struct s_slab_allocator
 	size_t			cache_count;
 }					t_slab_allocator;
 
-void	slab_init(t_slab_allocator *slab);
-void	slab_add_cache(t_slab_allocator *slab, size_t block_size,
-			size_t blocks_per_chunk);
-void	*slab_alloc(t_slab_allocator *slab, size_t size);
-void	slab_free(t_slab_allocator *slab, void *ptr);
-void	slab_destroy(t_slab_allocator *slab);
-void	slab_stats(t_slab_allocator *slab);
+void			slab_init(t_slab_allocator *slab);
+void			slab_add_cache(t_slab_allocator *slab, size_t block_size,
+					size_t blocks_per_chunk);
+void			*slab_alloc(t_slab_allocator *slab, size_t size);
+void			slab_free(t_slab_allocator *slab, void *ptr);
+void			slab_destroy(t_slab_allocator *slab);
+void			slab_stats(t_slab_allocator *slab);
 t_slab_chunk	*create_slab_chunk(t_slab_cache *cache);
 t_slab_cache	*find_best_cache(t_slab_allocator *slab, size_t size);
 #endif

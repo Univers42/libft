@@ -6,24 +6,24 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:05:45 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:37:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:34:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
 /* Prototypes for helpers implemented in functions.c */
-int as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *new);
-void as_choose_start_direction(t_arr *a, size_t i, t_arr_elem **start,
-							   int *direction);
+int		as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *new);
+void	as_choose_start_direction(t_arr *a, size_t i, t_arr_elem **start,
+			int *direction);
 
-int array_insert(t_arr *a, size_t i, char *v)
+int	array_insert(t_arr *a, size_t i, char *v)
 {
-	t_arr_elem *elem;
-	int handled;
-	t_arr_elem *start;
-	int direction;
-	t_as_insert_ctx ctx;
+	t_arr_elem		*elem;
+	int				handled;
+	t_arr_elem		*start;
+	int				direction;
+	t_as_insert_ctx	ctx;
 
 	if (a == NULL)
 		return (-1);

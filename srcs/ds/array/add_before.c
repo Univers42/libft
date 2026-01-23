@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:52:57 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:37:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:36:09 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
 // Insert new before ae in the circular list (ae must not be NULL)
-void add_before(t_arr_elem *ae, t_arr_elem *elem)
+void	add_before(t_arr_elem *ae, t_arr_elem *elem)
 {
 	ae->prev->next = elem;
 	elem->prev = ae->prev;

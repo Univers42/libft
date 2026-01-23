@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 13:11:52 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:37:12 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:40:13 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
 /* Insert before AE and update array metadata. */
-int as_insert_before_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
+int	as_insert_before_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
 {
 	if (!a || !ae || !elem)
 		return (-1);
@@ -24,7 +24,7 @@ int as_insert_before_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
 }
 
 /* Insert after AE and update array metadata. */
-static int as_insert_after_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
+static int	as_insert_after_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
 {
 	if (!a || !ae || !elem)
 		return (-1);
@@ -35,9 +35,9 @@ static int as_insert_after_and_fix(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
 }
 
 /* Walk forward and perform replace or insertion. */
-static int as_walk_forward_and_insert(t_as_insert_ctx *ctx)
+static int	as_walk_forward_and_insert(t_as_insert_ctx *ctx)
 {
-	t_arr_elem *ae;
+	t_arr_elem	*ae;
 
 	if (!ctx || !ctx->a || !ctx->start || !ctx->elem)
 		return (-1);
@@ -56,9 +56,9 @@ static int as_walk_forward_and_insert(t_as_insert_ctx *ctx)
 }
 
 /* Walk backward and perform replace or insertion. */
-static int as_walk_backward_and_insert(t_as_insert_ctx *ctx)
+static int	as_walk_backward_and_insert(t_as_insert_ctx *ctx)
 {
-	t_arr_elem *ae;
+	t_arr_elem	*ae;
 
 	if (!ctx || !ctx->a || !ctx->start || !ctx->elem)
 		return (-1);
@@ -77,7 +77,7 @@ static int as_walk_backward_and_insert(t_as_insert_ctx *ctx)
 }
 
 /* Dispatcher kept short to respect line limits. */
-int as_walk_and_insert(t_as_insert_ctx *ctx)
+int	as_walk_and_insert(t_as_insert_ctx *ctx)
 {
 	if (!ctx || !ctx->a || !ctx->start || !ctx->elem)
 		return (-1);

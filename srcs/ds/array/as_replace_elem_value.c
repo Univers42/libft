@@ -6,18 +6,15 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 13:35:29 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/09 17:37:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:35:56 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "array.h"
 
-/*
-replace element value, free old, set lastref
-*/
-int as_replace_elem_value(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
+int	as_replace_elem_value(t_arr *a, t_arr_elem *ae, t_arr_elem *elem)
 {
-	char *old;
+	char	*old;
 
 	if (!a || !ae || !elem)
 		return (-1);

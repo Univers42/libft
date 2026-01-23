@@ -34,6 +34,8 @@ int	writer_buffer_double(t_buffer *ret)
 
 void	writer_char(t_buffer *buffer, char c)
 {
+	ssize_t	res;
+
 	buffer->total_put_in++;
 	if (buffer->len == buffer->cap)
 	{
@@ -52,7 +54,7 @@ void	writer_char(t_buffer *buffer, char c)
 	}
 	else if (!buffer->no_write)
 	{
-		ssize_t res = write(buffer->out_fd, &c, 1);
+		res = write(buffer->out_fd, &c, 1);
 		(void)res;
 	}
 }

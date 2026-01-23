@@ -3,114 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setlocale.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 02:23:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/12/22 02:23:29 by marvin           ###   ########.fr       */
+/*   Created: 2026/01/23 15:50:35 by dlesieur          #+#    #+#             */
+/*   Updated: 2026/01/23 15:50:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_setlocale.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: student <student@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/01 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2024/01/01 00:00:00 by student          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "ft_setlocale.h"
 
-#include "ft_wctype.h"
-#include <string.h>
-#include <stdlib.h>
-
-/* internal storage size */
-enum { LOCSIZE = 64 };
-
-/* file-scope locale storage so cleanup can access it */
-static char	locales[FT_CAT_COUNT][LOCSIZE];
-static int	initialized = 0;
-/* track max UTF-8 bytes for callers (replacement for MB_CUR_MAX) */
-static size_t	g_mb_cur_max = 4; /* default to UTF-8 safe width */
-
-/* Pure internal ft_setlocale implementation (never calls system setlocale). */
-char *ft_setlocale(int category, const char *locale)
+/* set locale from environment into given category */
+static char	*set_locale_from_env(t_loc *store, int category)
 {
-	size_t i;
+	const char	*env;
 
-	if (!initialized)
-	{
-		for (i = 0; i < (size_t)FT_CAT_COUNT; ++i)
-			locales[i][0] = '\0';
-		/* default C locale for ctype category */
-		strncpy(locales[FT_LC_CTYPE < FT_CAT_COUNT ? FT_LC_CTYPE : 0], "C", LOCSIZE - 1);
-		locales[FT_LC_CTYPE < FT_CAT_COUNT ? FT_LC_CTYPE : 0][LOCSIZE - 1] = '\0';
-		initialized = 1;
-	}
+	env = find_env_locale();
+	strncpy(store->locales[category], env, LOCSIZE - 1);
+	store->locales[category][LOCSIZE - 1] = '\0';
+	update_mb_cur_max(store, env);
+	return (store->locales[category]);
+}
 
-	if (category < 0 || category >= FT_CAT_COUNT)
-		return NULL;
+/* copy provided locale string into store and update width */
+static char	*store_locale(t_loc *store,
+						int category,
+						const char *locale)
+{
+	strncpy(store->locales[category], locale, LOCSIZE - 1);
+	store->locales[category][LOCSIZE - 1] = '\0';
+	update_mb_cur_max(store, locale);
+	return (store->locales[category]);
+}
 
-	/* Query current locale */
+char	*ft_setlocale(int category, const char *locale)
+{
+	t_loc	*store;
+
+	store = ensure_store();
+	if (!store)
+		return (NULL);
+	if (!valid_category(category))
+		return (NULL);
 	if (locale == NULL)
-		return (locales[category][0] ? locales[category] : NULL);
-
-	/* Empty string -> lookup environment variables */
-	if (locale[0] == '\0')
 	{
-		const char *env = getenv("LC_ALL");
-		if (!env || !*env) env = getenv("LC_CTYPE");
-		if (!env || !*env) env = getenv("LANG");
-		if (!env) env = "C";
-
-		strncpy(locales[category], env, LOCSIZE - 1);
-		locales[category][LOCSIZE - 1] = '\0';
-
-		/* Check for UTF-8 in the environment string to set width */
-		if (strstr(env, "UTF-8") || strstr(env, "utf8") || strstr(env, "UTF8"))
-			g_mb_cur_max = 4;
-		else
-			g_mb_cur_max = 1;
-
-		return locales[category];
+		if (store->locales[category][0])
+			return (store->locales[category]);
+		return (NULL);
 	}
-
-	/* Store provided locale string (truncate if needed) */
-	strncpy(locales[category], locale, LOCSIZE - 1);
-	locales[category][LOCSIZE - 1] = '\0';
-
-	/* Decide multibyte width: UTF-8 or not */
-	if (strstr(locale, "UTF-8") || strstr(locale, "utf8") || strstr(locale, "UTF8"))
-		g_mb_cur_max = 4;
-	else
-		g_mb_cur_max = 1;
-
-	return locales[category];
+	if (locale[0] == '\0')
+		return (set_locale_from_env(store, category));
+	return (store_locale(store, category, locale));
 }
 
 size_t	ft_mb_cur_max(void)
 {
-	return g_mb_cur_max;
+	t_loc	*store;
+
+	store = ensure_store();
+	if (!store)
+		return (4);
+	return (store->mb_cur_max);
 }
 
-void ft_locale_cleanup(void)
+void	ft_locale_cleanup(void)
 {
-	size_t i;
-	for (i = 0; i < (size_t)FT_CAT_COUNT; ++i)
-		locales[i][0] = '\0';
-	initialized = 0;
-	g_mb_cur_max = 4;
+	t_loc	**pp;
+
+	pp = loc_ptr();
+	if (!pp || !*pp)
+		return ;
+	free(*pp);
+	*pp = NULL;
 }
 
 /* ************************************************************************** */
 /*                              TEST MAIN                                     */
 /* ************************************************************************** */
 
-//#include <stdio.h>
+// #include <stdio.h>
 //
-//int	main(void)
+// int	main(void)
 //{
 //	char	*loc;
 //
@@ -131,4 +103,4 @@ void ft_locale_cleanup(void)
 //	printf("Invalid category result: %s\n", loc ? loc : "(null)");
 //	ft_locale_cleanup();
 //	return (0);
-//}
+// }

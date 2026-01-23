@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hash.h                                          :+:      :+:    :+:   */
+/*   hash.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:15:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 22:33:04 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 16:45:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_hash_entry
 	void	*value;
 }	t_hash_entry;
 
-typedef struct s_vec t_hash; // ctx holds t_hash_entry
+typedef struct s_vec	t_hash; // ctx holds t_hash_entry
 
 bool	hash_init(t_hash *h, size_t capacity);
 size_t	hash_func(const char *key, size_t cap);

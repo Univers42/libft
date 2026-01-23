@@ -3,35 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_queue.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 22:38:55 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 18:26:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_QUEUE_H
-#define FT_QUEUE_H
+# define FT_QUEUE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include "ft_memory.h"
-#include "ft_debug.h"
-#include "ft_math.h"
+# include <stdlib.h>
+# include <stdbool.h>
+# include <string.h>
+# include <unistd.h>
+# include "ft_memory.h"
+# include "ft_debug.h"
+# include "ft_math.h"
 
 typedef struct s_queue_node
 {
-	void *data;
-	struct s_queue_node *next;
-} t_queue_node;
+	void				*data;
+	struct s_queue_node	*next;
+}	t_queue_node;
 
 typedef struct s_queue
 {
-	t_queue_node *front;
-	t_queue_node *rear;
-	size_t size;
-} t_queue;
+	t_queue_node	*front;
+	t_queue_node	*rear;
+	size_t			size;
+}	t_queue;
 
 typedef struct s_deque
 {
@@ -44,22 +45,22 @@ typedef struct s_deque
 }	t_deque;
 
 // Core functions
-t_queue *ft_queue_create(void);
-void ft_queue_destroy(t_queue *queue);
-bool ft_queue_enqueue(t_queue *queue, void *data);
-void *ft_queue_dequeue(t_queue *queue);
+t_queue	*ft_queue_create(void);
+void	ft_queue_destroy(t_queue *queue);
+bool	ft_queue_enqueue(t_queue *queue, void *data);
+void	*ft_queue_dequeue(t_queue *queue);
 
 // Access functions
-void *ft_queue_front(t_queue *queue);
-void *ft_queue_rear(t_queue *queue);
+void	*ft_queue_front(t_queue *queue);
+void	*ft_queue_rear(t_queue *queue);
 
 // Utility functions
-size_t ft_queue_size(t_queue *queue);
-bool ft_queue_is_empty(t_queue *queue);
-void ft_queue_clear(t_queue *queue);
+size_t	ft_queue_size(t_queue *queue);
+bool	ft_queue_is_empty(t_queue *queue);
+void	ft_queue_clear(t_queue *queue);
 
 // Advanced functions
-void ft_queue_print_addresses(t_queue *queue);
+void	ft_queue_print_addresses(t_queue *queue);
 
 /* NOTE: change deque API to accept a generic pointer (void *) so callers
    may pass either t_deque* or a wrapper deque_tt* whose first member is

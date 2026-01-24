@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 20:39:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/23 00:28:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 17:00:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 t_time	cur_time(void)
-{
+{	
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);

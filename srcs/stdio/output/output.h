@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:29:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 15:32:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:53:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include "../../../include/ft_string.h"
+# include "../../../include/ft_memory.h"
 
 typedef struct s_state_fd	t_state_fd;
 

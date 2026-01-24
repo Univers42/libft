@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 15:57:21 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/27 14:38:34 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:53:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,4 @@ void	ft_putmem(char *s, int n)
 void	ft_eputmem(char *s, int n)
 {
 	ft_fdputmem(2, s, n);
-}
-
-bool	str_slice_eq_str(char *s, size_t len, char *s2)
-{
-	size_t	len_s2;
-
-	len_s2 = ft_strlen(s2);
-	if (len != len_s2)
-		return (false);
-	if (ft_strncmp(s, s2, len) != 0)
-		return (true);
-	return (false);
 }

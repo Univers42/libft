@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/10 22:47:04 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/24 01:12:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,5 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <signal.h>
-
-# ifdef TESTER
-#  include "tester.hpp"
-# endif
 
 #endif

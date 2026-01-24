@@ -23,7 +23,7 @@ static char	*set_locale_from_env(t_loc *store, int category)
 	update_mb_cur_max(store, env);
 	return (store->locales[category]);
 }
-//dump
+
 /* copy provided locale string into store and update width */
 static char	*store_locale(t_loc *store,
 						int category,

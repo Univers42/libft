@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:36:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:02:32 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 01:15:30 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	str_pushstr(const char *s)
 	return (ft_assert(s != NULL), str_pushnstr(s, ft_strlen(s)));
 }
 
-bool	str_check_at(size_t pos, ft_ctype fn, const char *cmp, size_t len)
+bool	str_check_at(size_t pos, t_ctype fn, const char *cmp, size_t len)
 {
 	t_dyn_str	*input;
 

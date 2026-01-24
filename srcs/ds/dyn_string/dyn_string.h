@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:11:14 by marvin            #+#    #+#             */
-/*   Updated: 2026/01/23 16:43:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 01:15:02 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			str_idx(size_t idx);
 int			str_pushnstr(const char *s, size_t n);
 int			str_pushstr(const char *str);
 int			str_ends_with_str(const char *s);
-bool		str_check_at(size_t pos, ft_ctype fn, const char *cmp, size_t len);
+bool		str_check_at(size_t pos, t_ctype fn, const char *cmp, size_t len);
 char		str_pop(void);
 void		str_clear(void);
 void		str_init_alloc(void);

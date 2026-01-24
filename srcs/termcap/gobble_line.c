@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:49:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:38:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*find_nl(char *p)
 	return (p);
 }
 
-static void	expand(t_buffer *b, char **ae)
+static void	expand(t_buf *b, char **ae)
 {
 	char			*tmp;
 	char			*old;
@@ -34,7 +34,7 @@ static void	expand(t_buffer *b, char **ae)
 	b->beg = tmp;
 }
 
-static void	compact(t_buffer *b, char **ae)
+static void	compact(t_buf *b, char **ae)
 {
 	*ae -= b->ptr - b->beg;
 	memmove(b->beg, b->ptr, b->full);
@@ -42,7 +42,7 @@ static void	compact(t_buffer *b, char **ae)
 	b->ptr = b->beg;
 }
 
-static void	fill(int fd, t_buffer *b)
+static void	fill(int fd, t_buf *b)
 {
 	int	n;
 
@@ -56,7 +56,7 @@ static void	fill(int fd, t_buffer *b)
 	}
 }
 
-char	*gobble_line(int fd, t_buffer *b, char *ae)
+char	*gobble_line(int fd, t_buf *b, char *ae)
 {
 	char	*end;
 

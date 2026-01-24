@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   system.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/19 15:04:51 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 02:29:31 by marvin           ###   ########.fr       */
+/*   Created: 2026/01/24 00:52:58 by dlesieur          #+#    #+#             */
+/*   Updated: 2026/01/24 00:53:38 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <locale.h>
-#include "ft_wctype.h"
+#ifndef SYSTEM_H
+# define SYSTEM_H
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <locale.h>
+# include "ft_wctype.h"
 
 //Those functions has to be maybe placed into the libarena implementation
 // it's more related to mmemory management, for strings or data structures
@@ -36,23 +36,14 @@ typedef struct s_vcs_info
 }	t_vcs_info;
 
 // return the size of union - 1. This value is for allocation granurality
-static inline size_t	shell_size()
+static inline size_t	system_size(void)
 {
 	return (sizeof(t_smt) - 1);
 }
 
-/**
- * it appears that grabstackstr() will barf such alignments
- * because stalloc() will return a string allocated in a new stackblock
- */
-//static inline size_t	shell_align(size_t nbytes)
-//{
-//	return (nbytes + SHELL_SIZE & ~SHELL_SIZE)
-//}
-//
-static inline void ensure_locale(void)
+static inline void	ensure_locale(void)
 {
-	static int done = 0;
+	static int	done = 0;
 
 	if (!done)
 	{

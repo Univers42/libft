@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:49:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:40:20 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	process_line(char *line, char *str)
 	return (0);
 }
 
-int	scan_file(char *str, int fd, t_buffer *bufp)
+int	scan_file(char *str, int fd, t_buf *bufp)
 {
 	char	*line;
 

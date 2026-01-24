@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_null.c                                       :+:      :+:    :+:   */
+/*   write_mem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 19:52:35 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 23:12:09 by dlesieur         ###   ########.fr       */
+/*   Created: 2026/01/23 23:40:30 by dlesieur          #+#    #+#             */
+/*   Updated: 2026/01/24 00:34:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "output.h"
+#include "ft_string.h"
 #include "ft_memory.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdio.h>
-#include "ft_stdio.h"
 
-#if DEBUG
-
-void	out_of_space(void)
+void	ft_fdputmem(int fd, char *s, int n)
 {
-	dprintf(STDERR_FILENO, "Out of space\n");
-	ft_abort();
-}
-#else
+	int	i;
+	int	written;
 
-void	out_of_space(void)
-{
-	dprintf(STDERR_FILENO, "Out of space");
-	exit(ENOMEM);
+	written = 0;
+	while (written < n)
+	{
+		i = write(fd, s + written, n - written);
+		if (i <= 0)
+			break ;
+		written += i;
+	}
 }
 
-#endif
-
-void	*check_null(void *p)
+void	ft_putmem(char *s, int n)
 {
-	if (!p)
-		out_of_space();
-	return (p);
+	ft_fdputmem(1, s, n);
+}
+
+void	ft_eputmem(char *s, int n)
+{
+	ft_fdputmem(2, s, n);
 }

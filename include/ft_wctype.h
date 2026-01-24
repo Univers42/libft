@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wctype.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 16:24:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/22 02:58:22 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/24 01:03:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include <wchar.h>
 
-#define FT_LC_ALL		0
-#define FT_LC_COLLATE	1
-#define FT_LC_CTYPE		2
-#define FT_LC_MONETARY	3
-#define FT_LC_NUMERIC	4
-#define FT_LC_TIME		5
-#define FT_LC_MESSAGES	6
-#define FT_CAT_COUNT	7
+# define FT_LC_ALL		0
+# define FT_LC_COLLATE	1
+# define FT_LC_CTYPE		2
+# define FT_LC_MONETARY	3
+# define FT_LC_NUMERIC	4
+# define FT_LC_TIME		5
+# define FT_LC_MESSAGES	6
+# define FT_CAT_COUNT	7
 
 typedef enum e_wctype
 {
@@ -70,6 +70,7 @@ t_wctype	ft_wctype(const wchar_t *name);
 size_t		ft_mbrtowc(wchar_t *pwc, const char *s, size_t n, mbstate_t *ps);
 void		ft_locale_cleanup(void);
 char		*ft_setlocale(int category, const char *locale);
-size_t      ft_mb_cur_max(void);
+size_t		ft_mb_cur_max(void);
 int			ft_wcwidth(wchar_t wc);
+
 #endif

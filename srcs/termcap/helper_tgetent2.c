@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tgetent2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:49:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 02:52:02 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/24 00:38:16 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	copy_strip_backslash(char **dest, char **src)
 }
 
 /* ensure ctx->bp has enough capacity when ctx->malloc_size is set */
-static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buffer *buf)
+static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buf *buf)
 {
 	const size_t	old_size = ctx->malloc_size;
 	char			*tmp;
@@ -45,7 +45,7 @@ static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buffer *buf)
 }
 
 /* write current buffer line into ctx and return pointer to line start */
-static char	*write_entry_line(t_tgetent_ctx *ctx, t_buffer *buf)
+static char	*write_entry_line(t_tgetent_ctx *ctx, t_buf *buf)
 {
 	char	*bp2;
 	char	*tmp;
@@ -63,7 +63,7 @@ static char	*next_term_from_entry(char *entry_start)
 }
 
 /* read database entries and follow tc= indirections */
-int	process_entries(t_tgetent_ctx *ctx, char *name, t_buffer *buf, int fd)
+int	process_entries(t_tgetent_ctx *ctx, char *name, t_buf *buf, int fd)
 {
 	char	*term;
 	char	*bp2;

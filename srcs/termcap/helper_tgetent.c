@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tgetent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:44:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/24 00:39:35 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	copy_line_strip_backslash(char **bp1, char **src)
 }
 
 /* init internal buffers used to assemble term entry */
-int	init_buffers(t_tgetent_ctx *ctx, t_buffer *buf)
+int	init_buffers(t_tgetent_ctx *ctx, t_buf *buf)
 {
 	if (!ctx->bp)
 	{

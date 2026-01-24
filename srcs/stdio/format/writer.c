@@ -3,68 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   writer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 00:47:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 18:11:07 by dlesieur         ###   ########.fr       */
+/*   Created: 2026/01/10 23:13:53 by marvin            #+#    #+#             */
+/*   Updated: 2026/01/10 23:13:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "format.h"
 
-/*
- * Does not zero initialize the buffer. Zero initializes the variables.
- */
-void writer_reset(t_writer *w)
+int	writer_buffer_double(t_buffer *ret)
 {
-	w->index = 0;
-	w->error = 0;
-	w->n_written = 0; /* total attempted */
-	w->n_copied = 0;  /* actually copied into dst */
+	int			i;
+	char		*buff;
+
+	ret->cap = ret->cap * 2;
+	buff = malloc(ret->cap + 1);
+	if (buff == 0)
+		return (1);
+	ret->buff[ret->len] = 0;
+	i = -1;
+	while (++i < ret->len)
+		buff[i] = ret->buff[i];
+	free(ret->buff);
+	ret->buff = buff;
+	return (0);
 }
 
-bool writer_write(t_writer *w, const char *mem, size_t size)
+void	writer_char(t_buffer *buffer, char c)
 {
-	size_t i;
+	ssize_t	res;
+
+	buffer->total_put_in++;
+	if (buffer->len == buffer->cap)
+	{
+		if (writer_buffer_double(buffer))
+		{
+			if (!buffer->no_write)
+				ft_putmem(buffer->buff, buffer->len);
+			free(buffer->buff);
+			buffer->buff = 0;
+		}
+	}
+	if (buffer->buff)
+	{
+		buffer->buff[buffer->len++] = c;
+		buffer->buff[buffer->len] = 0;
+	}
+	else if (!buffer->no_write)
+	{
+		res = write(buffer->out_fd, &c, 1);
+		(void)res;
+	}
+}
+
+void	writer_padn(t_buffer *buff, char padding, int n)
+{
+	int	i;
 
 	i = 0;
-	while (i < size && writer_putchar(w, mem[i]))
-		++i;
-	return (w->error >= 0);
-}
-
-bool writer_is_full(t_writer *w)
-{
-	return (w->index == BUF_SIZE);
-}
-
-bool writer_putchar(t_writer *w, char c)
-{
-	if (writer_is_full(w) && writer_flush(w) < 0)
-		return (false);
-	w->buf[w->index] = c;
-	w->index++;
-	/* count total attempted characters (for snprintf return) */
-	w->n_written++;
-	return (true);
-}
-
-int writer_terminate_cstr(t_writer *w)
-{
-	if (w->mode != WRITER_MODE_BUF)
-		return (0);
-	if (w->index && writer_flush(w) < 0 && w->dst_cap == 0)
-		return (-1);
-	/* use n_copied (what actually made it into dst) to place terminating NUL */
-	if (w->dst && (size_t)w->n_copied < w->dst_cap + 1)
+	while (i < n)
 	{
-		if ((size_t)w->n_copied < w->dst_cap)
-			w->dst[w->n_copied] = '\0';
-		else
-			w->dst[w->dst_cap] = '\0';
-		return (0);
+		writer_char(buff, padding);
+		n--;
 	}
-	w->error = -1;
-	return (-1);
+}
+
+void	writer_strn(t_buffer *buff, char *str, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n && str[i])
+	{
+		writer_char(buff, str[i]);
+		i++;
+	}
+}
+
+void	writer_signed(t_buffer *buff, ssize_t n, int add_sign, int digits)
+{
+	if (n < 0)
+		writer_char(buff, '-');
+	else if (add_sign)
+		writer_char(buff, '+');
+	if (n / 10 || digits > 0)
+		writer_signed(buff, ft_abs(n / 10), 0, digits - 1);
+	if (digits > 0)
+		writer_char(buff, ft_abs(n % 10) + '0');
 }

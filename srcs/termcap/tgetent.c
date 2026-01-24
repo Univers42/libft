@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tgetent.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:36:31 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/20 22:20:44 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/24 00:42:53 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ void	copy_env_direct_to_ctx(t_tgetent_ctx *ctx, char *bp,
 			char *termcap_name);
 char	*handle_env_direct(char *name, char *bp, t_tgetent_ctx *ctx);
 void	copy_line_strip_backslash(char **bp1, char **src);
-int		process_entries(t_tgetent_ctx *ctx, char *name, t_buffer *buf,
+int		process_entries(t_tgetent_ctx *ctx, char *name, t_buf *buf,
 			int fd);
-int		init_buffers(t_tgetent_ctx *ctx, t_buffer *buf);
+int		init_buffers(t_tgetent_ctx *ctx, t_buf *buf);
 char	*fallback_entry(const char *name);
-
 int		apply_fallback(char *bp, const char *name);
 void	init_tgetent_ctx(t_tgetent_ctx *ctx, char *bp);
 
 /* prepare env handling and short-circuit when TERMCAP provided inline */
 static int	handle_env_and_prepare(t_tgetent_ctx *ctx, char *bp,
-									const char *name, char **termcap_file)
+				const char *name, char **termcap_file)
 {
 	*termcap_file = handle_env_direct((char *)name, bp, ctx);
 	if (!*termcap_file && ctx->tcenv && !ctx->indirect && (bp || ctx->bp))
@@ -42,10 +41,10 @@ static int	handle_env_and_prepare(t_tgetent_ctx *ctx, char *bp,
 
 /* read file and process entries; tries fallback on error */
 static int	read_and_process_file(t_tgetent_ctx *ctx, char *bp,
-								const char *name, char *termcap_file)
+							const char *name, char *termcap_file)
 {
-	t_buffer	buf;
-	int			fd;
+	t_buf	buf;
+	int		fd;
 
 	fd = open(termcap_file, O_RDONLY, 0);
 	if (fd < 0)

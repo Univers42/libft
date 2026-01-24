@@ -5,28 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/23 16:30:28 by syzygy            #+#    #+#             */
-/*   Updated: 2025/11/30 02:36:20 by dlesieur         ###   ########.fr       */
+/*   Created: 2026/01/24 00:33:45 by dlesieur          #+#    #+#             */
+/*   Updated: 2026/01/24 00:34:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "output.h"
-#include "ft_string.h"
-#include "ft_memory.h"
 
-void outmem(const char *p, size_t len, t_out *dst)
+static int	try_copy_to_buffer(const char *p, size_t len, t_out *dst)
 {
-	size_t buf_size;
-	size_t offset;
-	size_t n_left;
+	size_t	n_left;
 
 	n_left = dst->end - dst->nextc;
 	if (n_left >= len)
 	{
 		ft_memcpy(dst->nextc, p, len);
 		dst->nextc += len;
-		return;
+		return (1);
 	}
+	return (0);
+}
+
+static void	ensure_buffer_alloc(t_out *dst)
+{
+	size_t	buf_size;
+	size_t	offset;
+
 	buf_size = dst->buf_size;
 	if (buf_size != 0 && dst->buf == NULL)
 	{
@@ -38,13 +42,20 @@ void outmem(const char *p, size_t len, t_out *dst)
 	}
 	else if (dst->buf != NULL)
 		flushout(dst);
-	n_left = dst->end - dst->nextc;
-	if (n_left >= len)
-	{
-		ft_memcpy(dst->nextc, p, len);
-		dst->nextc += len;
-		return;
-	}
+}
+
+static void	write_fallback(const char *p, size_t len, t_out *dst)
+{
 	if (ft_write(dst->fd, p, len))
 		dst->flags |= OUTPUT_ERR;
+}
+
+void	outmem(const char *p, size_t len, t_out *dst)
+{
+	if (try_copy_to_buffer(p, len, dst))
+		return ;
+	ensure_buffer_alloc(dst);
+	if (try_copy_to_buffer(p, len, dst))
+		return ;
+	write_fallback(p, len, dst);
 }

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 00:00:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/03 23:58:10 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:23:44 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	tc_move_cursor(int row, int col)
 	}
 	else
 	{
-		snprintf(tmp, sizeof(tmp), "\033[%d;%dH", row + 1, col + 1);
+		ft_snprintf(tmp, sizeof(tmp), "\033[%d;%dH", row + 1, col + 1);
 		ft_putstr_fd(tmp, STDOUT_FILENO);
 	}
 }

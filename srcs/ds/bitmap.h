@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:38:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/30 00:42:30 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:40:46 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
-# include "ft_stddef.h"
+# include "../../include/ft_stddef.h"
 
 typedef struct s_hash_seen
 {

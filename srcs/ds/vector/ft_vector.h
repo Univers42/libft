@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:22:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 18:52:27 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:39:12 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
-# include "ft_stddef.h"
-# include "ft_memory.h"
-# include "ft_string.h"
+# include "../../../include/ft_stddef.h"
+# include "../../../include/ft_memory.h"
+# include "../../../include/ft_string.h"
 
 typedef struct s_vec
 {

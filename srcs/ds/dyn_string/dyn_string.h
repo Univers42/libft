@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:11:14 by marvin            #+#    #+#             */
-/*   Updated: 2026/01/24 01:15:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:41:47 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
-# include "ft_stdlib.h"
-# include "ft_string.h"
-# include "ft_debug.h"
-# include "ft_ctype.h"
-# include "ft_stddef.h"
+# include "../../../include/ft_stdlib.h"
+# include "../../../include/ft_string.h"
+# include "../../../include/ft_debug.h"
+# include "../../../include/ft_ctype.h"
+# include "../../../include/ft_stddef.h"
+# include "../../../include/ft_string.h"
 # include <unistd.h>
-# include "ft_string.h"
 
 typedef struct s_dyn_str
 {

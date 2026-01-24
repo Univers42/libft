@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:29:18 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 00:27:40 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:32:58 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,19 @@
 # include "../format/format.h"
 # include <unistd.h>
 # include <stdarg.h>
-# include "ft_string.h"
+# include "../../../include/ft_string.h"
 
 typedef struct s_state_fd	t_state_fd;
 
 # define OUTPUT_ERR 01
 # define OUTBUFSIZE 1024
+
+typedef struct s_clap_state
+{
+	char	*accum;
+	size_t	accum_len;
+	int		has_error;
+}	t_clap_state;
 
 typedef struct s_out
 {
@@ -87,22 +94,32 @@ static inline t_out_ctx	*get_outs(void)
 	return (&ctx);
 }
 
-void	ft_putendl_fd(const char *s, int fd);
-void	ft_putnbr_base(int nbr, char *radix);
-void	ft_putnbr_fd(int nb, int fd);
-void	ft_putstr_fd(const char *s, int fd);
-void	ft_putchar_fd(char c, int fd);
-void	outmem(const char *p, size_t len, t_out *dst);
-void	flushout(t_out *dst);
-int		ft_write(int fd, const void *p, size_t n);
-void	flush_all(void);
-char	*ft_asprintf(const char *str, ...);
-int		ft_fdprintf(int fd, const char *str, ...);
-char	*ft_aseprintf(const char *str, ...);
-int		ft_eprintf(const char *str, ...);
-int		ft_printf(const char *str, ...);
-void	ft_putmem(char *s, int n);
-void	ft_eputmem(char *s, int n);
-void	ft_fdputmem(int fd, char *s, int n);
+t_clap_state	*get_clap_state(void);
+void			ft_putendl_fd(const char *s, int fd);
+void			ft_putnbr_base(int nbr, char *radix);
+void			ft_putnbr_fd(int nb, int fd);
+void			ft_putstr_fd(const char *s, int fd);
+void			ft_putchar_fd(char c, int fd);
+void			outmem(const char *p, size_t len, t_out *dst);
+void			flushout(t_out *dst);
+int				ft_write(int fd, const void *p, size_t n);
+void			flush_all(void);
+char			*ft_asprintf(const char *str, ...);
+int				ft_fdprintf(int fd, const char *str, ...);
+char			*ft_aseprintf(const char *str, ...);
+int				ft_eprintf(const char *str, ...);
+int				ft_printf(const char *str, ...);
+void			ft_putmem(char *s, int n);
+void			ft_eputmem(char *s, int n);
+void			ft_fdputmem(int fd, char *s, int n);
+int				ft_sprintf(char *buf, const char *str, ...);
+int				ft_snprintf(char *buf, size_t size, const char *str, ...);
+int				claptrap(int flag, const char *str, ...);
+const char		*select_prefix(int flag);
+char			*build_formatted_msg(const char *prefix,
+							const char *msg,
+							size_t *out_len);
+int				append_accum(char *formatted, size_t new_len);
+void			flush_accum(void);
 
 #endif

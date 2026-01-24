@@ -6,20 +6,20 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:28:55 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 00:24:21 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:43:52 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORMAT_H
 # define FORMAT_H
 
-# include "libft.h"
 # include <stdio.h>
 # include <sys/types.h>
 # include <stdarg.h>
-# include "ft_memory.h"
-# include "ft_stdlib.h"
-# include "ft_string.h"
+# include "../output/output.h"
+# include "../../../include/ft_memory.h"
+# include "../../../include/ft_stdlib.h"
+# include "../../../include/ft_string.h"
 
 typedef enum e_fmt_spec_type
 {
@@ -36,6 +36,14 @@ typedef enum e_fmt_spec_type
 }	t_fmt_spec_type;
 //cspdiuxX%
 
+typedef enum e_claptrap
+{
+	CLAP_PRINT = 1 << 0,
+	CLAP_ERROR = 1 << 8,
+	CLAP_WARNING = 1 << 2,
+	CLAP_INFO = 1 << 3,
+	CLAP_SUCCESS = 1 << 4,
+}	t_claptrap;
 typedef enum e_flags
 {
 	FL_NONE		= 0,
@@ -105,5 +113,7 @@ void		writer_hex_lowcase(t_buffer *buff, size_t n,
 void		writer_hex_upcase(t_buffer *buff, size_t n,
 				int add_prefix, int digits);
 int			writer_init(t_buffer *ret);
+int			ft_vsnprintf(char *buf, size_t size, const char *str, va_list args);
+int			ft_vsprintf(char *buf, const char *str, va_list args);
 
 #endif

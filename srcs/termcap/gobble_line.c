@@ -6,12 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 00:49:42 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 00:38:58 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:13:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_termcap.h"
 #include <string.h>
+#include "memory.h"
 
 static char	*find_nl(char *p)
 {
@@ -37,7 +38,7 @@ static void	expand(t_buf *b, char **ae)
 static void	compact(t_buf *b, char **ae)
 {
 	*ae -= b->ptr - b->beg;
-	memmove(b->beg, b->ptr, b->full);
+	ft_memmove(b->beg, b->ptr, b->full);
 	b->full -= b->ptr - b->beg;
 	b->ptr = b->beg;
 }

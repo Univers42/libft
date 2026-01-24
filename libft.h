@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:22:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 01:12:46 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:36:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,24 @@
 #  define _BSD_SOURCE
 # endif
 
-//# include "analyzer.h"
-# include "ds.h"
-# include "ft_colors.h"
-# include "ft_ctype.h"
-# include "ft_debug.h"
-# include "ft_math.h"
-# include "ft_memory.h"
-# include "ft_render.h"
-# include "ft_sort.h"
-# include "ft_stddef.h"
-# include "ft_stdio.h"
-# include "ft_stdlib.h"
-# include "ft_string.h"
-# include "termcap.h"
-# include "ft_time.h"
-# include "ft_wctype.h"
-//# include "get.h" //!PROTOTYPE NOT WORKING
-# include "ipc.h"
-# include "system.h"
+// # include "analyzer.h"
+# include "./include/ds.h"
+# include "./include/ft_colors.h"
+# include "./include/ft_ctype.h"
+# include "./include/ft_debug.h"
+# include "./include/ft_math.h"
+# include "./include/ft_memory.h"
+# include "./include/ft_render.h"
+# include "./include/ft_sort.h"
+# include "./include/ft_stddef.h"
+# include "./include/ft_stdio.h"
+# include "./include/ft_stdlib.h"
+# include "./include/ft_string.h"
+# include "./include/ft_termcap.h"
+# include "./include/ft_time.h"
+# include "./include/ft_wctype.h"
+# include "./include/ipc.h"
+# include "./include/system.h"
 
 # include <immintrin.h>
 # include <unistd.h>

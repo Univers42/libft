@@ -6,14 +6,14 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:15:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 16:45:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:39:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASH_H
 # define HASH_H
 
-# include "ds.h"
+# include "../../../include/ds.h"
 # include <stdlib.h>
 # include <string.h>
 # include <stdbool.h>

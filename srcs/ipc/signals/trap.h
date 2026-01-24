@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 19:51:24 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:44:45 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@
 # include <stdint.h>
 # include <string.h>
 # include <unistd.h>
-# include "ft_string.h"
-
-# include "ft_string.h"
+# include "../../../include/ft_string.h"
 
 typedef enum e_sigs
 {

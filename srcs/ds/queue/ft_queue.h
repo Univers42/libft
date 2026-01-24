@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:10:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 18:26:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:36:50 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdbool.h>
 # include <string.h>
 # include <unistd.h>
-# include "ft_memory.h"
-# include "ft_debug.h"
-# include "ft_math.h"
+# include "../../../include/ft_memory.h"
+# include "../../../include/ft_debug.h"
+# include "../../../include/ft_math.h"
 
 typedef struct s_queue_node
 {

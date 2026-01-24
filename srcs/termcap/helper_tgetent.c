@@ -6,21 +6,22 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:44:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 00:39:35 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:15:49 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_termcap.h"
+#include "ft_string.h"
 
 void	copy_env_direct_to_ctx(t_tgetent_ctx *ctx, char *bp, char *termcap_name)
 {
 	if (bp)
-		strcpy(bp, termcap_name);
+		ft_strcpy(bp, termcap_name);
 	else
 	{
-		ctx->malloc_size = (int)(strlen(termcap_name) + 1);
+		ctx->malloc_size = (int)(ft_strlen(termcap_name) + 1);
 		ctx->bp = (char *)malloc(ctx->malloc_size);
-		strcpy(ctx->bp, termcap_name);
+		ft_strcpy(ctx->bp, termcap_name);
 	}
 	ctx->tcenv = termcap_name;
 }
@@ -78,7 +79,7 @@ int	init_buffers(t_tgetent_ctx *ctx, t_buf *buf)
 	if (!ctx->bp)
 	{
 		if (ctx->indirect)
-			ctx->malloc_size = (int)(strlen(ctx->tcenv) + 1);
+			ctx->malloc_size = (int)(ft_strlen(ctx->tcenv) + 1);
 		else
 			ctx->malloc_size = buf->size;
 		ctx->bp = (char *)malloc(ctx->malloc_size);
@@ -86,7 +87,7 @@ int	init_buffers(t_tgetent_ctx *ctx, t_buf *buf)
 	ctx->bp1 = ctx->bp;
 	if (ctx->indirect)
 	{
-		strcpy(ctx->bp, ctx->tcenv);
+		ft_strcpy(ctx->bp, ctx->tcenv);
 		ctx->bp1 += ft_strlen(ctx->tcenv);
 	}
 	return (1);

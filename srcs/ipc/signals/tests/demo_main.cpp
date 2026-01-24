@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 09:20:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/19 03:05:31 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:23:24 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
+#include "ft_stdio.h"
 
 /* Color helpers */
 #define C_RESET "\033[0m"
@@ -114,7 +115,7 @@ static void reap_zombies(void)
 	if (cnt > 0 && g_verbose)
 	{
 		char buf[128];
-		int n = snprintf(buf, sizeof(buf), "reaped %d children\n", cnt);
+		int n = ft_snprintf(buf, sizeof(buf), "reaped %d children\n", cnt);
 		if (n > 0 && n < (int)sizeof(buf))
 			logmsg(C_GRN, "[REAP] ", buf);
 	}
@@ -162,7 +163,7 @@ static void set_protect_mode(int mode)
 	{
 		set_signal_handler(SIGCHLD, demo_sigchld);
 		char buf[64];
-		int n = snprintf(buf, sizeof(buf), "auto_reap=%s\n", g_auto_reap ? "on" : "off");
+		int n = ft_snprintf(buf, sizeof(buf), "auto_reap=%s\n", g_auto_reap ? "on" : "off");
 		if (n > 0 && n < (int)sizeof(buf))
 		{
 			write(1, C_GRN "[CFG] " C_RESET, ft_strlen(C_GRN "[CFG] " C_RESET));
@@ -231,7 +232,7 @@ static int spawn_child(const char *label)
 
 		char buf[256];
 		pid_t me = getpid(), pp = getppid();
-		int n = snprintf(buf, sizeof(buf),
+		int n = ft_snprintf(buf, sizeof(buf),
 						 C_CYN "[CHILD pid=%d ppid=%d label=%s] started" C_RESET "\n",
 						 (int)me, (int)pp, label);
 		if (n > 0 && n < (int)sizeof(buf))
@@ -308,7 +309,7 @@ static void status_report(void)
 				zomb++;
 		}
 
-	int n = snprintf(line, sizeof(line),
+	int n = ft_snprintf(line, sizeof(line),
 					 "children=%d alive=%d zombies=%d leak_mode=%d protect_mode=%d auto_reap=%d\n",
 					 g_child_count, alive, zomb, g_leak_mode, g_protect_mode, g_auto_reap);
 
@@ -323,7 +324,7 @@ static void status_report(void)
 		if (g_children[i].pid > 0)
 		{
 			char b[128];
-			int bn = snprintf(b, sizeof(b), "  idx=%d pid=%d zombie=%d\n",
+			int bn = ft_snprintf(b, sizeof(b), "  idx=%d pid=%d zombie=%d\n",
 							  i, (int)g_children[i].pid, g_children[i].zombie);
 			if (bn > 0 && bn < (int)sizeof(b))
 				write(1, b, bn);
@@ -389,7 +390,7 @@ int main(void)
 	write(1, msg6, ft_strlen(msg6));
 	write(1, msg7, ft_strlen(msg7));
 	char protect_buf[8];
-	int pn = snprintf(protect_buf, sizeof(protect_buf), "%d\n", ZOMBIE_PROTECT);
+	int pn = ft_snprintf(protect_buf, sizeof(protect_buf), "%d\n", ZOMBIE_PROTECT);
 	if (pn > 0 && pn < (int)sizeof(protect_buf))
 		write(1, protect_buf, pn);
 	write(1, msg8, ft_strlen(msg8));
@@ -442,7 +443,7 @@ int main(void)
 			for (int i = 0; i < n; i++)
 			{
 				char lbl[32];
-				snprintf(lbl, sizeof(lbl), "worker%02d", g_child_count);
+				ft_snprintf(lbl, sizeof(lbl), "worker%02d", g_child_count);
 				spawn_child(lbl);
 			}
 		}

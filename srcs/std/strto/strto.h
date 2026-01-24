@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:07:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 16:31:02 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:42:37 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <errno.h>
 # include <inttypes.h>
 # include <string.h>
-# include "ft_stddef.h"
+# include "../../../include/ft_stddef.h"
 
 // Conversion state machine states
 typedef enum e_conv

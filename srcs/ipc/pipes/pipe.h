@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:24:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 19:29:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:45:15 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <fcntl.h>
 # include <unistd.h>
-# include "ft_memory.h"
-# include "ft_string.h"
+# include "../../../include/ft_memory.h"
+# include "../../../include/ft_string.h"
 
 typedef struct s_pipe_fds
 {

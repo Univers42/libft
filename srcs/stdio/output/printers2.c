@@ -1,15 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clock.c                                            :+:      :+:    :+:   */
+/*   printers2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 20:28:04 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/25 17:15:49 by dlesieur         ###   ########.fr       */
+/*   Created: 2026/01/24 13:17:34 by dlesieur          #+#    #+#             */
+/*   Updated: 2026/01/24 14:17:29 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_time.h"
+#include "output.h"
+#include <stdlib.h>
 
-//void    clock_t_to_secs(clock_t )
+int	ft_snprintf(char *buf, size_t size, const char *str, ...)
+{
+	va_list	args;
+	int		ret;
+
+	va_start(args, str);
+	ret = ft_vsnprintf(buf, size, str, args);
+	va_end(args);
+	return (ret);
+}
+
+int	ft_sprintf(char *buf, const char *str, ...)
+{
+	va_list	args;
+	int		ret;
+
+	va_start(args, str);
+	ret = ft_vsprintf(buf, str, args);
+	va_end(args);
+	return (ret);
+}

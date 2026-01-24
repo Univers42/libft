@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "ft_setlocale.h"
+#include "ft_string.h"
+#include "ft_memory.h"
 
 /* set locale from environment into given category */
 static char	*set_locale_from_env(t_loc *store, int category)
@@ -18,7 +20,7 @@ static char	*set_locale_from_env(t_loc *store, int category)
 	const char	*env;
 
 	env = find_env_locale();
-	strncpy(store->locales[category], env, LOCSIZE - 1);
+	ft_strncpy(store->locales[category], env, LOCSIZE - 1);
 	store->locales[category][LOCSIZE - 1] = '\0';
 	update_mb_cur_max(store, env);
 	return (store->locales[category]);
@@ -29,7 +31,7 @@ static char	*store_locale(t_loc *store,
 						int category,
 						const char *locale)
 {
-	strncpy(store->locales[category], locale, LOCSIZE - 1);
+	ft_strncpy(store->locales[category], locale, LOCSIZE - 1);
 	store->locales[category][LOCSIZE - 1] = '\0';
 	update_mb_cur_max(store, locale);
 	return (store->locales[category]);

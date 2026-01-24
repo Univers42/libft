@@ -6,11 +6,13 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:54:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 15:59:42 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:10:05 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_setlocale.h"
+#include "ft_string.h"
+#include "ft_memory.h"
 
 /* validate category index */
 int	valid_category(int category)
@@ -28,12 +30,12 @@ void	init_store_defaults(t_loc *p)
 	size_t	i;
 	int		idx;
 
-	memset(p, 0, sizeof(*p));
+	ft_memset(p, 0, sizeof(*p));
 	p->mb_cur_max = 4;
 	idx = FT_LC_CTYPE;
 	if (idx < 0 || idx >= FT_CAT_COUNT)
 		idx = 0;
-	strncpy(p->locales[idx], "C", LOCSIZE - 1);
+	ft_strncpy(p->locales[idx], "C", LOCSIZE - 1);
 	p->locales[idx][LOCSIZE - 1] = '\0';
 	(void)i;
 }
@@ -73,9 +75,9 @@ const char	*find_env_locale(void)
 /* update mb_cur_max based on locale string */
 void	update_mb_cur_max(t_loc *store, const char *str)
 {
-	if (strstr(str, "UTF-8")
-		|| strstr(str, "utf8")
-		|| strstr(str, "UTF8"))
+	if (ft_strstr(str, "UTF-8")
+		|| ft_strstr(str, "utf8")
+		|| ft_strstr(str, "UTF8"))
 		store->mb_cur_max = 4;
 	else
 		store->mb_cur_max = 1;

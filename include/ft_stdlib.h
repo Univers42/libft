@@ -60,5 +60,6 @@ const char		*get_algorithm_name(int type);
 size_t			ft_offsetof(void *struct_base, void *member_addr);
 char			*xgetpid(void);
 int				write_file(const char *str, int fd);
+void			free_tab(char **tab);
 
 #endif

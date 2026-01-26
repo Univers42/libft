@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 19:12:17 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/11 19:50:13 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/25 20:48:43 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_tab(char **tab)
 }
 
 #ifndef POSIXLY_CORRECT
+
 char	*xgetpid(void)
 {
 	int			fd;
@@ -39,7 +40,7 @@ char	*xgetpid(void)
 	fd = open("/proc/self/stat", O_RDONLY);
 	if (fd < 0)
 	{
-        ft_eprintf("Error: Cannot open /proc/self/stat\n");
+		ft_eprintf("Error: Cannot open /proc/self/stat\n");
 		return (0);
 	}
 	vec_init(&file);

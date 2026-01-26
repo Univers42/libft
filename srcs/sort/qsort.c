@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 01:51:48 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 01:53:11 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/25 20:44:27 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 #else
 
 /* allocate stack: try dynamic allocation, fallback to static buffer */
-static t_intern	*alloc_stack(size_t nmemb, size_t *cap)
+static t_intern	*alloc_stack(size_t nmemb, size_t *cap, int *is_dynamic)
 {
 	t_intern			*stack;
 	size_t				want;
 	static t_intern		small_stack[64];
 
+	*is_dynamic = 0;
 	want = 1;
 	if (nmemb > 1)
 		want = nmemb;
@@ -76,6 +77,7 @@ static t_intern	*alloc_stack(size_t nmemb, size_t *cap)
 	if (stack)
 	{
 		*cap = want;
+		*is_dynamic = 1;
 		return (stack);
 	}
 	*cap = 64;
@@ -112,6 +114,7 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 	t_intern	*stack;
 	size_t		cap;
 	size_t		sp;
+	int			is_dynamic;
 
 	if (nmemb < 2 || size == 0)
 		return ;
@@ -123,12 +126,12 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 	metas.tmp = malloc(size);
 	if (!metas.tmp)
 		return ;
-	stack = alloc_stack(nmemb, &cap);
+	stack = alloc_stack(nmemb, &cap, &is_dynamic);
 	stack[0] = metas;
 	sp = 1;
 	while (sp > 0)
 		process_top(stack, &sp, cap);
-	if (cap != 64)
+	if (is_dynamic)
 		free(stack);
 	free(metas.tmp);
 }

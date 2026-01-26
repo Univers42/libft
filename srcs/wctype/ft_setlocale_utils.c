@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:54:41 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 13:10:05 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:56:59 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ const char	*find_env_locale(void)
 		env = getenv("LC_CTYPE");
 	if (!env || !*env)
 		env = getenv("LANG");
+	if (!env || !*env)
+		env = getenv("LC_COLLATE");
 	if (!env)
 		env = "C";
 	return (env);

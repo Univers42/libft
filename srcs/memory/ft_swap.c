@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:42:22 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 23:40:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/25 21:18:17 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,23 @@
  *
  * Note: If @a and @b point to the same memory, the function does nothing.
  */
-void	ft_swap(void *a, void *b, size_t size)
+static void	swap_bytes(unsigned char *pa, unsigned char *pb, size_t size)
 {
-	unsigned char	*pa;
-	unsigned char	*pb;
+	unsigned char	tmp;
 
-	pa = (unsigned char *)a;
-	pb = (unsigned char *)b;
-	if (*pa == *pb)
-		return ;
 	while (size--)
 	{
-		(*pa ^= *pb);
-		(*pb ^= *pa);
-		(*pa++ ^= *pb++);
+		tmp = *pa;
+		*pa++ = *pb;
+		*pb++ = tmp;
 	}
+}
+
+void	ft_swap(void *a, void *b, size_t size)
+{
+	if (a == b)
+		return ;
+	swap_bytes((unsigned char *)a, (unsigned char *)b, size);
 }
 
 //int main(void)

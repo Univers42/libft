@@ -114,10 +114,10 @@ void   out_of_space(void);                  /* Error handler */
 char  *str_save(const char *s);             /* Allocate & copy string */
 ```
 
-### Context
+### ctx
 
 ```c
-t_garena *arena_ctx(void);  /* Get the arena context (singleton) */
+t_garena *arena_ctx(void);  /* Get the arena ctx (singleton) */
 ```
 
 ## Types
@@ -161,7 +161,7 @@ typedef struct s_garena {
 
 ## Memory Model
 
-- Single static arena context (singleton)
+- Single static arena ctx (singleton)
 - LIFO allocation within blocks
 - Automatic block chaining when capacity exceeded
 - Marks allow save/restore of entire state
@@ -229,7 +229,7 @@ Tests cover:
 
 ## Notes
 
-- The static arena context persists for the program lifetime (process-local singleton)
+- The static arena ctx persists for the program lifetime (process-local singleton)
 - All allocations are LIFO; arbitrary freeing will cause issues
 - Use `st_unalloc()` only to rewind to a recent allocation
 - Use stack marks (`set_stack_mark()` / `pop_stack_mark()`) for scoped cleanup

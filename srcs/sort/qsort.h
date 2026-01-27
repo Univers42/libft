@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:12:38 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/11/28 01:56:25 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_intern
 	char	*tmp;
 }	t_intern;
 
-/* context used for pushing child ranges (reduce arg count) */
+/* ctx used for pushing child ranges (reduce arg count) */
 typedef struct s_pushctx
 {
 	t_intern	*stack;

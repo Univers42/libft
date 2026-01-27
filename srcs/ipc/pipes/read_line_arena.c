@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:37:53 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 19:26:01 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	read_line_fill(int fd, char *base, char **pp)
  * Read one line from fd into arena.
  * Uses start_stack_str() / st_putc() / stack_str_nul() / grab_stack_str()
  * to build and commit the string in the arena. Caller must ensure the arena
- * context remains valid for the returned string lifetime.
+ * ctx remains valid for the returned string lifetime.
  */
 char	*read_line_arena(int fd)
 {

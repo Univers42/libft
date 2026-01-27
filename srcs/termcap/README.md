@@ -14,7 +14,7 @@ Termcap originated in early UNIX systems and was later superseded by the more fe
 
 ## Purpose of Termcap in Shells
 
-In the context of a shell (like `sh`, `bash`, or your own shell project), **termcap** is used to provide advanced, portable terminal interaction features. This includes:
+In the ctx of a shell (like `sh`, `bash`, or your own shell project), **termcap** is used to provide advanced, portable terminal interaction features. This includes:
 
 - Moving the cursor to arbitrary positions (for line editing, prompts, etc.)
 - Clearing the screen or parts of it

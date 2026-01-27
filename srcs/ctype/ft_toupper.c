@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 01:02:10 by dyl-syzygy        #+#    #+#             */
-/*   Updated: 2025/10/21 13:57:19 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @note If `c` is not a lowercase letter 
  * (i.e., not between 'a' and 'z'), it is returned as is.
  * This function is typically used to standardize 
- * characters in a case-insensitive context.
+ * characters in a case-insensitive ctx.
  */
 int	ft_toupper(int c)
 {

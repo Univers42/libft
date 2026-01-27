@@ -17,9 +17,9 @@ typedef struct s_prng_state
 {
 	uint32_t	state_array[624];
 	int			state_index;
-}	t_prng_state;
+}	t_prng;
 
-static inline void	prng_initialize_state(t_prng_state *state, uint32_t seed)
+static inline void	prng_initialize_state(t_prng *state, uint32_t seed)
 {
 	uint32_t	*state_array;
 	int			i;
@@ -36,7 +36,7 @@ static inline void	prng_initialize_state(t_prng_state *state, uint32_t seed)
 	state->state_index = 0;
 }
 
-static inline uint32_t	random_uint32_inner(t_prng_state *state,
+static inline uint32_t	random_uint32_inner(t_prng *state,
 							int k, int j, int x)
 {
 	uint32_t	*state_array;
@@ -63,7 +63,7 @@ static inline uint32_t	random_uint32_inner(t_prng_state *state,
 	return (z);
 }
 
-static inline uint32_t	random_uint32(t_prng_state *state)
+static inline uint32_t	random_uint32(t_prng *state)
 {
 	uint32_t	*state_array;
 	int			k;

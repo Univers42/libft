@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:07:50 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 14:42:37 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef enum e_conv
 
 // Supported target types
 
-// Conversion context (state machine data)
+// Conversion ctx (state machine data)
 typedef struct s_conv_ctx
 {
 	const char	*ptr;
@@ -70,7 +70,7 @@ typedef struct s_conv_ctx
 	t_conv		state;
 }	t_conv_ctx;
 
-// Forward-declare context for the function pointer type
+// Forward-declare ctx for the function pointer type
 typedef void	(*t_fn_state)(t_conv_ctx *);
 
 // Backward-compat alias used by callers.

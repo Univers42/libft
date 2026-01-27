@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:16:02 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/24 14:44:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_glob_sig
 	char			*trap_list[BASH_NSIG_TOTAL];
 	int				pending_traps[NSIG];
 	int				running_traps;
-	int				trap_return_context;
+	int				trap_return_ctx;
 	int				trap_saved_exit_value;
 	int				wait_signal_received;
 	int				trapped_signal_received;

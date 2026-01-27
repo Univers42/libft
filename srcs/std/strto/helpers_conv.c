@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:06:34 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/12/01 01:45:45 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	char_to_digit(char c, int base)
 	return (digit);
 }
 
-// Initialize conversion context
+// Initialize conversion ctx
 void	init_conv_ctx(t_conv_ctx *ctx, const char *nptr,
 					int base, t_type type)
 {

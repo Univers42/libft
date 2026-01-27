@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:34:44 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 20:09:23 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
  *   pop_stack_mark(&mark); // discards allocations since the mark
  *
  * Notes
- *   - The context is a process-global returned by arena_ctx().
+ *   - The ctx is a process-global returned by arena_ctx().
  *   - The allocato shall do its memalloc for block management.
  *   - st_alloc/st_unalloc are generic : st_alloc returns raw bytes.
  *   - All allocation sizes are aligned to machine word size for correctness.
@@ -105,18 +105,18 @@ typedef struct s_dynall
 	t_stack_block	*p;			// tmp ptr to new alloc or exp_block
 }	t_dynall;
 
-/* Context */
+/* ctx */
 /**
- * @brief  Return the singleton arena context.
+ * @brief  Return the singleton arena ctx.
  *
  * The library uses a process-global singleton t_garena. This function
- * returns a pointer to that context. The context is initialized on
+ * returns a pointer to that ctx. The ctx is initialized on
  * first call. The implementation is not thread-safe.
  *
- * @return Pointer to the arena context (t_garena*).
+ * @return Pointer to the arena ctx (t_garena*).
  *
  * @note Many API functions (allocation, growth, marks) depend on this
- *       context being available; callers normally do not need to call
+ *       ctx being available; callers normally do not need to call
  *       this directly except for diagnostics or tests.
  */
 t_garena	*arena_ctx(void);
@@ -125,7 +125,7 @@ t_garena	*arena_ctx(void);
  * @brief  Free all dynamic blocks and reset the arena to initial state.
  *
  * Frees any blocks allocated beyond the inlined base block and resets the
- * arena pointers so the context becomes as if freshly initialized.
+ * arena pointers so the ctx becomes as if freshly initialized.
  *
  * @note After calling this, any pointers previously returned by st_alloc()
  *       are invalid.
@@ -447,7 +447,7 @@ void		arena_free(void *p);
  * future reallocations. Returns a payload length (usable bytes).
  *
  * @param  min Minimum required payload bytes.
- * @param  g   Pointer to arena context used for heuristics.
+ * @param  g   Pointer to arena ctx used for heuristics.
  * @return Chosen payload length in bytes.
  */
 size_t		compute_new_len(size_t min, t_garena *g);

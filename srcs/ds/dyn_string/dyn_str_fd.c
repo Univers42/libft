@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:48:58 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/11 19:49:14 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // 		if (len > 0)
 // 			str_pushnstr(buff, len);
 // 		else
-// 			critical_error_errno_context("read");
+// 			critical_error_errno_ctx("read");
 // 	}
 // }
 
@@ -43,6 +43,6 @@
 // 		if (len > 0)
 // 			dyn_str_pushnstr(str, buff, len);
 // 		else
-// 			critical_error_errno_context("read");
+// 			critical_error_errno_ctx("read");
 // 	}
 // }

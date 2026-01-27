@@ -213,7 +213,7 @@ void main_loop(void) {
 
 ### Valgrind Reports "still reachable"
 
-This is normal and expected. The static arena context persists for the program lifetime:
+This is normal and expected. The static arena ctx persists for the program lifetime:
 
 ```
 still reachable: 512 bytes in 1 blocks

@@ -6,7 +6,7 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:18:11 by dlesieur          #+#    #+#             */
-/*   Updated: 2025/10/21 13:57:16 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:16:39 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * If `c` is not an uppercase letter 
  * (i.e., not between 'A' and 'Z'), it is returned as is.
  * This function is typically used to standardize 
- * characters in a case-insensitive context.
+ * characters in a case-insensitive ctx.
  */
 int	ft_tolower(int c)
 {

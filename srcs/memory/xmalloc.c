@@ -22,7 +22,7 @@ void	*xmalloc(size_t nbytes)
 	return (check_null(ptr));
 }
 
-void	*xrealloc(void *p, size_t old, size_t newsize)
+void	*xrealloc3(void *p, size_t old, size_t newsize)
 {
 	void	*nptr;
 	size_t	copy;

@@ -1,2 +1,0 @@
-%d %i %u %x %X %o %s %p %lld %zu %.*s
-%-5s %05d %#x

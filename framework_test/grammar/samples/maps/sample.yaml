@@ -1,6 +1,0 @@
-simple:
-  - a: 1
-  - b: 2
-nested:
-  child:
-    prop: value

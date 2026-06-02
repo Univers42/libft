@@ -44,20 +44,49 @@ int	hash_find_idx(t_hash *h, const char *key)
 	size_t			idx;
 	size_t			i;
 	t_hash_entry	*buff;
+	char			*del;
 
 	buff = (t_hash_entry *)h->ctx;
 	if (h->cap == 0 || key == NULL)
 		return (-1);
+	del = hash_deleted_key();
 	idx = hash_func(key, h->cap);
 	i = -1;
 	while (++i < h->cap)
 	{
-		if (buff[idx].key != NULL
-			&& strcmp(buff[idx].key, key) == 0)
+		if (buff[idx].key == NULL)
+			return (-1);
+		if (buff[idx].key != del && strcmp(buff[idx].key, key) == 0)
 			return ((int)idx);
 		idx = (idx + 1) % h->cap;
 	}
 	return (-1);
+}
+
+/* Sentinel key marking a deleted slot (tombstone): keeps probe chains intact
+   for lookups while being reusable by inserts and ignored by destroy/resize. */
+char	*hash_deleted_key(void)
+{
+	static char	deleted;
+
+	return (&deleted);
+}
+
+/* Remove an entry: tombstone its slot, return the stored value to free. */
+void	*hash_del(t_hash *h, const char *key)
+{
+	int		idx;
+	void	*val;
+
+	idx = hash_find_idx(h, key);
+	if (idx < 0)
+		return (NULL);
+	val = ((t_hash_entry *)h->ctx)[idx].value;
+	((t_hash_entry *)h->ctx)[idx].key = hash_deleted_key();
+	((t_hash_entry *)h->ctx)[idx].value = NULL;
+	if (h->len > 0)
+		h->len--;
+	return (val);
 }
 
 /* Resize hash table and rehash entries. */
@@ -72,7 +101,7 @@ bool	hash_resize(t_hash *h)
 		return (false);
 	i = -1;
 	while (++i < h->cap)
-		if (buff[i].key != NULL)
+		if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
 			hash_set(&new_h, buff[i].key, buff[i].value);
 	free(h->ctx);
 	*h = new_h;

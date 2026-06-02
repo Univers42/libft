@@ -33,6 +33,8 @@ int		hash_find_idx(t_hash *h, const char *key);
 bool	hash_resize(t_hash *h);
 bool	hash_set(t_hash *h, const char *key, void *value);
 void	*hash_get(t_hash *h, const char *key);
+void	*hash_del(t_hash *h, const char *key);
+char	*hash_deleted_key(void);
 void	hash_destroy(t_hash *h, void (*free_val)(void *));
 
 #endif

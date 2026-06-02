@@ -38,7 +38,7 @@ void	hash_destroy(t_hash *h, void (*free_val)(void *))
 	{
 		i = -1;
 		while (++i < h->cap)
-			if (buff[i].key != NULL)
+			if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
 				free_val(buff[i].value);
 	}
 	free(h->ctx);

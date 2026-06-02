@@ -56,11 +56,9 @@ bool	realloc_to(t_vec *v, size_t new_cap, size_t es)
 {
 	void	*new_buff;
 
-	new_buff = malloc(new_cap * es);
+	new_buff = realloc(v->ctx, new_cap * es);
 	if (new_buff == NULL)
 		return (false);
-	if (v->ctx != NULL)
-		(ft_memcpy(new_buff, v->ctx, v->len * es), free(v->ctx));
 	v->ctx = new_buff;
 	v->cap = new_cap;
 	return (true);

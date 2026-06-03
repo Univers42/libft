@@ -13,7 +13,10 @@
 # voluntarily Makefile is simpler to debug quicker the problems on this libft..
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1 -std=c99
+# -O3: libft is the hot path for the whole shell (memcpy, vectors, strings).
+# Building it unoptimized (-O0) made every consumer pay; optimizing it is a
+# major, shell-wide win.
+CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1 -std=c99 -O3
 PICFLAG = -fPIC
 CFLAGS += $(PICFLAG)
 

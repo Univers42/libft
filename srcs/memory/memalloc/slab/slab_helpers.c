@@ -29,6 +29,8 @@ static void	slab_build_free_list(t_slab_chunk *chunk, t_slab_cache *cache)
 	{
 		block = (t_slab_block *)ptr;
 		block->is_free = true;
+		block->chunk = chunk;
+		block->magic = SLAB_MAGIC;
 		block->next = chunk->free_list;
 		chunk->free_list = block;
 		ptr += bsz;

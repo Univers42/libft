@@ -18,6 +18,8 @@ void	slab_init(t_slab_allocator *slab)
 	if (slab == NULL)
 		return ;
 	slab->cache_count = 0;
+	slab->lo = NULL;
+	slab->hi = NULL;
 	memset(slab->caches, 0, sizeof(slab->caches));
 }
 

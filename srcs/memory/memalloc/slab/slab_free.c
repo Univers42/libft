@@ -6,56 +6,41 @@
 /*   By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:40:00 by dlesieur          #+#    #+#             */
-/*   Updated: 2026/01/23 20:16:57 by dlesieur         ###   ########.fr       */
+/*   Updated: 2026/06/05 00:00:00 by dlesieur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "slab.h"
 #include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
+#include <stddef.h>
 
-#define START 0
-#define PTR 1
-
-static int	slab_free_in_cache(t_slab_cache *cache, void *ptr)
-{
-	t_slab_chunk	*chunk;
-	t_slab_block	*blk;
-
-	chunk = cache->chunks;
-	while (chunk != NULL)
-	{
-		blk = slab_get_block_at_ptr(chunk, cache, ptr);
-		if (blk != NULL && blk->is_free == false)
-		{
-			blk->is_free = true;
-			blk->next = chunk->free_list;
-			chunk->free_list = blk;
-			chunk->used_blocks -= 1;
-			cache->total_freed += 1;
-			return (1);
-		}
-		if (blk != NULL)
-			return (0);
-		chunk = chunk->next;
-	}
-	return (0);
-}
-
+/* O(1) free: a pointer outside the allocator's chunk span is plain libc memory
+   (bounds check, no deref). Inside the span, the block header sits at a fixed
+   offset; its magic confirms it is really a slab block (an in-span libc pointer
+   would not match), and block->chunk gives the freelist to return it to. */
 void	slab_free(t_slab_allocator *slab, void *ptr)
 {
-	size_t	i;
+	t_slab_block	*block;
+	t_slab_chunk	*chunk;
 
 	if (slab == NULL || ptr == NULL)
 		return ;
-	i = 0;
-	while (i < slab->cache_count)
+	if ((char *)ptr < slab->lo || (char *)ptr >= slab->hi)
 	{
-		if (slab_free_in_cache(&slab->caches[i], ptr))
-			return ;
-		i += 1;
-	}
-	if (ptr > (void *)0x1000)
 		free(ptr);
+		return ;
+	}
+	block = (t_slab_block *)((char *)ptr - offsetof(t_slab_block, data));
+	if (block->magic != SLAB_MAGIC)
+	{
+		free(ptr);
+		return ;
+	}
+	if (block->is_free)
+		return ;
+	chunk = block->chunk;
+	block->is_free = true;
+	block->next = chunk->free_list;
+	chunk->free_list = block;
+	chunk->used_blocks -= 1;
 }

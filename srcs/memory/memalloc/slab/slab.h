@@ -19,9 +19,16 @@
 
 # define MAX_SLAB_SIZES 8
 
+/* Stamped into every slab block so slab_free() can recognise a slab pointer in
+   O(1) (after a cheap bounds check) and route it via block->chunk, instead of
+   scanning every cache/chunk. Non-slab pointers fall back to libc free. */
+# define SLAB_MAGIC 0x5742534C41425F31UL
+
 typedef struct s_slab_block
 {
 	struct s_slab_block	*next;
+	struct s_slab_chunk	*chunk;
+	size_t				magic;
 	bool				is_free;
 	char				data[];
 }						t_slab_block;
@@ -49,6 +56,8 @@ typedef struct s_slab_allocator
 {
 	t_slab_cache	caches[MAX_SLAB_SIZES];
 	size_t			cache_count;
+	char			*lo;
+	char			*hi;
 }					t_slab_allocator;
 
 void			slab_init(t_slab_allocator *slab);

@@ -16,7 +16,7 @@ t_queue	*ft_queue_create(void)
 {
 	t_queue	*queue;
 
-	queue = malloc(sizeof(t_queue));
+	queue = fn_malloc(sizeof(t_queue));
 	if (!queue)
 		return (NULL);
 	queue->front = NULL;

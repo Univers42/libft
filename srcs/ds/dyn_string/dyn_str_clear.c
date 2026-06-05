@@ -34,7 +34,7 @@ void	dyn_str_free(t_dyn_str *s)
 {
 	if (s && s->buff)
 	{
-		free(s->buff);
+		fn_free(s->buff);
 		s->buff = NULL;
 		s->cap = 0;
 		s->len = 0;
@@ -45,7 +45,7 @@ void	dyn_str_destroy(t_dyn_str *to_empty)
 {
 	if (to_empty->buff)
 	{
-		free(to_empty->buff);
+		fn_free(to_empty->buff);
 		to_empty->buff = NULL;
 	}
 }

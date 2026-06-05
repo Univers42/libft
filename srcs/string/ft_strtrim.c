@@ -49,7 +49,7 @@ char	*ft_strtrim(const char *s1, const char *set)
 	while (end > start && ft_strchr(set, s1[end - 1]))
 		end--;
 	new_len = end - start;
-	new_string = malloc(new_len +1);
+	new_string = fn_malloc(new_len +1);
 	if (!new_string)
 		return (NULL);
 	ft_strlcpy(new_string, s1 + start, new_len + 1);

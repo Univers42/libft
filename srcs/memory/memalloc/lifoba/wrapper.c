@@ -17,17 +17,17 @@ void	*arena_malloc(size_t nbytes)
 {
 	void	*p;
 
-	p = malloc(nbytes);
+	p = fn_malloc(nbytes);
 	return (check_null(p));
 }
 
 void	*arena_realloc(void *p, size_t nbytes)
 {
-	p = realloc(p, nbytes);
+	p = fn_realloc(p, nbytes);
 	return (check_null(p));
 }
 
 void	arena_free(void *p)
 {
-	free(p);
+	fn_free(p);
 }

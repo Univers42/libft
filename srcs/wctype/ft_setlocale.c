@@ -74,7 +74,7 @@ void	ft_locale_cleanup(void)
 	pp = loc_ptr();
 	if (!pp || !*pp)
 		return ;
-	free(*pp);
+	fn_free(*pp);
 	*pp = NULL;
 }
 

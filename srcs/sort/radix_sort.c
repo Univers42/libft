@@ -79,7 +79,7 @@ void	radix_sort(int *arr, int size, int max_bits)
 	int	*output;
 	int	bit;
 
-	output = malloc(size * sizeof(int));
+	output = fn_malloc(size * sizeof(int));
 	if (!output)
 		return ;
 	bit = 0;
@@ -90,7 +90,7 @@ void	radix_sort(int *arr, int size, int max_bits)
 		copy_back(arr, output, size);
 		bit++;
 	}
-	free(output);
+	fn_free(output);
 }
 
 //void	print_array(int *arr, int size)

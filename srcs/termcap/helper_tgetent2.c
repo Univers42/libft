@@ -39,7 +39,7 @@ static void	ensure_ctx_capacity(t_tgetent_ctx *ctx, t_buf *buf)
 	char			*tmp;
 
 	ctx->malloc_size = ctx->bp1 - ctx->bp + buf->size;
-	tmp = (char *)xrealloc(ctx->bp, old_size, ctx->malloc_size);
+	tmp = (char *)xfn_realloc(ctx->bp, old_size, ctx->malloc_size);
 	ctx->bp1 += tmp - ctx->bp;
 	ctx->bp = tmp;
 }
@@ -77,7 +77,7 @@ int	process_entries(t_tgetent_ctx *ctx, char *name, t_buf *buf, int fd)
 		if (scan_file(term, fd, buf) == 0)
 			return (0);
 		if (term != name)
-			free(term);
+			fn_free(term);
 		if (ctx->malloc_size)
 			ensure_ctx_capacity(ctx, buf);
 		bp2 = write_entry_line(ctx, buf);

@@ -14,22 +14,22 @@
 #include <errno.h>
 #include <stdio.h>
 
-void	*xmalloc(size_t nbytes)
+void	*xfn_malloc(size_t nbytes)
 {
 	void	*ptr;
 
-	ptr = malloc(nbytes);
+	ptr = fn_malloc(nbytes);
 	return (check_null(ptr));
 }
 
-void	*xrealloc3(void *p, size_t old, size_t newsize)
+void	*xfn_realloc(void *p, size_t old, size_t newsize)
 {
 	void	*nptr;
 	size_t	copy;
 
 	if (newsize == 0)
-		return (xfree(p), NULL);
-	nptr = xmalloc(newsize);
+		return (xfn_free(p), NULL);
+	nptr = xfn_malloc(newsize);
 	if (nptr && p && old)
 	{
 		if (old < newsize)
@@ -38,7 +38,7 @@ void	*xrealloc3(void *p, size_t old, size_t newsize)
 			copy = newsize;
 		ft_memcpy(nptr, p, copy);
 	}
-	return (xfree(p), check_null(nptr));
+	return (xfn_free(p), check_null(nptr));
 }
 
 bool	check_overflow(size_t n, size_t size)
@@ -48,24 +48,24 @@ bool	check_overflow(size_t n, size_t size)
 	return (false);
 }
 
-void	*xcalloc(size_t nmemb, size_t size)
+void	*xfn_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
 	if (check_overflow(nmemb, size))
 		return (NULL);
-	ptr = malloc(nmemb * size);
+	ptr = fn_malloc(nmemb * size);
 	if (!ptr)
 		return (NULL);
 	ft_memset(ptr, 0, nmemb * size);
 	return (ptr);
 }
 
-void	xfree(void *ptr)
+void	xfn_free(void *ptr)
 {
 	if (!ptr)
 		return ;
-	free(ptr);
+	fn_free(ptr);
 }
 
 // __attribute__((weak))
@@ -73,7 +73,7 @@ void	xfree(void *ptr)
 // {
 // 	char *greeting;
 
-// 	greeting = xmalloc(strlen("hello"));
+// 	greeting = xfn_malloc(strlen("hello"));
 // 	strcpy(greeting, "hello");
 // 	return (0);
 // }

@@ -19,11 +19,11 @@ void	three_way_merge_sort(int *arr, int size)
 
 	if (!arr || size <= 1)
 		return ;
-	temp = malloc(size * sizeof(int));
+	temp = fn_malloc(size * sizeof(int));
 	if (!temp)
 		return ;
 	bounds[0] = 0;
 	bounds[1] = size - 1;
 	three_way_merge_sort_rec(arr, bounds, temp);
-	free(temp);
+	fn_free(temp);
 }

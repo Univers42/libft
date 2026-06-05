@@ -18,7 +18,7 @@ bool	ft_cl_push_front(t_circular_list *list, void *data)
 
 	if (!list)
 		return (false);
-	new_node = malloc(sizeof(t_cl_node));
+	new_node = fn_malloc(sizeof(t_cl_node));
 	if (!new_node)
 		return (false);
 	new_node->data = data;
@@ -42,7 +42,7 @@ bool	ft_cl_push_back(t_circular_list *list, void *data)
 
 	if (!list)
 		return (false);
-	new_node = malloc(sizeof(t_cl_node));
+	new_node = fn_malloc(sizeof(t_cl_node));
 	if (!new_node)
 		return (false);
 	new_node->data = data;

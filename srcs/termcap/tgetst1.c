@@ -97,7 +97,7 @@ char	*tgetst1(char *ptr, char **area)
 	if (!area)
 	{
 		size = compute_size(ptr);
-		ret = (char *)malloc(size);
+		ret = (char *)fn_malloc(size);
 	}
 	else
 		ret = *area;

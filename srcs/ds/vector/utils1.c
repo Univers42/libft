@@ -30,7 +30,7 @@ void	vec_destroy(t_vec *v, void (*free_elem)(void *))
 			free_elem(el);
 		}
 	}
-	free(v->ctx);
+	fn_free(v->ctx);
 	*v = (t_vec){0};
 	v->ctx = NULL;
 }

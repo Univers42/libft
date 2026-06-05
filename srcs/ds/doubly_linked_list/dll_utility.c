@@ -37,7 +37,7 @@ void	ft_dll_clear(t_doubly_list *list)
 	while (current)
 	{
 		next = current->next;
-		free(current);
+		fn_free(current);
 		current = next;
 	}
 	list->head = NULL;

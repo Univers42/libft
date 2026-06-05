@@ -16,7 +16,7 @@ static t_tree_node	*create_tree_node(int data)
 {
 	t_tree_node	*tree;
 
-	tree = malloc(sizeof(t_tree_node));
+	tree = fn_malloc(sizeof(t_tree_node));
 	if (!tree)
 		return (NULL);
 	tree->data = data;
@@ -51,7 +51,7 @@ static void	free_tree(t_tree_node *root)
 		return ;
 	free_tree(root->left);
 	free_tree(root->right);
-	free(root);
+	fn_free(root);
 }
 
 void	tree_sort(int *arr, int size)

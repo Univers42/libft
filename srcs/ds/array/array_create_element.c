@@ -19,7 +19,7 @@ t_arr_elem	*array_create_element(size_t idx, char *value)
 {
 	t_arr_elem	*r;
 
-	r = (t_arr_elem *)malloc(sizeof(t_arr_elem));
+	r = (t_arr_elem *)fn_malloc(sizeof(t_arr_elem));
 	if (!r)
 		return (NULL);
 	r->ind = idx;

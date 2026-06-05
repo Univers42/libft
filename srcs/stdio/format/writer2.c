@@ -42,7 +42,7 @@ int	writer_init(t_buffer *ret)
 {
 	*ret = (t_buffer){0};
 	ret->cap = 50;
-	ret->buff = malloc(ret->cap + 1);
+	ret->buff = fn_malloc(ret->cap + 1);
 	if (!ret->buff)
 		return (1);
 	ret->buff[0] = 0;

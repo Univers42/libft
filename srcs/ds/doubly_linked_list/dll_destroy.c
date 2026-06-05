@@ -17,5 +17,5 @@ void	ft_dll_destroy(t_doubly_list *list)
 	if (!list)
 		return ;
 	ft_dll_clear(list);
-	free(list);
+	fn_free(list);
 }

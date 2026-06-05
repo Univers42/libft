@@ -1,0 +1,48 @@
+== dynstr ==
+init_len = 0: PASS
+init_cap = 0: PASS
+push1_len = 1: PASS
+push1_nonnull: PASS
+push1_val: PASS
+push1_nul: PASS
+push1_freed: PASS
+pushstr_len = 5: PASS
+pushstr_val = "hello": PASS
+pushstr_nonnull: PASS
+pushstr2_len = 11: PASS
+pushstr2_val = "hello world": PASS
+pushstr2_mem[11]: PASS
+pushnstr_len = 3: PASS
+pushnstr_val = "hel": PASS
+pushnstr2_len = 8: PASS
+pushnstr2_val = "helworld": PASS
+long_len = 2000: PASS
+long_nonnull: PASS
+long_nul: PASS
+pop_val_c: PASS
+pop_len = 2: PASS
+pop_remain = "ab": PASS
+pop_val_b: PASS
+pop_val_a: PASS
+pop_empty = 0: PASS
+cap_nonzero: PASS
+clear_len = 0: PASS
+clear_buf_kept: PASS
+clear_nul: PASS
+reuse_len = 5: PASS
+reuse_val = "reuse": PASS
+churn_len = 3000: PASS
+churn_nul: PASS
+churn_clear_len = 0: PASS
+churn2_len = 300: PASS
+idx_0: PASS
+idx_5: PASS
+idx_6: PASS
+idx_len = 7: PASS
+ends_world: PASS
+not_ends_hello: PASS
+cycle_len = 1000: PASS
+cycle_pop_count = 1000: PASS
+cycle_empty = 0: PASS
+pushnstr0_len = 3: PASS
+pushnstr0_val = "abc": PASS

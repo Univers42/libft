@@ -1,0 +1,4 @@
+build/test/ft/obj/./srcs/std/ft_utoa.o: srcs/std/ft_utoa.c \
+ include/xalloc.h include/ft_stddef.h
+include/xalloc.h:
+include/ft_stddef.h:

@@ -129,11 +129,11 @@ t_time	ft_time(void)
 
 	entropy = 0;
 	entropy ^= (t_time)(&stack_var);
-	heap_ptr = malloc(sizeof(int));
+	heap_ptr = fn_malloc(sizeof(int));
 	if (heap_ptr)
 	{
 		entropy ^= (t_time)heap_ptr;
-		free(heap_ptr);
+		fn_free(heap_ptr);
 	}
 	entropy ^= ++counter;
 	entropy ^= (t_time)(&ft_time);

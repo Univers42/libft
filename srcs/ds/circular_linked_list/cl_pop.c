@@ -25,7 +25,7 @@ void	*ft_cl_pop_front(t_circular_list *list)
 		list->last = NULL;
 	else
 		list->last->next = first->next;
-	free(first);
+	fn_free(first);
 	list->size--;
 	return (data);
 }
@@ -40,7 +40,7 @@ void	*ft_cl_pop_back(t_circular_list *list)
 	data = list->last->data;
 	if (list->size == 1)
 	{
-		free(list->last);
+		fn_free(list->last);
 		list->last = NULL;
 	}
 	else
@@ -49,7 +49,7 @@ void	*ft_cl_pop_back(t_circular_list *list)
 		while (current->next != list->last)
 			current = current->next;
 		current->next = list->last->next;
-		free(list->last);
+		fn_free(list->last);
 		list->last = current;
 	}
 	list->size--;

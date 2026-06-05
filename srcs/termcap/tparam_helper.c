@@ -34,7 +34,7 @@ char	*grow(char *base, char **op, int *cap)
 	char	*nb;
 
 	used = *op - base;
-	nb = (char *)xrealloc(base, *cap, *cap * 2);
+	nb = (char *)xfn_realloc(base, *cap, *cap * 2);
 	*op = nb + used;
 	return (nb);
 }

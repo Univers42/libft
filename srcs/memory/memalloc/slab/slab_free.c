@@ -27,13 +27,13 @@ void	slab_free(t_slab_allocator *slab, void *ptr)
 		return ;
 	if ((char *)ptr < slab->lo || (char *)ptr >= slab->hi)
 	{
-		free(ptr);
+		fn_free(ptr);
 		return ;
 	}
 	block = (t_slab_block *)((char *)ptr - offsetof(t_slab_block, data));
 	if (block->magic != SLAB_MAGIC)
 	{
-		free(ptr);
+		fn_free(ptr);
 		return ;
 	}
 	if (block->is_free)

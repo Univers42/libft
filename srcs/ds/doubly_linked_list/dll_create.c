@@ -16,7 +16,7 @@ t_doubly_list	*ft_dll_create(void)
 {
 	t_doubly_list	*list;
 
-	list = malloc(sizeof(t_doubly_list));
+	list = fn_malloc(sizeof(t_doubly_list));
 	if (!list)
 		return (NULL);
 	list->head = NULL;

@@ -1,0 +1,135 @@
+== std ==
+atoi_zero = 0: PASS
+atoi_pos = 42: PASS
+atoi_neg = -42: PASS
+atoi_plus = 42: PASS
+atoi_spaces = 7: PASS
+atoi_tab_space = -99: PASS
+atoi_intmax = 2147483647: PASS
+atoi_intmin = -2147483648: PASS
+atoi_trailing = 123: PASS
+atoi_empty = 0: PASS
+atoi_nondigt = 0: PASS
+atoi_double_neg = 0: PASS
+atoi_base2 = 42: PASS
+atoi_base16_lo = 42: PASS
+atoi_base16_hi = 42: PASS
+atoi_base8 = 42: PASS
+atoi_base10 = 42: PASS
+atoi_base36 = 35: PASS
+atoi_base_neg = -42: PASS
+atoi_base_spc = 42: PASS
+atoi_base_dbl_sign = 0: PASS
+atoi_base_zero = 0: PASS
+atoi_base_hex_ff = 255: PASS
+itoa_zero = "0": PASS
+itoa_pos = "42": PASS
+itoa_neg = "-42": PASS
+itoa_intmax = "2147483647": PASS
+itoa_intmin = "-2147483648": PASS
+itoa_one = "1": PASS
+itoa_neg_one = "-1": PASS
+itoa_billion = "1000000000": PASS
+utoa_zero = "0": PASS
+utoa_42 = "42": PASS
+utoa_intmax = "2147483647": PASS
+utoa_uintmax = "4294967295": PASS
+utoa_one = "1": PASS
+xtoa_zero_lower = "0": PASS
+xtoa_ff_lower = "ff": PASS
+xtoa_ff_upper = "FF": PASS
+xtoa_deadbeef = "DEADBEEF": PASS
+xtoa_deadbeef_lo = "deadbeef": PASS
+xtoa_16 = "10": PASS
+xtoa_42 = "2a": PASS
+calloc_nonnull: PASS
+calloc_zeroed: PASS
+calloc_zero_nmemb_ok: PASS
+calloc_256: PASS
+calloc_256_zeroed: PASS
+calloc_ints: PASS
+calloc_ints_zeroed: PASS
+realloc3_grow_nonnull: PASS
+realloc3_grow_prefix[16]: PASS
+realloc3_shrink_nonnull: PASS
+realloc3_shrink_prefix[8]: PASS
+realloc3_zero_null: PASS
+realloc3_null_ptr: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_nonnull: PASS
+realloc3_churn_total = 1024: PASS
+roundtrip = 0: PASS
+roundtrip = 1: PASS
+roundtrip = -1: PASS
+roundtrip = 42: PASS
+roundtrip = -42: PASS
+roundtrip = 2147483647: PASS
+roundtrip = -2147483648: PASS
+roundtrip = 100: PASS
+roundtrip = -100: PASS
+roundtrip = 999: PASS
+roundtrip = -999: PASS
+roundtrip = 12345: PASS
+roundtrip = -12345: PASS

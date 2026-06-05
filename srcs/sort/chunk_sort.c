@@ -56,7 +56,7 @@ void	ft_chunk_sort(int *arr, int size)
 
 	if (!arr || size <= 1)
 		return ;
-	normalized_arr = malloc(size * sizeof(int));
+	normalized_arr = fn_malloc(size * sizeof(int));
 	if (!normalized_arr)
 		return ;
 	params.min = get_min(arr, size);
@@ -64,7 +64,7 @@ void	ft_chunk_sort(int *arr, int size)
 	normalize_array(arr, normalized_arr, size, &params);
 	choose_chunk_size_and_process(normalized_arr, size);
 	denormalize_array(arr, normalized_arr, size, &params);
-	free(normalized_arr);
+	fn_free(normalized_arr);
 }
 
 // int main(void)

@@ -65,7 +65,7 @@ char	*tparam(const char *fmt, char *out, int size, int *args)
 	if (out)
 		ctx.buf = out;
 	else
-		ctx.buf = (char *)malloc(size);
+		ctx.buf = (char *)fn_malloc(size);
 	ctx.op = ctx.buf;
 	process_tparam_loop(&ctx);
 	return (ctx.buf);

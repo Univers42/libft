@@ -21,7 +21,7 @@ static void	*copy_part(t_split_info *info, size_t start, size_t end)
 	size = (end - start) * info->elem_size;
 	if (size == 0)
 		return (NULL);
-	part = malloc(size);
+	part = fn_malloc(size);
 	if (!part)
 		return (NULL);
 	src_pos = info->src + (start * info->elem_size);
@@ -40,8 +40,8 @@ static void	free_parts(size_t count)
 		return ;
 	i = -1;
 	while (++i < count)
-		free(parts[i].data);
-	free(parts);
+		fn_free(parts[i].data);
+	fn_free(parts);
 	res_singleton(NULL);
 }
 
@@ -109,7 +109,7 @@ t_memsplit_part	*memsplit(void *src, size_t total, size_t elem, void *delim)
 	info.elem_count = total / elem;
 	info.delim = delim;
 	delim_cnt = count_delims(&info);
-	result = malloc((delim_cnt + 2) * sizeof(t_memsplit_part));
+	result = fn_malloc((delim_cnt + 2) * sizeof(t_memsplit_part));
 	if (!result)
 		return (NULL);
 	res_singleton(result);

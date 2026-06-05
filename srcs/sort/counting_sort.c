@@ -54,12 +54,12 @@ void	counting_sort(int *arr, int size)
 	min = get_min(arr, size);
 	max = get_max(arr, size);
 	range = max - min + 1;
-	count = calloc(range, sizeof(int));
+	count = fn_calloc(range, sizeof(int));
 	if (!count)
 		return ;
 	count_elements(arr, count, size, min);
 	place_elements(arr, count, range, min);
-	free(count);
+	fn_free(count);
 }
 
 //int	main(void)

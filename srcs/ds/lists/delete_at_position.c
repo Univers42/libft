@@ -25,7 +25,7 @@ t_list	*deleteatposition(t_list *head, int pos)
 	{
 		temp = head;
 		head = head->next;
-		return (free(temp), head);
+		return (fn_free(temp), head);
 	}
 	curr = head;
 	i = 0;
@@ -35,5 +35,5 @@ t_list	*deleteatposition(t_list *head, int pos)
 		return (head);
 	temp = curr->next;
 	curr->next = temp->next;
-	return (free(temp), head);
+	return (fn_free(temp), head);
 }

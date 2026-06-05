@@ -32,7 +32,7 @@ void	tprint(const char *cap)
 				putchar(*y);
 			y++;
 		}
-		free(x);
+		fn_free(x);
 	}
 	else
 		printf("none");

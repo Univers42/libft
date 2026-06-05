@@ -16,7 +16,7 @@
 #include <limits.h>
 #include <stdint.h>
 
-void	*ft_realloc(void *ptr, size_t old_cap, size_t new_cap)
+void	*fn_realloc3(void *ptr, size_t old_cap, size_t new_cap)
 {
 	void	*tmp;
 	size_t	select_size;
@@ -24,7 +24,7 @@ void	*ft_realloc(void *ptr, size_t old_cap, size_t new_cap)
 	tmp = NULL;
 	if (new_cap)
 	{
-		tmp = malloc(new_cap);
+		tmp = fn_malloc(new_cap);
 		if (!tmp)
 			return (NULL);
 	}
@@ -35,7 +35,7 @@ void	*ft_realloc(void *ptr, size_t old_cap, size_t new_cap)
 		else
 			select_size = new_cap;
 		ft_memmove(tmp, ptr, select_size);
-		free(ptr);
+		fn_free(ptr);
 	}
 	return (tmp);
 }

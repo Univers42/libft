@@ -21,7 +21,7 @@ void	free_trap_command(int sig)
 		&& (ft_strcmp(get_g_sig()->trap_list[sig], (char *)DEFAULT_SIG) != 0)
 		&& (ft_strcmp(get_g_sig()->trap_list[sig],
 				(char *)TRAP_IMPOSSIBLE) != 0))
-		free(get_g_sig()->trap_list[sig]);
+		fn_free(get_g_sig()->trap_list[sig]);
 }
 
 void	free_trap_string(int sig)

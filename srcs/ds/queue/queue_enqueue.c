@@ -18,7 +18,7 @@ bool	ft_queue_enqueue(t_queue *queue, void *data)
 
 	if (!queue)
 		return (false);
-	new_node = malloc(sizeof(t_queue_node));
+	new_node = fn_malloc(sizeof(t_queue_node));
 	if (!new_node)
 		return (false);
 	new_node->data = data;

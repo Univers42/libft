@@ -30,7 +30,7 @@ char	*extract_fd(int fd)
 
 	dyn_slot[CAP] = EXTRACT_CHUNK;
 	dyn_slot[LEN] = 0;
-	acc = (char *)malloc(dyn_slot[CAP]);
+	acc = (char *)fn_malloc(dyn_slot[CAP]);
 	if (!acc)
 		return (NULL);
 	dyn_slot[READ] = read(fd, buf, sizeof(buf));
@@ -39,7 +39,7 @@ char	*extract_fd(int fd)
 		if (dyn_slot[LEN] + (size_t)dyn_slot[READ] + 1 > (size_t)dyn_slot[CAP])
 		{
 			dyn_slot[CAP] = (dyn_slot[CAP] + dyn_slot[READ] + EXTRACT_CHUNK);
-			acc = (char *)realloc(acc, dyn_slot[CAP]);
+			acc = (char *)fn_realloc(acc, dyn_slot[CAP]);
 			if (!acc)
 				return (NULL);
 		}

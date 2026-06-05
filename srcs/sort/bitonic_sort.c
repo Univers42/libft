@@ -82,11 +82,11 @@ void	bitonic_sort(int *arr, int size)
 		bitonic_sort_rec(arr, 0, size, 1);
 		return ;
 	}
-	padded_arr = malloc(power_of_2 * sizeof(int));
+	padded_arr = fn_malloc(power_of_2 * sizeof(int));
 	if (!padded_arr)
 		return ;
 	copy_and_pad_array(arr, padded_arr, size, power_of_2);
 	bitonic_sort_rec(padded_arr, 0, power_of_2, 1);
 	copy_back_array(arr, padded_arr, size);
-	free(padded_arr);
+	fn_free(padded_arr);
 }

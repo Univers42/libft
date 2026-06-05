@@ -19,8 +19,8 @@ void	free_list(void **list, int size)
 	i = 0;
 	while (i < size)
 	{
-		free(list[i]);
+		fn_free(list[i]);
 		i++;
 	}
-	free(list);
+	fn_free(list);
 }

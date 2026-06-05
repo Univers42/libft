@@ -40,7 +40,7 @@ char	*ft_utoa(unsigned int n)
 	int		i;
 
 	digits = ft_count_udigits(n);
-	str = (char *)malloc(sizeof(char) * (digits + 1));
+	str = (char *)fn_malloc(sizeof(char) * (digits + 1));
 	if (!str)
 		return (NULL);
 	if (n == 0)

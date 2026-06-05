@@ -46,7 +46,7 @@ static void	tag_array(int *arr, int size, int *tag_to_value)
 	int	*sorted;
 	int	i;
 
-	sorted = malloc(size * sizeof(int));
+	sorted = fn_malloc(size * sizeof(int));
 	memcpy(sorted, arr, size * sizeof(int));
 	qsort(sorted, size, sizeof(int), cmp_int);
 	i = 0;
@@ -56,7 +56,7 @@ static void	tag_array(int *arr, int size, int *tag_to_value)
 		i++;
 	}
 	binary_search_and_tag(sorted, arr, size);
-	free(sorted);
+	fn_free(sorted);
 }
 
 static void	process_chunk(int *arr, int *result, int *used, int chunk_params[4])
@@ -91,8 +91,8 @@ static void	greedy_chunk_sort(int *arr, int size, int chunk_count)
 	int	chunk_params[4];
 
 	chunk_size = (size + chunk_count - 1) / chunk_count;
-	result = malloc(size * sizeof(int));
-	used = calloc(size, sizeof(int));
+	result = fn_malloc(size * sizeof(int));
+	used = fn_calloc(size, sizeof(int));
 	chunk_params[2] = 0;
 	chunk_params[3] = size;
 	c = 0;
@@ -106,8 +106,8 @@ static void	greedy_chunk_sort(int *arr, int size, int chunk_count)
 		c++;
 	}
 	memcpy(arr, result, size * sizeof(int));
-	free(result);
-	free(used);
+	fn_free(result);
+	fn_free(used);
 }
 
 void	hybrid2_sort(int *arr, int size, int *tag_to_value)

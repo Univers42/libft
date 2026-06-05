@@ -15,6 +15,15 @@
 #include "ft_stdlib.h"
 #include "ft_memory.h"
 
+/*
+** When the ft_malloc submodule is linked in (HAVE_FT_MALLOC), it already
+** exports a 2-arg ft_calloc with identical semantics; defining libft's here
+** too would be a duplicate symbol. So libft's ft_calloc is compiled only for
+** the libc back-end. Callers (libft + the parent shell) bind to whichever one
+** is present, transparently.
+*/
+#ifndef HAVE_FT_MALLOC
+
 // Calcular dinámicamente SIZE_MAX sin macros ni bucles for
 static size_t	size_max(void)
 {
@@ -49,12 +58,14 @@ void	*ft_calloc(t_size nmemb, t_size size)
 	if (nmemb && size > size_max() / nmemb)
 		return (NULL);
 	total = nmemb * size;
-	buf = malloc(total);
+	buf = fn_malloc(total);
 	if (!buf)
 		return (NULL);
 	ft_bzero(buf, total);
 	return (buf);
 }
+
+#endif
 /**
  * Snenario : Dynamic Memory allocation for a Classroom seating Arrangement
  * The classroom has a variable seating arrangement.

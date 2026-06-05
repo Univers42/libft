@@ -24,7 +24,7 @@ void	*ft_queue_dequeue(t_queue *queue)
 	queue->front = queue->front->next;
 	if (queue->front == NULL)
 		queue->rear = NULL;
-	free(temp);
+	fn_free(temp);
 	queue->size--;
 	return (data);
 }

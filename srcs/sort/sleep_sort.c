@@ -30,14 +30,14 @@ static int	*allocate_resources(int size, pthread_t **threads,
 {
 	int	*result;
 
-	*threads = malloc(size * sizeof(pthread_t));
-	*thread_data = malloc(size * sizeof(t_thread_data));
-	result = malloc(size * sizeof(int));
+	*threads = fn_malloc(size * sizeof(pthread_t));
+	*thread_data = fn_malloc(size * sizeof(t_thread_data));
+	result = fn_malloc(size * sizeof(int));
 	if (!*threads || !*thread_data || !result)
 	{
-		free(*threads);
-		free(*thread_data);
-		free(result);
+		fn_free(*threads);
+		fn_free(*thread_data);
+		fn_free(result);
 		return (NULL);
 	}
 	return (result);
@@ -49,7 +49,7 @@ static void	setup_thread_data(t_thread_data *thread_data, int *arr,
 	int	*index;
 	int	i;
 
-	index = malloc(sizeof(int));
+	index = fn_malloc(sizeof(int));
 	*index = 0;
 	i = 0;
 	while (i < 10)
@@ -97,7 +97,7 @@ int	*ft_sleep_sort(int *arr, int size)
 	}
 	join_threads(threads, size);
 	pthread_mutex_destroy(&mutex);
-	free(threads);
-	free(thread_data);
+	fn_free(threads);
+	fn_free(thread_data);
 	return (result);
 }

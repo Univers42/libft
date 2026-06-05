@@ -23,7 +23,7 @@ void	ft_queue_clear(t_queue *queue)
 	while (current)
 	{
 		next = current->next;
-		free(current);
+		fn_free(current);
 		current = next;
 	}
 	queue->front = NULL;

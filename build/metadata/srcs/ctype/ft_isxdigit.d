@@ -1,0 +1,5 @@
+build/obj/./srcs/ctype/ft_isxdigit.o: srcs/ctype/ft_isxdigit.c \
+ include/xalloc.h include/xalloc_config.h include/ft_ctype.h
+include/xalloc.h:
+include/xalloc_config.h:
+include/ft_ctype.h:

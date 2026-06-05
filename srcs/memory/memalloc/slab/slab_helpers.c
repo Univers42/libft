@@ -47,13 +47,13 @@ t_slab_chunk	*create_slab_chunk(t_slab_cache *cache)
 	chunk_size = sizeof(t_slab_chunk);
 	mem_size = cache->blocks_per_chunk;
 	mem_size *= sizeof(t_slab_block) + cache->block_size;
-	chunk = (t_slab_chunk *)malloc(chunk_size);
+	chunk = (t_slab_chunk *)fn_malloc(chunk_size);
 	if (chunk == NULL)
 		return (NULL);
-	chunk->memory = (char *)malloc(mem_size);
+	chunk->memory = (char *)fn_malloc(mem_size);
 	if (chunk->memory == NULL)
 	{
-		free(chunk);
+		fn_free(chunk);
 		return (NULL);
 	}
 	chunk->block_size = cache->block_size;

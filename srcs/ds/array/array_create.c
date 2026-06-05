@@ -17,7 +17,7 @@ t_arr	*array_create(void)
 	t_arr		*r;
 	t_arr_elem	*head;
 
-	r = (t_arr *)malloc(sizeof(t_arr));
+	r = (t_arr *)fn_malloc(sizeof(t_arr));
 	if (!r)
 		return (NULL);
 	r->max_idx = (size_t)-1;
@@ -25,7 +25,7 @@ t_arr	*array_create(void)
 	r->lastref = (t_arr_elem *)0;
 	head = array_create_element((size_t)-1, (char *) NULL);
 	if (!head)
-		return (free(r), NULL);
+		return (fn_free(r), NULL);
 	head->next = head;
 	head->prev = head;
 	r->head = head;

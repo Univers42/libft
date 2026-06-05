@@ -52,7 +52,7 @@ void	sort_and_merge_chunks(int *normalized_arr, int **chunks,
 			normalized_arr[output_idx++] = chunks[i][k];
 			k++;
 		}
-		free(chunks[i]);
+		fn_free(chunks[i]);
 		i++;
 	}
 }
@@ -64,11 +64,11 @@ void	cleanup_chunks(int **chunks, int *chunk_counts, int num_chunks)
 	i = 0;
 	while (i < num_chunks)
 	{
-		free(chunks[i]);
+		fn_free(chunks[i]);
 		i++;
 	}
-	free(chunks);
-	free(chunk_counts);
+	fn_free(chunks);
+	fn_free(chunk_counts);
 }
 
 void	choose_chunk_size_and_process(int *normalized_arr, int size)

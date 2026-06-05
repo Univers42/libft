@@ -30,13 +30,13 @@ void	memsplit_free(t_memsplit_part *parts, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		free(parts[i].data);
+		fn_free(parts[i].data);
 		parts[i].data = NULL;
 		parts[i].size = 0;
 		i++;
 	}
 	if (parts != fetch_split_part())
-		free(parts);
+		fn_free(parts);
 }
 
 size_t	memsplit_count(t_memsplit_part *parts)

@@ -19,7 +19,7 @@ static t_tagged_element	*create_tagged_array(int *arr, int size)
 	int					j;
 	int					rank;
 
-	tag = malloc(size * sizeof(t_tagged_element));
+	tag = fn_malloc(size * sizeof(t_tagged_element));
 	if (!tag)
 		return (NULL);
 	i = 0;
@@ -45,7 +45,7 @@ static void	place_by_tags(int *arr, t_tagged_element *tagged, int size)
 	int	*temp_arr;
 	int	i;
 
-	temp_arr = malloc(size * sizeof(int));
+	temp_arr = fn_malloc(size * sizeof(int));
 	if (!temp_arr)
 		return ;
 	i = 0;
@@ -61,7 +61,7 @@ static void	place_by_tags(int *arr, t_tagged_element *tagged, int size)
 		arr[i] = temp_arr[i];
 		i++;
 	}
-	free(temp_arr);
+	fn_free(temp_arr);
 }
 
 void	tag_sort(int *arr, int size)
@@ -72,7 +72,7 @@ void	tag_sort(int *arr, int size)
 	if (!tagged)
 		return ;
 	place_by_tags(arr, tagged, size);
-	free(tagged);
+	fn_free(tagged);
 }
 
 //int main(void)

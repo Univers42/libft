@@ -45,7 +45,7 @@ void	arena_cleanup(void)
 	while (sp != &g->stack_base)
 	{
 		prev = sp->prev;
-		free(sp);
+		fn_free(sp);
 		sp = prev;
 	}
 	init_ctx(g);

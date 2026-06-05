@@ -69,15 +69,15 @@ static void	process_strand(int **result, int *result_size, int *strand,
 	int	*merged;
 	int	*b_data;
 
-	b_data = malloc((strand_size + 1) * sizeof(int));
+	b_data = fn_malloc((strand_size + 1) * sizeof(int));
 	b_data[0] = strand_size;
 	ft_memcpy(&b_data[1], strand, strand_size * sizeof(int));
-	merged = malloc((*result_size + strand_size) * sizeof(int));
+	merged = fn_malloc((*result_size + strand_size) * sizeof(int));
 	merge_arrays(merged, *result, *result_size, b_data);
 	ft_memcpy(*result, merged, (*result_size + strand_size) * sizeof(int));
 	*result_size += strand_size;
-	free(b_data);
-	free(merged);
+	fn_free(b_data);
+	fn_free(merged);
 }
 
 void	strand_sort(int *arr, int size)
@@ -88,17 +88,17 @@ void	strand_sort(int *arr, int size)
 	int	*strand;
 	int	strand_size;
 
-	used = calloc(size, sizeof(int));
-	result = malloc(size * sizeof(int));
+	used = fn_calloc(size, sizeof(int));
+	result = fn_malloc(size * sizeof(int));
 	result_size = 0;
 	while (result_size < size)
 	{
-		strand = malloc(size * sizeof(int));
+		strand = fn_malloc(size * sizeof(int));
 		strand_size = extract_strand(arr, used, size, strand);
 		process_strand(&result, &result_size, strand, strand_size);
-		free(strand);
+		fn_free(strand);
 	}
 	ft_memcpy(arr, result, size * sizeof(int));
-	free(result);
-	free(used);
+	fn_free(result);
+	fn_free(used);
 }

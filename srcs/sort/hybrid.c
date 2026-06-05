@@ -18,7 +18,7 @@ static void	tag_array_sort(int *arr, int size)
 	int	i;
 	int	j;
 
-	sorted = malloc(size * sizeof(int));
+	sorted = fn_malloc(size * sizeof(int));
 	i = 0;
 	while (i < size)
 	{
@@ -37,7 +37,7 @@ static void	tag_array_sort(int *arr, int size)
 		}
 		i++;
 	}
-	free(sorted);
+	fn_free(sorted);
 }
 
 static void	radix_sort_hybrid(int *arr, int size)

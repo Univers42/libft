@@ -24,8 +24,8 @@ void	greed_sort(int *arr, int size)
 	initialize_stacks(&a, &b, arr, size);
 	greedy_sort_algorithm(&a, &b);
 	copy_result_back(arr, &a, size);
-	free(a.data);
-	free(b.data);
+	fn_free(a.data);
+	fn_free(b.data);
 }
 
 static void	greedy_sort_algorithm(t_stck *a, t_stck *b)

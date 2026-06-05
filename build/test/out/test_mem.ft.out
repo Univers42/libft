@@ -1,0 +1,51 @@
+== mem ==
+memset_fill_ab[64]: PASS
+memset_fill_zero[64]: PASS
+memset_one_byte[1]: PASS
+memset_zero_n[8]: PASS
+memset_value_mask[4]: PASS
+bzero_full[32]: PASS
+bzero_zero_n[32]: PASS
+bzero_one_byte = 0: PASS
+bzero_one_byte_next = 221: PASS
+memcpy_hello[14]: PASS
+memcpy_ret_is_dst: PASS
+memcpy_one_byte = 72: PASS
+memcpy_zero_n_ret: PASS
+memcpy_zero_n_untouched = 119: PASS
+memcpy_4096[4096]: PASS
+memmove_noovlp[10]: PASS
+memmove_ret: PASS
+memmove_dst_gt_src[14]: PASS
+memmove_src_gt_dst[14]: PASS
+memmove_zero_n_ret: PASS
+memmove_zero_n_unchanged[7]: PASS
+memmove_same[7]: PASS
+memchr_found_q: PASS
+memchr_notfound: PASS
+memchr_limited_n: PASS
+memchr_nul_byte: PASS
+memchr_zero_n: PASS
+memchr_value_mask: PASS
+memcmp_equal: PASS
+memcmp_differ_sign: PASS
+memcmp_prefix_eq: PASS
+memcmp_zero_n: PASS
+memcmp_unsigned: PASS
+memccpy_ret_nonnull: PASS
+memccpy_ret_eq: PASS
+memccpy_content[6]: PASS
+memccpy_notfound_null: PASS
+memccpy_notfound_content[6]: PASS
+memccpy_zero_n: PASS
+xfn_malloc_basic: PASS
+xfn_calloc_nonnull: PASS
+xfn_calloc_zeroed: PASS
+xfn_realloc_nonnull: PASS
+xfn_realloc_preserved[16]: PASS
+xfn_realloc_shrink_nonnull: PASS
+xfn_realloc_shrink_prefix[8]: PASS
+xfn_realloc_zero_null: PASS
+xfn_free_null_safe: PASS
+churn_patterns_ok: PASS
+churn_checked_nonzero = 1: PASS

@@ -1,0 +1,35 @@
+== list ==
+size_null = 0: PASS
+last_null: PASS
+null_clear_noop: PASS
+empty_size = 0: PASS
+empty_last_null: PASS
+lstnew: PASS
+lstnew_content = 42: PASS
+lstnew_next_null: PASS
+size_after_front = 1: PASS
+last_after_front = 42: PASS
+size_after_back = 2: PASS
+front_content = 42: PASS
+back_content = 99: PASS
+cleared_null: PASS
+size_after_clear = 0: PASS
+bulk_back_size = 1000: PASS
+back_order_last_seen = 999: PASS
+bulk_front_size = 1000: PASS
+front_order_last_seen = 0: PASS
+iter_sum = 124750: PASS
+map_nonnull: PASS
+map_size = 500: PASS
+map_first = 0: PASS
+map_last = 998: PASS
+map_sum = 249500: PASS
+after_delone_size = 2: PASS
+after_delone_first = 2: PASS
+after_clear_null: PASS
+stress_size = 3000: PASS
+stress_sum_match = 14903555: PASS
+stress_after_clear_size = 0: PASS
+refill_size = 5: PASS
+refill_first = 0: PASS
+refill_last = 40: PASS

@@ -56,7 +56,7 @@ bool	realloc_to(t_vec *v, size_t new_cap, size_t es)
 {
 	void	*new_buff;
 
-	new_buff = realloc(v->ctx, new_cap * es);
+	new_buff = fn_realloc(v->ctx, new_cap * es);
 	if (new_buff == NULL)
 		return (false);
 	v->ctx = new_buff;

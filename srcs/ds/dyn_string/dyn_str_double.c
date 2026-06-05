@@ -17,7 +17,7 @@ void	str_replace_buff(t_dyn_str *v, char *new_buff, size_t new_cap)
 {
 	ft_assert(v && new_buff);
 	new_buff[v->len] = 0;
-	free(v->buff);
+	fn_free(v->buff);
 	v->buff = new_buff;
 	v->cap = new_cap;
 }
@@ -26,7 +26,7 @@ void	dyn_str_replace_buff(t_dyn_str *s, char *new_buff, size_t new_cap)
 {
 	ft_assert(s && new_buff);
 	new_buff[s->len] = 0;
-	free(s->buff);
+	fn_free(s->buff);
 	s->buff = new_buff;
 	s->cap = new_cap;
 }
@@ -42,7 +42,7 @@ int	str_double(void)
 	newcap = 64;
 	if (v->cap != 0)
 		newcap = v->cap * 2;
-	tmp = malloc(newcap);
+	tmp = fn_malloc(newcap);
 	if (v->buff && v->len)
 		memcpy(tmp, v->buff, v->len);
 	dyn_str_replace_buff(v, tmp, newcap);
@@ -58,7 +58,7 @@ int	dyn_str_double(t_dyn_str *s)
 	newcap = 64;
 	if (s->cap)
 		newcap = s->cap * 2;
-	tmp = malloc(newcap);
+	tmp = fn_malloc(newcap);
 	if (s->buff && s->len)
 		ft_memcpy(tmp, s->buff, s->len);
 	dyn_str_replace_buff(s, tmp, newcap);

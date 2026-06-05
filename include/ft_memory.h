@@ -13,6 +13,7 @@
 #ifndef FT_MEMORY_H
 # define FT_MEMORY_H
 # include "ft_stddef.h"
+# include "xalloc.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include <errno.h>
@@ -45,9 +46,9 @@ void	ft_print_hex(unsigned char *p, unsigned int size, unsigned long addr);
 void	ft_print_ascii(unsigned char *p, unsigned int size);
 void	*ft_memmove(void *dst, const void *src, size_t n);
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
-void	*xmalloc(size_t nbytes);
-void	*xrealloc(void *p, size_t old, size_t newsize);
-void	xfree(void *ptr);
+void	*xfn_malloc(size_t nbytes);
+void	*xfn_realloc(void *p, size_t old, size_t newsize);
+void	xfn_free(void *ptr);
 void	*check_null(void *p);
 void	out_of_space(void);
 void	*ternary(bool cond, void *true_val, void *false_val);
@@ -56,7 +57,7 @@ char	*extract_fd(int fd);
 void	free_list(void **list, int size);
 //void	ast_postorder_traversal_generic(void *vnode, void (*f)(void *node));
 //void	ast_postorder_traversal(t_ast_node *node, void (*f)(t_ast_node *node));
-void	*xcalloc(size_t nmemb, size_t size);
+void	*xfn_calloc(size_t nmemb, size_t size);
 bool	check_overflow(size_t n, size_t size);
 
 static inline void	buffer_destroy(void **to_empty, size_t size)
@@ -69,9 +70,9 @@ static inline void	buffer_destroy(void **to_empty, size_t size)
 	while (++i < size)
 	{
 		if (to_empty[i])
-			free(to_empty[i]);
+			fn_free(to_empty[i]);
 	}
-	free(to_empty);
+	fn_free(to_empty);
 }
 
 /**
@@ -110,7 +111,7 @@ static inline void	destroy(void *data, size_t count,
 				free_elem(next);
 		}
 	}
-	free(data);
+	fn_free(data);
 }
 
 #endif

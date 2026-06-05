@@ -25,7 +25,7 @@ bool	deque_init(void *vret, int size, size_t elem_size)
 	ret->elem_size = elem_size;
 	if (size > 0)
 	{
-		ret->buff = malloc((size_t)size * elem_size);
+		ret->buff = fn_malloc((size_t)size * elem_size);
 		if (ret->buff == NULL)
 			return (false);
 		ret->cap = (size_t)size;

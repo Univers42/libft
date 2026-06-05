@@ -19,7 +19,7 @@ bool	hash_init(t_hash *h, size_t capacity)
 	if (capacity == 0)
 		capacity = 64;
 	h->elem_size = sizeof(t_hash_entry);
-	h->ctx = calloc(capacity, sizeof(t_hash_entry));
+	h->ctx = fn_calloc(capacity, sizeof(t_hash_entry));
 	if (h->ctx == NULL)
 		return (false);
 	h->cap = capacity;
@@ -103,7 +103,7 @@ bool	hash_resize(t_hash *h)
 	while (++i < h->cap)
 		if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
 			hash_set(&new_h, buff[i].key, buff[i].value);
-	free(h->ctx);
+	fn_free(h->ctx);
 	*h = new_h;
 	return (true);
 }

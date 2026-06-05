@@ -18,5 +18,5 @@ void	array_dispose(t_arr *a)
 		return ;
 	array_flush(a);
 	array_dispose_element(a->head);
-	free(a);
+	fn_free(a);
 }

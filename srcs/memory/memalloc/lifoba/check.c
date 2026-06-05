@@ -23,6 +23,6 @@ char	*str_save(const char *s)
 	if (!s)
 		return (NULL);
 	n = ft_strlen(s) + 1;
-	d = (char *)check_null(malloc(n));
+	d = (char *)check_null(fn_malloc(n));
 	return (ft_memcpy(d, s, n), d);
 }

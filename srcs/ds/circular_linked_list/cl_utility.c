@@ -39,7 +39,7 @@ void	ft_cl_clear(t_circular_list *list)
 	while (++i < list->size)
 	{
 		next = current->next;
-		free(current);
+		fn_free(current);
 		current = next;
 	}
 	list->last = NULL;

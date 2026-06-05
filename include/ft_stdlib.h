@@ -47,11 +47,11 @@ int				ft_atoi(const char *nptr);
 void			ft_putnbr_base(int nbr, char *radix);
 int				ft_atoi_base(const char *str, int base);
 void			*ft_calloc(t_size nmemb, t_size size);
-// Remove or comment out this line if you want to use your custom ft_realloc
-// void	*ft_realloc(void *ptr, t_size old, t_size new);
+// Remove or comment out this line if you want to use your custom fn_realloc3
+// void	*fn_realloc3(void *ptr, t_size old, t_size new);
 void			skip_spaces(int *i, int size, char *str);
 void			dbl_free(char **ptr);
-void			*ft_realloc(void *ptr, size_t old_cap, size_t new_cap);
+void			*fn_realloc3(void *ptr, size_t old_cap, size_t new_cap);
 // RAND section
 void			ft_srand(unsigned int new_seed, int select);
 int				ft_rand(void);

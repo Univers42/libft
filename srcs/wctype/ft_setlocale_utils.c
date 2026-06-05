@@ -49,7 +49,7 @@ t_loc	*ensure_store(void)
 	pp = loc_ptr();
 	if (*pp)
 		return (*pp);
-	p = malloc(sizeof(*p));
+	p = fn_malloc(sizeof(*p));
 	if (!p)
 		return (NULL);
 	init_store_defaults(p);

@@ -24,8 +24,8 @@ void	free_tab(char **tab)
 
 	i = 0;
 	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+		fn_free(tab[i++]);
+	fn_free(tab);
 }
 
 #ifndef POSIXLY_CORRECT

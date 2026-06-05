@@ -24,7 +24,7 @@ bool	ft_dll_insert(t_doubly_list *list, size_t index, void *data)
 		return (ft_dll_push_front(list, data));
 	if (index == list->size)
 		return (ft_dll_push_back(list, data));
-	new_node = malloc(sizeof(t_dll_node));
+	new_node = fn_malloc(sizeof(t_dll_node));
 	if (!new_node)
 		return (false);
 	current = list->head;
@@ -59,7 +59,7 @@ void	*ft_dll_remove(t_doubly_list *list, size_t index)
 	data = current->data;
 	current->prev->next = current->next;
 	current->next->prev = current->prev;
-	free(current);
+	fn_free(current);
 	list->size--;
 	return (data);
 }

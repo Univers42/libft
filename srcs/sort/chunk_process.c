@@ -18,12 +18,12 @@ void	process_chunks(int *normalized_arr, int size, int num_chunks)
 	int	*chunk_counts;
 	int	i;
 
-	chunks = malloc(num_chunks * sizeof(int *));
-	chunk_counts = calloc(num_chunks, sizeof(int));
+	chunks = fn_malloc(num_chunks * sizeof(int *));
+	chunk_counts = fn_calloc(num_chunks, sizeof(int));
 	i = 0;
 	while (i < num_chunks)
 	{
-		chunks[i] = malloc(size * sizeof(int));
+		chunks[i] = fn_malloc(size * sizeof(int));
 		i++;
 	}
 	distribute_elements(normalized_arr, size, chunks, chunk_counts);

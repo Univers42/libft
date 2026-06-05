@@ -16,7 +16,7 @@ void	array_dispose_element(t_arr_elem *ae)
 {
 	if (ae)
 	{
-		free(ae->val);
-		free(ae);
+		fn_free(ae->val);
+		fn_free(ae);
 	}
 }

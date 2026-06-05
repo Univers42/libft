@@ -60,7 +60,7 @@ void	*slab_alloc(t_slab_allocator *slab, size_t size)
 		return (NULL);
 	cache = find_best_cache(slab, size);
 	if (cache == NULL)
-		return (malloc(size));
+		return (fn_malloc(size));
 	chunk = slab_ready_chunk(slab, cache);
 	if (chunk == NULL)
 		return (NULL);

@@ -18,14 +18,14 @@ int	writer_buffer_double(t_buffer *ret)
 	char		*buff;
 
 	ret->cap = ret->cap * 2;
-	buff = malloc(ret->cap + 1);
+	buff = fn_malloc(ret->cap + 1);
 	if (buff == 0)
 		return (1);
 	ret->buff[ret->len] = 0;
 	i = -1;
 	while (++i < ret->len)
 		buff[i] = ret->buff[i];
-	free(ret->buff);
+	fn_free(ret->buff);
 	ret->buff = buff;
 	return (0);
 }
@@ -41,7 +41,7 @@ void	writer_char(t_buffer *buffer, char c)
 		{
 			if (!buffer->no_write)
 				ft_putmem(buffer->buff, buffer->len);
-			free(buffer->buff);
+			fn_free(buffer->buff);
 			buffer->buff = 0;
 		}
 	}

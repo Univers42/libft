@@ -43,7 +43,7 @@ char	*ft_itoa(int n)
 	int		len;
 
 	len = ft_len(n);
-	ptr = malloc(len + 1);
+	ptr = fn_malloc(len + 1);
 	if (NULL == ptr)
 		return (NULL);
 	*(ptr + len) = '\0';

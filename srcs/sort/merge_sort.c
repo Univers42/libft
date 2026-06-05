@@ -71,14 +71,14 @@ void	merge(int *arr, int l, int m, int r)
 
 	len1 = m - l + 1;
 	len2 = r - m;
-	left = malloc((len1 + 1) * sizeof(int));
-	right = malloc((len2 + 1) * sizeof(int));
+	left = fn_malloc((len1 + 1) * sizeof(int));
+	right = fn_malloc((len2 + 1) * sizeof(int));
 	if (!left || !right)
 	{
 		if (left)
-			free(left);
+			fn_free(left);
 		if (right)
-			free(right);
+			fn_free(right);
 		return ;
 	}
 	left[0] = len1;
@@ -86,8 +86,8 @@ void	merge(int *arr, int l, int m, int r)
 	fill_left(arr, left + 1, l, m);
 	fill_right(arr, right + 1, m, r);
 	merge_arrays(arr, left, right, l);
-	free(left);
-	free(right);
+	fn_free(left);
+	fn_free(right);
 }
 
 void	ft_merge_sort(int *arr, int l, int r)

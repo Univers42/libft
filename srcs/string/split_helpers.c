@@ -18,12 +18,12 @@ int	safe_alloc(char **token_v, size_t pos, size_t buffer)
 	size_t	i;
 
 	i = 0;
-	token_v[pos] = malloc(buffer);
+	token_v[pos] = fn_malloc(buffer);
 	if (!token_v[pos])
 	{
 		while (i < pos)
-			free(token_v[i++]);
-		free(token_v);
+			fn_free(token_v[i++]);
+		fn_free(token_v);
 		return (1);
 	}
 	return (0);

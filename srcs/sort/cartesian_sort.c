@@ -17,7 +17,7 @@ static t_sort_node	*create_nod(int value, int index)
 {
 	t_sort_node	*node;
 
-	node = malloc(sizeof(t_sort_node));
+	node = fn_malloc(sizeof(t_sort_node));
 	if (!node)
 		return (NULL);
 	node->value = value;
@@ -61,7 +61,7 @@ static void	free_tree(t_sort_node *root)
 		return ;
 	free_tree(root->left);
 	free_tree(root->right);
-	free(root);
+	fn_free(root);
 }
 
 void	cartesian_sort(int *arr, int size)
@@ -74,7 +74,7 @@ void	cartesian_sort(int *arr, int size)
 	if (!arr || size <= 1)
 		return ;
 	root = NULL;
-	result = malloc(size * sizeof(int));
+	result = fn_malloc(size * sizeof(int));
 	if (!result)
 		return ;
 	i = -1;
@@ -85,5 +85,5 @@ void	cartesian_sort(int *arr, int size)
 	i = -1;
 	while (++i < size)
 		arr[i] = result[i];
-	(free(result), free_tree(root));
+	(fn_free(result), free_tree(root));
 }

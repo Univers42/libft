@@ -41,7 +41,7 @@ int	apply_fallback(char *bp, const char *name)
 	len = ft_strlen(fb);
 	if (!bp)
 	{
-		dst = (char *)malloc(len + 1);
+		dst = (char *)fn_malloc(len + 1);
 		ft_strcpy(dst, fb);
 		access_glob()->term_entry = dst;
 	}

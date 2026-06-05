@@ -16,9 +16,9 @@ void	initialize_stacks(t_stck *a, t_stck *b, int *arr, int size)
 {
 	int	i;
 
-	a->data = malloc(size * sizeof(int));
+	a->data = fn_malloc(size * sizeof(int));
 	a->size = size;
-	b->data = malloc(size * sizeof(int));
+	b->data = fn_malloc(size * sizeof(int));
 	b->size = 0;
 	i = 0;
 	while (i < size)

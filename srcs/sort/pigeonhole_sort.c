@@ -65,11 +65,11 @@ void	pigeonhole_sort(int *arr, int size)
 	min = get_min(arr, size);
 	max = get_max(arr, size);
 	range = max - min + 1;
-	holes = malloc(range * sizeof(int));
+	holes = fn_malloc(range * sizeof(int));
 	if (!holes)
 		return ;
 	initialize_holes(holes, range);
 	count_elements(arr, holes, size, min);
 	place_elements(arr, holes, range, min);
-	free(holes);
+	fn_free(holes);
 }

@@ -20,7 +20,7 @@ void	copy_env_direct_to_ctx(t_tgetent_ctx *ctx, char *bp, char *termcap_name)
 	else
 	{
 		ctx->malloc_size = (int)(ft_strlen(termcap_name) + 1);
-		ctx->bp = (char *)malloc(ctx->malloc_size);
+		ctx->bp = (char *)fn_malloc(ctx->malloc_size);
 		ft_strcpy(ctx->bp, termcap_name);
 	}
 	ctx->tcenv = termcap_name;
@@ -82,7 +82,7 @@ int	init_buffers(t_tgetent_ctx *ctx, t_buf *buf)
 			ctx->malloc_size = (int)(ft_strlen(ctx->tcenv) + 1);
 		else
 			ctx->malloc_size = buf->size;
-		ctx->bp = (char *)malloc(ctx->malloc_size);
+		ctx->bp = (char *)fn_malloc(ctx->malloc_size);
 	}
 	ctx->bp1 = ctx->bp;
 	if (ctx->indirect)

@@ -34,12 +34,12 @@ int	claptrap(int flag, const char *str, ...)
 		return (0);
 	prefix = select_prefix(flag);
 	formatted = build_formatted_msg(prefix, msg, &new_len);
-	free(msg);
+	fn_free(msg);
 	if (!formatted)
 		return (0);
 	if (!append_accum(formatted, new_len))
-		return (free(formatted), 0);
-	return (free(formatted), 1);
+		return (fn_free(formatted), 0);
+	return (fn_free(formatted), 1);
 }
 
 #else

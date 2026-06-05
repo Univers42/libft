@@ -1,0 +1,46 @@
+== ctype ==
+isalpha_full_0_255: PASS
+isdigit_full_0_255: PASS
+isalnum_full_0_255: PASS
+isspace_full_0_255: PASS
+isprint_full_0_255: PASS
+isupper_full_0_255: PASS
+islower_full_0_255: PASS
+isascii_full_0_255: PASS
+isgraph_full_0_255: PASS
+isblank_full_0_255: PASS
+toupper_full_0_127: PASS
+tolower_full_0_127: PASS
+isalpha_A = 1: PASS
+isalpha_z = 1: PASS
+isalpha_0 = 0: PASS
+isdigit_5 = 1: PASS
+isdigit_a = 0: PASS
+isalnum_A = 1: PASS
+isalnum_7 = 1: PASS
+isalnum_sp = 0: PASS
+isspace_tab = 1: PASS
+isspace_nl = 1: PASS
+isspace_A = 0: PASS
+isprint_sp = 1: PASS
+isprint_del = 0: PASS
+isprint_nul = 0: PASS
+isupper_A = 1: PASS
+isupper_a = 0: PASS
+islower_a = 1: PASS
+islower_A = 0: PASS
+isascii_0 = 1: PASS
+isascii_127 = 1: PASS
+isascii_128 = 0: PASS
+isgraph_sp = 0: PASS
+isgraph_bang = 1: PASS
+isblank_sp = 1: PASS
+isblank_tab = 1: PASS
+isblank_nl = 0: PASS
+toupper_a = 65: PASS
+toupper_A = 65: PASS
+toupper_5 = 53: PASS
+tolower_A = 97: PASS
+tolower_a = 97: PASS
+tolower_5 = 53: PASS
+alloc_churn_done = 1: PASS

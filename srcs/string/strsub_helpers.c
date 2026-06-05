@@ -27,7 +27,7 @@ char	*ensure_capacity(t_subctx *c, size_t need)
 		n = 16;
 	while (n < need)
 		n *= 2;
-	c->temp = xrealloc(c->temp, c->tempsize, n);
+	c->temp = xfn_realloc(c->temp, c->tempsize, n);
 	c->tempsize = n;
 	return (c->temp);
 }

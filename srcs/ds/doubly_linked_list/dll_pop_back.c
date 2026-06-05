@@ -26,7 +26,7 @@ void	*ft_dll_pop_back(t_doubly_list *list)
 		list->tail->next = NULL;
 	else
 		list->head = NULL;
-	free(temp);
+	fn_free(temp);
 	list->size--;
 	return (data);
 }

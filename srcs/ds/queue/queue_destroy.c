@@ -17,5 +17,5 @@ void	ft_queue_destroy(t_queue *queue)
 	if (!queue)
 		return ;
 	ft_queue_clear(queue);
-	free(queue);
+	fn_free(queue);
 }

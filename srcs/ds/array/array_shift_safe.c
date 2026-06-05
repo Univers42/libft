@@ -21,7 +21,7 @@ t_arr_elem	**array_shift_safe(t_arr *a, int n, int flags)
 	(void)flags;
 	if (a == NULL || array_empty(a) || n <= 0)
 		return (NULL);
-	ret = (t_arr_elem **)malloc((n + 1) * sizeof(t_arr_elem *));
+	ret = (t_arr_elem **)fn_malloc((n + 1) * sizeof(t_arr_elem *));
 	if (ret == NULL)
 		return (NULL);
 	i = 0;

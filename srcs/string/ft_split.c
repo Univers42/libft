@@ -54,12 +54,12 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	tokens = count_segments(s, c);
-	token_v = malloc((tokens + 1) * sizeof(char *));
+	token_v = fn_malloc((tokens + 1) * sizeof(char *));
 	if (!token_v)
 		return (NULL);
 	token_v[tokens] = NULL;
 	if (allocate_and_copy_tokens(token_v, s, c, tokens))
-		return (free(token_v), NULL);
+		return (fn_free(token_v), NULL);
 	return (token_v);
 }
 #else
@@ -72,7 +72,7 @@ char	**ft_split(char const *str, char c)
 	int			track[2];
 	const char	sep[2] = {c, '\0'};
 
-	out = xcalloc((num_blocks(str, (char *)sep) + 1), sizeof(char *));
+	out = xfn_calloc((num_blocks(str, (char *)sep) + 1), sizeof(char *));
 	if (out == 0)
 		return (0);
 	i = 0;
@@ -82,7 +82,7 @@ char	**ft_split(char const *str, char c)
 		track[START] = find_block(&track[END], str + i, (char *)sep);
 		if (track[START] == -1)
 			return (out);
-		out[occ] = malloc(track[END] - track[START] + 1);
+		out[occ] = fn_malloc(track[END] - track[START] + 1);
 		if (out[occ] == 0)
 			return (free_list((void **)out, occ), NULL);
 		ft_strlcpy(out[occ++], str + i + track[START],
@@ -99,7 +99,7 @@ char	**ft_split_str(char *str, char *sep)
 	int			occ;
 	int			track[2];
 
-	out = xcalloc((num_blocks(str, sep) + 1), sizeof(char *));
+	out = xfn_calloc((num_blocks(str, sep) + 1), sizeof(char *));
 	if (out == 0)
 		return (0);
 	i = 0;
@@ -109,7 +109,7 @@ char	**ft_split_str(char *str, char *sep)
 		track[START] = find_block(&track[END], str + i, sep);
 		if (track[START] == -1)
 			return (out);
-		out[occ] = malloc(track[END] - track[START] + 1);
+		out[occ] = fn_malloc(track[END] - track[START] + 1);
 		if (out[occ] == 0)
 			return (free_list((void **)out, occ), NULL);
 		ft_strlcpy(out[occ++], str + i + track[START],

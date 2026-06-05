@@ -57,7 +57,7 @@ static int	finalize_and_return(t_buffer *buff, char *buf, size_t size)
 		}
 	}
 	if (buff->buff)
-		free(buff->buff);
+		fn_free(buff->buff);
 	return (buff->total_put_in);
 }
 

@@ -28,5 +28,5 @@ void	array_dispose_elements(t_arr_elem **elements)
 		array_dispose_element(*it);
 		it++;
 	}
-	free(elements);
+	fn_free(elements);
 }

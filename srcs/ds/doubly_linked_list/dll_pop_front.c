@@ -26,7 +26,7 @@ void	*ft_dll_pop_front(t_doubly_list *list)
 		list->head->prev = NULL;
 	else
 		list->tail = NULL;
-	free(temp);
+	fn_free(temp);
 	list->size--;
 	return (data);
 }

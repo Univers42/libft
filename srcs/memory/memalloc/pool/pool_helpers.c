@@ -40,13 +40,13 @@ t_pool_chunk	*create_chunk(t_pool *pool)
 
 	mem_size = pool->blocks_per_chunk;
 	mem_size *= sizeof(t_pool_block) + pool->block_size;
-	chunk = (t_pool_chunk *)malloc(sizeof(t_pool_chunk));
+	chunk = (t_pool_chunk *)fn_malloc(sizeof(t_pool_chunk));
 	if (chunk == NULL)
 		return (NULL);
-	chunk->memory = (char *)malloc(mem_size);
+	chunk->memory = (char *)fn_malloc(mem_size);
 	if (chunk->memory == NULL)
 	{
-		free(chunk);
+		fn_free(chunk);
 		return (NULL);
 	}
 	chunk->used_blocks = 0;

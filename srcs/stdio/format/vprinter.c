@@ -28,7 +28,7 @@ int	ft_vprintf(const char *str, va_list args)
 	if (buff.buff)
 	{
 		ft_putmem(buff.buff, buff.len);
-		free(buff.buff);
+		fn_free(buff.buff);
 	}
 	return (buff.total_put_in);
 }
@@ -67,7 +67,7 @@ int	ft_veprintf(const char *str, va_list args)
 	if (buff.buff)
 	{
 		ft_eputmem(buff.buff, buff.len);
-		free(buff.buff);
+		fn_free(buff.buff);
 	}
 	return (buff.total_put_in);
 }
@@ -107,7 +107,7 @@ int	ft_vfdprintf(int fd, const char *str, va_list args)
 	if (buff.buff)
 	{
 		ft_fdputmem(fd, buff.buff, buff.len);
-		free(buff.buff);
+		fn_free(buff.buff);
 	}
 	return (buff.total_put_in);
 }

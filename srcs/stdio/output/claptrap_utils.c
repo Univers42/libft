@@ -50,7 +50,7 @@ char	*build_formatted_msg(const char *prefix,
 	msg_len = ft_strlen(msg);
 	suf_len = ft_strlen("\033[0m\n");
 	new_len = pref_len + msg_len + suf_len;
-	res = malloc(new_len + 1);
+	res = fn_malloc(new_len + 1);
 	if (!res)
 		return (NULL);
 	ft_memcpy(res, prefix, pref_len);
@@ -67,7 +67,7 @@ int	append_accum(char *formatted, size_t new_len)
 {
 	char	*nacc;
 
-	nacc = realloc(get_clap_state()->accum,
+	nacc = fn_realloc(get_clap_state()->accum,
 			get_clap_state()->accum_len + new_len + 1);
 	if (!nacc)
 		return (0);
@@ -93,7 +93,7 @@ void	flush_accum(void)
 	ft_fdputmem(fd,
 		get_clap_state()->accum,
 		(int)get_clap_state()->accum_len);
-	free(get_clap_state()->accum);
+	fn_free(get_clap_state()->accum);
 	get_clap_state()->accum = NULL;
 	get_clap_state()->accum_len = 0;
 	get_clap_state()->has_error = 0;

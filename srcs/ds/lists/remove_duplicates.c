@@ -25,7 +25,7 @@ t_list	*remove_duplicates(t_list *head)
 		{
 			duplicate = current->next;
 			current->next = current->next->next;
-			free(duplicate);
+			fn_free(duplicate);
 		}
 		else
 			current = current->next;

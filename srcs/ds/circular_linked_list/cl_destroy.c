@@ -17,5 +17,5 @@ void	ft_cl_destroy(t_circular_list *list)
 	if (!list)
 		return ;
 	ft_cl_clear(list);
-	free(list);
+	fn_free(list);
 }

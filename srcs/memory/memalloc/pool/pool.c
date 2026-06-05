@@ -107,8 +107,8 @@ void	pool_destroy(t_pool *pool)
 	while (chunk != NULL)
 	{
 		next = chunk->next;
-		free(chunk->memory);
-		free(chunk);
+		fn_free(chunk->memory);
+		fn_free(chunk);
 		chunk = next;
 	}
 	pool->chunks = NULL;

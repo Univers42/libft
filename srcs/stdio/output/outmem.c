@@ -35,7 +35,7 @@ static void	ensure_buffer_alloc(t_out *dst)
 	if (buf_size != 0 && dst->buf == NULL)
 	{
 		offset = 0;
-		dst->buf = xrealloc(dst->buf, 0, buf_size);
+		dst->buf = xfn_realloc(dst->buf, 0, buf_size);
 		dst->buf_size = buf_size;
 		dst->end = dst->buf + buf_size;
 		dst->nextc = dst->buf + offset;

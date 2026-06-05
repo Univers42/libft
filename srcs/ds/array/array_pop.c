@@ -19,5 +19,5 @@ void	array_pop(t_arr *a)
 	if (a == NULL || array_empty(a))
 		return ;
 	if (array_shift(a, &val) == 0)
-		free(val);
+		fn_free(val);
 }

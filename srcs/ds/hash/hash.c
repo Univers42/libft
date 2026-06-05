@@ -41,6 +41,6 @@ void	hash_destroy(t_hash *h, void (*free_val)(void *))
 			if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
 				free_val(buff[i].value);
 	}
-	free(h->ctx);
+	fn_free(h->ctx);
 	*h = (t_hash){0};
 }

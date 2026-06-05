@@ -71,7 +71,7 @@ char	*ft_strnjoin(const char *first, ...)
 	va_start(args, first);
 	total_length = ft_strnjoin_total_length(first, args);
 	va_end(args);
-	result = (char *)malloc(total_length + 1);
+	result = (char *)fn_malloc(total_length + 1);
 	if (!result)
 		return (NULL);
 	va_start(args, first);

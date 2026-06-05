@@ -44,7 +44,7 @@ char	*ft_substr(char const *s, unsigned int start, t_size len)
 	substring_len = s_len - start;
 	if (len > substring_len)
 		len = substring_len;
-	str = malloc(len + 1);
+	str = fn_malloc(len + 1);
 	if (NULL == str)
 		return (NULL);
 	ft_strlcpy(str, s + start, len + 1);

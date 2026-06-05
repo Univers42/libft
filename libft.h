@@ -27,6 +27,7 @@
 # endif
 
 // # include "analyzer.h"
+# include "./include/xalloc.h"
 # include "./include/ds.h"
 # include "./include/ft_colors.h"
 # include "./include/ft_ctype.h"

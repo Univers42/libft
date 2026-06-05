@@ -1,0 +1,77 @@
+== clist ==
+cl_create: PASS
+cl_empty_true: PASS
+cl_size_0 = 0: PASS
+cl_front_null: PASS
+cl_back_null: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+push_back_ok: PASS
+size_10 = 10: PASS
+front_0 = 0: PASS
+back_9 = 9: PASS
+circular_inv: PASS
+size_after_clear = 0: PASS
+empty_after_clear: PASS
+front_front9 = 9: PASS
+back_front0 = 0: PASS
+circular_inv2: PASS
+pop_front_1 = 1: PASS
+pop_front_2 = 2: PASS
+size_after_pf = 3: PASS
+pop_back_5 = 5: PASS
+pop_back_4 = 4: PASS
+size_after_pb = 1: PASS
+last_elem = 3: PASS
+pop_last_front = 3: PASS
+size_0 = 0: PASS
+empty_after_pop_all: PASS
+pop_front_empty_null: PASS
+pop_back_empty_null: PASS
+get_0 = 0: PASS
+get_3 = 15: PASS
+get_7 = 35: PASS
+get_oob_null: PASS
+set_3_ok: PASS
+get_3_new = 999: PASS
+set_oob_fail: PASS
+insert_1_ok: PASS
+size_after_ins = 4: PASS
+get_1_ins = 55: PASS
+get_2_ins = 20: PASS
+front_after_ins0 = 77: PASS
+back_after_ins_end = 99: PASS
+size_all_ins = 6: PASS
+removed_1 = 10: PASS
+size_after_rm = 5: PASS
+removed_head = 77: PASS
+circular_inv_after_mut: PASS
+rot_fwd2_front = 2: PASS
+rot_fwd2_back = 1: PASS
+rot_bwd1_front = 1: PASS
+rot_full_front_unchanged = 1: PASS
+circular_inv_rot: PASS
+find_100 = 0: PASS
+find_200 = 1: PASS
+find_300 = 2: PASS
+find_miss = -1: PASS
+contains_200: PASS
+not_contains_999: PASS
+rm_data_6: PASS
+size_after_rm_data = 2: PASS
+rm_data_miss: PASS
+circ_inv_after_rmd: PASS
+stress_size = 4000: PASS
+stress_sum = 20239177: PASS
+stress_ring_closed: PASS
+stress_clear_size = 0: PASS
+refill_size = 7: PASS
+refill_front = 0: PASS
+refill_back = 18: PASS

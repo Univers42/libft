@@ -17,7 +17,7 @@ static int	*create_int_content(int value)
 {
 	int	*content;
 
-	content = malloc(sizeof(int));
+	content = fn_malloc(sizeof(int));
 	if (!content)
 		return (NULL);
 	*content = value;
@@ -37,7 +37,7 @@ static t_list	*create_list_recursive(int *arr, int index, int n)
 	node = create_node(content);
 	if (!node)
 	{
-		free(content);
+		fn_free(content);
 		return (NULL);
 	}
 	node->next = create_list_recursive(arr, index + 1, n);

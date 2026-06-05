@@ -19,7 +19,7 @@ char	*substring(const char *string, size_t start, size_t end)
 	char	*result;
 
 	len = end - start;
-	result = (char *)malloc(len + 1);
+	result = (char *)fn_malloc(len + 1);
 	if (!result)
 		return ((char *) NULL);
 	ft_strncpy(result, string + start, len);

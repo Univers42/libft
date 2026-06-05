@@ -24,7 +24,7 @@ bool	ft_cl_insert(t_circular_list *list, size_t index, void *data)
 		return (ft_cl_push_front(list, data));
 	if (index == list->size)
 		return (ft_cl_push_back(list, data));
-	new_node = malloc(sizeof(t_cl_node));
+	new_node = fn_malloc(sizeof(t_cl_node));
 	if (!new_node)
 		return (false);
 	current = list->last->next;
@@ -58,7 +58,7 @@ void	*ft_cl_remove(t_circular_list *list, size_t index)
 	to_remove = current->next;
 	data = to_remove->data;
 	current->next = to_remove->next;
-	free(to_remove);
+	fn_free(to_remove);
 	list->size--;
 	return (data);
 }

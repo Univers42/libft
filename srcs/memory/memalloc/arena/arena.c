@@ -35,7 +35,7 @@ void	*arena_alloc(t_arena *arena, size_t size)
 
 	if (size == 0)
 		return (NULL);
-	block = malloc(sizeof(t_arena_block) + size);
+	block = fn_malloc(sizeof(t_arena_block) + size);
 	if (!block)
 		return (NULL);
 	block->next = arena->blocks;
@@ -61,7 +61,7 @@ void	arena_destroy(t_arena *arena)
 	{
 		next = block->next;
 		arena->total_allocated -= block->size;
-		free(block);
+		fn_free(block);
 		block = next;
 	}
 	arena->blocks = NULL;

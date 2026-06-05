@@ -20,7 +20,7 @@ size_t	partition(t_intern *metas)
 	size_t	j;
 	int		cmp;
 
-	pv = malloc(metas->size);
+	pv = fn_malloc(metas->size);
 	if (!pv)
 		return (metas->low);
 	ft_memcpy(pv, metas->basep + metas->high * metas->size, metas->size);
@@ -36,7 +36,7 @@ size_t	partition(t_intern *metas)
 		}
 		j++;
 	}
-	return (swap_elems(metas, i, metas->high), free(pv), i);
+	return (swap_elems(metas, i, metas->high), fn_free(pv), i);
 }
 
 #ifdef QSORT_RECURSIVE
@@ -54,11 +54,11 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 	metas.high = nmemb - 1;
 	metas.size = size;
 	metas.compar = compar;
-	metas.tmp = malloc(size);
+	metas.tmp = fn_malloc(size);
 	if (!metas.tmp)
 		return ;
 	qsort_rec(&metas);
-	free(metas.tmp);
+	fn_free(metas.tmp);
 }
 #else
 
@@ -73,7 +73,7 @@ static t_intern	*alloc_stack(size_t nmemb, size_t *cap, int *is_dynamic)
 	want = 1;
 	if (nmemb > 1)
 		want = nmemb;
-	stack = malloc(want * sizeof(*stack));
+	stack = fn_malloc(want * sizeof(*stack));
 	if (stack)
 	{
 		*cap = want;
@@ -123,7 +123,7 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 	metas.high = nmemb - 1;
 	metas.size = size;
 	metas.compar = compar;
-	metas.tmp = malloc(size);
+	metas.tmp = fn_malloc(size);
 	if (!metas.tmp)
 		return ;
 	stack = alloc_stack(nmemb, &cap, &is_dynamic);
@@ -132,8 +132,8 @@ void	ft_qsort(void *base, size_t nmemb, size_t size,
 	while (sp > 0)
 		process_top(stack, &sp, cap);
 	if (is_dynamic)
-		free(stack);
-	free(metas.tmp);
+		fn_free(stack);
+	fn_free(metas.tmp);
 }
 
 #endif

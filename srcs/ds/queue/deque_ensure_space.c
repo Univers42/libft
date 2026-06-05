@@ -37,7 +37,7 @@ static void	*alloc_new_buff(size_t new_cap, size_t elem_size)
 {
 	void	*buf;
 
-	buf = malloc(new_cap * elem_size);
+	buf = fn_malloc(new_cap * elem_size);
 	ft_assert(buf != NULL);
 	return (buf);
 }
@@ -74,7 +74,7 @@ void	deque_ensure_space(void *vret)
 	new_buff = alloc_new_buff(new_cap, ret->elem_size);
 	if (ret->len > 0)
 		copy_elements(ret, new_buff);
-	free(ret->buff);
+	fn_free(ret->buff);
 	ret->buff = new_buff;
 	ret->cap = new_cap;
 	ret->start = 0;

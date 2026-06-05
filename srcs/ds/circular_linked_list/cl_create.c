@@ -16,7 +16,7 @@ t_circular_list	*ft_cl_create(void)
 {
 	t_circular_list	*list;
 
-	list = malloc(sizeof(t_circular_list));
+	list = fn_malloc(sizeof(t_circular_list));
 	if (!list)
 		return (NULL);
 	list->last = NULL;

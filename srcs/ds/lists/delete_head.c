@@ -20,5 +20,5 @@ t_list	*delete_head(t_list *head)
 	if (!head)
 		return (NULL);
 	new_head = head->next;
-	return (free(head), new_head);
+	return (fn_free(head), new_head);
 }

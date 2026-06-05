@@ -1,0 +1,14 @@
+== string ==
+strdup_len = 43: PASS
+substr = "quick": PASS
+join = "quick!!": PASS
+strndup = "the quick": PASS
+trim = "padded string": PASS
+mapi_upper = "PADDED STRING": PASS
+iteri_len = 13: PASS
+split_ptr: PASS
+split0 = "a": PASS
+split1 = "bb": PASS
+split2 = "ccc": PASS
+split_count = 3: PASS
+churn_total = 12000: PASS

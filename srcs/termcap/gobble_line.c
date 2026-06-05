@@ -29,7 +29,7 @@ static void	expand(t_buf *b, char **ae)
 
 	old = b->beg;
 	b->size *= 2;
-	tmp = (char *)xrealloc(old, old_size, b->size + 1);
+	tmp = (char *)xfn_realloc(old, old_size, b->size + 1);
 	b->ptr = (b->ptr - old) + tmp;
 	*ae = (*ae - old) + tmp;
 	b->beg = tmp;

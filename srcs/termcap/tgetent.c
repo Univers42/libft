@@ -49,11 +49,11 @@ static int	read_and_process_file(t_tgetent_ctx *ctx, char *bp,
 	fd = open(termcap_file, O_RDONLY, 0);
 	if (fd < 0)
 	{
-		free(ctx->indirect);
+		fn_free(ctx->indirect);
 		return (apply_fallback(bp, name));
 	}
 	buf.size = 2048;
-	buf.beg = (char *)malloc(buf.size + 1);
+	buf.beg = (char *)fn_malloc(buf.size + 1);
 	buf.ptr = buf.beg;
 	buf.ateof = 0;
 	buf.full = 0;
@@ -61,19 +61,19 @@ static int	read_and_process_file(t_tgetent_ctx *ctx, char *bp,
 	if (!process_entries(ctx, (char *)name, &buf, fd))
 	{
 		close(fd);
-		free(buf.beg);
+		fn_free(buf.beg);
 		if (ctx->malloc_size)
-			free(ctx->bp);
+			fn_free(ctx->bp);
 		return (apply_fallback(bp, name));
 	}
-	return (close(fd), free(buf.beg), 1);
+	return (close(fd), fn_free(buf.beg), 1);
 }
 
 /* finalize: shrink allocated buffer and set global term_entry */
 static void	finalize_entry(t_tgetent_ctx *ctx, char *bp)
 {
 	if (ctx->malloc_size)
-		ctx->bp = (char *)xrealloc(ctx->bp, ctx->bp1 - ctx->bp,
+		ctx->bp = (char *)xfn_realloc(ctx->bp, ctx->bp1 - ctx->bp,
 				ctx->bp1 - ctx->bp + 1);
 	if (ctx->bp)
 		access_glob()->term_entry = ctx->bp;

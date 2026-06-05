@@ -39,11 +39,11 @@ int	array_value_replace(t_arr *a, size_t i, char *v, char **old)
 			if (old)
 				*old = prev;
 			else
-				free(prev);
+				fn_free(prev);
 			set_lastref(a, ae);
 			return (0);
 		}
 		ae = element_forw(ae);
 	}
-	return (free(v), -1);
+	return (fn_free(v), -1);
 }

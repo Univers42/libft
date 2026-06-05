@@ -16,7 +16,7 @@ void	array_element_replace(t_arr_elem *ae, char *v)
 {
 	if (ae)
 	{
-		free(ae->val);
+		fn_free(ae->val);
 		ae->val = v;
 	}
 }

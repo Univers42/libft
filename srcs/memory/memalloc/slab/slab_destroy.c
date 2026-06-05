@@ -30,8 +30,8 @@ void	slab_destroy(t_slab_allocator *slab)
 		while (chunk != NULL)
 		{
 			next = chunk->next;
-			free(chunk->memory);
-			free(chunk);
+			fn_free(chunk->memory);
+			fn_free(chunk);
 			chunk = next;
 		}
 		cache->chunks = NULL;

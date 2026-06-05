@@ -34,7 +34,7 @@ void	restore_bash_trapsig(char *oldval)
 	else
 	{
 		bind_variable("SH_TRAPSIG", oldval, 0);
-		free(oldval);
+		fn_free(oldval);
 	}
 }
 

@@ -23,7 +23,7 @@ void	array_resize(t_arr *a, size_t newsize)
 	}
 	if (a->elements && a->alloc_size < newsize)
 	{
-		a->elements = realloc(a->elements, newsize * sizeof(t_arr_elem *));
+		a->elements = fn_realloc(a->elements, newsize * sizeof(t_arr_elem *));
 		if (a->elements)
 			a->alloc_size = newsize;
 	}

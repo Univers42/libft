@@ -21,8 +21,8 @@ void	dbl_free(char **ptr)
 	i = 0;
 	while (ptr[i])
 	{
-		free(ptr[i]);
+		fn_free(ptr[i]);
 		i++;
 	}
-	free(ptr);
+	fn_free(ptr);
 }

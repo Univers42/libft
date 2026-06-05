@@ -18,7 +18,7 @@ bool	ft_dll_push_back(t_doubly_list *list, void *data)
 
 	if (!list)
 		return (false);
-	new_node = malloc(sizeof(t_dll_node));
+	new_node = fn_malloc(sizeof(t_dll_node));
 	if (!new_node)
 		return (false);
 	new_node->data = data;

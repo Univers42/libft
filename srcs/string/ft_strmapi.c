@@ -57,7 +57,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	if (!s || !f)
 		return (NULL);
-	mapped = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	mapped = (char *)fn_malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!mapped)
 		return (NULL);
 	i = 0;

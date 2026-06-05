@@ -53,7 +53,7 @@ void	deque_destroy(void *vret, void (*free_elem)(void *))
 			free_elem(el);
 		}
 	}
-	free(ret->buff);
+	fn_free(ret->buff);
 	*ret = (t_deque){0};
 }
 

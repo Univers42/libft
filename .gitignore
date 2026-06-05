@@ -15,5 +15,7 @@ minishell
 .DS_Store
 .env
 bin/
+build/
+build-*/
 framework_test/googletest
 include/xalloc_config.h

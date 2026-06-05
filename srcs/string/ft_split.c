@@ -36,8 +36,8 @@ int	count_segments(const char *str, char delimiter);
 
 /**
  * @description:
- * Allocates (with malloc(3) and returns an array of strings obtained
- * by splitting 's' using the character 'c' as a delimiter
+ * Allocates (with fn_malloc, the allocator switch) and returns an array of
+ * strings obtained by splitting 's' using the character 'c' as a delimiter
  * The array must end with a NULL pointer
  * @param s pointer to the first character of a string
  * @param c character delimiter is to be the reference for the split

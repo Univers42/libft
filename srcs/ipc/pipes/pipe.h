@@ -32,13 +32,14 @@ typedef struct s_redir_pair
 
 /**
  * Create a pipe:
- * @return t_pipe_fds* is allocatd with st_alloc() from lifoba
- * on error returns NULL and errno is set.
+ * @return t_pipe_fds* allocated with fn_malloc (libc or ft_malloc per build).
+ * Free it with fn_free once both ends are closed.
+ * On error returns NULL and errno is set.
  */
 t_pipe_fds	*pipe_create(void);
 
 /**
- * Close both ends (does not free the arena allocation)
+ * Close both ends. Does NOT free the struct — fn_free(p) it afterwards.
  */
 void		pipe_close_pair(t_pipe_fds *p);
 /**
@@ -51,10 +52,9 @@ void		pipe_close_end(t_pipe_fds *p, int end);
 ssize_t		write_all(int fd, const void *buf, size_t n);
 ssize_t		read_all(int fd, void *buf, size_t n);
 /**
- * Read one line (up to and including '\\n') from fd into the arena and return
- * a nul-terminated buffer allocated/committed in the arena
- * On immediate EOF returns NULL.
- * !Caller must manage arean lifetime (pop_stack_mark)
+ * Read one line (up to and including '\\n') from fd and return a nul-terminated
+ * buffer allocated with fn_malloc. The caller frees it with fn_free.
+ * On immediate EOF (no data) or error returns NULL.
  */
 char		*read_line_arena(int fd);
 /**

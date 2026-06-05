@@ -20,9 +20,13 @@ t_pipe_fds	*pipe_create(void)
 
 	if (pipe(fds) < 0)
 		return (NULL);
-	p = (t_pipe_fds *) st_alloc(sizeof(t_pipe_fds));
+	p = (t_pipe_fds *)fn_malloc(sizeof(t_pipe_fds));
 	if (!p)
+	{
+		close(fds[0]);
+		close(fds[1]);
 		return (NULL);
+	}
 	p->r = fds[0];
 	p->w = fds[1];
 	return (p);

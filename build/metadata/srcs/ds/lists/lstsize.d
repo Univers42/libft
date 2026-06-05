@@ -1,5 +1,0 @@
-build/obj/./srcs/ds/lists/lstsize.o: srcs/ds/lists/lstsize.c \
- include/xalloc.h include/xalloc_config.h srcs/ds/lists/ft_list.h
-include/xalloc.h:
-include/xalloc_config.h:
-srcs/ds/lists/ft_list.h:

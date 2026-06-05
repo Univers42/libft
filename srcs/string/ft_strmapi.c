@@ -21,7 +21,7 @@
  * apply the function 'f' to each character of the string
  * passing its indice like a first argument, 
  * and its proper character as second argument
- * We create  a new string using malloc(3) 
+ * We create  a new string using fn_malloc (the allocator switch)
  * to retrieve the successives mapped of
  * f applicacion.
  * @param s the string ....

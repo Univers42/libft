@@ -1,8 +1,0 @@
-== stress ==
-stress_all_patterns_ok: PASS
-stress_verified_nonzero = 1: PASS
-stress_str_nonzero = 1: PASS
-micro_patterns_ok: PASS
-micro_total_nonzero = 1: PASS
-realloc_churn_ok = 255: PASS
-frag_ok: PASS

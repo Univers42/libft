@@ -157,9 +157,21 @@ static void	test_hash_stack_key(void)
 	hash_destroy(&h, NULL);
 }
 
+/* ft_sstrdup must now return fn_*-heap memory (freeable with fn_free), not a
+   bump-allocated arena pointer that would corrupt on fn_free. */
+static void	test_sstrdup(void)
+{
+	char	*s;
+
+	s = ft_sstrdup("arena-no-more");
+	t_check_str("sstrdup", s, "arena-no-more");
+	fn_free(s);
+}
+
 int	main(void)
 {
 	t_begin("fixes");
+	test_sstrdup();
 	test_strncasecmp();
 	test_lstclear_null();
 	test_realloc3();

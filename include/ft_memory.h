@@ -60,6 +60,22 @@ void	free_list(void **list, int size);
 void	*xfn_calloc(size_t nmemb, size_t size);
 bool	check_overflow(size_t n, size_t size);
 
+/*
+** Short aliases so shell call sites read like libc while routing through the
+** error-checking wrappers. They switch backend (libc malloc vs ft_malloc) at
+** compile time via HAVE_FT_MALLOC, so flipping SAFE swaps every allocation.
+** No xrealloc alias: xfn_realloc takes the old size (3-arg), not libc's 2-arg.
+*/
+# ifndef xmalloc
+#  define xmalloc xfn_malloc
+# endif
+# ifndef xcalloc
+#  define xcalloc xfn_calloc
+# endif
+# ifndef xfree
+#  define xfree xfn_free
+# endif
+
 static inline void	buffer_destroy(void **to_empty, size_t size)
 {
 	size_t	i;

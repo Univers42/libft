@@ -44,10 +44,14 @@ char	*ft_strdup(const char *s)
 
 char	*ft_sstrdup(const char *p)
 {
+	char	*dst;
 	size_t	len;
 
 	len = ft_strlen(p) + 1;
-	return (ft_memcpy(st_alloc(len), p, len));
+	dst = fn_malloc(len);
+	if (!dst)
+		return (NULL);
+	return (ft_memcpy(dst, p, len));
 }
 //int main(void)
 //{

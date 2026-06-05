@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMP
 PICFLAG = -fPIC
 CFLAGS += $(PICFLAG)
 
-BUILD_DIR = build
+BUILD_DIR ?= build
 BIN_DIR = $(BUILD_DIR)/bin
 LIB_DIR = $(BUILD_DIR)/lib
 OBJ_DIR = $(BUILD_DIR)/obj
@@ -49,11 +49,15 @@ SHARED_LIB = $(LIB_DIR)/libft.so
 FTM_DIR  = srcs/memory/ft_malloc
 FTM_SRCS = $(shell find $(FTM_DIR)/src -name "*.c" 2>/dev/null)
 CONFIG_H = include/xalloc_config.h
+# SAFE=1 forces the libc allocator even when ft_malloc sources are present
+# (the parent shell passes SAFE down). SAFE=0 / unset keeps the custom heap.
 ifneq ($(strip $(FTM_SRCS)),)
+ ifneq ($(SAFE),1)
   HAVE_FTM   := 1
   CFLAGS     += -DHAVE_FT_MALLOC -pthread
   FTM_CFLAGS  = -Wall -Wextra -Werror -fPIC -O3 -pthread -I$(FTM_DIR)/include
   FTM_OBJS    = $(FTM_SRCS:%.c=$(OBJ_DIR)/%.o)
+ endif
 endif
 
 # Force the allocator switch into every libft TU, regardless of its own

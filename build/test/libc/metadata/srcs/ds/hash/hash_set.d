@@ -33,7 +33,8 @@ build/test/libc/obj/./srcs/ds/hash/hash_set.o: srcs/ds/hash/hash_set.c \
  srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_string.h \
  srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_debug.h \
  srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_ctype.h \
- srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_stddef.h
+ srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_stddef.h \
+ include/ft_string.h
 include/xalloc.h:
 srcs/ds/hash/hash.h:
 srcs/ds/hash/../../../include/ds.h:
@@ -71,3 +72,4 @@ srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_string.h
 srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_debug.h:
 srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_ctype.h:
 srcs/ds/hash/../../../include/../srcs/ds/dyn_string/../../../include/ft_stddef.h:
+include/ft_string.h:

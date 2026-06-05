@@ -12,26 +12,6 @@
 
 #include "array.h"
 
-static void	choose_start_and_direction(t_arr *a,
-										size_t i,
-										t_arr_elem **start,
-										int *direction)
-{
-	size_t	startind;
-
-	*start = lastref(a);
-	startind = element_index(*start);
-	if (i < startind / 2)
-	{
-		*start = element_forw(a->head);
-		*direction = 1;
-	}
-	else if (i >= startind)
-		*direction = 1;
-	else
-		*direction = -1;
-}
-
 static char	*walk_and_find(t_arr *a, size_t i, t_arr_elem *start, int dir)
 {
 	t_arr_elem	*ae;
@@ -66,7 +46,7 @@ char	*array_reference(t_arr *a, size_t i)
 		return (NULL);
 	if (i > array_max_index(a) || i < array_first_index(a))
 		return (NULL);
-	choose_start_and_direction(a, i, &start, &direction);
+	as_choose_start_direction(a, i, &start, &direction);
 	res = walk_and_find(a, i, start, direction);
 	if (res == NULL)
 		set_lastref(a, start);

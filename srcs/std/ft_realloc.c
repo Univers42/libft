@@ -21,21 +21,18 @@ void	*fn_realloc3(void *ptr, size_t old_cap, size_t new_cap)
 	void	*tmp;
 	size_t	select_size;
 
-	tmp = NULL;
-	if (new_cap)
-	{
-		tmp = fn_malloc(new_cap);
-		if (!tmp)
-			return (NULL);
-	}
+	if (new_cap == 0)
+		return (fn_free(ptr), NULL);
+	tmp = fn_malloc(new_cap);
+	if (!tmp)
+		return (NULL);
 	if (ptr && old_cap)
 	{
-		if (old_cap < new_cap)
-			select_size = old_cap;
-		else
+		select_size = old_cap;
+		if (new_cap < old_cap)
 			select_size = new_cap;
 		ft_memmove(tmp, ptr, select_size);
-		fn_free(ptr);
 	}
+	fn_free(ptr);
 	return (tmp);
 }

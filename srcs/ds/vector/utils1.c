@@ -72,6 +72,8 @@ void	vec_push_char(t_vec *v, char c)
 
 void	vec_push_int(t_vec *v, int n)
 {
+	if (v->len == 0 && v->elem_size != sizeof(int))
+		v->elem_size = sizeof(int);
 	if (v->elem_size == 0)
 		v->elem_size = sizeof(int);
 	if (!vec_ensure_space(v))

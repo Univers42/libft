@@ -25,21 +25,34 @@ void	*hash_get(t_hash *h, const char *key)
 	return (NULL);
 }
 
-/* Free hash table and reset struct. */
+/* Free one live entry: its value (via free_val, if given) and its owned key. */
+static void	hash_free_entry(t_hash_entry *e, void (*free_val)(void *),
+		char *del)
+{
+	if (e->key == NULL || e->key == del)
+		return ;
+	if (free_val != NULL)
+		free_val(e->value);
+	fn_free(e->key);
+}
+
+/* Free hash table and reset struct. Frees every owned key; frees values too
+   when a free_val is supplied. */
 void	hash_destroy(t_hash *h, void (*free_val)(void *))
 {
 	size_t			i;
 	t_hash_entry	*buff;
+	char			*del;
 
 	if (h == NULL)
 		return ;
 	buff = (t_hash_entry *)h->ctx;
-	if (free_val != NULL && buff != NULL)
+	del = hash_deleted_key();
+	if (buff != NULL)
 	{
 		i = -1;
 		while (++i < h->cap)
-			if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
-				free_val(buff[i].value);
+			hash_free_entry(&buff[i], free_val, del);
 	}
 	fn_free(h->ctx);
 	*h = (t_hash){0};

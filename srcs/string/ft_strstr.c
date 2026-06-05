@@ -32,27 +32,26 @@ char	*ft_strstr(const char *haystack, const char *needle)
 	return (NULL);
 }
 
+static int	nstr_match(const char *h, const char *needle, t_size remaining)
+{
+	while (*h && *needle && *h == *needle && remaining > 0)
+	{
+		h++;
+		needle++;
+		remaining--;
+	}
+	return (*needle == '\0');
+}
+
 char	*ft_strnstr(const char *haystack, const char *needle, t_size n)
 {
-	const char	*sub_haystack;
-	const char	*sub_needle;
-	t_size		remaining;
-
+	if (!haystack || !needle)
+		return (NULL);
 	if (*needle == '\0')
 		return ((char *)haystack);
 	while (*haystack && n > 0)
 	{
-		sub_haystack = haystack;
-		sub_needle = needle;
-		remaining = n;
-		while (*sub_haystack && *sub_needle
-			&& *sub_haystack == *sub_needle && remaining > 0)
-		{
-			sub_haystack++;
-			sub_needle++;
-			remaining--;
-		}
-		if (*sub_needle == '\0')
+		if (nstr_match(haystack, needle, n))
 			return ((char *)haystack);
 		n--;
 		haystack++;

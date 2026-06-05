@@ -82,28 +82,10 @@ void	*hash_del(t_hash *h, const char *key)
 	if (idx < 0)
 		return (NULL);
 	val = ((t_hash_entry *)h->ctx)[idx].value;
+	fn_free(((t_hash_entry *)h->ctx)[idx].key);
 	((t_hash_entry *)h->ctx)[idx].key = hash_deleted_key();
 	((t_hash_entry *)h->ctx)[idx].value = NULL;
 	if (h->len > 0)
 		h->len--;
 	return (val);
-}
-
-/* Resize hash table and rehash entries. */
-bool	hash_resize(t_hash *h)
-{
-	t_hash			new_h;
-	size_t			i;
-	t_hash_entry	*buff;
-
-	buff = (t_hash_entry *)h->ctx;
-	if (!hash_init(&new_h, h->cap * 2))
-		return (false);
-	i = -1;
-	while (++i < h->cap)
-		if (buff[i].key != NULL && buff[i].key != hash_deleted_key())
-			hash_set(&new_h, buff[i].key, buff[i].value);
-	fn_free(h->ctx);
-	*h = new_h;
-	return (true);
 }

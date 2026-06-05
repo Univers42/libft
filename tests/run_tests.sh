@@ -75,27 +75,31 @@ for src in "${TESTS[@]}"; do
 	bf="$BIN_DIR/${name}_ft"
 	st="ok"
 
-	# compile both
-	if ! $CC $WARN $BASEFLAGS "$src" "$LIBC_LIB" -lm -o "$bl" 2>"$OUT_DIR/$name.cc.libc"; then
+	# compile both — to a temp name, then atomic mv, so the linker never holds
+	# the final exec target open (prevents the ETXTBSY/rc=126 exec race).
+	if ! $CC $WARN $BASEFLAGS "$src" "$LIBC_LIB" -lm -o "$bl.new" 2>"$OUT_DIR/$name.cc.libc"; then
 		printf '%-22s %sCOMPILE-ERR (libc)%s\n' "$name" "$RED" "$RST"; FAILED+=("$name"); fail=$((fail+1)); continue
 	fi
-	if ! $CC $WARN $BASEFLAGS -DHAVE_FT_MALLOC -I"$FTM_INC" "$src" "$FT_LIB" -pthread -lm -o "$bf" 2>"$OUT_DIR/$name.cc.ft"; then
+	mv -f "$bl.new" "$bl"
+	if ! $CC $WARN $BASEFLAGS -DHAVE_FT_MALLOC -I"$FTM_INC" "$src" "$FT_LIB" -pthread -lm -o "$bf.new" 2>"$OUT_DIR/$name.cc.ft"; then
 		printf '%-22s %sCOMPILE-ERR (ft)%s\n' "$name" "$RED" "$RST"; FAILED+=("$name"); fail=$((fail+1)); continue
 	fi
+	mv -f "$bf.new" "$bf"
 
-	# run libc
-	"$bl" >"$OUT_DIR/$name.libc.out" 2>"$OUT_DIR/$name.libc.err"; rcl=$?
+	# run libc (retry transient exec failures)
+	run_retry "$bl" "$OUT_DIR/$name.libc.out" "$OUT_DIR/$name.libc.err"; rcl=$?
 	[ $rcl -eq 0 ] && cL="${GRN}PASS${RST}" || { cL="${RED}rc=$rcl${RST}"; st="bad"; }
 
-	# run ft
-	"$bf" >"$OUT_DIR/$name.ft.out" 2>"$OUT_DIR/$name.ft.err"; rcf=$?
+	# run ft (retry transient exec failures)
+	run_retry "$bf" "$OUT_DIR/$name.ft.out" "$OUT_DIR/$name.ft.err"; rcf=$?
 	[ $rcf -eq 0 ] && cF="${GRN}PASS${RST}" || { cF="${RED}rc=$rcf${RST}"; st="bad"; }
 
-	# diff logical output
+	# diff logical output (libc vs ft). On a real diff, save it for inspection.
 	if diff -q "$OUT_DIR/$name.libc.out" "$OUT_DIR/$name.ft.out" >/dev/null; then
-		cD="${GRN}same${RST}"
+		cD="${GRN}same${RST}"; rm -f "$OUT_DIR/$name.diff"
 	else
 		cD="${RED}DIFF${RST}"; st="bad"
+		diff "$OUT_DIR/$name.libc.out" "$OUT_DIR/$name.ft.out" >"$OUT_DIR/$name.diff" 2>&1
 	fi
 
 	# valgrind on the libc build (authoritative libc-side leak/UB oracle)
@@ -120,5 +124,10 @@ if [ $fail -eq 0 ]; then
 	exit 0
 fi
 echo "${RED}✗ ${fail} failed:${RST} ${FAILED[*]}"
-echo "${YEL}  inspect: $OUT_DIR/<name>.{libc,ft}.{out,err}, .vg${RST}"
+for name in "${FAILED[@]}"; do
+	echo "${YEL}── $name ──${RST}"
+	[ -s "$OUT_DIR/$name.diff" ] && { echo "  libc-vs-ft diff (first 12 lines):"; head -12 "$OUT_DIR/$name.diff" | sed 's/^/    /'; }
+	[ -s "$OUT_DIR/$name.ft.err" ] && { echo "  ft stderr (tail):"; tail -3 "$OUT_DIR/$name.ft.err" | sed 's/^/    /'; }
+done
+echo "${YEL}  full output: $OUT_DIR/<name>.{libc,ft}.{out,err}, .diff, .vg${RST}"
 exit 1

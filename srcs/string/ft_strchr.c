@@ -20,12 +20,14 @@
  * @return
  * A pointer to the first occurrence of `c` in `s`, or NULL if `c` is not found.
  * 
- * @note 
- * The function searches the string `s` 
+ * @note
+ * The function searches the string `s`
  * from the beginning until it finds the character `c`.
- * If `c` is not found, the function returns NULL. I
- * f `c` is the null terminator, the function
- * returns a pointer to the terminating null byte.
+ * If `c` is not found, the function returns NULL.
+ * NB: unlike POSIX strchr, searching for '\0' returns NULL here (not a pointer
+ * to the terminator). This is intentional so the membership idiom
+ * `ft_strchr(set, c) != NULL` never spuriously matches when c == 0 — callers
+ * across libft and the shell (lexer, getopts, is_spechr) rely on it.
  */
 //char	*ft_strchr(const char *s, int c)
 //{

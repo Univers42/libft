@@ -90,14 +90,14 @@ int	as_handle_edge_insert(t_arr *a, size_t i, t_arr_elem *elem)
 	{
 		add_before(a->head, elem);
 		as_renumber_indices(a);
-		set_lastref(a, element_forw(a->head->prev));
+		set_lastref(a, a->head->prev);
 		return (1);
 	}
 	if (i < array_first_index(a))
 	{
 		add_after(a->head, elem);
 		as_renumber_indices(a);
-		set_lastref(a, element_forw(a->head->next));
+		set_lastref(a, a->head->next);
 		return (1);
 	}
 	return (0);

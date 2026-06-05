@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "hash.h"
+#include "ft_string.h"
 
 /* validate parameters */
 static bool	validate_input(t_hash *h, const char *key)
@@ -74,23 +75,26 @@ static bool	insert_at(t_hash *h, size_t idx, const char *key, void *value)
 	return (true);
 }
 
-/* public API: insert or update */
+/* public API: insert or update. The table OWNS its keys: a new insert stores a
+   private ft_strdup copy (freed by hash_del/hash_destroy), so callers may pass
+   stack/temporary keys safely. Updates keep the existing copy. */
 bool	hash_set(t_hash *h, const char *key, void *value)
 {
-	size_t			idx;
-	size_t			slot;
-	int				pr;
+	size_t	slot;
+	int		pr;
+	char	*copy;
 
 	if (!validate_input(h, key))
 		return (false);
 	if (!ensure_capacity(h))
 		return (false);
-	idx = hash_func(key, h->cap);
-	pr = probe_slot(h, idx, key, &slot);
+	pr = probe_slot(h, hash_func(key, h->cap), key, &slot);
 	if (pr == 0)
 		return (false);
-	if (pr == 1)
-		return (insert_at(h, slot, key, value));
-	((t_hash_entry *)h->ctx)[slot].value = value;
-	return (true);
+	if (pr == 2)
+		return (((t_hash_entry *)h->ctx)[slot].value = value, true);
+	copy = ft_strdup(key);
+	if (!copy)
+		return (false);
+	return (insert_at(h, slot, copy, value));
 }

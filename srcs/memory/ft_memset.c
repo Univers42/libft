@@ -66,12 +66,9 @@
  */
 void	*ft_memset(void *ptr, int value, size_t num)
 {
-	unsigned char	*byte;
-
-	byte = (unsigned char *)ptr;
-	while (num--)
-		*byte++ = (unsigned char)value;
-	return (ptr);
+	if (!ptr || num == 0)
+		return (ptr);
+	return (__builtin_memset(ptr, value, num));
 }
 //ft_memset
 //int main(void)

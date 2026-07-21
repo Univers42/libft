@@ -14,47 +14,36 @@
 
 char	*ft_strstr(const char *haystack, const char *needle)
 {
-	size_t	needle_len;
-	size_t	i;
-
 	if (!haystack || !needle)
 		return (NULL);
-	if (*needle == '\0')
-		return ((char *)haystack);
-	needle_len = ft_strlen(needle);
-	i = 0;
-	while (haystack[i])
-	{
-		if (ft_strncmp(&haystack[i], needle, needle_len) == 0)
-			return ((char *)&haystack[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-static int	nstr_match(const char *h, const char *needle, t_size remaining)
-{
-	while (*h && *needle && *h == *needle && remaining > 0)
-	{
-		h++;
-		needle++;
-		remaining--;
-	}
-	return (*needle == '\0');
+	return (__builtin_strstr(haystack, needle));
 }
 
 char	*ft_strnstr(const char *haystack, const char *needle, t_size n)
 {
+	t_size		nlen;
+	const char	*end;
+	const char	*p;
+	const char	*hit;
+
 	if (!haystack || !needle)
 		return (NULL);
 	if (*needle == '\0')
 		return ((char *)haystack);
-	while (*haystack && n > 0)
+	hit = __builtin_memchr(haystack, 0, n);
+	if (hit)
+		n = (t_size)(hit - haystack);
+	nlen = __builtin_strlen(needle);
+	end = haystack + n;
+	p = haystack;
+	while (p + nlen <= end)
 	{
-		if (nstr_match(haystack, needle, n))
-			return ((char *)haystack);
-		n--;
-		haystack++;
+		hit = __builtin_memchr(p, needle[0], (t_size)(end - p) - nlen + 1);
+		if (!hit)
+			return (NULL);
+		if (__builtin_strncmp(hit, needle, nlen) == 0)
+			return ((char *)hit);
+		p = hit + 1;
 	}
 	return (NULL);
 }

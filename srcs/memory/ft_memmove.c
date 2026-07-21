@@ -26,25 +26,9 @@
  */
 void	*ft_memmove(void *dst, const void *src, size_t n)
 {
-	const unsigned char	*s = (unsigned char *)src;
-	unsigned char		*d;
-
-	d = (unsigned char *)dst;
-	if (d == s || n == 0)
+	if (dst == src || n == 0)
 		return (dst);
-	else if (d < s)
-	{
-		while (n--)
-			*d++ = *s++;
-	}
-	else
-	{
-		d += n;
-		s += n;
-		while (n--)
-			*--d = *--s;
-	}
-	return (dst);
+	return (__builtin_memmove(dst, src, n));
 }
 
 //TODO : use backward and forward movement

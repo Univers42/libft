@@ -24,6 +24,15 @@ CC = cc
 # Building it unoptimized (-O0) made every consumer pay; optimizing it is a
 # major, shell-wide win.
 CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1 -std=c99 -O3
+# -flto -ffat-lto-objects, OPT (SAFE=0) tree ONLY: ship LTO bytecode next to
+# regular code so the shell's -flto link inlines vec_push/ft_strlen/fixed-
+# size ft_memcpy into its hot loops (profiling showed every ft_* call was a
+# real call — the archive had no LTO sections). The SAFE=1 tree must stay
+# LTO-free: GCC's linker plugin processes LTO sections even on a plain link,
+# and that perturbed the ASan/LeakSanitizer debug build's accounting.
+ifneq ($(SAFE),1)
+CFLAGS += -flto -ffat-lto-objects
+endif
 PICFLAG = -fPIC
 CFLAGS += $(PICFLAG)
 
@@ -55,7 +64,7 @@ ifneq ($(strip $(FTM_SRCS)),)
  ifneq ($(SAFE),1)
   HAVE_FTM   := 1
   CFLAGS     += -DHAVE_FT_MALLOC -pthread
-  FTM_CFLAGS  = -Wall -Wextra -Werror -fPIC -O3 -pthread -I$(FTM_DIR)/include
+  FTM_CFLAGS  = -Wall -Wextra -Werror -fPIC -O3 -flto -ffat-lto-objects -pthread -I$(FTM_DIR)/include
   FTM_OBJS    = $(FTM_SRCS:%.c=$(OBJ_DIR)/%.o)
  endif
 endif

@@ -36,16 +36,9 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	*cur;
-
-	cur = (char *)s;
-	while (*cur)
-	{
-		if (*cur == (char)c)
-			return (cur);
-		cur++;
-	}
-	return (NULL);
+	if ((char)c == '\0')
+		return (NULL);
+	return (__builtin_strchr(s, c));
 }
 //changes all the occurences of a word
 //int main(void)

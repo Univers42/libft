@@ -54,14 +54,9 @@
 //}
 size_t	ft_strlen(const char *s)
 {
-	const char	*ptr;
-
 	if (!s)
 		return (0);
-	ptr = s;
-	while (*ptr++)
-		;
-	return ((ptr - s) - 1);
+	return (__builtin_strlen(s));
 }
 
 size_t	ft_strnlen(const char *s, size_t maxlen)

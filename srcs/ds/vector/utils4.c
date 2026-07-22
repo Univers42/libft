@@ -18,7 +18,7 @@
 
 static ssize_t	read_and_push_chunks(int fd, t_vec *ret)
 {
-	char	buf[1024];
+	char	buf[65536];
 	ssize_t	n;
 
 	if (!ret)

@@ -1,3 +1,0 @@
-[submodule "srcs/memory/ft_malloc"]
-	path = srcs/memory/ft_malloc
-	url = https://github.com/Univers42/ft_malloc.git

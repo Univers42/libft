@@ -149,7 +149,7 @@ $(OBJ_DIR)/%.o : %.c
 	    exit 1; \
 	fi
 	@mkdir -p $(META_DIR)
-	@find . -maxdepth 1 -type f -name ".*" ! -name ".gitignore" ! -name ".gitattributes" ! -name ".git" ! -name "." ! -name ".." -print0 | xargs -0 -r -I{} mv {} $(META_DIR) 2>/dev/null || true
+	@find . -maxdepth 1 -type f -name ".*" ! -name ".gitignore" ! -name ".gitattributes" ! -name ".gitmodules" ! -name ".git" ! -name "." ! -name ".." -print0 | xargs -0 -r -I{} mv {} $(META_DIR) 2>/dev/null || true
 	@count=$$(find $(OBJ_DIR) -name "*.o" 2>/dev/null | wc -l); \
 	percent=$$(($$count * 100 / $(TOTAL))); \
 	filled=$$(($$percent * 30 / 100)); \

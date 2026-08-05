@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: dlesieur <dlesieur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/10 19:03:45 by marvin            #+#    #+#              #
-#    Updated: 2026/01/10 19:03:45 by marvin           ###   ########.fr        #
+#    Updated: 2026/08/05 16:32:10 by dlesieur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,12 +30,19 @@ CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMP
 # real call — the archive had no LTO sections). The SAFE=1 tree must stay
 # LTO-free: GCC's linker plugin processes LTO sections even on a plain link,
 # and that perturbed the ASan/LeakSanitizer debug build's accounting.
+
+CC_IS_GCC := $(shell $(CC) --version 2>/dev/null | grep -qi gcc && echo 1)
+
 ifneq ($(SAFE),1)
-CFLAGS += -flto -ffat-lto-objects
+	CFLAGS += -flto
+ifeq ($(CC_IS_GCC),1)
+	CFLAGS += -ffat-lto-objects
 endif
+endif
+
 PICFLAG = -fPIC
 CFLAGS += $(PICFLAG)
-
+LDFLAGS+= -fuse-ld=gold
 BUILD_DIR ?= build
 BIN_DIR = $(BUILD_DIR)/bin
 LIB_DIR = $(BUILD_DIR)/lib
@@ -61,12 +68,17 @@ CONFIG_H = include/xalloc_config.h
 # SAFE=1 forces the libc allocator even when ft_malloc sources are present
 # (the parent shell passes SAFE down). SAFE=0 / unset keeps the custom heap.
 ifneq ($(strip $(FTM_SRCS)),)
- ifneq ($(SAFE),1)
-  HAVE_FTM   := 1
-  CFLAGS     += -DHAVE_FT_MALLOC -pthread
-  FTM_CFLAGS  = -Wall -Wextra -Werror -fPIC -O3 -flto -ffat-lto-objects -pthread -I$(FTM_DIR)/include
-  FTM_OBJS    = $(FTM_SRCS:%.c=$(OBJ_DIR)/%.o)
- endif
+ifneq ($(SAFE),1)
+HAVE_FTM := 1
+CFLAGS += -DHAVE_FT_MALLOC -pthread
+
+FTM_CFLAGS = -Wall -Wextra -Werror -fPIC -O3 -flto -pthread -I$(FTM_DIR)/include
+ifeq ($(CC_IS_GCC),1)
+FTM_CFLAGS += -ffat-lto-objects
+endif
+
+FTM_OBJS = $(FTM_SRCS:%.c=$(OBJ_DIR)/%.o)
+endif
 endif
 
 # Force the allocator switch into every libft TU, regardless of its own
@@ -130,7 +142,7 @@ $(STATIC_LIB): $(ALL_OBJS)
 
 $(SHARED_LIB): $(ALL_OBJS)
 	@mkdir -p $(LIB_DIR)
-	@$(CC) -shared -pthread -o $@ $^
+	@$(CC) -flto -fuse-ld=gold -shared -pthread -o $@ $^
 
 # ft_malloc submodule: compiled with its own flags + include path, no force
 # header, no -std=c99 (more-specific pattern wins over the generic rule below).

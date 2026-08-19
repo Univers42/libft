@@ -12,7 +12,7 @@
 
 #include "format.h"
 
-void	printf_int(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_int(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	int	i;
 	int	pad_len;
@@ -21,7 +21,7 @@ void	printf_int(va_list args, t_fmt_spec spec, t_buffer *buff)
 
 	if (spec.t != FMT_INTEGER)
 		return ;
-	i = va_arg(args, int);
+	i = va_arg(*args, int);
 	spec = normilize_int_spec(spec, i);
 	total_len = signed_total_len(i, spec);
 	pad_len = signed_padding_len(i, spec);
@@ -35,7 +35,7 @@ void	printf_int(va_list args, t_fmt_spec spec, t_buffer *buff)
 		writer_padn(buff, ' ', spec.width - total_len);
 }
 
-void	printf_unsigned(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_unsigned(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	unsigned int	i;
 	int				pad_len;
@@ -44,7 +44,7 @@ void	printf_unsigned(va_list args, t_fmt_spec spec, t_buffer *buff)
 
 	if (spec.t != FMT_UNSIGNED)
 		return ;
-	i = va_arg(args, unsigned int);
+	i = va_arg(*args, unsigned int);
 	spec.flags &= ~FL_PLUS;
 	spec.flags &= ~FL_SPACE;
 	spec = normilize_int_spec(spec, i);

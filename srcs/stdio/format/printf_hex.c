@@ -12,7 +12,7 @@
 
 #include "format.h"
 
-void	printf_hex_lowcase(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_hex_lowcase(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	unsigned int	i;
 	int				pad_len;
@@ -21,7 +21,7 @@ void	printf_hex_lowcase(va_list args, t_fmt_spec spec, t_buffer *buff)
 
 	if (spec.t != FMT_HEX_LOWER)
 		return ;
-	i = va_arg(args, unsigned int);
+	i = va_arg(*args, unsigned int);
 	spec = normalize_hex_spec(spec, i);
 	total_len = hex_total_len(i, spec);
 	pad_len = hex_padding_len(i, spec);
@@ -33,7 +33,7 @@ void	printf_hex_lowcase(va_list args, t_fmt_spec spec, t_buffer *buff)
 		writer_padn(buff, ' ', spec.width - total_len);
 }
 
-void	printf_hex_upcase(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_hex_upcase(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	unsigned int	i;
 	int				pad_len;
@@ -42,7 +42,7 @@ void	printf_hex_upcase(va_list args, t_fmt_spec spec, t_buffer *buff)
 
 	if (spec.t != FMT_HEX_UPPER)
 		return ;
-	i = va_arg(args, unsigned int);
+	i = va_arg(*args, unsigned int);
 	spec = normalize_hex_spec(spec, i);
 	total_len = hex_total_len(i, spec);
 	pad_len = hex_padding_len(i, spec);

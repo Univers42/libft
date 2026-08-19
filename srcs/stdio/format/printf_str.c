@@ -12,14 +12,14 @@
 
 #include "format.h"
 
-void	printf_string(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_string(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	char	*s;
 	int		len;
 
 	if (spec.t != FMT_STRING)
 		return ;
-	s = va_arg(args, char *);
+	s = va_arg(*args, char *);
 	if (s == 0)
 	{
 		s = "(null)";
@@ -40,13 +40,13 @@ void	printf_string(va_list args, t_fmt_spec spec, t_buffer *buff)
 		writer_strn(buff, s, len);
 }
 
-void	printf_char(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_char(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	char	c;
 
 	if (spec.t != FMT_CHAR)
 		return ;
-	c = va_arg(args, int);
+	c = va_arg(*args, int);
 	if (spec.flags & FL_MINUS)
 		writer_char(buff, c);
 	if (spec.width != -1)

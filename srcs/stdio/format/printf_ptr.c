@@ -24,7 +24,7 @@ static void	handle_nullptr(t_fmt_spec spec, t_buffer *buff)
 		writer_padn(buff, ' ', spec.width - total_len);
 }
 
-void	printf_ptr(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	printf_ptr(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	size_t	i;
 	int		pad_len;
@@ -33,7 +33,7 @@ void	printf_ptr(va_list args, t_fmt_spec spec, t_buffer *buff)
 
 	if (spec.t != FMT_POINTER)
 		return ;
-	i = va_arg(args, size_t);
+	i = va_arg(*args, size_t);
 	if (i == 0 && (handle_nullptr(spec, buff), 1))
 		return ;
 	spec.flags |= FL_POUND;

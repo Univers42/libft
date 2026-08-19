@@ -12,14 +12,14 @@
 
 #include "format.h"
 
-int	parse_specifier_param(const char *s, int *i, va_list args)
+int	parse_specifier_param(const char *s, int *i, va_list *args)
 {
 	int	ret;
 
 	ret = 0;
 	if (s[*i] == '*')
 	{
-		ret = va_arg(args, int);
+		ret = va_arg(*args, int);
 		(*i)++;
 	}
 	else if (s[*i] >= '0' && s[*i] <= '9')
@@ -63,7 +63,7 @@ static int	parse_flags(const char *s, int *i)
 }
 
 // -1, no presicion specifier
-static int	parse_precision(const char *s, int *i, va_list args)
+static int	parse_precision(const char *s, int *i, va_list *args)
 {
 	int	ret;
 
@@ -102,7 +102,7 @@ static t_fmt_spec_type	parse_specifier(const char *s, int *i)
 	return (ret);
 }
 
-t_fmt_spec	parse(const char *s, int *i, va_list args)
+t_fmt_spec	parse(const char *s, int *i, va_list *args)
 {
 	t_fmt_spec	ret;
 	int			init_i;

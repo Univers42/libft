@@ -17,14 +17,17 @@ int	ft_vprintf(const char *str, va_list args)
 	int				i;
 	t_fmt_spec		spec;
 	t_buffer		buff;
+	va_list			ap;
 
 	i = 0;
 	writer_init(&buff);
+	va_copy(ap, args);
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, &buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, &buff);
 	}
+	va_end(ap);
 	if (buff.buff)
 	{
 		ft_putmem(buff.buff, buff.len);
@@ -38,15 +41,18 @@ char	*ft_vasprintf(const char *str, va_list args)
 	int				i;
 	t_fmt_spec		spec;
 	t_buffer		buff;
+	va_list			ap;
 
 	i = 0;
 	writer_init(&buff);
+	va_copy(ap, args);
 	buff.no_write = 1;
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, &buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, &buff);
 	}
+	va_end(ap);
 	return (buff.buff);
 }
 
@@ -55,15 +61,18 @@ int	ft_veprintf(const char *str, va_list args)
 	int				i;
 	t_fmt_spec		spec;
 	t_buffer		buff;
+	va_list			ap;
 
 	i = 0;
 	writer_init(&buff);
+	va_copy(ap, args);
 	buff.out_fd = 2;
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, &buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, &buff);
 	}
+	va_end(ap);
 	if (buff.buff)
 	{
 		ft_eputmem(buff.buff, buff.len);
@@ -77,16 +86,19 @@ char	*ft_vaseprintf(const char *str, va_list args)
 	int				i;
 	t_fmt_spec		spec;
 	t_buffer		buff;
+	va_list			ap;
 
 	i = 0;
 	writer_init(&buff);
+	va_copy(ap, args);
 	buff.no_write = 1;
 	buff.out_fd = 2;
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, &buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, &buff);
 	}
+	va_end(ap);
 	return (buff.buff);
 }
 
@@ -95,15 +107,18 @@ int	ft_vfdprintf(int fd, const char *str, va_list args)
 	int				i;
 	t_fmt_spec		spec;
 	t_buffer		buff;
+	va_list			ap;
 
 	i = 0;
 	writer_init(&buff);
+	va_copy(ap, args);
 	buff.out_fd = fd;
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, &buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, &buff);
 	}
+	va_end(ap);
 	if (buff.buff)
 	{
 		ft_fdputmem(fd, buff.buff, buff.len);

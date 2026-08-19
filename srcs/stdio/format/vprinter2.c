@@ -20,16 +20,19 @@ static void	build_formatted_buffer(t_buffer *buff,
 {
 	int			i;
 	t_fmt_spec	spec;
+	va_list		ap;
 
 	i = 0;
 	writer_init(buff);
 	buff->no_write = 1;
 	buff->out_fd = -1;
+	va_copy(ap, args);
 	while (str[i])
 	{
-		spec = parse(str, &i, args);
-		print_spec(args, spec, buff);
+		spec = parse(str, &i, &ap);
+		print_spec(&ap, spec, buff);
 	}
+	va_end(ap);
 }
 
 /* finalize: copy into user buffer (size == (size_t)-1 => full copy),

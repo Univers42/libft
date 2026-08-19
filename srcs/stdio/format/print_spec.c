@@ -12,7 +12,7 @@
 
 #include "format.h"
 
-void	print_spec(va_list args, t_fmt_spec spec, t_buffer *buff)
+void	print_spec(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
 	if (spec.t == FMT_NORMAL_CHAR)
 		writer_char(buff, spec.data);

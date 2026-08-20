@@ -61,6 +61,7 @@ typedef struct s_format_spec
 	int				precision;
 	int				width;
 	char			data;
+	char			length;
 }	t_fmt_spec;
 
 typedef struct s_buffer
@@ -87,6 +88,10 @@ int			hex_padding_len(size_t n, t_fmt_spec spec);
 int			hex_total_len(size_t n, t_fmt_spec spec);
 t_fmt_spec	normalize_hex_spec(t_fmt_spec spec, size_t n);
 int			parse_specifier_param(const char *s, int *i, va_list *args);
+char		parse_length(const char *s, int *i);
+ssize_t		fetch_signed(va_list *args, char length);
+size_t		fetch_unsigned(va_list *args, char length);
+int			unsigned_num_digits(size_t n);
 t_fmt_spec	parse(const char *s, int *i, va_list *args);
 void		print_spec(va_list *args, t_fmt_spec spec, t_buffer *buff);
 void		printf_hex_lowcase(va_list *args, t_fmt_spec spec, t_buffer *buff);
@@ -106,6 +111,7 @@ int			writer_buffer_double(t_buffer *ret);
 void		writer_padn(t_buffer *buff, char padding, int n);
 void		writer_char(t_buffer *buffer, char c);
 void		writer_strn(t_buffer *buff, char *str, int n);
+void		writer_unsigned(t_buffer *buff, size_t n, int digits);
 void		writer_signed(t_buffer *buff, ssize_t n,
 				int add_sign, int digits);
 void		writer_hex_lowcase(t_buffer *buff, size_t n,

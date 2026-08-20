@@ -81,14 +81,23 @@ void	writer_strn(t_buffer *buff, char *str, int n)
 	}
 }
 
+/* Emit the sign, then the magnitude.
+
+   The magnitude is taken in size_t rather than by negating the ssize_t,
+   because negating the most negative value is undefined -- and it is
+   exactly the value someone printing %lld is most likely to be testing
+   with. Unsigned arithmetic gives the right answer for it with no special
+   case. */
 void	writer_signed(t_buffer *buff, ssize_t n, int add_sign, int digits)
 {
+	size_t	mag;
+
 	if (n < 0)
 		writer_char(buff, '-');
 	else if (add_sign)
 		writer_char(buff, '+');
-	if (n / 10 || digits > 0)
-		writer_signed(buff, ft_abs(n / 10), 0, digits - 1);
-	if (digits > 0)
-		writer_char(buff, ft_abs(n % 10) + '0');
+	mag = (size_t)n;
+	if (n < 0)
+		mag = -(size_t)n;
+	writer_unsigned(buff, mag, digits);
 }

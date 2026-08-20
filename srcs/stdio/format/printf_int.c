@@ -14,14 +14,14 @@
 
 void	printf_int(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
-	int	i;
-	int	pad_len;
-	int	total_len;
-	int	digits;
+	ssize_t	i;
+	int		pad_len;
+	int		total_len;
+	int		digits;
 
 	if (spec.t != FMT_INTEGER)
 		return ;
-	i = va_arg(*args, int);
+	i = fetch_signed(args, spec.length);
 	spec = normilize_int_spec(spec, i);
 	total_len = signed_total_len(i, spec);
 	pad_len = signed_padding_len(i, spec);
@@ -37,24 +37,26 @@ void	printf_int(va_list *args, t_fmt_spec spec, t_buffer *buff)
 
 void	printf_unsigned(va_list *args, t_fmt_spec spec, t_buffer *buff)
 {
-	unsigned int	i;
-	int				pad_len;
-	int				total_len;
-	int				digits;
+	size_t	i;
+	int		pad_len;
+	int		total_len;
+	int		digits;
 
 	if (spec.t != FMT_UNSIGNED)
 		return ;
-	i = va_arg(*args, unsigned int);
+	i = fetch_unsigned(args, spec.length);
 	spec.flags &= ~FL_PLUS;
 	spec.flags &= ~FL_SPACE;
-	spec = normilize_int_spec(spec, i);
-	total_len = signed_total_len(i, spec);
-	pad_len = signed_padding_len(i, spec);
-	digits = signed_num_digits(i);
+	spec = normilize_int_spec(spec, (ssize_t)(i != 0));
+	digits = unsigned_num_digits(i);
+	pad_len = 0;
+	if (spec.precision > digits)
+		pad_len = spec.precision - digits;
+	total_len = digits + pad_len;
 	if (spec.flags & FL_MINUS)
-		writer_signed(buff, i, spec.flags & FL_PLUS, digits + pad_len);
+		writer_unsigned(buff, i, digits + pad_len);
 	if (spec.width != -1)
 		writer_padn(buff, ' ', spec.width - total_len);
 	if (!(spec.flags & FL_MINUS))
-		writer_signed(buff, i, spec.flags & FL_PLUS, digits + pad_len);
+		writer_unsigned(buff, i, digits + pad_len);
 }

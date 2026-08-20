@@ -115,6 +115,7 @@ t_fmt_spec	parse(const char *s, int *i, va_list *args)
 	ret.flags = parse_flags(s, i);
 	ret.width = parse_specifier_param(s, i, args);
 	ret.precision = parse_precision(s, i, args);
+	ret.length = parse_length(s, i);
 	ret.t = parse_specifier(s, i);
 	if (ret.t == FMT_UNDEFINED)
 	{

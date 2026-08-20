@@ -25,6 +25,22 @@ int	signed_num_digits(ssize_t n)
 	return (count);
 }
 
+/* Digits of an unsigned value. signed_num_digits takes ssize_t, so
+   anything above SSIZE_MAX arrives negative and counts wrongly -- %llu of
+   ULLONG_MAX printed "-1" before this existed. */
+int	unsigned_num_digits(size_t n)
+{
+	int	count;
+
+	count = 0;
+	while (n != 0)
+	{
+		count++;
+		n /= 10;
+	}
+	return (count);
+}
+
 int	signed_padding_len(ssize_t n, t_fmt_spec spec)
 {
 	int	digit_count;

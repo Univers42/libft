@@ -1,4 +1,4 @@
-name: Build C/C++ Project
+name: CI
 
 on:
   push:
@@ -7,53 +7,129 @@ on:
     branches: ["main", "master"]
   workflow_dispatch:
 
+# A newer push to the same ref makes the older run irrelevant; don't burn
+# runners finishing it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build:
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }} / ${{ matrix.cc }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      # One leg failing must not hide the state of the other three.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        cc: [gcc, clang]
+
+    env:
+      CC: ${{ matrix.cc }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-      - name: Set up compiler and build tools (with retries)
-        shell: bash
+      # .gitmodules pins `update = none` for ft_malloc, which makes the
+      # checkout action's `submodules: recursive` skip it. --checkout
+      # overrides that per-submodule setting. Without the submodule the
+      # library still builds (fn_* falls back to libc), but the test suite
+      # compiles with -DHAVE_FT_MALLOC and would fail to find its headers.
+      - name: Force ft_malloc submodule checkout
         run: |
-          set -e
-          attempt=0
-          max=3
-          until [ $attempt -ge $max ]
-          do
-            attempt=$((attempt+1))
-            echo "Attempt $attempt / $max: apt-get update && install build-essential"
-            sudo apt-get update -y && sudo apt-get install -y build-essential libreadline-dev pkg-config || true
-            if command -v gcc >/dev/null 2>&1; then
-              echo "gcc present, continuing"
-              break
-            fi
-            echo "apt-get failed or gcc not available yet, sleeping before retry..."
-            sleep $((attempt * 5))
-          done
-          if ! command -v gcc >/dev/null 2>&1; then
-            echo "ERROR: compiler not installed after retries"
+          git submodule sync --recursive
+          git submodule update --init --recursive --force --checkout
+          if [ ! -f srcs/memory/ft_malloc/Makefile ]; then
+            echo "ft_malloc submodule did not check out:"
+            ls -la srcs/memory/ft_malloc || true
             exit 1
           fi
+          echo "ft_malloc at $(git -C srcs/memory/ft_malloc rev-parse --short HEAD)"
 
-      - name: Build project
-        run: make all
-        shell: bash
+      - name: Install toolchain
+        run: |
+          set -eux
+          for attempt in 1 2 3; do
+            sudo apt-get update -y && break || sleep $((attempt * 5))
+          done
+          sudo apt-get install -y --no-install-recommends \
+            build-essential clang llvm libreadline-dev pkg-config valgrind
+          command -v "$CC"
 
-      - name: List build output (debug)
-        run: ls -la
-        shell: bash
+      # llvm-ar/llvm-ranlib decide whether the Makefile's LTO probe can
+      # produce a linkable archive; print them so a silent no-LTO fallback
+      # is visible in the log rather than a mystery.
+      - name: Toolchain versions
+        run: |
+          "$CC" --version | head -1
+          make --version | head -1
+          ar --version | head -1
+          (llvm-ar --version | head -2) || echo "llvm-ar: absent"
+          valgrind --version || true
+
+      - name: Build
+        run: make CC="$CC" all
 
       - name: Verify build output
         run: |
-          if [ -f "libft.a" ]; then
-            echo "✓ libft.a successfully created"
-            ls -lh libft.a
-          else
-            echo "✗ libft.a not found"
-            exit 1
-          fi
-        shell: bash
+          set -eu
+          fail=0
+          for lib in build/lib/libft.a build/lib/libft.so; do
+            if [ -s "$lib" ]; then
+              echo "OK   $lib ($(du -h "$lib" | cut -f1))"
+            else
+              echo "MISSING or empty: $lib"
+              fail=1
+            fi
+          done
+          # An archive that exists but holds no objects would still pass a
+          # bare -f test; make sure real symbols landed in it.
+          n=$(ar t build/lib/libft.a | wc -l)
+          echo "objects in libft.a: $n"
+          [ "$n" -gt 100 ] || { echo "libft.a has suspiciously few objects"; fail=1; }
+          # Informational only: with AR=ar the Makefile asks for
+          # -ffat-lto-objects so this works, but an llvm-ar build would leave
+          # pure bitcode that plain nm cannot read. Not a build failure.
+          nm -g --defined-only build/lib/libft.a >/dev/null 2>&1 \
+            && echo "symbol table readable by nm" \
+            || echo "note: nm cannot read the archive (LTO bitcode members)"
+          exit $fail
+
+      - name: Rebuild from clean (catches missing prerequisites)
+        run: |
+          make fclean
+          make CC="$CC" all
+          test -s build/lib/libft.a
+
+      - name: Unit + leak suite (libc vs ft_malloc, valgrind)
+        run: bash tests/run_tests.sh all
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.os }}-${{ matrix.cc }}
+          path: |
+            build/test/out/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # A single required check the branch protection UI can point at, instead of
+  # having to list every matrix leg by name.
+  ci-ok:
+    name: CI passed
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()
+    steps:
+      - name: Assert all matrix legs succeeded
+        run: |
+          echo "build result: ${{ needs.build.result }}"
+          [ "${{ needs.build.result }}" = "success" ]

@@ -22,7 +22,7 @@ FT_LIB="build/test/ft/lib/libft.a"
 LIBC_LIB="build/test/libc/lib/libft.a"
 FTM_INC="srcs/memory/ft_malloc/include"
 
-CC=cc
+CC="${CC:-cc}"
 WARN="-Wall -Wextra"
 BASEFLAGS="-DXALLOC_NO_CONFIG -I. -Iinclude -I$HARNESS -g"
 
@@ -60,9 +60,9 @@ run_retry() { # $1=binary $2=stdout-file $3=stderr-file
 
 # ---- build both libft archives (cached; incremental on re-runs) --------------
 echo "${CYN}▸ building libft (ft_malloc)…${RST}"
-make -s BUILD_DIR=build/test/ft   EXTRA_CFLAGS=-DXALLOC_NO_CONFIG "$FT_LIB"   || { echo "${RED}ft archive build failed${RST}"; exit 3; }
+make -s CC="$CC" BUILD_DIR=build/test/ft   EXTRA_CFLAGS=-DXALLOC_NO_CONFIG "$FT_LIB"   || { echo "${RED}ft archive build failed${RST}"; exit 3; }
 echo "${CYN}▸ building libft (libc)…${RST}"
-make -s BUILD_DIR=build/test/libc FTM_SRCS= EXTRA_CFLAGS=-DXALLOC_NO_CONFIG "$LIBC_LIB" || { echo "${RED}libc archive build failed${RST}"; exit 3; }
+make -s CC="$CC" BUILD_DIR=build/test/libc FTM_SRCS= EXTRA_CFLAGS=-DXALLOC_NO_CONFIG "$LIBC_LIB" || { echo "${RED}libc archive build failed${RST}"; exit 3; }
 
 pass=0; fail=0; FAILED=()
 

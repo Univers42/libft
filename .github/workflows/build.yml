@@ -35,17 +35,28 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          # Submodules are taken below instead: this repo needs one specific
+          # gitlink, and a blanket recursive fetch pulls in a nested one that
+          # CI cannot clone (see the next step).
+          submodules: false
 
-      # .gitmodules pins `update = none` for ft_malloc, which makes the
-      # checkout action's `submodules: recursive` skip it. --checkout
-      # overrides that per-submodule setting. Without the submodule the
-      # library still builds (fn_* falls back to libc), but the test suite
-      # compiles with -DHAVE_FT_MALLOC and would fail to find its headers.
-      - name: Force ft_malloc submodule checkout
+      # Two traps here, both of which have made this workflow red:
+      #
+      #  1. .gitmodules pins `update = none` for ft_malloc, so a plain
+      #     `submodule update` skips it. --checkout overrides that.
+      #  2. ft_malloc has its OWN submodule, tests/philosopher, recorded with
+      #     an ssh:// URL. A hosted runner has no key for it, so --recursive
+      #     aborts the whole checkout. libft only needs ft_malloc's include/
+      #     and src/ -- philosopher is ft_malloc's dining-philosophers
+      #     benchmark and nothing here builds it. So: no --recursive, and
+      #     scope the update to the one path we actually want.
+      #
+      # Without ft_malloc the library still builds (fn_* falls back to libc),
+      # but the test suite compiles with -DHAVE_FT_MALLOC and fails to link.
+      - name: Check out the ft_malloc submodule
         run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive --force --checkout
+          git submodule sync -- srcs/memory/ft_malloc
+          git submodule update --init --force --checkout -- srcs/memory/ft_malloc
           if [ ! -f srcs/memory/ft_malloc/Makefile ]; then
             echo "ft_malloc submodule did not check out:"
             ls -la srcs/memory/ft_malloc || true

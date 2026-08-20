@@ -112,8 +112,19 @@ ifeq ($(AR),ar)
 LTO_TRY += -ffat-lto-objects
 endif
 
-# compile -> archive -> ranlib -> link, with -Werror so a flag that merely
-# warns today cannot silently poison the real -Werror build later.
+# compile -> archive -> ranlib -> link TWICE, with -Werror so a flag that
+# merely warns today cannot silently poison the real -Werror build later.
+#
+# The second link is the one that matters and it used to be missing. Probing
+# only the -flto link asks "can an LTO consumer use this archive?", but most
+# consumers are not LTO consumers -- the unit tests here link plain, and so
+# does anyone who just does `cc prog.c libft.a`. clang accepts
+# -ffat-lto-objects (>= 17) or ignores it (< 17) yet still emits pure
+# bitcode either way; with llvm's gold plugin installed the -flto link then
+# succeeds, the probe declared victory, and every plain consumer got
+#     ld: libft.a: error adding symbols: file format not recognized
+# gcc's fat objects carry a real ELF symbol table, so gcc keeps its LTO.
+# Requiring BOTH links to work is what makes that distinction automatic.
 LTO_OK := $(shell d=$$(mktemp -d 2>/dev/null) || exit 0; \
 	printf 'int ft_lto_probe(void){return 0;}\n' > $$d/a.c; \
 	printf 'int ft_lto_probe(void);\nint main(void){return ft_lto_probe();}\n' \
@@ -122,6 +133,8 @@ LTO_OK := $(shell d=$$(mktemp -d 2>/dev/null) || exit 0; \
 	&& $(AR) $(ARFLAGS) $$d/libprobe.a $$d/a.o >/dev/null 2>&1 \
 	&& $(RANLIB) $$d/libprobe.a >/dev/null 2>&1 \
 	&& $(CC) -Werror $(LTO_TRY) $$d/m.c $$d/libprobe.a -o $$d/probe \
+		>/dev/null 2>&1 \
+	&& $(CC) $$d/m.c $$d/libprobe.a -o $$d/plainprobe \
 		>/dev/null 2>&1 \
 	&& echo 1; \
 	rm -rf $$d)

@@ -46,7 +46,18 @@
 # include "./include/ipc.h"
 # include "./include/system.h"
 
-# include <immintrin.h>
+/* immintrin.h is the Intel intrinsics header: it exists on x86 and nowhere
+   else. Nothing in this library uses an intrinsic, but including it
+   unconditionally made every non-x86 build fail at the very first source
+   file with
+
+       ./libft.h:49:11: fatal error: immintrin.h: No such file or directory
+
+   which is exactly what an aarch64 runner hits. Guarded rather than
+   deleted, so an x86 fast path added later still finds it. */
+# if defined(__x86_64__) || defined(__i386__)
+#  include <immintrin.h>
+# endif
 # include <unistd.h>
 # include <signal.h>
 # include <time.h>

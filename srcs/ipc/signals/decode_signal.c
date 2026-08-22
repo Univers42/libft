@@ -31,6 +31,14 @@ static inline int	decode_numeric_signal(const char *string)
 	return (NO_SIG);
 }
 
+/* POSIX realtime signals are optional, and Darwin and the older BSDs do not
+   have them: SIGRTMIN/SIGRTMAX are simply undeclared there, so the whole
+   file failed to compile on macOS rather than this one feature being
+   absent. Guarded so a platform without realtime signals reports "no such
+   signal" for SIGRTMIN+N -- which is the truth -- instead of taking the
+   build down. */
+# if defined(SIGRTMIN) && defined(SIGRTMAX)
+
 static inline int	decode_realtime_signal(const char *string, int flags)
 {
 	intmax_t	sig;
@@ -53,6 +61,17 @@ static inline int	decode_realtime_signal(const char *string, int flags)
 	}
 	return (NO_SIG);
 }
+
+# else
+
+static inline int	decode_realtime_signal(const char *string, int flags)
+{
+	(void)string;
+	(void)flags;
+	return (NO_SIG);
+}
+
+# endif
 
 static inline int	match_signal_name(const char *string,
 									const char *name,

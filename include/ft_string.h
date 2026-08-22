@@ -300,7 +300,21 @@ void				ft_union(const char *str1, const char *str2);
  * Copy n bytes from src to dst. Handles overlapping regions and
  * attempts word-sized copies when alignment allows.
  * Signature follows the traditional bcopy(src, dst, n).
+ *
+ * On Darwin with _FORTIFY_SOURCE, <string.h> defines bcopy as a MACRO
+ * expanding to __builtin___memmove_chk, so this declaration was macro-
+ * expanded into nonsense before the compiler ever saw it:
+ *
+ *     ft_string.h:304:9: error: expected parameter declarator
+ *     ft_string.h:304:9: error: conflicting types for
+ *                        '__builtin___memmove_chk'
+ *
+ * Undef it first so the declaration is read as a declaration. libft
+ * provides its own definition either way.
  */
+#ifdef bcopy
+# undef bcopy
+#endif
 void				bcopy(const void *src, void *dst, size_t n);
 
 /**

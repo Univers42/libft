@@ -60,6 +60,32 @@
 # define BOLD							"\001\033[1m\002"
 # define RESET							"\001\033[0m\002"
 
+/*
+** Plain 256-colour foregrounds.
+**
+** The FG_* set above wraps every escape in the \001 / \002 markers readline
+** uses to mark non-printing characters when measuring a prompt's width.
+** Those markers are correct inside a prompt and wrong everywhere else: in
+** ordinary output they are emitted verbatim as stray control bytes, which
+** corrupts aligned output such as a table. These are the same colours with
+** no markers, for anything that is not a prompt.
+*/
+# define FG_FIRE_TERM					"\033[38;5;196m"
+# define FG_MOLTEN_TERM					"\033[38;5;208m"
+# define FG_EMBER_TERM					"\033[38;5;214m"
+# define FG_LAVA_TERM					"\033[38;5;202m"
+# define FG_ASH_TERM					"\033[38;5;245m"
+# define FG_CHARCOAL_TERM				"\033[38;5;240m"
+# define FG_DIM_TERM					"\033[38;5;238m"
+# define FG_SUCCESS_TERM				"\033[38;5;82m"
+# define FG_WARN_TERM					"\033[38;5;220m"
+# define FG_BLOOD_TERM					"\033[38;5;124m"
+# define FG_DARKRED_TERM				"\033[38;5;52m"
+# define FG_CYAN_TERM					"\033[38;5;87m"
+# define FG_MAGENTA_TERM				"\033[38;5;213m"
+# define FG_PURPLE_TERM					"\033[38;5;135m"
+# define FG_BLUE_TERM					"\033[38;5;27m"
+
 # define SEP_L							" ═══ "
 # define SEP_R							" ═══ "
 # define SEP_GIT							" ║ "

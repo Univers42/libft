@@ -24,6 +24,15 @@ typedef struct s_state_fd	t_state_fd;
 # define OUTPUT_ERR 01
 # define OUTBUFSIZE 1024
 
+/*
+** Buffering disciplines for stdout, mirroring the C library's _IONBF /
+** _IOLBF / _IOFBF. The active one is chosen from isatty() on first use and
+** can be overridden with ft_setvbuf_mode().
+*/
+# define FT_IONBF 0
+# define FT_IOLBF 1
+# define FT_IOFBF 2
+
 typedef struct s_clap_state
 {
 	char	*accum;
@@ -74,26 +83,22 @@ typedef struct s_fdio
 	void			*lock;
 }	t_fdio;
 
-static inline t_out_ctx	*get_outs(void)
-{
-	static t_out_ctx	ctx;
-	static int			inited = 0;
+/*
+** get_outs() used to be a static inline defined here, which gave every
+** translation unit including this header its OWN private copy of the
+** context: whatever one file buffered, another file's flush_all() could
+** never see or flush. It is now a single shared definition in out_ctx.c.
+*/
+t_out_ctx		*get_outs(void);
 
-	if (inited)
-		return (&ctx);
-	ctx.output.buf_size = OUTBUFSIZE;
-	ctx.output.fd = STDOUT_FILENO;
-	ctx.prev_err_out.buf_size = OUTBUFSIZE;
-	ctx.prev_err_out.fd = STDERR_FILENO;
-	ctx.errout.buf_size = OUTBUFSIZE;
-	ctx.errout.fd = STDERR_FILENO;
-	ctx.memout.buf_size = OUTBUFSIZE;
-	ctx.memout.fd = STDOUT_FILENO;
-	ctx.out1 = &ctx.output;
-	ctx.out2 = &ctx.errout;
-	inited = 1;
-	return (&ctx);
-}
+/*
+** Buffered, thread-safe stdout (see outbuf.c). ft_out_write() is the entry
+** point the printf family emits through; anything that is not stdout is
+** passed straight to write(), keeping stderr and ft_fdprintf() unbuffered.
+*/
+int				ft_out_write(int fd, const char *p, size_t len);
+void			ft_fflush(int fd);
+void			ft_setvbuf_mode(int mode);
 
 t_clap_state	*get_clap_state(void);
 void			ft_putendl_fd(const char *s, int fd);

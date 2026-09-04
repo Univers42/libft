@@ -17,6 +17,8 @@ int	writer_buffer_double(t_buffer *ret)
 	int			i;
 	char		*buff;
 
+	if (ret->fixed)
+		return (1);
 	ret->cap = ret->cap * 2;
 	buff = fn_malloc(ret->cap + 1);
 	if (buff == 0)
@@ -30,6 +32,23 @@ int	writer_buffer_double(t_buffer *ret)
 	return (0);
 }
 
+/*
+** The buffer is full and could not grow. For an allocated buffer that means
+** out of memory: flush what is there and fall back to writing byte by byte.
+** For a fixed buffer it is the normal end of capacity -- the memory belongs
+** to the caller, so it must be neither written out nor freed; the result is
+** simply truncated.
+*/
+static void	writer_overflow(t_buffer *buffer)
+{
+	if (buffer->fixed)
+		return ;
+	if (!buffer->no_write)
+		ft_putmem(buffer->buff, buffer->len);
+	fn_free(buffer->buff);
+	buffer->buff = 0;
+}
+
 void	writer_char(t_buffer *buffer, char c)
 {
 	ssize_t	res;
@@ -38,13 +57,10 @@ void	writer_char(t_buffer *buffer, char c)
 	if (buffer->len == buffer->cap)
 	{
 		if (writer_buffer_double(buffer))
-		{
-			if (!buffer->no_write)
-				ft_putmem(buffer->buff, buffer->len);
-			fn_free(buffer->buff);
-			buffer->buff = 0;
-		}
+			writer_overflow(buffer);
 	}
+	if (buffer->fixed && buffer->len >= buffer->cap)
+		return ;
 	if (buffer->buff)
 	{
 		buffer->buff[buffer->len++] = c;

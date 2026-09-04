@@ -22,11 +22,19 @@ void	ft_print_notification(const char *title, const char *message,
 
 	if (!title || !message || !type)
 		return ;
-	color = ASCII_GREEN;
+	/* Green means success, so it cannot also be the default: an "info" line
+	** printed green reads as a result rather than a remark. Anything
+	** unrecognised is left uncoloured rather than being given a meaning it
+	** did not ask for. */
+	color = "";
 	if (ft_strcmp(type, "error") == 0)
 		color = ASCII_RED;
 	else if (ft_strcmp(type, "warning") == 0)
 		color = ASCII_YELLOW;
+	else if (ft_strcmp(type, "success") == 0)
+		color = ASCII_GREEN;
+	else if (ft_strcmp(type, "info") == 0)
+		color = ASCII_CYAN;
 	ft_printf("%s[%s] %s: %s%s\n", color, type, title, message, RESET_TERM);
 }
 

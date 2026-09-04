@@ -60,7 +60,19 @@ void	ft_print_timeline(char **events, char **times, int count);
 void	ft_print_graph(int *values, int count, int max_height);
 
 /* Table utility functions */
-void	print_table_border(int cols, char *corner, char *line);
+/*
+** Columns are measured from their contents, so the rule needs the widths
+** the rows were drawn with rather than a fixed count.
+*/
+void	print_table_border(const int *widths, int cols, char *corner,
+			char *line);
+
+/*
+** Visible width of a string, ignoring ANSI colour escapes and UTF-8
+** continuation bytes. Use this instead of ft_strlen() whenever text is
+** padded to a column width, or coloured cells will not line up.
+*/
+size_t	ft_vislen(const char *s);
 
 /* Utility functions */
 int		ft_get_terminal_width(void);

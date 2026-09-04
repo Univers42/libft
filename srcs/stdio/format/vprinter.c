@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "format.h"
+#include "../output/output.h"
+#include <unistd.h>
 
 int	ft_vprintf(const char *str, va_list args)
 {
@@ -30,7 +32,7 @@ int	ft_vprintf(const char *str, va_list args)
 	va_end(ap);
 	if (buff.buff)
 	{
-		ft_putmem(buff.buff, buff.len);
+		ft_out_write(STDOUT_FILENO, buff.buff, buff.len);
 		fn_free(buff.buff);
 	}
 	return (buff.total_put_in);
@@ -75,6 +77,7 @@ int	ft_veprintf(const char *str, va_list args)
 	va_end(ap);
 	if (buff.buff)
 	{
+		ft_fflush(STDOUT_FILENO);
 		ft_eputmem(buff.buff, buff.len);
 		fn_free(buff.buff);
 	}

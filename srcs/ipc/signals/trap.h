@@ -120,6 +120,7 @@ int					any_signals_trapped(void);
 void				check_signals(void);
 void				clear_pending_traps(void);
 int					decode_signal(const char *string, int flags);
+const char			*ft_sigabbrev(int sig);
 int					first_pending_trap(void);
 void				init_chld_signal(void);
 void				init_int_signal(void);

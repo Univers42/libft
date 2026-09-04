@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "output.h"
-#include "output.h"
 #include <stddef.h>
+#include <unistd.h>
 
 void	flush_all(void)
 {
 	t_out_ctx	*ctx;
 
+	ft_fflush(STDOUT_FILENO);
 	ctx = get_outs();
 	if (!ctx)
 		return ;

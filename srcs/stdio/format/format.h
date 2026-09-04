@@ -72,6 +72,17 @@ typedef struct s_buffer
 	int		total_put_in;
 	int		no_write;
 	int		out_fd;
+	/*
+	** Set when 'buff' is memory the caller owns (typically on the stack)
+	** rather than something the writer allocated. A fixed buffer is never
+	** grown and never freed: once it is full the output is simply truncated,
+	** while total_put_in keeps counting so the return value still reports
+	** the length the result would have had, exactly like snprintf.
+	**
+	** This is what makes an allocation-free formatting path possible, and
+	** with it a printf that is safe to call from a signal handler.
+	*/
+	int		fixed;
 }	t_buffer;
 
 // vector of format functions
@@ -121,5 +132,22 @@ void		writer_hex_upcase(t_buffer *buff, size_t n,
 int			writer_init(t_buffer *ret);
 int			ft_vsnprintf(char *buf, size_t size, const char *str, va_list args);
 int			ft_vsprintf(char *buf, const char *str, va_list args);
+
+/*
+** Stack buffer used by ft_fdprintf_safe(). Large enough for a diagnostic
+** line; anything longer is truncated rather than allocated.
+*/
+# define FT_SAFE_BUFSIZE 4096
+
+/*
+** Allocation-free formatting (see safeprint.c). Safe inside a signal
+** handler and inside a malloc interposer, where the ordinary printf family
+** is not.
+*/
+int			writer_init_fixed(t_buffer *ret, char *buf, size_t size);
+int			ft_vsnprintf_safe(char *buf, size_t size, const char *str,
+				va_list args);
+int			ft_snprintf_safe(char *buf, size_t size, const char *str, ...);
+int			ft_fdprintf_safe(int fd, const char *str, ...);
 
 #endif

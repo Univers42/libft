@@ -195,6 +195,7 @@ char				*ft_strnstr(const char *big,
  * @return newly allocated copy or NULL on failure.
  */
 char				*ft_strdup(const char *s);
+char				*ft_dirname(char *path);
 
 /**
  * Length of string up to and including first occurrence of c (or ft_strlen).

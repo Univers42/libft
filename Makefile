@@ -63,7 +63,11 @@ ARFLAGS := rcs
 # -O3: libft is the hot path for the whole shell (memcpy, vectors, strings).
 # Building it unoptimized (-O0) made every consumer pay; optimizing it is a
 # major, shell-wide win.
-CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1 -std=c99 -O3
+# -g: debug info only, no runtime cost. It lets a tester such as torturette
+# resolve a leak or crash inside libft to file:line instead of just the
+# function name. Kept on the base CFLAGS so it applies whether or not the
+# ft_malloc submodule is present.
+CFLAGS = -Wall -Wextra -Werror -D_POSIX_C_SOURCE=200809L -DMINISHELL_DEBUG_PROMPT=1 -std=c99 -O3 -g
 
 # ---------------------------------------------------------------------------- #
 # LTO, decided by PROBE rather than by compiler name.                          #

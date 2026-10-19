@@ -275,9 +275,12 @@ $(STATIC_LIB): $(ALL_OBJS)
 # `-flto -fuse-ld=gold`: those two were asserted unconditionally here, so this
 # rule asked for LTO even in the deliberately LTO-free SAFE=1 tree and demanded
 # a linker the host may not have.
+# -lm after the objects: some of them call libm (log2), and a shared library
+# that leaves those undefined without recording libm as NEEDED cannot be
+# linked against at all -- "undefined reference to `log2'" in every consumer.
 $(SHARED_LIB): $(ALL_OBJS)
 	@mkdir -p $(LIB_DIR)
-	@$(CC) $(LTO_FLAGS) $(LDFLAGS) -shared -pthread -o $@ $^
+	@$(CC) $(LTO_FLAGS) $(LDFLAGS) -shared -pthread -o $@ $^ -lm
 
 # ft_malloc submodule: compiled with its own flags + include path, no force
 # header, no -std=c99 (more-specific pattern wins over the generic rule below).

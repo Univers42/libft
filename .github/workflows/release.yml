@@ -1,0 +1,253 @@
+name: Release
+
+# libft as a prebuilt package: libft.a and libft.so with every header and
+# source, one tarball per architecture, each with its .sha256. Consumers such
+# as Torturette download that instead of compiling the library on every
+# machine (`make dist` / `make dist-check` in the Makefile say what is in it).
+#
+# Every push to main that changes what the package ships is released, with
+# the next version scripts/version.sh reads off the commits -- nobody tags by
+# hand. Every other run (pull requests, pushes that only touch CI, tests or
+# docs, a manual dispatch) builds and checks exactly the same package and
+# publishes nothing, so a change that would break it shows up on that change
+# rather than on the next release.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+# Releases are numbered from the last tag, so two of them must never compute
+# their number at the same time: pushes to main queue up behind each other
+# instead of being cancelled. Pull requests do cancel, nothing is published
+# from them.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    name: version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.version.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decide the version
+        id: version
+        run: |
+          set -eu
+          next=$(bash scripts/version.sh next)
+          publish=false
+          if [ -n "$next" ] && [ "$GITHUB_EVENT_NAME" = push ] \
+            && { [ "$GITHUB_REF" = refs/heads/main ] || [ "$GITHUB_REF" = refs/heads/master ]; }; then
+            publish=true
+          fi
+          version=${next:-$(bash scripts/version.sh current)}
+          echo "version=$version" >>"$GITHUB_OUTPUT"
+          echo "publish=$publish" >>"$GITHUB_OUTPUT"
+          {
+            echo "### libft $version"
+            if [ "$publish" = true ]; then
+              echo "Will be published as **v$version** once every package check passes."
+            elif [ -n "$next" ]; then
+              echo "Would be released as v$version from main; packaged and checked only."
+            else
+              echo "Nothing the package ships changed since the last release; packaged and checked only."
+            fi
+            echo
+            bash scripts/version.sh notes
+          } >>"$GITHUB_STEP_SUMMARY"
+
+  package:
+    name: package / linux-${{ matrix.arch }}
+    needs: plan
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    # Built on the oldest glibc any consumer runs. A static archive records no
+    # symbol versions, but the headers it was compiled against decide which
+    # symbols it calls, and one built against a newer glibc can call something
+    # an older system does not have. AlmaLinux 9 (glibc 2.34) is the floor of
+    # Torturette's distribution matrix; every newer glibc links what it builds.
+    container: almalinux:9
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    env:
+      LIBFT_VERSION: ${{ needs.plan.outputs.version }}
+    steps:
+      # Before the checkout: without git in the image, checkout falls back to
+      # a tarball and BUILDINFO loses the commit it was built from.
+      - name: Install toolchain
+        run: dnf -y install gcc make git binutils glibc-devel tar gzip findutils diffutils
+
+      # No submodules: the package is built with the libc allocator
+      # (FT_MALLOC=0), so ft_malloc has nothing to contribute.
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # The progress spinner is folded back into lines and dropped, as in
+      # build.yml, so the log keeps only what is worth reading.
+      - name: Build and pack
+        run: |
+          set -o pipefail
+          make -j"$(nproc)" CC=gcc DIST_ARCH=${{ matrix.arch }} dist 2>&1 \
+            | tr '\r' '\n' | { grep -vF 'LIBFT' || true; }
+
+      - name: Check the package where it was built
+        run: make CC=gcc DIST_ARCH=${{ matrix.arch }} dist-check
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libft-linux-${{ matrix.arch }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
+
+  # The package is for other people's machines, so it is checked on them:
+  # hosted runners with both compilers on both architectures, then the
+  # distributions consumers actually run. None of them built it.
+  consume:
+    name: use / ${{ matrix.os }}
+    needs: [plan, package]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            arch: x86_64
+          - os: ubuntu-24.04
+            arch: x86_64
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install compilers
+        run: |
+          set -eux
+          for attempt in 1 2 3; do
+            if sudo apt-get update -y; then break; fi
+            sleep $((attempt * 5))
+          done
+          sudo apt-get install -y --no-install-recommends gcc clang binutils
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: libft-linux-${{ matrix.arch }}
+          path: dist
+
+      - name: Link and run against the package (gcc, clang)
+        run: |
+          bash scripts/dist_check.sh \
+            "dist/libft-${{ needs.plan.outputs.version }}-linux-${{ matrix.arch }}.tar.gz" gcc clang
+
+  distros:
+    name: use / ${{ matrix.name }}
+    needs: [plan, package]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: debian-bookworm
+            image: debian:bookworm
+            install: apt-get update -y && apt-get install -y --no-install-recommends gcc libc6-dev binutils git ca-certificates
+          - name: debian-trixie
+            image: debian:trixie
+            install: apt-get update -y && apt-get install -y --no-install-recommends gcc libc6-dev binutils git ca-certificates
+          - name: ubuntu-rolling
+            image: ubuntu:rolling
+            install: apt-get update -y && apt-get install -y --no-install-recommends gcc libc6-dev binutils git ca-certificates
+          - name: fedora
+            image: fedora:latest
+            install: dnf -y install gcc binutils glibc-devel tar gzip git
+          - name: arch
+            image: archlinux:latest
+            install: pacman -Sy --noconfirm --needed gcc binutils git
+    steps:
+      - name: Install toolchain
+        run: ${{ matrix.install }}
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: libft-linux-x86_64
+          path: dist
+
+      - name: Link and run against the package
+        run: bash scripts/dist_check.sh "dist/libft-${{ needs.plan.outputs.version }}-linux-x86_64.tar.gz" gcc
+
+  publish:
+    name: publish v${{ needs.plan.outputs.version }}
+    needs: [plan, package, consume, distros]
+    if: needs.plan.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.plan.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+      DISPATCH_TOKEN: ${{ secrets.TORTURETTE_DISPATCH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: libft-linux-*
+          path: dist
+          merge-multiple: true
+
+      - name: Verify what is about to be published
+        run: |
+          set -eu
+          ls -l dist
+          cd dist && sha256sum -c ./*.sha256
+
+      # A published package is immutable: consumers pin its sha256, so
+      # replacing the bytes behind a version would break every one of them.
+      # If the tag already exists this fails instead of overwriting -- the
+      # fix is a new commit, which gets the next version.
+      - name: Tag and publish
+        run: |
+          set -eu
+          bash scripts/version.sh notes >notes.md
+          gh release create "v$VERSION" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "libft $VERSION" \
+            --notes-file notes.md
+
+      # Optional, and only for speed: Torturette also looks for new releases
+      # every day on its own. With a token that may dispatch to it (secret
+      # TORTURETTE_DISPATCH_TOKEN, a fine-grained PAT with Contents: write on
+      # Univers42/Torturette) it is told right away instead.
+      - name: Tell Torturette
+        if: env.DISPATCH_TOKEN != ''
+        run: |
+          GH_TOKEN=$DISPATCH_TOKEN gh api repos/Univers42/Torturette/dispatches \
+            -f event_type=libft-released -F "client_payload[version]=$VERSION"

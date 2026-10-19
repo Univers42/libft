@@ -19,3 +19,5 @@ build/
 build-*/
 framework_test/googletest
 include/xalloc_config.h
+include/ft_version.h
+dist/

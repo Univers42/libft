@@ -45,6 +45,7 @@
 # include "./include/ft_wctype.h"
 # include "./include/ipc.h"
 # include "./include/system.h"
+# include "./include/ft_version.h"
 
 /* immintrin.h is the Intel intrinsics header: it exists on x86 and nowhere
    else. Nothing in this library uses an intrinsic, but including it
